@@ -1,0 +1,217 @@
+
+bg.generators = [];
+bg.RegisterGenerator = function(generator)
+{
+	bg.generators.push(generator);
+}
+
+bg.GetGeneratorFullName = function(generator)
+{
+	var name = generator.name;
+	if(generator.category != null)
+	{
+		name = generator.category + " / " + name;
+	}
+	
+	return name;
+}
+
+bg.CreateWeightingDataDef = function(dataDefIn)
+{
+	var weightDataDefOut = {
+		version:1,
+		name:dataDefIn.name + " Weight",
+		fields:{}
+	};
+	
+	for([fieldName, fieldDef] of Object.entries(dataDefIn.fields)) {
+		//currently ignore everything other than a normalised value.
+		if(fieldDef.type == "norm")
+		{
+			weightDataDefOut.fields[fieldName] = {
+				type:"weight",
+				min:-1,
+				max:1
+			};
+		}
+	}
+	return weightDataDefOut;
+}
+
+bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate)
+{
+	if(seed == undefined)
+	{
+		seed = 1;
+	}
+	
+	if(autoGenerate == undefined)
+	{
+		autoGenerate = true;
+	}
+	
+	var builtData = {};
+	var fieldName = ""; //Required because this func is recursive and JS is weird with scope.
+	var fieldDef = "";
+	builtData.seed = seed;
+	//builtData._def = fieldsIn;
+	
+	for([fieldName, fieldDef] of Object.entries(fieldsIn)) {
+		
+		var fieldValue = null;
+		if(autoGenerate)
+		{
+			fieldValue = fieldDef.default; //If there's a default value, use it. Otherwise this is undefined.
+		}
+		
+		if(fieldDef.value != undefined)
+		{
+			//If a value has already been generated/set, then use it
+			fieldValue = fieldDef.value;
+		}
+		else if(autoGenerate)
+		{
+			if(inputs != undefined && inputs[fieldName] != undefined)
+			{
+				fieldValue = inputs[fieldName];
+				if(fieldDef.type == "data")
+				{
+					var paramSeed = bg.SeedFromString(fieldName) + seed;
+					fieldValue = bg.BuildDataFields(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate);
+				}
+			}
+			else if(fieldDef.script != undefined)
+			{
+				fieldValue = fieldDef.script(builtData);
+			}
+
+			else
+			{
+				//We need to generate the param value. Use the name as part of the seed
+				var paramSeed = bg.SeedFromString(fieldName) + seed;
+				fieldValue = bg.GenerateFieldValue(fieldDef, paramSeed);
+			}
+		}
+		
+		//#TODO: Check fieldValue is set.
+		if(fieldValue != undefined)
+		{
+			builtData[fieldName] = fieldValue;
+		}
+	}
+	
+	return builtData;
+}
+
+//Treat the passed in generator and it's data as const.
+bg.RunGenerator = function(generator, seed, inputs)
+{
+	if(generator.version != 1)
+	{
+		//Unknown generator version
+		return;
+	}
+	
+	if(seed == undefined)
+	{
+		seed = 1;
+	}
+	
+	//#TODO: Build a graph
+	
+	//Make values for all inputs
+	var builtInputs = bg.BuildDataFields(generator.inputs, seed, inputs);
+	
+	console.log("Built '" + generator.name + "' Inputs:");
+	console.log(JSON.stringify(builtInputs, null, '\t'));
+	
+	Math.seedrandom(seed);
+	var outputs = {};
+	generator.script(builtInputs, outputs);
+	
+	//#TODO: Check outputs - each named output must exist.
+	
+	console.log("Generator '" + generator.name + "' Outputs:");
+	console.log(JSON.stringify(outputs, null, '\t'));
+	
+	return { builtInputs:builtInputs, outputs:outputs };
+}
+
+bg.generatorHierarchies = [];
+bg.RegisterGeneratorHierarchy = function(hierarchy)
+{
+	bg.generatorHierarchies.push(hierarchy);
+}
+
+bg.CreateGenerationHierarchy = function(hierarchyName)
+{
+	var hierarchy = {
+		name:hierarchyName,
+		hierarchyNodes:[]
+	};
+	
+	return hierarchy;
+}
+
+bg.CreateGenerationHierarchyNode = function(hierarchy, generator)
+{
+	var node = {
+		generator:generator,
+		inputs:[]
+	};
+	
+	hierarchy.hierarchyNodes.push(node);
+	
+	return node;
+}
+
+bg.CreateGenerationHierarchyLink = function(fromNode, fromNodeOutputName, toNode, toNodeInputName)
+{
+	//Sanity check the link
+	if(toNode.generator.inputs[toNodeInputName] == null)
+	{
+		//Error
+		console.error("Failed to make hierarchy link " + 
+		"'" + bg.GetGeneratorFullName(fromNode.generator) + "':'" + fromNodeOutputName +"'" +
+		" -> '" + bg.GetGeneratorFullName(toNode.generator) + "':'" + toNodeInputName + "'" +
+		" because '" + toNodeInputName + "' doesn't exist on the 'to' node."		
+		);
+	}
+	else if(fromNode.generator.outputs[fromNodeOutputName] == null)
+	{
+		console.error("Failed to make hierarchy link " + 
+		"'" + bg.GetGeneratorFullName(fromNode.generator) + "':'" + fromNodeOutputName +"'" +
+		" -> '" + bg.GetGeneratorFullName(toNode.generator) + "':'" + toNodeInputName + "'" +
+		" because '" + fromNodeOutputName + "' doesn't exist on the 'from' node."
+		);
+	}
+	else
+	{
+		var link = {
+			fromNode:fromNode,
+			fromNodeOutputName:fromNodeOutputName,
+			toNode:toNode, //Maybe don't include this one.
+			toNodeInputName:toNodeInputName
+		};
+		
+		toNode.inputs.push(link);
+	}
+}
+
+//Generate a target node. Will trigger generation of all input nodes.
+bg.GenerateHierarchyNode = function(targetNode, seed, nodeInputDataDef)
+{
+	if(nodeInputDataDef == null)
+	{
+		nodeInputDataDef = {};
+	}
+
+	//Gather the input nodes data that is required.
+	for(var i=0; i<targetNode.inputs.length; ++i)
+	{
+		var nodeInput = targetNode.inputs[i];
+		var inputResult = bg.GenerateHierarchyNode(nodeInput.fromNode, seed);
+		nodeInputDataDef[nodeInput.toNodeInputName] = inputResult.outputs[nodeInput.fromNodeOutputName];
+	}
+	return bg.RunGenerator(targetNode.generator, seed, nodeInputDataDef);
+}

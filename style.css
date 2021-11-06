@@ -1,0 +1,22 @@
+body {
+	font-family: sans-serif;
+}
+
+p {
+	font-size: small;
+}
+
+div.inputsArea {
+	background-color: #F0F0F0;
+}
+
+h1 {
+	font-size: medium;
+}
+
+canvas.hierarchyDiagram {
+	border: solid 1px black;
+	width: 200px;
+	height: 200px;
+	float: right;
+}
