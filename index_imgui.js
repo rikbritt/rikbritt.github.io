@@ -241,21 +241,24 @@ function UpdateGeneratorHierarchiesList()
     }
 }
 
-function UpdateObjectImGui(object)
+function UpdateObjectImGui(object, name)
 {
-	ImGui.Indent();
-	for([key, val] of Object.entries(object)) 
+	if(ImGui.CollapsingHeader(name))
 	{
-		if( typeof(val) == 'object')
+		ImGui.Indent();
+		for([key, val] of Object.entries(object)) 
 		{
-			UpdateObjectImGui(val);
+			if( typeof(val) == 'object')
+			{
+				UpdateObjectImGui(val, key);
+			}
+			else
+			{
+				ImGui.Text(String(val));
+			}
 		}
-		else
-		{
-			ImGui.Text(toString(val));
-		}
+		ImGui.Unindent();
 	}
-	ImGui.Unindent();
 }
 
 function SetNewGenerator()
@@ -414,7 +417,7 @@ function OnPageLoaded() {
 				{
 					if(gGeneratorOutputs.outputs.model == null)
 					{
-						UpdateObjectImGui(gGeneratorOutputs.outputs);
+						UpdateObjectImGui(gGeneratorOutputs.outputs, "output");
 					}
 				}
 			}
