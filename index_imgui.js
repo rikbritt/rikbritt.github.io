@@ -262,33 +262,22 @@ function OnRenderOption(elementName) {
 	RunTest();
 }
 
-function UpdateGeneratorsWindow() {
-    
-    ImGui.SetNextWindowPos(new ImGui.ImVec2(20, 20), ImGui.Cond.FirstUseEver);
-    ImGui.SetNextWindowSize(new ImGui.ImVec2(294, 140), ImGui.Cond.FirstUseEver);
+function UpdateGeneratorsWindow() 
+{    
     ImGui.Begin("Generators");
-
-	//var generatorsList = document.getElementById('generatorsList');
-	
-	//var noneOpt = document.createElement('option');
-	//noneOpt.innerHTML = gBlankEntry;
-	//generatorsList.appendChild(noneOpt);
-	
-	for(var i=0; i<bg.generators.length; ++i)
-	{
-        ImGui.Text(bg.GetGeneratorFullName(bg.generators[i]));
-		//var opt = document.createElement('option');
-		//opt.innerHTML = bg.GetGeneratorFullName(bg.generators[i]);
-		//generatorsList.appendChild(opt);
-		
-		//Make the current generator the default selection
-		//if(bg.generators[i] == gChosenGenerator)
-		//{
-		//	generatorsList.value = bg.GetGeneratorFullName(bg.generators[i]);
-		//}
-	}
+    var chosenGeneratorName = gChosenGenerator == null ? gBlankEntry : bg.GetGeneratorFullName(gChosenGenerator);
+    if(ImGui.BeginCombo("Generators", "Selected"))
+    {
+        for(var i=0; i<bg.generators.length; ++i)
+        {
+            if(ImGui.Selectable(bg.GetGeneratorFullName(bg.generators[i])))
+            {
+                gChosenGenerator = bg.generators[i];
+            }
+        }
+        ImGui.EndCombo();
+    }
     ImGui.End();
-
 }
 
 function BuildGeneratorHierarchiesList() {
@@ -436,6 +425,7 @@ function OnPageLoaded() {
     (async function() {
         await ImGui.default();
         const canvas = document.getElementById("output");
+        /*
         const devicePixelRatio = window.devicePixelRatio || 1;
         canvas.width = canvas.scrollWidth * devicePixelRatio;
         canvas.height = canvas.scrollHeight * devicePixelRatio;
@@ -443,7 +433,7 @@ function OnPageLoaded() {
           const devicePixelRatio = window.devicePixelRatio || 1;
           canvas.width = canvas.scrollWidth * devicePixelRatio;
           canvas.height = canvas.scrollHeight * devicePixelRatio;
-        });
+        });*/
       
         ImGui.CreateContext();
         ImGui_Impl.Init(canvas);
