@@ -33,7 +33,11 @@ function UpdateGeneratorInputsImGui(inputs)
 			|| paramData.type == "distance"
 			|| paramData.type == "time")
 		{
-			ImGui.SliderFloat(paramKey, (_ = paramData.value) => paramData.value = _, paramData.min, paramData.max);
+			if(gGeneratorInputs[paramKey] == null)
+			{
+				gGeneratorInputs[paramKey] = paramData.min;//temp
+			}
+			ImGui.SliderFloat(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _, paramData.min, paramData.max);
 			/*
 			var valDisplay = document.createElement("p");
 			valDisplay.append(paramData.value);
