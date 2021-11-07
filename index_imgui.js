@@ -104,7 +104,7 @@ function RunTest()
 		gGeneratorHierarchy = bg.CreateGenerationHierarchy("Test Harness");
 		gTargetHierarchyNode = bg.CreateGenerationHierarchyNode(gGeneratorHierarchy, gChosenGenerator);
 	}
-	RenderHierarchy();
+	//RenderHierarchy();
 
 	gGeneratorOutputs = bg.GenerateHierarchyNode(gTargetHierarchyNode, gSeed, gGeneratorInputs);
 	
@@ -154,7 +154,7 @@ function RunTest()
 			gRenderScene.scene.add( zPlane );
 		}
 	}
-	
+	/*
 	if(gGeneratorOutputs.outputs.model)
 	{
 		document.getElementById('modelOutput').style.visibility = "visible";
@@ -174,12 +174,12 @@ function RunTest()
 		var jsonViewer = new JSONViewer();
 		document.getElementById('dataOutput').appendChild(jsonViewer.getContainer());
 		jsonViewer.showJSON(gGeneratorOutputs.outputs);
-	}
+	}*/
 	//Draw2DModel(gGeneratorOutputs.outputs.model, document.getElementById('myCanvas'));
 	
 	//Rebuild/Refresh UI inputs
 	gGeneratorInputs = gGeneratorOutputs.builtInputs;
-	RefreshUIForGeneratorInputs();
+	//RefreshUIForGeneratorInputs();
 }
 
 function RunTestWithRandomSeed()
@@ -219,6 +219,7 @@ function UpdateGeneratorsList()
             if(ImGui.Selectable(bg.GetGeneratorFullName(bg.generators[i])))
             {
                 gChosenGenerator = bg.generators[i];
+				gTargetHierarchyNode = null;
             }
         }
         ImGui.EndCombo();
@@ -238,6 +239,23 @@ function UpdateGeneratorHierarchiesList()
         }
         ImGui.EndCombo();
     }
+}
+
+void UpdateObjectImGui(object)
+{
+	ImGui.Indent();
+	for([key, val] of Object.entries(object)) 
+	{
+		if( typeof(val) == 'object')
+		{
+			UpdateObjectImGui(val);
+		}
+		else
+		{
+			ImGui.Text(toString(val));
+		}
+	}
+	ImGui.Unindent();
 }
 
 function SetNewGenerator()
@@ -265,30 +283,6 @@ function SetNewGenerator()
 	}
 }
 
-function SetNewGeneratorHierarchy()
-{
-	var generatorsList = document.getElementById('generatorsList');
-	generatorsList.value = gBlankEntry;
-	
-	var generatorHierarchiesList = document.getElementById('generatorHierarchiesList');
-	for(var i=0; i<bg.generatorHierarchies.length; ++i)
-	{
-		if(bg.generatorHierarchies[i].name == generatorHierarchiesList.value)
-		{
-			gChosenGenerator = null;
-			gGeneratorHierarchy = bg.generatorHierarchies[i];
-			gTargetHierarchyNode = gGeneratorHierarchy.hierarchyNodes[gGeneratorHierarchy.hierarchyNodes.length-1]; //Just pick last for now.
-			//CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
-			RunTest();
-			return;
-		}
-	}
-	
-	if(generatorHierarchiesList.value != gBlankEntry)
-	{
-		alert("Couldn't find generator hierarchy called " + generatorHierarchiesList.value);
-	}
-}
 
 function SetupHierarchyView()
 {
@@ -401,18 +395,28 @@ function OnPageLoaded() {
 		  {
 			if(ImGui.Begin("Generator Input"))
 			{
+				if(ImGui.Button("Randomise"))
+				{
+					gSeed = Math.floor( Math.random() * 2000 );
+				}
 				ImGui.SliderInt("Seed", (_ = gSeed) => gSeed = _, 0, 10000000);
 				UpdateGeneratorInputsImGui(gChosenGenerator.inputs);
 				if(ImGui.Button("Generate"))
 				{
-					
+					RunTest();
 				}
 			}
 			ImGui.End();
 
 			if(ImGui.Begin("Generator Output"))
 			{
-  
+				if(gGeneratorOutputs.outputs)
+				{
+					if(gGeneratorOutputs.outputs.model == null)
+					{
+						UpdateObjectImGui(gGeneratorOutputs.outputs);
+					}
+				}
 			}
 			ImGui.End();
 		  }
