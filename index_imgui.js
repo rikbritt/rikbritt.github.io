@@ -262,25 +262,33 @@ function OnRenderOption(elementName) {
 	RunTest();
 }
 
-function BuildGeneratorList() {
-	var generatorsList = document.getElementById('generatorsList');
+function UpdateGeneratorsWindow() {
+    
+    ImGui.SetNextWindowPos(new ImGui.ImVec2(20, 20), ImGui.Cond.FirstUseEver);
+    ImGui.SetNextWindowSize(new ImGui.ImVec2(294, 140), ImGui.Cond.FirstUseEver);
+    ImGui.Begin("Generators");
+
+	//var generatorsList = document.getElementById('generatorsList');
 	
-	var noneOpt = document.createElement('option');
-	noneOpt.innerHTML = gBlankEntry;
-	generatorsList.appendChild(noneOpt);
+	//var noneOpt = document.createElement('option');
+	//noneOpt.innerHTML = gBlankEntry;
+	//generatorsList.appendChild(noneOpt);
 	
 	for(var i=0; i<bg.generators.length; ++i)
 	{
-		var opt = document.createElement('option');
-		opt.innerHTML = bg.GetGeneratorFullName(bg.generators[i]);
-		generatorsList.appendChild(opt);
+        ImGui.Text(bg.GetGeneratorFullName(bg.generators[i]));
+		//var opt = document.createElement('option');
+		//opt.innerHTML = bg.GetGeneratorFullName(bg.generators[i]);
+		//generatorsList.appendChild(opt);
 		
 		//Make the current generator the default selection
-		if(bg.generators[i] == gChosenGenerator)
-		{
-			generatorsList.value = bg.GetGeneratorFullName(bg.generators[i]);
-		}
+		//if(bg.generators[i] == gChosenGenerator)
+		//{
+		//	generatorsList.value = bg.GetGeneratorFullName(bg.generators[i]);
+		//}
 	}
+    ImGui.End();
+
 }
 
 function BuildGeneratorHierarchiesList() {
@@ -410,20 +418,20 @@ function OnPageLoaded() {
 	//BuildGeneratorHierarchiesList();
 		
 	//Set render option check boxes.
-	for([paramKey, paramData] of Object.entries(gRenderOptions)) {
-		var checkBox = document.getElementById(paramKey);
-		checkBox.checked = paramData;
-	}	
+	//for([paramKey, paramData] of Object.entries(gRenderOptions)) {
+	//	var checkBox = document.getElementById(paramKey);
+	//	checkBox.checked = paramData;
+	//}	
 	
 	//Create the render scene
-	var renderWidth = 640;
-	var renderHeight = 320;
+	//var renderWidth = 640;
+	//var renderHeight = 320;
 	
 	//gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('modelOutput'), UpdateTest);
 	
 	//CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
 	//RenderHierarchy();
-	RunTest();
+	//RunTest();
 
     (async function() {
         await ImGui.default();
@@ -454,20 +462,7 @@ function OnPageLoaded() {
           ImGui_Impl.NewFrame(time);
           ImGui.NewFrame();
       
-          ImGui.SetNextWindowPos(new ImGui.ImVec2(20, 20), ImGui.Cond.FirstUseEver);
-          ImGui.SetNextWindowSize(new ImGui.ImVec2(294, 140), ImGui.Cond.FirstUseEver);
-          ImGui.Begin("Debug");
-      
-          try {
-            ImGui.Text('Hi');
-          } catch (e) {
-            ImGui.TextColored(new ImGui.ImVec4(1.0,0.0,0.0,1.0), "error: ");
-            ImGui.SameLine();
-            ImGui.Text(e.message);
-          }
-      
-          ImGui.End();
-      
+          UpdateGeneratorsWindow();
           ImGui.EndFrame();
       
           ImGui.Render();
