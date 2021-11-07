@@ -73,12 +73,12 @@ function UpdateGeneratorInputsImGui(inputs)
 		}
 		else
 		{
-			ImGui.Text("Unknown param : %s", paramKey);
+			ImGui.Text("Unknown param : " + paramKey);
 		}
 		
 		if(paramData.description != null)
 		{
-			ImGui.Text("%s", paramData.description);
+			ImGui.Text(paramData.description);
 		}		
 	}
 	ImGui.Unindent();
@@ -403,6 +403,10 @@ function OnPageLoaded() {
 			{
 				ImGui.SliderInt("Seed", (_ = gSeed) => gSeed = _, 0, 10000000);
 				UpdateGeneratorInputsImGui(gChosenGenerator.inputs);
+				if(ImGui.Button("Generate"))
+				{
+					
+				}
 			}
 			ImGui.End();
 
