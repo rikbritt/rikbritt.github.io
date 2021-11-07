@@ -292,7 +292,7 @@ function UpdateGeneratorsList()
 
 function UpdateGeneratorHierarchiesList() 
 {
-    if(ImGui.BeginCombo("Hierarchies", chosenGeneratorName))
+    if(ImGui.BeginCombo("Hierarchies", "???"))
     {
         for(var i=0; i<bg.generatorHierarchies.length; ++i)
         {
