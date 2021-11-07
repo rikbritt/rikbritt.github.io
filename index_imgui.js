@@ -108,13 +108,13 @@ function RunTest()
 
 	gGeneratorOutputs = bg.GenerateHierarchyNode(gTargetHierarchyNode, gSeed, gGeneratorInputs);
 	
-	bg.ClearScene(gRenderScene);
+	//bg.ClearScene(gRenderScene);
 	
-	var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
-	light.position.set(0,0.7,0.4);
-	gRenderScene.scene.add( light );
+	//var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
+	//light.position.set(0,0.7,0.4);
+	//gRenderScene.scene.add( light );
 			
-	if(gRenderOptions.showGround)
+	if(gRenderOptions.showGround && false)
 	{
 		var groundHeight = 0.05;
 		var groundSize = 10;
