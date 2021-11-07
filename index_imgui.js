@@ -243,6 +243,7 @@ function UpdateGeneratorHierarchiesList()
 
 function UpdateObjectImGui(object, name)
 {
+	ImGui.PushID(name);
 	if(ImGui.CollapsingHeader(name))
 	{
 		ImGui.Indent();
@@ -254,11 +255,12 @@ function UpdateObjectImGui(object, name)
 			}
 			else
 			{
-				ImGui.Text(String(val));
+				ImGui.Text(key + " : " + String(val));
 			}
 		}
 		ImGui.Unindent();
 	}
+	ImGui.PopID();
 }
 
 function SetNewGenerator()
