@@ -403,11 +403,11 @@ function RenderHierarchy()
 
 function OnPageLoaded() {
 
-	SetupHierarchyView();
+	//SetupHierarchyView();
 	
 	//Build the selection list of generators.
-	BuildGeneratorList();
-	BuildGeneratorHierarchiesList();
+	//BuildGeneratorList();
+	//BuildGeneratorHierarchiesList();
 		
 	//Set render option check boxes.
 	for([paramKey, paramData] of Object.entries(gRenderOptions)) {
@@ -419,10 +419,10 @@ function OnPageLoaded() {
 	var renderWidth = 640;
 	var renderHeight = 320;
 	
-	gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('modelOutput'), UpdateTest);
+	//gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('modelOutput'), UpdateTest);
 	
-	CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
-	RenderHierarchy();
+	//CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
+	//RenderHierarchy();
 	RunTest();
 
     (async function() {
