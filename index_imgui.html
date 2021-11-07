@@ -1,14 +1,76 @@
 <html>
   <head>
-    <title>Dear ImGui JavaScript+WebGL example</title>
+    <title>Dear ImGui</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <script type="text/javascript" src="../node_modules/@flyover/system/build/system.js"></script> -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/flyover/system.ts/build/system.js"></script>
-    <script type="text/javascript" src="system.config.js"></script>
-    <script type="text/javascript">
-    System.import("main")
-    .then(function (main) { main.default(); })
-    .catch(console.error);
-    </script>
+    <script type="text/javascript" src="imgui/imgui.umd.js"></script>
+    <script type="text/javascript" src="imgui_impl.umd.js"></script>
   </head>
+  <body>
+    <canvas id="output" tabindex="1"></canvas>
+
+    <script type="text/javascript">
+      (async function() {
+  await ImGui.default();
+  const canvas = document.getElementById("output");
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  canvas.width = canvas.scrollWidth * devicePixelRatio;
+  canvas.height = canvas.scrollHeight * devicePixelRatio;
+  window.addEventListener("resize", () => {
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    canvas.width = canvas.scrollWidth * devicePixelRatio;
+    canvas.height = canvas.scrollHeight * devicePixelRatio;
+  });
+
+  ImGui.CreateContext();
+  ImGui_Impl.Init(canvas);
+
+  ImGui.StyleColorsDark();
+  //ImGui.StyleColorsClassic();
+
+  const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
+
+  /* static */ let buf = "Quick brown fox";
+  /* static */ let f = 0.6;
+
+  let done = false;
+  window.requestAnimationFrame(_loop);
+  function _loop(time) {
+    ImGui_Impl.NewFrame(time);
+    ImGui.NewFrame();
+
+    ImGui.SetNextWindowPos(new ImGui.ImVec2(20, 20), ImGui.Cond.FirstUseEver);
+    ImGui.SetNextWindowSize(new ImGui.ImVec2(294, 140), ImGui.Cond.FirstUseEver);
+    ImGui.Begin("Debug");
+
+    try {
+      eval("ImGui.Text('Hi');");
+    } catch (e) {
+      ImGui.TextColored(new ImGui.ImVec4(1.0,0.0,0.0,1.0), "error: ");
+      ImGui.SameLine();
+      ImGui.Text(e.message);
+    }
+
+    ImGui.End();
+
+    ImGui.EndFrame();
+
+    ImGui.Render();
+    const gl = ImGui_Impl.gl;
+    gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+    gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+    gl && gl.clear(gl.COLOR_BUFFER_BIT);
+    //gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
+
+    ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
+
+    window.requestAnimationFrame(done ? _done : _loop);
+  }
+
+  function _done() {
+    ImGui_Impl.Shutdown();
+    ImGui.DestroyContext();
+  }
+})();
+    </script>
+  </body>
 </html>
