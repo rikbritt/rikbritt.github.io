@@ -23,20 +23,18 @@ function ClearUIInput(inputName)
 	RunTest();
 }
 
-function CreateUIForDataDef(inputs, hostElement) {
-	hostElement.innerHTML = "";
-	for([paramKey, paramData] of Object.entries(inputs)) {
-	
-		var container = document.createElement("p");
-		container.append(paramKey + " : ");
-		container.setAttribute("id", "Input_" + paramKey);
-		
+//function CreateUIForDataDef(inputs, hostElement) 
+function UpdateGeneratorInputsImGui(inputs)
+{
+	for([paramKey, paramData] of Object.entries(inputs))
+	{		
 		var addclearButton = false;
 		if(paramData.type == "float" 
 			|| paramData.type == "distance"
-			|| paramData.type == "time"
-		) {
-		
+			|| paramData.type == "time")
+		{
+			ImGui.SliderFloat(paramKey, (_ = paramData.value) => paramData.value = _, paramData.min, paramData.max);
+			/*
 			var valDisplay = document.createElement("p");
 			valDisplay.append(paramData.value);
 			valDisplay.setAttribute("id", "InputVal_" + paramKey);
@@ -116,13 +114,14 @@ function CreateUIForDataDef(inputs, hostElement) {
 			var description = document.createElement("span");
 			description.innerHTML = paramData.description;
 			container.appendChild(description);
-		}
-		
-		hostElement.appendChild(container);
+			*/
+		}		
 	}
 }
 
-function RefreshUIForGeneratorInputs() {
+/*
+function UpdateGeneratorInputsImGui()
+{
 	for([paramKey, paramData] of Object.entries(gGeneratorInputs)) {
 		var container = document.getElementById("Input_" + paramKey);
 		var valDisplay = document.getElementById("InputVal_" + paramKey);
@@ -144,7 +143,7 @@ function RefreshUIForGeneratorInputs() {
 			valIntSlider.value = paramData;
 		}
 	}
-}
+}*/
 
 function UpdateTest(dt)
 {
@@ -405,10 +404,6 @@ function RenderHierarchy()
 function OnPageLoaded() {
 
 	//SetupHierarchyView();
-	
-	//Build the selection list of generators.
-	//BuildGeneratorList();
-	//BuildGeneratorHierarchiesList();
 		
 	//Set render option check boxes.
 	//for([paramKey, paramData] of Object.entries(gRenderOptions)) {
@@ -465,6 +460,22 @@ function OnPageLoaded() {
             UpdateGeneratorHierarchiesList();
           }
           ImGui.End();
+
+		  if(gChosenGenerator != null)
+		  {
+			if(ImGui.Begin("Generator"))
+			{
+				UpdateGeneratorInputsImGui(gChosenGenerator.inputs);
+			}
+			ImGui.End();
+
+			if(ImGui.Begin("Output"))
+			{
+  
+			}
+			ImGui.End();
+		  }
+
 
           ImGui.EndFrame();
       
