@@ -241,7 +241,7 @@ function UpdateGeneratorHierarchiesList()
     }
 }
 
-void UpdateObjectImGui(object)
+function UpdateObjectImGui(object)
 {
 	ImGui.Indent();
 	for([key, val] of Object.entries(object)) 
