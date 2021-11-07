@@ -262,11 +262,22 @@ function OnRenderOption(elementName) {
 	RunTest();
 }
 
-function UpdateGeneratorsWindow() 
+function UpdateViewOptions()
+{
+    if(ImGui.CollapsingHeader("View Options"))
+    {
+        ImGui.Indent();
+        ImGui.Checkbox("Ground", (value = gRenderOptions.showGround) => gRenderOptions.showGround = value);
+        ImGui.Checkbox("Wireframe", (value = gRenderOptions.showWireframe) => gRenderOptions.showWireframe = value);
+        ImGui.Checkbox("Construction Info", (value = gRenderOptions.showConstructionInfo) => gRenderOptions.showConstructionInfo = value);
+        ImGui.Unindent();
+    }
+}
+
+function UpdateGeneratorsList() 
 {    
-    ImGui.Begin("Generators");
     var chosenGeneratorName = gChosenGenerator == null ? gBlankEntry : bg.GetGeneratorFullName(gChosenGenerator);
-    if(ImGui.BeginCombo("Generators", "Selected"))
+    if(ImGui.BeginCombo("Generators", chosenGeneratorName))
     {
         for(var i=0; i<bg.generators.length; ++i)
         {
@@ -277,28 +288,21 @@ function UpdateGeneratorsWindow()
         }
         ImGui.EndCombo();
     }
-    ImGui.End();
 }
 
-function BuildGeneratorHierarchiesList() {
-	var list = document.getElementById('generatorHierarchiesList');
-	
-	var noneOpt = document.createElement('option');
-	noneOpt.innerHTML = gBlankEntry;
-	list.appendChild(noneOpt);
-	
-	for(var i=0; i<bg.generatorHierarchies.length; ++i)
-	{
-		var opt = document.createElement('option');
-		opt.innerHTML = bg.generatorHierarchies[i].name;
-		list.appendChild(opt);
-		
-		////Make the current generator the default selection
-		//if(bg.generators[i] == gChosenGenerator)
-		//{
-		//	generatorsList.value = bg.GetGeneratorFullName(bg.generators[i]);
-		//}
-	}
+function UpdateGeneratorHierarchiesList() 
+{
+    if(ImGui.BeginCombo("Hierarchies", chosenGeneratorName))
+    {
+        for(var i=0; i<bg.generatorHierarchies.length; ++i)
+        {
+            if(ImGui.Selectable(bg.generatorHierarchies[i].name))
+            {
+                //gChosenGenerator = bg.generators[i];
+            }
+        }
+        ImGui.EndCombo();
+    }
 }
 
 function SetNewGenerator()
@@ -425,6 +429,8 @@ function OnPageLoaded() {
     (async function() {
         await ImGui.default();
         const canvas = document.getElementById("output");
+        canvas.width = 1280;
+        canvas.height = 720;
         /*
         const devicePixelRatio = window.devicePixelRatio || 1;
         canvas.width = canvas.scrollWidth * devicePixelRatio;
@@ -452,7 +458,14 @@ function OnPageLoaded() {
           ImGui_Impl.NewFrame(time);
           ImGui.NewFrame();
       
-          UpdateGeneratorsWindow();
+          if(ImGui.Begin("Generators"))
+          {
+            UpdateViewOptions();
+            UpdateGeneratorsList();
+            UpdateGeneratorHierarchiesList();
+          }
+          ImGui.End();
+
           ImGui.EndFrame();
       
           ImGui.Render();
