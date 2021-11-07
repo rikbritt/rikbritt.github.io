@@ -26,6 +26,7 @@ function ClearUIInput(inputName)
 //function CreateUIForDataDef(inputs, hostElement) 
 function UpdateGeneratorInputsImGui(inputs)
 {
+	ImGui.Indent();
 	for([paramKey, paramData] of Object.entries(inputs))
 	{		
 		var addclearButton = false;
@@ -37,6 +38,11 @@ function UpdateGeneratorInputsImGui(inputs)
 			{
 				gGeneratorInputs[paramKey] = paramData.min;//temp
 			}
+			if(ImGui.Button("Clear"))
+			{
+
+			}
+			ImGui.SameLine();
 			ImGui.SliderFloat(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _, paramData.min, paramData.max);
 			/*
 			var valDisplay = document.createElement("p");
@@ -61,9 +67,21 @@ function UpdateGeneratorInputsImGui(inputs)
 			container.appendChild(valEdit);
 			container.appendChild(valDisplay);
 			addclearButton = true;
+			*/
 		}
 		else if(paramData.type == "int")
 		{
+			if(gGeneratorInputs[paramKey] == null)
+			{
+				gGeneratorInputs[paramKey] = paramData.min;//temp
+			}
+			if(ImGui.Button("Clear"))
+			{
+
+			}
+			ImGui.SameLine();
+			ImGui.SliderInt(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _, paramData.min, paramData.max);
+/*
 			var valDisplay = document.createElement("p");
 			valDisplay.append(paramData.value);
 			valDisplay.setAttribute("id", "InputVal_" + paramKey);
@@ -86,17 +104,22 @@ function UpdateGeneratorInputsImGui(inputs)
 			container.appendChild(valEdit);
 			container.appendChild(valDisplay);
 			addclearButton = true;
+			*/
 		}
 		else if(paramData.type == "params")
 		{
-			var valEdit = document.createElement("p");
+			//var valEdit = document.createElement("p");
 			
-			CreateUIForDataDef(paramData.paramType.fields, valEdit);
-			
-			container.appendChild(valEdit);
+			UpdateGeneratorInputsImGui(paramData.paramType.fields);
 		}
 		else if(paramData.type == "bool")
 		{
+			if(gGeneratorInputs[paramKey] == null)
+			{
+				gGeneratorInputs[paramKey] = true;//temp
+			}
+			ImGui.Checkbox(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _);
+			/*
 			//todo: Checkbox
 			var valDisplay = document.createElement("p");
 			valDisplay.style.display = "inline";
@@ -121,6 +144,7 @@ function UpdateGeneratorInputsImGui(inputs)
 			*/
 		}		
 	}
+	ImGui.Unindent();
 }
 
 /*
