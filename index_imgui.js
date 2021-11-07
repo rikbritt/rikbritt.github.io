@@ -3,6 +3,7 @@ var gChosenGenerator = mm_scenarioGenerator;
 var gGeneratorHierarchy = null;
 var gTargetHierarchyNode = null;
 
+var gSeed = 0;
 var gGeneratorInputs = {};
 var gGeneratorOutputs = {};
 var gRenderScene = null;
@@ -40,34 +41,10 @@ function UpdateGeneratorInputsImGui(inputs)
 			}
 			if(ImGui.Button("Clear"))
 			{
-
+				gGeneratorInputs[paramKey] = paramData.min;
 			}
 			ImGui.SameLine();
 			ImGui.SliderFloat(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _, paramData.min, paramData.max);
-			/*
-			var valDisplay = document.createElement("p");
-			valDisplay.append(paramData.value);
-			valDisplay.setAttribute("id", "InputVal_" + paramKey);
-			valDisplay.style.display = "inline";
-		
-			var valEdit = document.createElement("input");
-			valEdit.setAttribute("type", "range");
-			valEdit.setAttribute("min", paramData.min * 10.0);
-			valEdit.setAttribute("max", paramData.max * 10.0);
-			valEdit.setAttribute("id", "InputSlider_" + paramKey);
-			var makeOnValueChange = function() { 
-				var pKey = paramKey;
-				return function(){
-					gGeneratorInputs[pKey] = Number(this.value) / 10.0;
-					RunTest();
-				}
-			};
-			valEdit.addEventListener('input', makeOnValueChange());
-			
-			container.appendChild(valEdit);
-			container.appendChild(valDisplay);
-			addclearButton = true;
-			*/
 		}
 		else if(paramData.type == "int")
 		{
@@ -77,39 +54,13 @@ function UpdateGeneratorInputsImGui(inputs)
 			}
 			if(ImGui.Button("Clear"))
 			{
-
+				gGeneratorInputs[paramKey] = paramData.min;
 			}
 			ImGui.SameLine();
 			ImGui.SliderInt(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _, paramData.min, paramData.max);
-/*
-			var valDisplay = document.createElement("p");
-			valDisplay.append(paramData.value);
-			valDisplay.setAttribute("id", "InputVal_" + paramKey);
-			valDisplay.style.display = "inline";
-		
-			var valEdit = document.createElement("input");
-			valEdit.setAttribute("type", "range");
-			valEdit.setAttribute("min", paramData.min);
-			valEdit.setAttribute("max", paramData.max );
-			valEdit.setAttribute("id", "InputIntSlider_" + paramKey);
-			var makeOnValueChange = function() { 
-				var pKey = paramKey;
-				return function(){
-					gGeneratorInputs[pKey] = Number(this.value);
-					RunTest();
-				}
-			};
-			valEdit.addEventListener('input', makeOnValueChange());
-			
-			container.appendChild(valEdit);
-			container.appendChild(valDisplay);
-			addclearButton = true;
-			*/
 		}
 		else if(paramData.type == "params")
-		{
-			//var valEdit = document.createElement("p");
-			
+		{			
 			UpdateGeneratorInputsImGui(paramData.paramType.fields);
 		}
 		else if(paramData.type == "bool")
@@ -119,59 +70,19 @@ function UpdateGeneratorInputsImGui(inputs)
 				gGeneratorInputs[paramKey] = true;//temp
 			}
 			ImGui.Checkbox(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _);
-			/*
-			//todo: Checkbox
-			var valDisplay = document.createElement("p");
-			valDisplay.style.display = "inline";
-			valDisplay.innerHTML = paramData.value == null ? "null" : paramData.value.toString();
-			
-			container.appendChild(valDisplay);
 		}
-		
-		if(addclearButton)
+		else
 		{
-			var clearButton = document.createElement("button");
-			clearButton.append("Clear Override");
-			clearButton.setAttribute("onclick", "ClearUIInput('" + paramKey + "')");
-			container.appendChild(clearButton);
+			ImGui.Text("Unknown param : %s", paramKey);
 		}
 		
 		if(paramData.description != null)
 		{
-			var description = document.createElement("span");
-			description.innerHTML = paramData.description;
-			container.appendChild(description);
-			*/
+			ImGui.Text("%s", paramData.description);
 		}		
 	}
 	ImGui.Unindent();
 }
-
-/*
-function UpdateGeneratorInputsImGui()
-{
-	for([paramKey, paramData] of Object.entries(gGeneratorInputs)) {
-		var container = document.getElementById("Input_" + paramKey);
-		var valDisplay = document.getElementById("InputVal_" + paramKey);
-		if(valDisplay)
-		{
-			valDisplay.innerHTML = paramData;
-			//valDisplay.style.color = "red";
-		}
-		
-		var valSlider = document.getElementById("InputSlider_" + paramKey);
-		if(valSlider)
-		{
-			valSlider.value = paramData * 10.0;
-		}
-		
-		var valIntSlider = document.getElementById("InputIntSlider_" + paramKey);
-		if(valIntSlider)
-		{
-			valIntSlider.value = paramData;
-		}
-	}
-}*/
 
 function UpdateTest(dt)
 {
@@ -195,9 +106,7 @@ function RunTest()
 	}
 	RenderHierarchy();
 
-	var seedInputElement = document.getElementById('seedInput');
-	//gGeneratorOutputs = bg.RunGenerator(gChosenGenerator, Number(seedInputElement.value), gGeneratorInputs);
-	gGeneratorOutputs = bg.GenerateHierarchyNode(gTargetHierarchyNode, Number(seedInputElement.value), gGeneratorInputs);
+	gGeneratorOutputs = bg.GenerateHierarchyNode(gTargetHierarchyNode, gSeed, gGeneratorInputs);
 	
 	bg.ClearScene(gRenderScene);
 	
@@ -276,10 +185,9 @@ function RunTest()
 function RunTestWithRandomSeed()
 {
 	gGeneratorInputs = {};
-	var seedInputElement = document.getElementById('seedInput');
 	var d = new Date();
 	Math.seedrandom(d.getTime());
-	seedInputElement.value = Math.floor( Math.random() * 2000 );
+	gSeed = Math.floor( Math.random() * 2000 );
 	RunTest();
 }
 
@@ -491,13 +399,14 @@ function OnPageLoaded() {
 
 		  if(gChosenGenerator != null)
 		  {
-			if(ImGui.Begin("Generator"))
+			if(ImGui.Begin("Generator Input"))
 			{
+				ImGui.SliderInt("Seed", (_ = gSeed) => gSeed = _, 0, 10000000);
 				UpdateGeneratorInputsImGui(gChosenGenerator.inputs);
 			}
 			ImGui.End();
 
-			if(ImGui.Begin("Output"))
+			if(ImGui.Begin("Generator Output"))
 			{
   
 			}
