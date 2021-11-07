@@ -1,76 +1,103 @@
 <html>
   <head>
-    <title>Dear ImGui</title>
+    <title>ImGui Generator Testbed</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="imgui/imgui.umd.js"></script>
-    <script type="text/javascript" src="imgui/imgui_impl.umd.js"></script>
+    <!-- Libs -->
+    <script src="libs/brittgen.js"></script><!--Keep as first-->
+    <script src="libs/randomfuncs.js"></script>
+    <script src="libs/vector2d.js"></script>
+    <script src="libs/path.js"></script>
+    <script src="libs/model.js"></script>
+    <script src="libs/model2d.js"></script>
+    <script src="libs/physics.js"></script>
+    <script src="libs/paramtypes.js"></script>
+    <script src="libs/generator.js"></script>
+
+    <!-- Data -->
+    <script src="information/language_data.js"></script>
+
+    <!-- Generators -->
+    <script src="information/name_generator.js"></script>
+
+    <script src="universe/reality_generator.js"></script>
+    <script src="universe/universe_generator.js"></script>
+    <script src="universe/galaxy_generator.js"></script>
+    <script src="universe/sun_generator.js"></script>
+    <script src="universe/solarsystem_generator.js"></script>
+    <script src="universe/planets/planet_generator.js"></script>
+    <script src="universe/planets/earthlike_planet_generator.js"></script>
+
+    <script src="character/species_generator.js"></script>
+    <script src="character/culture_generator.js"></script>
+    <script src="character/personality/personality_datadefs.js"></script>
+    <script src="character/personality/dutyfulfiller_generator.js"></script>
+    <script src="character/personality/personality_generator.js"></script>
+    <script src="character/character_generator.js"></script>
+    <script src="character/intelligent_lifeform_hierarchy.js"></script>
+
+    <script src="vehicles/car_generator.js"></script>
+    <script src="construction/woodworking/woodworking_datadefs.js"></script>
+    <!--<script src="furniture/box2d_generator.js"></script>-->
+    <script src="furniture/woodcrate_generator.js"></script>
+    <script src="geometry/geometricsphere.js"></script>
+    <script src="geometry/tetrahedron.js"></script>
+    <script src="geometry/triangle.js"></script>
+    <script src="nature/vegetation/tree_datadefs.js"></script>
+    <script src="nature/vegetation/tree_generator.js"></script>
+    <!--<script src="nature/vegetation/tree2d_generator.js"></script>-->
+    <!--<script src="nature/forestscene_generator.js"></script>-->
+    <script src="nature/terrain/terrain_heightmap_generator.js"></script>
+    <script src="nature/terrain/terrain_voxel_generator.js"></script>
+    <script src="buildings/wall/stonewall_generator.js"></script>
+    <script src="buildings/floor/floor_generator.js"></script>
+    <script src="buildings/modular/modularbuilding.js"></script>
+
+    <!-- Tests -->
+    <script src="tests/geomintersectiontests.js"></script>
+    <script src="tests/rotationtests.js"></script>
+    <script src="tests/debugtexttest.js"></script>
+    <script src="tests/hierarchytests.js"></script>
+    <script src="tests/objectlogictest.js"></script>
+    <script src="tests/voxeltests.js"></script>
+
+    <!-- Generation Hierarchies -->
+    <script src="generation_hierarchy/generation_hierarchy.js"></script>
+
+
+    <!-- Murder Mystery -->
+    <script src="murder_mystery/person/name_data.js"></script>
+    <script src="murder_mystery/person/name.js"></script>
+    <script src="murder_mystery/person/person.js"></script>
+    <script src="murder_mystery/person/career_data.js"></script>
+    <script src="murder_mystery/person/career.js"></script>
+    <script src="murder_mystery/person/relationship/relationship_datadefs.js"></script>
+    <script src="murder_mystery/person/relationship/biological.js"></script>
+    <script src="murder_mystery/person/relationship/work.js"></script>
+    <script src="murder_mystery/person/relationship/relationship.js"></script>
+    <script src="murder_mystery/causeofdeath.js"></script>
+    <script src="murder_mystery/suspect.js"></script>
+    <script src="murder_mystery/murderer.js"></script>
+    <script src="murder_mystery/victim.js"></script>
+    <script src="murder_mystery/victim_hierarchy.js"></script>
+    <script src="murder_mystery/scenario.js"></script>
+
+    <!-- Third Party - Keep these last, nothing should depend on them directly -->
+    <script src="libs/thirdparty/paper-full.js"></script>
+    <script src="libs/thirdparty/three.js"></script>
+    <script src="libs/thirdparty/csg.js"></script>
+    <script src="libs/thirdparty/threecsg.js"></script>
+    <script src="libs/thirdparty/OrbitControls.js"></script>
+    <script src="imgui/imgui.umd.js"></script>
+    <script src="imgui/imgui_impl.umd.js"></script>
+
+    <!-- Third Party Glue -->
+    <script src="libs/glue/three_linetext.js"></script>
+    <script src="libs/glue/model_three.js"></script>
+   
+    <!-- Test bed code -->
+    <script src="index_imgui.js"></script>
   </head>
-  <body>
+  <body onload="OnPageLoaded()">
     <canvas id="output" tabindex="1"></canvas>
-
-    <script type="text/javascript">
-      (async function() {
-  await ImGui.default();
-  const canvas = document.getElementById("output");
-  const devicePixelRatio = window.devicePixelRatio || 1;
-  canvas.width = canvas.scrollWidth * devicePixelRatio;
-  canvas.height = canvas.scrollHeight * devicePixelRatio;
-  window.addEventListener("resize", () => {
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    canvas.width = canvas.scrollWidth * devicePixelRatio;
-    canvas.height = canvas.scrollHeight * devicePixelRatio;
-  });
-
-  ImGui.CreateContext();
-  ImGui_Impl.Init(canvas);
-
-  ImGui.StyleColorsDark();
-  //ImGui.StyleColorsClassic();
-
-  const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-
-  /* static */ let buf = "Quick brown fox";
-  /* static */ let f = 0.6;
-
-  let done = false;
-  window.requestAnimationFrame(_loop);
-  function _loop(time) {
-    ImGui_Impl.NewFrame(time);
-    ImGui.NewFrame();
-
-    ImGui.SetNextWindowPos(new ImGui.ImVec2(20, 20), ImGui.Cond.FirstUseEver);
-    ImGui.SetNextWindowSize(new ImGui.ImVec2(294, 140), ImGui.Cond.FirstUseEver);
-    ImGui.Begin("Debug");
-
-    try {
-      eval("ImGui.Text('Hi');");
-    } catch (e) {
-      ImGui.TextColored(new ImGui.ImVec4(1.0,0.0,0.0,1.0), "error: ");
-      ImGui.SameLine();
-      ImGui.Text(e.message);
-    }
-
-    ImGui.End();
-
-    ImGui.EndFrame();
-
-    ImGui.Render();
-    const gl = ImGui_Impl.gl;
-    gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-    gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-    gl && gl.clear(gl.COLOR_BUFFER_BIT);
-    //gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
-
-    ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
-
-    window.requestAnimationFrame(done ? _done : _loop);
-  }
-
-  function _done() {
-    ImGui_Impl.Shutdown();
-    ImGui.DestroyContext();
-  }
-})();
-    </script>
   </body>
 </html>
