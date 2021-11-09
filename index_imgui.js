@@ -254,7 +254,7 @@ function UpdateObjectImGui(object, name)
 			}
 		}
 	}
-	else if(typeof(val) == 'object')
+	else if(typeof(object) == 'object')
 	{
 		if(ImGui.TreeNodeEx(name, ImGui.TreeNodeFlags.DefaultOpen))
 		{
