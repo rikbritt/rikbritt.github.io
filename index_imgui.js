@@ -244,22 +244,31 @@ function UpdateGeneratorHierarchiesList()
 function UpdateObjectImGui(object, name)
 {
 	ImGui.PushID(name);
-	if(ImGui.CollapsingHeader(name))
+	if(Array.isArray(object))
 	{
-		ImGui.Indent();
-		for([key, val] of Object.entries(object)) 
+		if(ImGui.TreeNodeEx(name + "[" + object.length + "]", ImGui.TreeNodeFlags.DefaultOpen))
 		{
-			if( typeof(val) == 'object')
+			for(var i=0; i<object.length; ++i)
+			{
+				UpdateObjectImGui(object[i], name + "[" + i + "]");
+			}
+		}
+	}
+	else if(typeof(val) == 'object')
+	{
+		if(ImGui.TreeNodeEx(name, ImGui.TreeNodeFlags.DefaultOpen))
+		{
+			for([key, val] of Object.entries(object)) 
 			{
 				UpdateObjectImGui(val, key);
 			}
-			else
-			{
-				ImGui.Text(key + " : " + String(val));
-			}
 		}
-		ImGui.Unindent();
 	}
+	else
+	{
+		ImGui.Text(name + " : " + String(object));
+	}
+	
 	ImGui.PopID();
 }
 
