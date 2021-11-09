@@ -220,6 +220,7 @@ function UpdateGeneratorsList()
             {
                 gChosenGenerator = bg.generators[i];
 				gTargetHierarchyNode = null;
+				gGeneratorHierarchy = null;
             }
         }
         ImGui.EndCombo();
