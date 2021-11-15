@@ -31,7 +31,7 @@ bg.GetUpVector = function()
 
 bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc, postRenderFunc)
 {
-	//var scene = new THREE.Scene();
+	var scene = new THREE.Scene();
 				//scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
 				//scene.fog = new THREE.Fog( scene.background, 1, 10 );
 	var renderer = new THREE.WebGLRenderer();
