@@ -86,7 +86,7 @@ function UpdateGeneratorInputsImGui(inputs)
 
 function UpdateTest(dt, timestamp)
 {
-	ImGui_Impl.NewFrame(time);
+	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
 
 	if(ImGui.Begin("Generators"))
