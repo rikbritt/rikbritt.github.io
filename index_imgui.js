@@ -360,7 +360,7 @@ function OnPageLoaded() {
 	//var renderWidth = 640;
 	//var renderHeight = 320;
 	
-	//gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('modelOutput'), UpdateTest);
+	gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('output'), UpdateTest);
 	
 	//CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
 	//RenderHierarchy();
