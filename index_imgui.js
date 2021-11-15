@@ -86,6 +86,50 @@ function UpdateGeneratorInputsImGui(inputs)
 
 function UpdateTest(dt)
 {
+	ImGui_Impl.NewFrame(time);
+	ImGui.NewFrame();
+
+	if(ImGui.Begin("Generators"))
+	{
+	  UpdateViewOptions();
+	  UpdateGeneratorsList();
+	  UpdateGeneratorHierarchiesList();
+	}
+	ImGui.End();
+
+	if(gChosenGenerator != null)
+	{
+	  if(ImGui.Begin("Generator Input"))
+	  {
+		  if(ImGui.Button("Randomise"))
+		  {
+			  gSeed = Math.floor( Math.random() * 2000 );
+		  }
+		  ImGui.SliderInt("Seed", (_ = gSeed) => gSeed = _, 0, 10000000);
+		  UpdateGeneratorInputsImGui(gChosenGenerator.inputs);
+		  if(ImGui.Button("Generate"))
+		  {
+			  RunTest();
+		  }
+	  }
+	  ImGui.End();
+
+	  if(ImGui.Begin("Generator Output"))
+	  {
+		  if(gGeneratorOutputs.outputs)
+		  {
+			  if(gGeneratorOutputs.outputs.model == null)
+			  {
+				  UpdateObjectImGui(gGeneratorOutputs.outputs, "output");
+			  }
+		  }
+	  }
+	  ImGui.End();
+	}
+
+
+	ImGui.EndFrame();
+
 	if(gRenderScene)
 	{
 		for(var i=0; i<gRenderScene.updateScripts.length; ++i)
@@ -94,6 +138,18 @@ function UpdateTest(dt)
 			updateInfo.updateScript(dt, updateInfo.node, updateInfo.node.temp_renderModel);
 		}
 	}
+}
+
+function UpdatePostRender()
+{
+	ImGui.Render();
+	//const gl = ImGui_Impl.gl;
+	//gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+	//gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+	//gl && gl.clear(gl.COLOR_BUFFER_BIT);
+	//gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
+
+	ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
 }
 
 function RunTest()
@@ -360,7 +416,6 @@ function OnPageLoaded() {
 	var renderWidth = 1280;
 	var renderHeight = 720;
 	
-	gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('output'), UpdateTest);
 	
 	//CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
 	//RenderHierarchy();
@@ -392,64 +447,15 @@ function OnPageLoaded() {
         /* static */ let buf = "Quick brown fox";
         /* static */ let f = 0.6;
       
-        let done = false;
-        window.requestAnimationFrame(_loop);
-        function _loop(time) {
-          ImGui_Impl.NewFrame(time);
-          ImGui.NewFrame();
-      
-          if(ImGui.Begin("Generators"))
-          {
-            UpdateViewOptions();
-            UpdateGeneratorsList();
-            UpdateGeneratorHierarchiesList();
-          }
-          ImGui.End();
+		gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('output'), UpdateTest, UpdatePostRender);
 
-		  if(gChosenGenerator != null)
-		  {
-			if(ImGui.Begin("Generator Input"))
-			{
-				if(ImGui.Button("Randomise"))
-				{
-					gSeed = Math.floor( Math.random() * 2000 );
-				}
-				ImGui.SliderInt("Seed", (_ = gSeed) => gSeed = _, 0, 10000000);
-				UpdateGeneratorInputsImGui(gChosenGenerator.inputs);
-				if(ImGui.Button("Generate"))
-				{
-					RunTest();
-				}
-			}
-			ImGui.End();
-
-			if(ImGui.Begin("Generator Output"))
-			{
-				if(gGeneratorOutputs.outputs)
-				{
-					if(gGeneratorOutputs.outputs.model == null)
-					{
-						UpdateObjectImGui(gGeneratorOutputs.outputs, "output");
-					}
-				}
-			}
-			ImGui.End();
-		  }
-
-
-          ImGui.EndFrame();
+        // let done = false;
+        // window.requestAnimationFrame(_loop);
+        // function _loop(time) {
       
-          ImGui.Render();
-          const gl = ImGui_Impl.gl;
-          gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-          gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-          gl && gl.clear(gl.COLOR_BUFFER_BIT);
-          //gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
       
-          ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
-      
-          window.requestAnimationFrame(done ? _done : _loop);
-        }
+        //   window.requestAnimationFrame(done ? _done : _loop);
+        // }
       
         function _done() {
           ImGui_Impl.Shutdown();

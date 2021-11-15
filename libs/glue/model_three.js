@@ -29,9 +29,9 @@ bg.GetUpVector = function()
 	return bg.upVec;
 }
 
-bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc)
+bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc, postRenderFunc)
 {
-	var scene = new THREE.Scene();
+	//var scene = new THREE.Scene();
 				//scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
 				//scene.fog = new THREE.Fog( scene.background, 1, 10 );
 	var renderer = new THREE.WebGLRenderer();
@@ -60,6 +60,11 @@ bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc)
 		}
 
 		renderer.render(scene, camera);
+
+		if(postRenderFunc)
+		{
+			postRenderFunc(delta);
+		}
 	};
 
 	animate();
