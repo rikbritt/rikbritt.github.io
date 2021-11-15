@@ -170,7 +170,7 @@ function RunTest()
 	//light.position.set(0,0.7,0.4);
 	//gRenderScene.scene.add( light );
 			
-	if(gRenderOptions.showGround && false)
+	if(gRenderOptions.showGround)
 	{
 		var groundHeight = 0.05;
 		var groundSize = 10;
@@ -210,15 +210,16 @@ function RunTest()
 			gRenderScene.scene.add( zPlane );
 		}
 	}
-	/*
+	
 	if(gGeneratorOutputs.outputs.model)
 	{
-		document.getElementById('modelOutput').style.visibility = "visible";
-		document.getElementById('modelOutput').style.height = null;
-		document.getElementById('dataOutput').style.visibility = "hidden";
-		document.getElementById('dataOutput').style.height = "0px";
+		//document.getElementById('modelOutput').style.visibility = "visible";
+		//document.getElementById('modelOutput').style.height = null;
+		//document.getElementById('dataOutput').style.visibility = "hidden";
+		//document.getElementById('dataOutput').style.height = "0px";
 		bg.AddModelToScene(gRenderScene, gGeneratorOutputs.outputs.model, gRenderOptions);
 	}
+	/*
 	else
 	{
 		document.getElementById('modelOutput').style.visibility = "hidden";
