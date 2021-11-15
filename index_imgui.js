@@ -84,7 +84,7 @@ function UpdateGeneratorInputsImGui(inputs)
 	ImGui.Unindent();
 }
 
-function UpdateTest(dt)
+function UpdateTest(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(time);
 	ImGui.NewFrame();

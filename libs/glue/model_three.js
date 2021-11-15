@@ -45,7 +45,7 @@ bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc, 
 	
 	var clock = new THREE.Clock();
 
-	var animate = function () {
+	var animate = function (timestamp) {
 		requestAnimationFrame( animate );
 
 		//cube.rotation.x += 0.1;
@@ -56,14 +56,14 @@ bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc, 
 		if(updateFunc)
 		{
 			var delta = clock.getDelta();
-			updateFunc(delta);
+			updateFunc(delta, timestamp);
 		}
 
 		renderer.render(scene, camera);
 
 		if(postRenderFunc)
 		{
-			postRenderFunc(delta);
+			postRenderFunc(delta, timestamp);
 		}
 	};
 
