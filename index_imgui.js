@@ -357,8 +357,8 @@ function OnPageLoaded() {
 	//}	
 	
 	//Create the render scene
-	//var renderWidth = 640;
-	//var renderHeight = 320;
+	var renderWidth = 1280;
+	var renderHeight = 720;
 	
 	gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('output'), UpdateTest);
 	
