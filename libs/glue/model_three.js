@@ -59,6 +59,7 @@ bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc, 
 			updateFunc(delta, timestamp);
 		}
 
+		camera.updateProjectionMatrix();
 		renderer.render(scene, camera);
 
 		if(postRenderFunc)
