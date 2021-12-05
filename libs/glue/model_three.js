@@ -66,6 +66,9 @@ bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc, 
 		{
 			postRenderFunc(delta, timestamp);
 		}
+
+		//For imgui?
+		renderer.state.reset();
 	};
 
 	animate();
