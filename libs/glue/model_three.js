@@ -42,6 +42,8 @@ bg.CreateScene = function(renderWidth, renderHeight, canvas, updateFunc, postRen
 	var controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 	controls.update();
+
+    renderer.setClearColor(new THREE.Color(1, 0, 0), 1);
 	
 	var clock = new THREE.Clock();
 
