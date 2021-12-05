@@ -414,8 +414,8 @@ function OnPageLoaded() {
 	//}	
 	
 	//Create the render scene
-	var renderWidth = 1280;
-	var renderHeight = 720;
+	//var renderWidth = 1280;
+	//var renderHeight = 720;
 	
 	
 	//CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
@@ -425,8 +425,10 @@ function OnPageLoaded() {
     (async function() {
         await ImGui.default();
         const canvas = document.getElementById("output");
-        canvas.width = 1280;
-        canvas.height = 720;
+        //canvas.width = 1280;
+        //canvas.height = 720;
+		var renderWidth = canvas.clientWidth;
+		var renderHeight = canvas.clientHeight;
         /*
         const devicePixelRatio = window.devicePixelRatio || 1;
         canvas.width = canvas.scrollWidth * devicePixelRatio;
