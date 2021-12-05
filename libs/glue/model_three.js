@@ -32,26 +32,26 @@ bg.GetUpVector = function()
 bg.CreateScene = function(renderWidth, renderHeight, canvas, updateFunc, postRenderFunc)
 {
 	var scene = new THREE.Scene();
-				//scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
-				//scene.fog = new THREE.Fog( scene.background, 1, 10 );
+	//scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
+	//scene.fog = new THREE.Fog( scene.background, 1, 10 );
 	var renderer = new THREE.WebGLRenderer({canvas:canvas});
 	renderer.setSize( renderWidth, renderHeight );
-	//canvas.appendChild( renderer.domElement );
+	
 	var camera = new THREE.PerspectiveCamera( 75, renderWidth/renderHeight, 0.1, 1000 );
 	camera.position.set( 0, 2, 5 );
 	var controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 	controls.update();
 
-    renderer.setClearColor(new THREE.Color(1, 0, 0), 1);
-	
+    //renderer.setClearColor(new THREE.Color(1, 0, 0), 1);
+	const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	scene.add( directionalLight );
+
 	var clock = new THREE.Clock();
 
 	var animate = function (timestamp) {
 		requestAnimationFrame( animate );
 
-		//cube.rotation.x += 0.1;
-		//cube.rotation.y += 0.1;
 		
 		controls.update();
 		
