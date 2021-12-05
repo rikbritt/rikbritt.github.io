@@ -140,21 +140,25 @@ function UpdateTest(dt, timestamp)
 	}
 }
 
+gRenderImGui = true;
 function UpdatePostRender()
 {
-	//Build the imgui render data
-	ImGui.Render();
+	if(gRenderImGui)
+	{
+		//Build the imgui render data
+		ImGui.Render();
 
-	//Clear the background
-	//const gl = ImGui_Impl.gl;
-	//const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-	//gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-	//gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-	//gl && gl.clear(gl.COLOR_BUFFER_BIT);
-	//gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
+		//Clear the background
+		//const gl = ImGui_Impl.gl;
+		//const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
+		//gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+		//gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+		//gl && gl.clear(gl.COLOR_BUFFER_BIT);
+		//gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
 
-	//Render the imgui data
-	ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
+		//Render the imgui data
+		ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
+	}
 }
 
 function RunTest()
