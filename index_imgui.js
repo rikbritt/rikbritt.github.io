@@ -449,7 +449,6 @@ function OnPageLoaded() {
         });*/
       
         ImGui.CreateContext();
-        ImGui_Impl.Init(canvas);
       
         ImGui.StyleColorsDark();
         //ImGui.StyleColorsClassic();
@@ -459,8 +458,10 @@ function OnPageLoaded() {
         /* static */ let buf = "Quick brown fox";
         /* static */ let f = 0.6;
       
-		gRenderScene = bg.CreateScene(renderWidth, renderHeight, document.getElementById('output'), UpdateTest, UpdatePostRender);
+		gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, UpdateTest, UpdatePostRender);
 
+        ImGui_Impl.Init(canvas);
+		
         // let done = false;
         // window.requestAnimationFrame(_loop);
         // function _loop(time) {
