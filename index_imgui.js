@@ -143,10 +143,10 @@ function UpdateTest(dt, timestamp)
 function UpdatePostRender()
 {
 	ImGui.Render();
-	//const gl = ImGui_Impl.gl;
-	//gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-	//gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-	//gl && gl.clear(gl.COLOR_BUFFER_BIT);
+	const gl = ImGui_Impl.gl;
+	gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+	gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+	gl && gl.clear(gl.COLOR_BUFFER_BIT);
 	//gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
 
 	ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
