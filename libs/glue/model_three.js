@@ -34,7 +34,7 @@ bg.CreateScene = function(renderWidth, renderHeight, parentElement, updateFunc, 
 	var scene = new THREE.Scene();
 				//scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
 				//scene.fog = new THREE.Fog( scene.background, 1, 10 );
-	var renderer = new THREE.WebGLRenderer();
+	var renderer = new THREE.WebGLRenderer({canvas:parentElement});
 	renderer.setSize( renderWidth, renderHeight );
 	parentElement.appendChild( renderer.domElement );
 	var camera = new THREE.PerspectiveCamera( 75, renderWidth/renderHeight, 0.1, 1000 );
