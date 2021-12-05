@@ -44,8 +44,6 @@ bg.CreateScene = function(renderWidth, renderHeight, canvas, updateFunc, postRen
 	controls.update();
 
     //renderer.setClearColor(new THREE.Color(1, 0, 0), 1);
-	const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-	scene.add( light );
 
 	var clock = new THREE.Clock();
 

@@ -173,11 +173,11 @@ function RunTest()
 
 	gGeneratorOutputs = bg.GenerateHierarchyNode(gTargetHierarchyNode, gSeed, gGeneratorInputs);
 	
-	//bg.ClearScene(gRenderScene);
+	bg.ClearScene(gRenderScene);
 	
-	//var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
-	//light.position.set(0,0.7,0.4);
-	//gRenderScene.scene.add( light );
+	var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
+	light.position.set(0,0.7,0.4);
+	gRenderScene.scene.add( light );
 			
 	if(gRenderOptions.showGround)
 	{
@@ -434,8 +434,6 @@ function OnPageLoaded() {
     (async function() {
         await ImGui.default();
         const canvas = document.getElementById("output");
-        //canvas.width = 1280;
-        //canvas.height = 720;
 		var renderWidth = canvas.clientWidth;
 		var renderHeight = canvas.clientHeight;
         /*
@@ -462,13 +460,6 @@ function OnPageLoaded() {
 
         ImGui_Impl.Init(canvas);
 		
-        // let done = false;
-        // window.requestAnimationFrame(_loop);
-        // function _loop(time) {
-      
-      
-        //   window.requestAnimationFrame(done ? _done : _loop);
-        // }
       
         function _done() {
           ImGui_Impl.Shutdown();
