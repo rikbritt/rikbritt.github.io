@@ -1,11 +1,7 @@
 
-var gChosenGenerator = mm_scenarioGenerator;
-var gGeneratorHierarchy = null;
-var gTargetHierarchyNode = null;
 
-var gSeed = 0;
-var gGeneratorInputs = {};
-var gGeneratorOutputs = {};
+var gGeneratorInstances = [];
+
 var gRenderScene = null;
 var gRenderOptions = {
 	showGround:false,
@@ -14,62 +10,51 @@ var gRenderOptions = {
 };
 var gBlankEntry = "--- None ---";
 
-function doThing(){
-   alert('Horray! Someone wrote "' + this.value + '"!');
-}
-
-function ClearUIInput(inputName)
-{
-	gGeneratorInputs[inputName] = undefined;
-	RunTest();
-}
-
-//function CreateUIForDataDef(inputs, hostElement) 
-function UpdateGeneratorInputsImGui(inputs)
+function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
 	ImGui.Indent();
-	for([paramKey, paramData] of Object.entries(inputs))
+	for([paramKey, paramData] of Object.entries(generatorInputs))
 	{		
 		var addclearButton = false;
 		if(paramData.type == "float" 
 			|| paramData.type == "distance"
 			|| paramData.type == "time")
 		{
-			if(gGeneratorInputs[paramKey] == null)
+			if(setInputs[paramKey] == null)
 			{
-				gGeneratorInputs[paramKey] = paramData.min;//temp
+				setInputs[paramKey] = paramData.min;//temp
 			}
 			if(ImGui.Button("Clear"))
 			{
-				gGeneratorInputs[paramKey] = paramData.min;
+				setInputs[paramKey] = paramData.min;
 			}
 			ImGui.SameLine();
-			ImGui.SliderFloat(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _, paramData.min, paramData.max);
+			ImGui.SliderFloat(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
 		}
 		else if(paramData.type == "int")
 		{
-			if(gGeneratorInputs[paramKey] == null)
+			if(setInputs[paramKey] == null)
 			{
-				gGeneratorInputs[paramKey] = paramData.min;//temp
+				setInputs[paramKey] = paramData.min;//temp
 			}
 			if(ImGui.Button("Clear"))
 			{
-				gGeneratorInputs[paramKey] = paramData.min;
+				setInputs[paramKey] = paramData.min;
 			}
 			ImGui.SameLine();
-			ImGui.SliderInt(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _, paramData.min, paramData.max);
+			ImGui.SliderInt(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
 		}
 		else if(paramData.type == "params")
 		{			
-			UpdateGeneratorInputsImGui(paramData.paramType.fields);
+			UpdateGeneratorInputsImGui(paramData.paramType.fields, setInputs);
 		}
 		else if(paramData.type == "bool")
 		{
-			if(gGeneratorInputs[paramKey] == null)
+			if(setInputs[paramKey] == null)
 			{
-				gGeneratorInputs[paramKey] = true;//temp
+				setInputs[paramKey] = true;//temp
 			}
-			ImGui.Checkbox(paramKey, (_ = gGeneratorInputs[paramKey]) => gGeneratorInputs[paramKey] = _);
+			ImGui.Checkbox(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _);
 		}
 		else
 		{
@@ -84,7 +69,7 @@ function UpdateGeneratorInputsImGui(inputs)
 	ImGui.Unindent();
 }
 
-function UpdateTest(dt, timestamp)
+function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
@@ -97,30 +82,30 @@ function UpdateTest(dt, timestamp)
 	}
 	ImGui.End();
 
-	if(gChosenGenerator != null)
+	for(var i=0; i<gGeneratorInstances.length; ++i)
 	{
-	  if(ImGui.Begin("Generator Input"))
+	  var generatorInstance = gGeneratorInstances[i];
+	  if(ImGui.Begin("Generator " + i))
 	  {
 		  if(ImGui.Button("Randomise"))
 		  {
-			  gSeed = Math.floor( Math.random() * 2000 );
+			generatorInstance.seed = Math.floor( Math.random() * 2000 );
 		  }
-		  ImGui.SliderInt("Seed", (_ = gSeed) => gSeed = _, 0, 10000000);
-		  UpdateGeneratorInputsImGui(gChosenGenerator.inputs);
+		  ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
+		  UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
 		  if(ImGui.Button("Generate"))
 		  {
-			  RunTest();
+			  RunGeneratorInstance(generatorInstance);
 		  }
 	  }
-	  ImGui.End();
 
-	  if(ImGui.Begin("Generator Output"))
+	  //if(ImGui.Begin("Generator Output"))
 	  {
-		  if(gGeneratorOutputs.outputs)
+		  if(generatorInstance.outputs)
 		  {
-			  if(gGeneratorOutputs.outputs.model == null)
+			  if(generatorInstance.outputs.model == null)
 			  {
-				  UpdateObjectImGui(gGeneratorOutputs.outputs, "output");
+				  UpdateObjectImGui(generatorInstance.output, "output");
 			  }
 		  }
 	  }
@@ -141,37 +126,20 @@ function UpdateTest(dt, timestamp)
 }
 
 gRenderImGui = true;
-function UpdatePostRender()
+function RunGeneratorInstance(generatorInstance)
 {
-	if(gRenderImGui)
-	{
-		//Build the imgui render data
-		ImGui.Render();
-
-		//Clear the background
-		//const gl = ImGui_Impl.gl;
-		//const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-		//gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-		//gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-		//gl && gl.clear(gl.COLOR_BUFFER_BIT);
-		//gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
-
-		//Render the imgui data
-		ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
-	}
-}
-
-function RunTest()
-{
-	if(gGeneratorHierarchy == null)
+	if(generatorInstance.generatorHierarchy == null)
 	{
 		//Create an empty hierarchy for the selected generator
-		gGeneratorHierarchy = bg.CreateGenerationHierarchy("Test Harness");
-		gTargetHierarchyNode = bg.CreateGenerationHierarchyNode(gGeneratorHierarchy, gChosenGenerator);
+		generatorInstance.generatorHierarchy = bg.CreateGenerationHierarchy("Test Harness");
+		generatorInstance.targetHierarchyNode = bg.CreateGenerationHierarchyNode(generatorInstance.generatorHierarchy, generatorInstance.generator);
 	}
 	//RenderHierarchy();
 
-	gGeneratorOutputs = bg.GenerateHierarchyNode(gTargetHierarchyNode, gSeed, gGeneratorInputs);
+	generatorInstance.output = bg.GenerateHierarchyNode(
+		generatorInstance.targetHierarchyNode, 
+		generatorInstance.seed, 
+		generatorInstance.inputs);
 	
 	bg.ClearScene(gRenderScene);
 	
@@ -220,13 +188,13 @@ function RunTest()
 		}
 	}
 	
-	if(gGeneratorOutputs.outputs.model)
+	if(generatorInstance.output.outputs.model)
 	{
 		//document.getElementById('modelOutput').style.visibility = "visible";
 		//document.getElementById('modelOutput').style.height = null;
 		//document.getElementById('dataOutput').style.visibility = "hidden";
 		//document.getElementById('dataOutput').style.height = "0px";
-		bg.AddModelToScene(gRenderScene, gGeneratorOutputs.outputs.model, gRenderOptions);
+		bg.AddModelToScene(gRenderScene, generatorInstance.output.outputs.model, gRenderOptions);
 	}
 	/*
 	else
@@ -244,20 +212,20 @@ function RunTest()
 	//Draw2DModel(gGeneratorOutputs.outputs.model, document.getElementById('myCanvas'));
 	
 	//Rebuild/Refresh UI inputs
-	gGeneratorInputs = gGeneratorOutputs.builtInputs;
+	generatorInstance.inputs = generatorInstance.output.outputs.builtInputs;
 	//RefreshUIForGeneratorInputs();
 }
 
-function RunTestWithRandomSeed()
+function RunGeneratorInstanceWithRandomSeed(generatorInstance)
 {
-	gGeneratorInputs = {};
 	var d = new Date();
 	Math.seedrandom(d.getTime());
-	gSeed = Math.floor( Math.random() * 2000 );
-	RunTest();
+	generatorInstance.seed = Math.floor( Math.random() * 2000 );
+	RunGeneratorInstance(generatorInstance);
 }
 
-function OnRenderOption(elementName) {
+function OnRenderOption(elementName) 
+{
 	var checkBox = document.getElementById(elementName);
 	gRenderOptions[elementName] = checkBox.checked;
 	RunTest();
@@ -277,16 +245,20 @@ function UpdateViewOptions()
 
 function UpdateGeneratorsList() 
 {    
-    var chosenGeneratorName = gChosenGenerator == null ? gBlankEntry : bg.GetGeneratorFullName(gChosenGenerator);
     if(ImGui.BeginCombo("Generators", chosenGeneratorName))
     {
         for(var i=0; i<bg.generators.length; ++i)
         {
             if(ImGui.Selectable(bg.GetGeneratorFullName(bg.generators[i])))
             {
-                gChosenGenerator = bg.generators[i];
-				gTargetHierarchyNode = null;
-				gGeneratorHierarchy = null;
+				gGeneratorInstances.push(
+					{
+						seed:0,
+						generator:bg.generators[i],
+						setInputs:{},
+						output:{}
+					}
+				);
             }
         }
         ImGui.EndCombo();
@@ -338,32 +310,6 @@ function UpdateObjectImGui(object, name)
 	
 	ImGui.PopID();
 }
-
-function SetNewGenerator()
-{
-	var generatorHierarchiesList = document.getElementById('generatorHierarchiesList');
-	generatorHierarchiesList.value = gBlankEntry;
-	
-	var generatorsList = document.getElementById('generatorsList');
-	for(var i=0; i<bg.generators.length; ++i)
-	{
-		if(bg.GetGeneratorFullName(bg.generators[i]) == generatorsList.value)
-		{
-			gChosenGenerator = bg.generators[i];
-			gGeneratorHierarchy = null;
-			gTargetHierarchyNode = null;
-			CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
-			RunTest();
-			return;
-		}
-	}
-	
-	if(generatorsList.value != gBlankEntry)
-	{
-		alert("Couldn't find generator called " + generatorsList.value);
-	}
-}
-
 
 function SetupHierarchyView()
 {
@@ -426,8 +372,6 @@ function OnPageLoaded() {
 	//var renderWidth = 1280;
 	//var renderHeight = 720;
 	
-	
-	//CreateUIForDataDef(gChosenGenerator.inputs, document.getElementById('gGeneratorInputs'));
 	//RenderHierarchy();
 	//RunTest();
 
@@ -456,10 +400,39 @@ function OnPageLoaded() {
         /* static */ let buf = "Quick brown fox";
         /* static */ let f = 0.6;
       
-		gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, UpdateTest, UpdatePostRender);
+		gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() { }, function() { });
 
         ImGui_Impl.Init(canvas);
+			
+		var clock = new THREE.Clock();
+
+		var animate = function (timestamp) 
+		{
+			requestAnimationFrame( animate );
+
+			var dt = clock.getDelta();
+			UpdateImgui(dt, timestamp);
+			bg.UpdateScene(gRenderScene, dt, timestamp);
+
+			if(gRenderImGui)
+			{
+				//Build the imgui render data
+				ImGui.Render();
 		
+				//Clear the background
+				//const gl = ImGui_Impl.gl;
+				//const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
+				//gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+				//gl && gl.clearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+				//gl && gl.clear(gl.COLOR_BUFFER_BIT);
+				//gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
+		
+				//Render the imgui data
+				ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
+			}
+		};
+
+		animate();
       
         function _done() {
           ImGui_Impl.Shutdown();

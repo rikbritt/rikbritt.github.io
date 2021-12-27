@@ -45,41 +45,37 @@ bg.CreateScene = function(renderWidth, renderHeight, canvas, updateFunc, postRen
 
     //renderer.setClearColor(new THREE.Color(1, 0, 0), 1);
 
-	var clock = new THREE.Clock();
-
-	var animate = function (timestamp) {
-		requestAnimationFrame( animate );
-
-		
-		controls.update();
-		
-		if(updateFunc)
-		{
-			var delta = clock.getDelta();
-			updateFunc(delta, timestamp);
-		}
-
-		camera.updateProjectionMatrix();
-		renderer.render(scene, camera);
-
-		if(postRenderFunc)
-		{
-			postRenderFunc(delta, timestamp);
-		}
-
-		//For imgui?
-		renderer.state.reset();
-	};
-
-	animate();
 	
 	return {
 		scene:scene,
 		camera:camera,
 		controls:controls,
 		renderer:renderer,
+		updateFunc:updateFunc,
+		postRenderFunc:postRenderFunc,
 		updateScripts:[]
 	};
+}
+
+bg.UpdateScene = function(sceneInfo, dt, timestamp)
+{
+	sceneInfo.controls.update();
+		
+	if(sceneInfo.updateFunc)
+	{
+		sceneInfo.updateFunc(dt, timestamp);
+	}
+
+	sceneInfo.camera.updateProjectionMatrix();
+	sceneInfo.renderer.render(sceneInfo.scene, sceneInfo.camera);
+
+	if(sceneInfo.postRenderFunc)
+	{
+		sceneInfo.postRenderFunc(dt, timestamp);
+	}
+
+	//For imgui?
+	sceneInfo.renderer.state.reset();
 }
 
 bg.ClearScene = function(sceneInfo)
