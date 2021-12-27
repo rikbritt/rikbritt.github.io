@@ -1,5 +1,3 @@
-
-
 var gGeneratorInstances = [];
 
 var gRenderScene = null;
