@@ -72,7 +72,7 @@ function UpdateImgui(dt, timestamp)
 	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
 
-	if (ImGui.BeginMenuBar())
+	if (ImGui.BeginMainMenuBar())
 	{
 		if (ImGui.BeginMenu("Generators"))
 		{
@@ -89,7 +89,7 @@ function UpdateImgui(dt, timestamp)
 			UpdateGeneratorHierarchiesList();
 			ImGui.EndMenu();
 		}
-		ImGui.EndMenuBar();
+		ImGui.EndMainMenuBar();
 	}
 	ImGui.End();
 
