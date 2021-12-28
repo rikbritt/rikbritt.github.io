@@ -83,7 +83,7 @@ function UpdateImgui(dt, timestamp)
 	for(var i=0; i<gGeneratorInstances.length; ++i)
 	{
 	  var generatorInstance = gGeneratorInstances[i];
-	  if(ImGui.Begin("Generator " + i))
+	  if(ImGui.Begin("Generator " + i + bg.GetGeneratorFullName(generatorInstance[i].generator)))
 	  {
 		  if(ImGui.Button("Randomise"))
 		  {
@@ -100,11 +100,11 @@ function UpdateImgui(dt, timestamp)
 	  ImGui.Text("Generator Output");
 	  //if(ImGui.Begin("Generator Output"))
 	  {
-		  if(generatorInstance.outputs)
+		  if(generatorInstance.output.outputs)
 		  {
-			  if(generatorInstance.outputs.model == null)
+			  if(generatorInstance.output.outputs.model == null)
 			  {
-				  UpdateObjectImGui(generatorInstance.output, "output");
+				  UpdateObjectImGui(generatorInstance.outputs.output, "output");
 			  }
 		  }
 	  }
@@ -138,7 +138,7 @@ function RunGeneratorInstance(generatorInstance)
 	generatorInstance.output = bg.GenerateHierarchyNode(
 		generatorInstance.targetHierarchyNode, 
 		generatorInstance.seed, 
-		generatorInstance.inputs);
+		generatorInstance.setInputs);
 	
 	bg.ClearScene(gRenderScene);
 	
