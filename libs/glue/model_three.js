@@ -29,13 +29,17 @@ bg.GetUpVector = function()
 	return bg.upVec;
 }
 
-bg.CreateScene = function(renderWidth, renderHeight, canvas, updateFunc, postRenderFunc)
+bg.CreateRenderer = function(renderWidth, renderHeight, canvas)
+{
+	var renderer = new THREE.WebGLRenderer({canvas:canvas});
+	renderer.setSize( renderWidth, renderHeight );
+}
+
+bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postRenderFunc)
 {
 	var scene = new THREE.Scene();
 	//scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
 	//scene.fog = new THREE.Fog( scene.background, 1, 10 );
-	var renderer = new THREE.WebGLRenderer({canvas:canvas});
-	renderer.setSize( renderWidth, renderHeight );
 	
 	var camera = new THREE.PerspectiveCamera( 75, renderWidth/renderHeight, 0.1, 1000 );
 	camera.position.set( 0, 2, 5 );

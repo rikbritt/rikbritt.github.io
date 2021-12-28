@@ -1,6 +1,6 @@
 var gGeneratorInstances = [];
 
-var gRenderScene = null;
+var gRenderer = null;
 var gRenderOptions = {
 	showGround:false,
 	showWireframe:false,
@@ -152,7 +152,7 @@ function RunGeneratorInstance(generatorInstance)
 			var renderWidth = canvas.clientWidth;
 			var renderHeight = canvas.clientHeight;
 		
-			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
+			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, gRenderer, function() {}, function() {});
 		}
 		else
 		{
@@ -371,7 +371,7 @@ function OnPageLoaded() {
         //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-            
+        gRenderer = bg.CreateRenderer(renderWidth, renderHeight, canvas);
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
@@ -398,7 +398,10 @@ function OnPageLoaded() {
 			for(var i=0; i<gGeneratorInstances.length; ++i)
 			{
 				var generatorInstance = gGeneratorInstances[i];
-				bg.UpdateScene(generatorInstance.renderScene, dt, timestamp);
+				if(generatorInstance.renderScene)
+				{
+					bg.UpdateScene(generatorInstance.renderScene, dt, timestamp);
+				}
 			}
 
 			if(gRenderImGui)
