@@ -126,15 +126,6 @@ function UpdateImgui(dt, timestamp)
 
 
 	ImGui.EndFrame();
-
-	if(gRenderScene)
-	{
-		for(var i=0; i<gRenderScene.updateScripts.length; ++i)
-		{
-			var updateInfo = gRenderScene.updateScripts[i];
-			updateInfo.updateScript(dt, updateInfo.node, updateInfo.node.temp_renderModel);
-		}
-	}
 }
 
 gRenderImGui = true;
@@ -153,78 +144,74 @@ function RunGeneratorInstance(generatorInstance)
 		generatorInstance.seed, 
 		generatorInstance.setInputs);
 	
-	bg.ClearScene(gRenderScene);
-	
-	var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
-	light.position.set(0,0.7,0.4);
-	gRenderScene.scene.add( light );
-			
-	if(gRenderOptions.showGround)
-	{
-		var groundHeight = 0.05;
-		var groundSize = 10;
-		var groundGeometry = new THREE.BoxGeometry( groundSize, groundHeight, groundSize );
-		var groundMaterial = new THREE.MeshBasicMaterial( { color: 0x008800 } );
-		var ground = new THREE.Mesh( groundGeometry, groundMaterial );
-		ground.position.y = -(groundHeight*0.5);
-		gRenderScene.scene.add( ground );
-
-		//Ground grid
-		//var groundLineMaterial = new THREE.LineBasicMaterial( { color: 0x006600 } );
-		//for(var i=0; i<5; ++i)
-		//{
-		//	var gridHeight = 0.001;
-		//	var groundLineGeometry = new THREE.Geometry();
-		//	groundLineGeometry.vertices.push(new THREE.Vector3( -(groundSize*0.5), gridHeight, i) );
-		//	groundLineGeometry.vertices.push(new THREE.Vector3( (groundSize*0.5), gridHeight, i) );
-		//	var groundGrid = new THREE.Line( groundLineGeometry, groundLineMaterial );
-		//	gRenderScene.scene.add( groundGrid );
-		//}
-		
-		var gridMaterial = new THREE.MeshBasicMaterial( {color: 0x006600 /*, side: THREE.DoubleSide*/ } );
-		var gridLineGeometry = new THREE.PlaneGeometry( groundSize, 0.02 );
-		for(var i=-5; i<5; ++i) {
-			var xPlane = new THREE.Mesh( gridLineGeometry, gridMaterial );
-			xPlane.rotation.x = THREE.Math.degToRad(-90);
-			xPlane.position.y = 0.001;
-			xPlane.position.z = i;
-			gRenderScene.scene.add( xPlane );
-			
-			var zPlane = new THREE.Mesh( gridLineGeometry, gridMaterial );
-			zPlane.rotation.x = THREE.Math.degToRad(-90);
-			zPlane.rotation.z = THREE.Math.degToRad(-90);
-			zPlane.position.y = 0.001;
-			zPlane.position.x = i;
-			//zPlane.rotation.z = THREE.Math.degToRad(-90);
-			gRenderScene.scene.add( zPlane );
-		}
-	}
-	
 	if(generatorInstance.output.outputs.model)
 	{
-		//document.getElementById('modelOutput').style.visibility = "visible";
-		//document.getElementById('modelOutput').style.height = null;
-		//document.getElementById('dataOutput').style.visibility = "hidden";
-		//document.getElementById('dataOutput').style.height = "0px";
-		bg.AddModelToScene(gRenderScene, generatorInstance.output.outputs.model, gRenderOptions);
-	}
-	/*
-	else
-	{
-		document.getElementById('modelOutput').style.visibility = "hidden";
-		document.getElementById('modelOutput').style.height = "0px";
-		document.getElementById('dataOutput').style.visibility = "visible";
-		document.getElementById('dataOutput').style.height = null;
+		if(generatorInstance.renderScene == null)
+		{
+			const canvas = document.getElementById("output");
+			var renderWidth = canvas.clientWidth;
+			var renderHeight = canvas.clientHeight;
 		
-		document.getElementById('dataOutput').innerHTML = "";
-		var jsonViewer = new JSONViewer();
-		document.getElementById('dataOutput').appendChild(jsonViewer.getContainer());
-		jsonViewer.showJSON(gGeneratorOutputs.outputs);
-	}*/
+			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
+		}
+		else
+		{
+			bg.ClearScene(generatorInstance.renderScene);
+		}
+		
+		var renderScene = generatorInstance.renderScene;
+
+		var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
+		light.position.set(0,0.7,0.4);
+		renderScene.scene.add( light );
+				
+		if(gRenderOptions.showGround)
+		{
+			var groundHeight = 0.05;
+			var groundSize = 10;
+			var groundGeometry = new THREE.BoxGeometry( groundSize, groundHeight, groundSize );
+			var groundMaterial = new THREE.MeshBasicMaterial( { color: 0x008800 } );
+			var ground = new THREE.Mesh( groundGeometry, groundMaterial );
+			ground.position.y = -(groundHeight*0.5);
+			renderScene.scene.add( ground );
+
+			//Ground grid
+			//var groundLineMaterial = new THREE.LineBasicMaterial( { color: 0x006600 } );
+			//for(var i=0; i<5; ++i)
+			//{
+			//	var gridHeight = 0.001;
+			//	var groundLineGeometry = new THREE.Geometry();
+			//	groundLineGeometry.vertices.push(new THREE.Vector3( -(groundSize*0.5), gridHeight, i) );
+			//	groundLineGeometry.vertices.push(new THREE.Vector3( (groundSize*0.5), gridHeight, i) );
+			//	var groundGrid = new THREE.Line( groundLineGeometry, groundLineMaterial );
+			//	gRenderScene.scene.add( groundGrid );
+			//}
+			
+			var gridMaterial = new THREE.MeshBasicMaterial( {color: 0x006600 /*, side: THREE.DoubleSide*/ } );
+			var gridLineGeometry = new THREE.PlaneGeometry( groundSize, 0.02 );
+			for(var i=-5; i<5; ++i) {
+				var xPlane = new THREE.Mesh( gridLineGeometry, gridMaterial );
+				xPlane.rotation.x = THREE.Math.degToRad(-90);
+				xPlane.position.y = 0.001;
+				xPlane.position.z = i;
+				renderScene.scene.add( xPlane );
+				
+				var zPlane = new THREE.Mesh( gridLineGeometry, gridMaterial );
+				zPlane.rotation.x = THREE.Math.degToRad(-90);
+				zPlane.rotation.z = THREE.Math.degToRad(-90);
+				zPlane.position.y = 0.001;
+				zPlane.position.x = i;
+				//zPlane.rotation.z = THREE.Math.degToRad(-90);
+				renderScene.scene.add( zPlane );
+			}
+		}
+		
+		bg.AddModelToScene(renderScene, generatorInstance.output.outputs.model, gRenderOptions);
+	}
 	//Draw2DModel(gGeneratorOutputs.outputs.model, document.getElementById('myCanvas'));
 	
 	//Rebuild/Refresh UI inputs
-	generatorInstance.inputs = generatorInstance.output.outputs.builtInputs;
+	generatorInstance.setInputs = generatorInstance.output.outputs.builtInputs;
 	//RefreshUIForGeneratorInputs();
 }
 
@@ -363,21 +350,6 @@ function RenderHierarchy()
 
 function OnPageLoaded() {
 
-	//SetupHierarchyView();
-		
-	//Set render option check boxes.
-	//for([paramKey, paramData] of Object.entries(gRenderOptions)) {
-	//	var checkBox = document.getElementById(paramKey);
-	//	checkBox.checked = paramData;
-	//}	
-	
-	//Create the render scene
-	//var renderWidth = 1280;
-	//var renderHeight = 720;
-	
-	//RenderHierarchy();
-	//RunTest();
-
     (async function() {
         await ImGui.default();
         const canvas = document.getElementById("output");
@@ -399,11 +371,8 @@ function OnPageLoaded() {
         //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-      
-        /* static */ let buf = "Quick brown fox";
-        /* static */ let f = 0.6;
-      
-		gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() { }, function() { });
+            
+		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
 			
@@ -415,7 +384,22 @@ function OnPageLoaded() {
 
 			var dt = clock.getDelta();
 			UpdateImgui(dt, timestamp);
-			bg.UpdateScene(gRenderScene, dt, timestamp);
+
+/*
+			if(gRenderScene)
+			{
+				for(var i=0; i<gRenderScene.updateScripts.length; ++i)
+				{
+					var updateInfo = gRenderScene.updateScripts[i];
+					updateInfo.updateScript(dt, updateInfo.node, updateInfo.node.temp_renderModel);
+				}
+			}
+*/
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				bg.UpdateScene(generatorInstance.renderScene, dt, timestamp);
+			}
 
 			if(gRenderImGui)
 			{
