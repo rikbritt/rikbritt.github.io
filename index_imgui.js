@@ -244,7 +244,7 @@ function UpdateViewOptions()
 
 function UpdateGeneratorsList() 
 {    
-    if(ImGui.BeginCombo("Generators", chosenGeneratorName))
+    if(ImGui.BeginCombo("Generators"))
     {
         for(var i=0; i<bg.generators.length; ++i)
         {
