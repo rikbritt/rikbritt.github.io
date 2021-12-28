@@ -254,16 +254,20 @@ function UpdateGeneratorsList()
 {    
 	for(var i=0; i<bg.generators.length; ++i)
 	{
-		if(ImGui.MenuItem(bg.GetGeneratorFullName(bg.generators[i])))
+		if(ImGui.BeginMenu(bg.generators[i].category))
 		{
-			gGeneratorInstances.push(
-				{
-					seed:0,
-					generator:bg.generators[i],
-					setInputs:{},
-					output:{}
-				}
-			);
+			if(ImGui.MenuItem(bg.generators[i].name))
+			{
+				gGeneratorInstances.push(
+					{
+						seed:0,
+						generator:bg.generators[i],
+						setInputs:{},
+						output:{}
+					}
+				);
+			}
+			ImGui.EndMenu();
 		}
 	}
 }
