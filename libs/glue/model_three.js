@@ -33,6 +33,7 @@ bg.CreateRenderer = function(renderWidth, renderHeight, canvas)
 {
 	var renderer = new THREE.WebGLRenderer({canvas:canvas});
 	renderer.setSize( renderWidth, renderHeight );
+	return renderer;
 }
 
 bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postRenderFunc)
