@@ -83,7 +83,7 @@ function UpdateImgui(dt, timestamp)
 	for(var i=0; i<gGeneratorInstances.length; ++i)
 	{
 	  var generatorInstance = gGeneratorInstances[i];
-	  if(ImGui.Begin("Generator " + i + bg.GetGeneratorFullName(generatorInstance[i].generator)))
+	  if(ImGui.Begin("Generator " + i + bg.GetGeneratorFullName(generatorInstance.generator)))
 	  {
 		  if(ImGui.Button("Randomise"))
 		  {
