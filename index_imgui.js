@@ -211,7 +211,7 @@ function RunGeneratorInstance(generatorInstance)
 	//Draw2DModel(gGeneratorOutputs.outputs.model, document.getElementById('myCanvas'));
 	
 	//Rebuild/Refresh UI inputs
-	generatorInstance.setInputs = generatorInstance.output.outputs.builtInputs;
+	//generatorInstance.setInputs = generatorInstance.output.outputs.builtInputs;
 	//RefreshUIForGeneratorInputs();
 }
 
