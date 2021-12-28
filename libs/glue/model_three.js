@@ -62,7 +62,7 @@ bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postR
 	};
 }
 
-bg.UpdateScene = function(sceneInfo, dt, timestamp)
+bg.UpdateScene = function(viewportLocation, sceneInfo, dt, timestamp)
 {
 	sceneInfo.controls.update();
 		
@@ -72,6 +72,9 @@ bg.UpdateScene = function(sceneInfo, dt, timestamp)
 	}
 
 	sceneInfo.camera.updateProjectionMatrix();
+	sceneInfo.renderer.setViewport(viewportLocation.x, viewportLocation.y, 200, 200);
+	sceneInfo.renderer.autoClear = false; 
+	sceneInfo.renderer.clearDepth(); // important! clear the depth buffer
 	sceneInfo.renderer.render(sceneInfo.scene, sceneInfo.camera);
 
 	if(sceneInfo.postRenderFunc)

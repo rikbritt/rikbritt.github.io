@@ -119,6 +119,10 @@ function UpdateImgui(dt, timestamp)
 			  {
 				  UpdateObjectImGui(generatorInstance.output.outputs, "output");
 			  }
+			  else
+			  {
+				  generatorInstance.viewportLocation = ImGui.GetCursorScreenPos();
+			  }
 		  }
 	  }
 	  ImGui.End();
@@ -395,14 +399,6 @@ function OnPageLoaded() {
 				}
 			}
 */
-			for(var i=0; i<gGeneratorInstances.length; ++i)
-			{
-				var generatorInstance = gGeneratorInstances[i];
-				if(generatorInstance.renderScene)
-				{
-					bg.UpdateScene(generatorInstance.renderScene, dt, timestamp);
-				}
-			}
 
 			if(gRenderImGui)
 			{
@@ -419,6 +415,15 @@ function OnPageLoaded() {
 		
 				//Render the imgui data
 				ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
+			}
+			
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.UpdateScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
+				}
 			}
 		};
 
