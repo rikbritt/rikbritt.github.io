@@ -111,7 +111,7 @@ function UpdateImgui(dt, timestamp)
 	  }
 
 	  ImGui.Text("Generator Output");
-	  //if(ImGui.Begin("Generator Output"))
+	  ImGui.Text(`${ImGui.GetCursorScreenPos().x} ${ImGui.GetCursorScreenPos().y}`);
 	  {
 		  if(generatorInstance.output.outputs)
 		  {
