@@ -97,6 +97,7 @@ function UpdateImgui(dt, timestamp)
 		  }
 	  }
 
+	  ImGui.Text("Generator Output");
 	  //if(ImGui.Begin("Generator Output"))
 	  {
 		  if(generatorInstance.outputs)
