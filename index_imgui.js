@@ -72,18 +72,31 @@ function UpdateImgui(dt, timestamp)
 	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
 
-	if(ImGui.Begin("Generators"))
+	if (ImGui.BeginMenuBar())
 	{
-	  UpdateViewOptions();
-	  UpdateGeneratorsList();
-	  UpdateGeneratorHierarchiesList();
+		if (ImGui.BeginMenu("Generators"))
+		{
+			UpdateGeneratorsList();
+			ImGui.EndMenu();
+		}
+		if (ImGui.BeginMenu("View Options"))
+		{
+			UpdateViewOptions();
+			ImGui.EndMenu();
+		}
+		if (ImGui.BeginMenu("Hierarchies"))
+		{
+			UpdateGeneratorHierarchiesList();
+			ImGui.EndMenu();
+		}
+		ImGui.EndMenuBar();
 	}
 	ImGui.End();
 
 	for(var i=0; i<gGeneratorInstances.length; ++i)
 	{
 	  var generatorInstance = gGeneratorInstances[i];
-	  if(ImGui.Begin("Generator " + i + bg.GetGeneratorFullName(generatorInstance.generator)))
+	  if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`))
 	  {
 		  if(ImGui.Button("Randomise"))
 		  {
@@ -232,51 +245,38 @@ function OnRenderOption(elementName)
 
 function UpdateViewOptions()
 {
-    if(ImGui.CollapsingHeader("View Options"))
-    {
-        ImGui.Indent();
-        ImGui.Checkbox("Ground", (value = gRenderOptions.showGround) => gRenderOptions.showGround = value);
-        ImGui.Checkbox("Wireframe", (value = gRenderOptions.showWireframe) => gRenderOptions.showWireframe = value);
-        ImGui.Checkbox("Construction Info", (value = gRenderOptions.showConstructionInfo) => gRenderOptions.showConstructionInfo = value);
-        ImGui.Unindent();
-    }
+	ImGui.Checkbox("Ground", (value = gRenderOptions.showGround) => gRenderOptions.showGround = value);
+	ImGui.Checkbox("Wireframe", (value = gRenderOptions.showWireframe) => gRenderOptions.showWireframe = value);
+	ImGui.Checkbox("Construction Info", (value = gRenderOptions.showConstructionInfo) => gRenderOptions.showConstructionInfo = value);
 }
 
 function UpdateGeneratorsList() 
 {    
-    if(ImGui.BeginCombo("Generators"))
-    {
-        for(var i=0; i<bg.generators.length; ++i)
-        {
-            if(ImGui.Selectable(bg.GetGeneratorFullName(bg.generators[i])))
-            {
-				gGeneratorInstances.push(
-					{
-						seed:0,
-						generator:bg.generators[i],
-						setInputs:{},
-						output:{}
-					}
-				);
-            }
-        }
-        ImGui.EndCombo();
-    }
+	for(var i=0; i<bg.generators.length; ++i)
+	{
+		if(ImGui.MenuItem(bg.GetGeneratorFullName(bg.generators[i])))
+		{
+			gGeneratorInstances.push(
+				{
+					seed:0,
+					generator:bg.generators[i],
+					setInputs:{},
+					output:{}
+				}
+			);
+		}
+	}
 }
 
 function UpdateGeneratorHierarchiesList() 
 {
-    if(ImGui.BeginCombo("Hierarchies", "???"))
-    {
-        for(var i=0; i<bg.generatorHierarchies.length; ++i)
-        {
-            if(ImGui.Selectable(bg.generatorHierarchies[i].name))
-            {
-                //gChosenGenerator = bg.generators[i];
-            }
-        }
-        ImGui.EndCombo();
-    }
+	for(var i=0; i<bg.generatorHierarchies.length; ++i)
+	{
+		if(ImGui.MenuItem(bg.generatorHierarchies[i].name))
+		{
+			//gChosenGenerator = bg.generators[i];
+		}
+	}
 }
 
 function UpdateObjectImGui(object, name)
