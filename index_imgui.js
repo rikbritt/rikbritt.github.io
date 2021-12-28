@@ -104,7 +104,7 @@ function UpdateImgui(dt, timestamp)
 		  {
 			  if(generatorInstance.output.outputs.model == null)
 			  {
-				  UpdateObjectImGui(generatorInstance.outputs.output, "output");
+				  UpdateObjectImGui(generatorInstance.output.outputs, "output");
 			  }
 		  }
 	  }
