@@ -29,13 +29,6 @@ bg.GetUpVector = function()
 	return bg.upVec;
 }
 
-bg.CreateRenderer = function(renderWidth, renderHeight, canvas)
-{
-	var renderer = new THREE.WebGLRenderer({canvas:canvas});
-	renderer.setSize( renderWidth, renderHeight );
-	return renderer;
-}
-
 bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postRenderFunc)
 {
 	var scene = new THREE.Scene();
@@ -62,7 +55,7 @@ bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postR
 	};
 }
 
-bg.UpdateScene = function(viewportLocation, sceneInfo, dt, timestamp)
+bg.UpdateScene = function(sceneInfo, dt, timestamp)
 {
 	sceneInfo.controls.update();
 		
@@ -70,7 +63,10 @@ bg.UpdateScene = function(viewportLocation, sceneInfo, dt, timestamp)
 	{
 		sceneInfo.updateFunc(dt, timestamp);
 	}
+}
 
+bg.RenderScene = function(viewportLocation, sceneInfo, dt, timestamp)
+{
 	sceneInfo.camera.updateProjectionMatrix();
 	sceneInfo.renderer.setViewport(viewportLocation.x, viewportLocation.y, 200, 200);
 	sceneInfo.renderer.autoClear = false; 

@@ -375,7 +375,8 @@ function OnPageLoaded() {
         //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-        gRenderer = bg.CreateRenderer(renderWidth, renderHeight, canvas);
+        gRenderer = new THREE.WebGLRenderer({canvas:canvas});
+		gRenderer.setSize( renderWidth, renderHeight );
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
@@ -399,6 +400,24 @@ function OnPageLoaded() {
 				}
 			}
 */
+			
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.UpdateScene(generatorInstance.renderScene, dt, timestamp);
+				}
+			}
+
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.RenderScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
+				}
+			}
 
 			if(gRenderImGui)
 			{
@@ -415,15 +434,6 @@ function OnPageLoaded() {
 		
 				//Render the imgui data
 				ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
-			}
-			
-			for(var i=0; i<gGeneratorInstances.length; ++i)
-			{
-				var generatorInstance = gGeneratorInstances[i];
-				if(generatorInstance.renderScene)
-				{
-					bg.UpdateScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
-				}
 			}
 		};
 
