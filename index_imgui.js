@@ -157,6 +157,9 @@ function RunGeneratorInstance(generatorInstance)
 			var renderHeight = canvas.clientHeight;
 		
 			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, gRenderer, function() {}, function() {});
+			generatorInstance.renderTarget = new THREE.WebGLRenderTarget( renderWidth, renderHeight, 
+				{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
+
 		}
 		else
 		{
@@ -482,6 +485,7 @@ function OnPageLoaded() {
 				var generatorInstance = gGeneratorInstances[i];
 				if(generatorInstance.renderScene)
 				{
+					gRenderer.setRenderTarget(generatorInstance.renderTarget);
 					bg.RenderScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
 				}
 			}
