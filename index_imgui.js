@@ -454,7 +454,7 @@ function OnPageLoaded() {
 			UpdateImgui(dt, timestamp);
 
 			ImGui.Begin("image");
-			ImGui.Image(image_gl_texture);
+			ImGui.Image(image_gl_texture, new ImGui.Vec2(48, 48));
 			ImGui.End();
 
 /*
