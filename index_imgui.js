@@ -485,10 +485,10 @@ function OnPageLoaded() {
 				var generatorInstance = gGeneratorInstances[i];
 				if(generatorInstance.renderScene)
 				{
-					gRenderer.setRenderTarget(generatorInstance.renderTarget.texture);
+					gRenderer.setRenderTarget(generatorInstance.renderTarget);
 					bg.RenderScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
 
-					var renderTargetProperties = properties.get();
+					var renderTargetProperties = properties.get(generatorInstance.renderTarget.texture);
 					ImGui.Begin("image2");
 					ImGui.Image(renderTargetProperties.__webglTexture, new ImGui.Vec2(48, 48));
 					ImGui.End();					
