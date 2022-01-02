@@ -490,7 +490,7 @@ function OnPageLoaded() {
 
 					var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
 					ImGui.Begin("image2");
-					ImGui.Image(renderTargetProperties.__webglTexture, new ImGui.Vec2(48, 48));
+					ImGui.Image(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
 					ImGui.End();					
 				}
 			}
