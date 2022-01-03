@@ -7,6 +7,7 @@ var gRenderOptions = {
 	showConstructionInfo:false
 };
 var gBlankEntry = "--- None ---";
+var gBlockImGuiInput = false;
 
 function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
@@ -111,7 +112,6 @@ function UpdateImgui(dt, timestamp)
 	  }
 
 	  ImGui.Text("Generator Output");
-	  ImGui.Text(`${ImGui.GetCursorScreenPos().x} ${ImGui.GetCursorScreenPos().y}`);
 	  {
 		  if(generatorInstance.output.outputs)
 		  {
@@ -123,6 +123,10 @@ function UpdateImgui(dt, timestamp)
 			  {
 				  var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
 				  ImGui.Image(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
+				  if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+                  {
+					  ImGui.EndDragDropSource();
+				  }
 			  }
 		  }
 	  }
@@ -459,6 +463,7 @@ function OnPageLoaded() {
 
 			ImGui.Begin("image");
 			ImGui.Image(image_gl_texture, new ImGui.Vec2(48, 48));
+			ImGui.Text(gBlockImGuiInput ? "Block" : "No Block");
 			ImGui.End();
 
 /*
