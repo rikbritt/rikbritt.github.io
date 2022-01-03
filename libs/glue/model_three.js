@@ -29,13 +29,6 @@ bg.GetUpVector = function()
 	return bg.upVec;
 }
 
-bg.CreateRenderer = function(renderWidth, renderHeight, canvas)
-{
-	var renderer = new THREE.WebGLRenderer({canvas:canvas});
-	renderer.setSize( renderWidth, renderHeight );
-	return renderer;
-}
-
 bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postRenderFunc)
 {
 	var scene = new THREE.Scene();
@@ -62,25 +55,30 @@ bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postR
 	};
 }
 
-bg.UpdateScene = function(viewportLocation, sceneInfo, dt, timestamp)
+bg.UpdateScene = function(sceneInfo, handleInput, dt, timestamp)
 {
+	sceneInfo.controls.enabled = handleInput;
 	sceneInfo.controls.update();
 		
 	if(sceneInfo.updateFunc)
 	{
 		sceneInfo.updateFunc(dt, timestamp);
 	}
+}
 
+bg.RenderScene = function(renderTarget, sceneInfo, dt, timestamp)
+{
 	sceneInfo.camera.updateProjectionMatrix();
-	sceneInfo.renderer.setViewport(viewportLocation.x, viewportLocation.y, 200, 200);
-	sceneInfo.renderer.autoClear = false; 
-	sceneInfo.renderer.clearDepth(); // important! clear the depth buffer
-	sceneInfo.renderer.render(sceneInfo.scene, sceneInfo.camera);
+	sceneInfo.renderer.autoClear = true; 
+	//sceneInfo.renderer.clearDepth(); // important! clear the depth buffer
+	sceneInfo.renderer.render(sceneInfo.scene, sceneInfo.camera, renderTarget);
 
 	if(sceneInfo.postRenderFunc)
 	{
 		sceneInfo.postRenderFunc(dt, timestamp);
 	}
+
+	sceneInfo.renderer.setRenderTarget(null);
 
 	//For imgui?
 	sceneInfo.renderer.state.reset();

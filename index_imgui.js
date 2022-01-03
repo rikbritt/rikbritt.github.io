@@ -7,6 +7,7 @@ var gRenderOptions = {
 	showConstructionInfo:false
 };
 var gBlankEntry = "--- None ---";
+var gBlockImGuiInput = false;
 
 function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
@@ -110,22 +111,34 @@ function UpdateImgui(dt, timestamp)
 		  }
 	  }
 
-	  ImGui.Text("Generator Output");
-	  ImGui.Text(`${ImGui.GetCursorScreenPos().x} ${ImGui.GetCursorScreenPos().y}`);
-	  {
-		  if(generatorInstance.output.outputs)
-		  {
-			  if(generatorInstance.output.outputs.model == null)
-			  {
-				  UpdateObjectImGui(generatorInstance.output.outputs, "output");
-			  }
-			  else
-			  {
-				  generatorInstance.viewportLocation = ImGui.GetCursorScreenPos();
-			  }
-		  }
-	  }
-	  ImGui.End();
+	ImGui.Text("Generator Output");
+	{
+		if(generatorInstance.output.outputs)
+		{
+			if(generatorInstance.output.outputs.model == null)
+			{
+				UpdateObjectImGui(generatorInstance.output.outputs, "output");
+			}
+			else
+			{
+				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
+				ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
+				if(ImGui.IsItemHovered())
+				{
+					generatorInstance.sendInputToScene = true;
+				}
+				else
+				{
+					generatorInstance.sendInputToScene = false;
+				}
+				if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+				{
+					ImGui.EndDragDropSource();
+				}
+			}
+		}
+	}
+	ImGui.End();
 	}
 
 
@@ -157,6 +170,9 @@ function RunGeneratorInstance(generatorInstance)
 			var renderHeight = canvas.clientHeight;
 		
 			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, gRenderer, function() {}, function() {});
+			generatorInstance.renderTarget = new THREE.WebGLRenderTarget( renderWidth, renderHeight, 
+				{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
+
 		}
 		else
 		{
@@ -352,6 +368,67 @@ function RenderHierarchy()
 	paper.view.draw();
 }
 
+var image_urls = [
+    "https://threejs.org/examples/textures/crate.gif",
+    "https://threejs.org/examples/textures/sprite.png",
+    "https://threejs.org/examples/textures/uv_grid_opengl.jpg",
+];
+var image_url = image_urls[0];
+var image_element  = null;
+var image_gl_texture = null;
+
+function StartUpImage()
+ {
+	image_element = document.createElement("img");
+	image_element.crossOrigin = "anonymous";
+	image_element.src = image_url;
+    
+    
+    var gl = ImGui_Impl.gl;
+    if (gl) 
+	{
+        var width = 256;
+        var height = 256;
+        var pixels = new Uint8Array(4 * width * height);
+        image_gl_texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, image_gl_texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+
+        if (image_element) {
+            image_element.addEventListener("load", (event) => {
+                if (image_element) {
+                    gl.bindTexture(gl.TEXTURE_2D, image_gl_texture);
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_element);
+                }
+            });
+        }
+    }
+
+    var ctx = ImGui_Impl.ctx;
+    if (ctx) {
+        image_gl_texture = image_element; // HACK
+    }
+}
+
+function CleanUpImage() {
+    var gl = ImGui_Impl.gl;
+    if (gl) {
+        gl.deleteTexture(image_gl_texture);
+		image_gl_texture = null;
+    }
+
+    var ctx= ImGui_Impl.ctx;
+    if (ctx) {
+        image_gl_texture = null;
+    }
+
+    image_element = null;
+}
+
 function OnPageLoaded() {
 
     (async function() {
@@ -375,10 +452,13 @@ function OnPageLoaded() {
         //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-        gRenderer = bg.CreateRenderer(renderWidth, renderHeight, canvas);
+        gRenderer = new THREE.WebGLRenderer({canvas:canvas});
+		gRenderer.setSize( renderWidth, renderHeight );
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
+
+		StartUpImage();
 			
 		var clock = new THREE.Clock();
 
@@ -388,6 +468,11 @@ function OnPageLoaded() {
 
 			var dt = clock.getDelta();
 			UpdateImgui(dt, timestamp);
+
+			ImGui.Begin("image");
+			ImGui.Image(image_gl_texture, new ImGui.Vec2(48, 48));
+			ImGui.Text(gBlockImGuiInput ? "Block" : "No Block");
+			ImGui.End();
 
 /*
 			if(gRenderScene)
@@ -399,6 +484,24 @@ function OnPageLoaded() {
 				}
 			}
 */
+			
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.UpdateScene(generatorInstance.renderScene, generatorInstance.sendInputToScene, dt, timestamp);
+				}
+			}
+
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.RenderScene(generatorInstance.renderTarget, generatorInstance.renderScene, dt, timestamp);				
+				}
+			}
 
 			if(gRenderImGui)
 			{
@@ -415,15 +518,6 @@ function OnPageLoaded() {
 		
 				//Render the imgui data
 				ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
-			}
-			
-			for(var i=0; i<gGeneratorInstances.length; ++i)
-			{
-				var generatorInstance = gGeneratorInstances[i];
-				if(generatorInstance.renderScene)
-				{
-					bg.UpdateScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
-				}
 			}
 		};
 
