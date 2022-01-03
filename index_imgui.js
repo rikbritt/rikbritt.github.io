@@ -121,7 +121,8 @@ function UpdateImgui(dt, timestamp)
 			  }
 			  else
 			  {
-				  generatorInstance.viewportLocation = ImGui.GetCursorScreenPos();
+				  var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
+				  ImGui.Image(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
 			  }
 		  }
 	  }
@@ -485,12 +486,7 @@ function OnPageLoaded() {
 				var generatorInstance = gGeneratorInstances[i];
 				if(generatorInstance.renderScene)
 				{
-					bg.RenderScene(generatorInstance.viewportLocation, generatorInstance.renderTarget, generatorInstance.renderScene, dt, timestamp);
-
-					var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
-					ImGui.Begin("image2");
-					ImGui.Image(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
-					ImGui.End();					
+					bg.RenderScene(generatorInstance.renderTarget, generatorInstance.renderScene, dt, timestamp);				
 				}
 			}
 
