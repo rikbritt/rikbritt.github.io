@@ -123,11 +123,6 @@ function UpdateImgui(dt, timestamp)
 			{
 				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
 				ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
-				if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
-				{
-					ImGui.EndDragDropSource();
-				}
-				
 				if(ImGui.IsItemHovered())
 				{
 					generatorInstance.sendInputToScene = true;
@@ -136,6 +131,10 @@ function UpdateImgui(dt, timestamp)
 				{
 					generatorInstance.sendInputToScene = false;
 				}
+				if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+				{
+					ImGui.EndDragDropSource();
+				}			
 
 				ImGui.Text(generatorInstance.sendInputToScene ? "Y" : "N");
 			}
