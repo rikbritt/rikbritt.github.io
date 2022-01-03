@@ -123,6 +123,7 @@ function UpdateImgui(dt, timestamp)
 			  {
 				  var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
 				  ImGui.Image(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
+				  ImGui.Button("test");
 				  if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
                   {
 					  ImGui.EndDragDropSource();
