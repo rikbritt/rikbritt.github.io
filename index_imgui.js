@@ -111,26 +111,31 @@ function UpdateImgui(dt, timestamp)
 		  }
 	  }
 
-	  ImGui.Text("Generator Output");
-	  {
-		  if(generatorInstance.output.outputs)
-		  {
-			  if(generatorInstance.output.outputs.model == null)
-			  {
-				  UpdateObjectImGui(generatorInstance.output.outputs, "output");
-			  }
-			  else
-			  {
-				  var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
-				  ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
-				  if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
-                  {
-					  ImGui.EndDragDropSource();
-				  }
-			  }
-		  }
-	  }
-	  ImGui.End();
+	ImGui.Text("Generator Output");
+	{
+		if(generatorInstance.output.outputs)
+		{
+			if(generatorInstance.output.outputs.model == null)
+			{
+				UpdateObjectImGui(generatorInstance.output.outputs, "output");
+			}
+			else
+			{
+				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
+				ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
+				if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+				{
+					generatorInstance.sendInputToScene = true;
+					ImGui.EndDragDropSource();
+				}
+				else
+				{
+					generatorInstance.sendInputToScene = false;
+				}
+			}
+		}
+	}
+	ImGui.End();
 	}
 
 
@@ -482,7 +487,7 @@ function OnPageLoaded() {
 				var generatorInstance = gGeneratorInstances[i];
 				if(generatorInstance.renderScene)
 				{
-					bg.UpdateScene(generatorInstance.renderScene, dt, timestamp);
+					bg.UpdateScene(generatorInstance.renderScene, generatorInstance.sendInputToScene, dt, timestamp);
 				}
 			}
 
