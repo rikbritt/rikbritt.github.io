@@ -78,6 +78,8 @@ bg.RenderScene = function(viewportLocation, renderTarget, sceneInfo, dt, timesta
 		sceneInfo.postRenderFunc(dt, timestamp);
 	}
 
+	sceneInfo.renderer.setRenderTarget(null);
+
 	//For imgui?
 	sceneInfo.renderer.state.reset();
 }
