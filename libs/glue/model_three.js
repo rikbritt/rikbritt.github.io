@@ -57,7 +57,7 @@ bg.CreateScene = function(renderWidth, renderHeight, renderer, updateFunc, postR
 
 bg.UpdateScene = function(sceneInfo, handleInput, dt, timestamp)
 {
-	sceneInfo.controls.enabled = handleInput;
+	sceneInfo.controls.enabled = true;
 	sceneInfo.controls.update();
 		
 	if(sceneInfo.updateFunc)
