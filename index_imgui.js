@@ -125,8 +125,12 @@ function UpdateImgui(dt, timestamp)
 				ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
 				if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
 				{
-					generatorInstance.sendInputToScene = true;
 					ImGui.EndDragDropSource();
+				}
+				
+				if(ImGui.ItemHovered())
+				{
+					generatorInstance.sendInputToScene = true;
 				}
 				else
 				{
