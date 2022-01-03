@@ -128,7 +128,7 @@ function UpdateImgui(dt, timestamp)
 					ImGui.EndDragDropSource();
 				}
 				
-				if(ImGui.ItemHovered())
+				if(ImGui.IsItemHovered())
 				{
 					generatorInstance.sendInputToScene = true;
 				}
