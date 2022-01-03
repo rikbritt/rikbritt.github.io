@@ -132,6 +132,8 @@ function UpdateImgui(dt, timestamp)
 				{
 					generatorInstance.sendInputToScene = false;
 				}
+
+				ImGui.Text(generatorInstance.sendInputToScene ? "Y" : "N");
 			}
 		}
 	}
