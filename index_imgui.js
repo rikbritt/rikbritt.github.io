@@ -134,9 +134,7 @@ function UpdateImgui(dt, timestamp)
 				if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
 				{
 					ImGui.EndDragDropSource();
-				}			
-
-				ImGui.Text(generatorInstance.sendInputToScene ? "Y" : "N");
+				}
 			}
 		}
 	}
