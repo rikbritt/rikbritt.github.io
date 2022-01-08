@@ -180,7 +180,7 @@ function RunGeneratorInstance(generatorInstance)
 			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, gRenderer, function() {}, function() {});
 			generatorInstance.renderTarget = new THREE.WebGLRenderTarget( renderWidth, renderHeight, 
 				{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
-
+			generatorInstance.renderTarget.texture.flipY = false;
 		}
 		else
 		{
