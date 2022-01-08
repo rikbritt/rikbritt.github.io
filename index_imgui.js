@@ -125,20 +125,24 @@ function UpdateImgui(dt, timestamp)
 			{
 				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
 				//get win width
-				var avail = ImGui.GetContentRegionAvail().x;
-				ImGui.Text(""+avail);
-				ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
-				if(ImGui.IsItemHovered())
+				var avail_width = ImGui.GetContentRegionAvail().x;
+				var image_width = avail_width - 8;
+				if(image_width > 2)
 				{
-					generatorInstance.sendInputToScene = true;
-				}
-				else
-				{
-					generatorInstance.sendInputToScene = false;
-				}
-				if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
-				{
-					ImGui.EndDragDropSource();
+					var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
+					ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height));
+					if(ImGui.IsItemHovered())
+					{
+						generatorInstance.sendInputToScene = true;
+					}
+					else
+					{
+						generatorInstance.sendInputToScene = false;
+					}
+					if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+					{
+						ImGui.EndDragDropSource();
+					}
 				}
 			}
 		}
