@@ -126,7 +126,7 @@ function UpdateImgui(dt, timestamp)
 				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
 				//get win width
 				var avail = ImGui.GetContentRegionAvail().x;
-				ImGui.Text(avail);
+				ImGui.Text(""+avail);
 				ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
 				if(ImGui.IsItemHovered())
 				{
