@@ -684,7 +684,7 @@
                                             minmin.pos[0],
                                             minmin.pos[1],
                                             maxmax.pos[0] - minmin.pos[0],
-                                            -maxmax.pos[1] - minmin.pos[1]);
+                                            maxmax.pos[1] - minmin.pos[1]);
                                         // ctx.beginPath();
                                         // ctx.rect(minmin.pos[0], minmin.pos[1], maxmax.pos[0] - minmin.pos[0], maxmax.pos[1] - minmin.pos[1]);
                                         // ctx.strokeStyle = "yellow";

@@ -130,7 +130,7 @@ function UpdateImgui(dt, timestamp)
 				if(image_width > 2)
 				{
 					var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
-					ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height));
+					ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new Imgui.Vec2(0,1), new ImGui.Vec2(1,0));
 					if(ImGui.IsItemHovered())
 					{
 						generatorInstance.sendInputToScene = true;
