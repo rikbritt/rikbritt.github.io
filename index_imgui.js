@@ -8,6 +8,8 @@ var gRenderOptions = {
 };
 var gBlankEntry = "--- None ---";
 var gBlockImGuiInput = false;
+var gGeneratorRenderTargetWidth = 1920 / 2;
+var gGeneratorRenderTargetHeight = 1080 / 2;
 
 function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
@@ -122,6 +124,9 @@ function UpdateImgui(dt, timestamp)
 			else
 			{
 				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
+				//get win width
+				var avail = ImGui.GetContentRegionAvail().x;
+				ImGui.Text(avail);
 				ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(512, 512));
 				if(ImGui.IsItemHovered())
 				{
@@ -165,9 +170,8 @@ function RunGeneratorInstance(generatorInstance)
 	{
 		if(generatorInstance.renderScene == null)
 		{
-			const canvas = document.getElementById("output");
-			var renderWidth = canvas.clientWidth;
-			var renderHeight = canvas.clientHeight;
+			var renderWidth = gGeneratorRenderTargetWidth;
+			var renderHeight = gGeneratorRenderTargetHeight;
 		
 			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, gRenderer, function() {}, function() {});
 			generatorInstance.renderTarget = new THREE.WebGLRenderTarget( renderWidth, renderHeight, 
@@ -404,7 +408,6 @@ function OnPageLoaded() {
         ImGui.CreateContext();
       
         ImGui.StyleColorsDark();
-        //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
         gRenderer = new THREE.WebGLRenderer({canvas:canvas});
