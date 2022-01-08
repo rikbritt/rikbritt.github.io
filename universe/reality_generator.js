@@ -68,7 +68,7 @@ var realityDataDef = {
 var realityGenerator = {
 	version:1,
 	name:"Reality",
-	category:"Universe",
+	category:["Universe"],
 	inputs:{
 		species:{		type:"data",		dataType:realityDataDef	}
 	},

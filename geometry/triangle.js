@@ -2,7 +2,7 @@
 var subDividedTriangleGenerator = {
 	version:1,
 	name:"Subdivided Triangle",
-	category:"Geometry",
+	category:["Geometry"],
 	inputs:{
 		//edgeLength:{	type:"distance", units:"m",	min:0.01,	max:4},
 		subDivisions:{	type:"int",					min:0,		max:10}

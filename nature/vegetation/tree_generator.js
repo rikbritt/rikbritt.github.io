@@ -2,7 +2,7 @@
 var treeGenerator = {
 	version:1,
 	name:"Tree",
-	category:"Nature / Vegetation",
+	category:["Nature","Vegetation"],
 	inputs:{
 		treeType:{			type:"data",		dataType:treeTypeDataDef	},
 		height:{ 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?

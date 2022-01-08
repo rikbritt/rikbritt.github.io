@@ -2,7 +2,7 @@
 var woodCrateGenerator = {
 	version:1,
 	name:"Wood Crate",
-	category:"Furniture",
+	category:["Furniture"],
 	inputs:{
 		woodWorking:{	type:"data",		dataType:woodWorkingDataDef	},
 		width:{ 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height

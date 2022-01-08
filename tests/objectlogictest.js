@@ -1,7 +1,7 @@
 var testObjectLogicGenerator = {
 	version:1,
 	name:"Object Logic",
-	category:"Test",
+	category:["Test"],
 	inputs:{
 	},
 	outputs:{

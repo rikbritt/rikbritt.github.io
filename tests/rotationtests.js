@@ -2,7 +2,7 @@
 var testRotationGenerator = {
 	version:1,
 	name:"Rotation",
-	category:"Test",
+	category:["Test"],
 	inputs:{
 	},
 	outputs:{
@@ -30,7 +30,7 @@ bg.RegisterGenerator(testRotationGenerator);
 var testLookAtGenerator = {
 	version:1,
 	name:"Look At",
-	category:"Test / Rotation",
+	category:["Test","Rotation"],
 	inputs:{
 	},
 	outputs:{

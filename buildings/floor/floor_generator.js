@@ -2,7 +2,7 @@
 var floorGenerator = {
 	version:1,
 	name:"Floor Generator",
-	category:"Buildings / Floor",
+	category:["Buildings","Floor"],
 	inputs:{
 		width:{	type:"distance",	units:"m",	min:1.0, max:10 },
 		depth:{	type:"distance",	units:"m",	min:1.0, max:10 }

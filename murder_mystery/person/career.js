@@ -2,7 +2,7 @@
 var mm_careerGenerator = {
 	version:1,
 	name:"Career",
-	category:"Murder Mystery / Person",
+	category:["Murder Mystery","Person"],
 	inputs:{
 		success:{	type:"norm",	min:0, max:1 }
 	},

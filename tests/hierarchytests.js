@@ -2,7 +2,7 @@
 var testHierarchyGenerator = {
 	version:1,
 	name:"Hierarchy",
-	category:"Test",
+	category:["Test"],
 	inputs:{
 	},
 	outputs:{

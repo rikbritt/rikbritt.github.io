@@ -10,7 +10,7 @@ bg.GetGeneratorFullName = function(generator)
 	var name = generator.name;
 	if(generator.category != null)
 	{
-		name = generator.category + " / " + name;
+		name = generator.category.join(" / ") + " / " + name;
 	}
 	
 	return name;

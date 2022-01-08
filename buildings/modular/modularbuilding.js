@@ -10,7 +10,7 @@ var modularRoomDataDef = {
 var modularRoomGenerator = {
 	version:1,
 	name:"Modular Room Generator",
-	category:"Buildings / Modular",
+	category:["Buildings", "Modular"],
 	inputs:{
 		modularDataDef:{		type:"data",		dataType:modularRoomDataDef	}
 	},

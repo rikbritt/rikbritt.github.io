@@ -2,7 +2,7 @@
 var testGeomSubtractGenerator = {
 	version:1,
 	name:"Subtract",
-	category:"Test / Geometry",
+	category:["Test","Geometry"],
 	inputs:{
 	},
 	outputs:{

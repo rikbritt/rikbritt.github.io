@@ -2,7 +2,7 @@
 var mm_victimGenerator = {
 	version:1,
 	name:"Victim",
-	category:"Murder Mystery",
+	category:["Murder Mystery"],
 	inputs:{
 		person:{			type:"data",		dataType:mm_personDataDef	},
 		causeOfDeath:{		type:"text"}

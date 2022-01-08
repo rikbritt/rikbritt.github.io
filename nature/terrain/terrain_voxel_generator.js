@@ -2,7 +2,7 @@
 var terrainVoxelGenerator = {
 	version:1,
 	name:"Terrain Voxel",
-	category:"Nature / Terrain",
+	category:["Nature","Terrain"],
 	inputs:{
 		width:{	type:"distance",	units:"m",	min:1.0, max:5 },
 		depth:{	type:"distance",	units:"m",	min:1.0, max:5 },

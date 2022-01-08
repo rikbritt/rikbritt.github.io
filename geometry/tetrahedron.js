@@ -2,7 +2,7 @@
 var tetrahedronGenerator = {
 	version:1,
 	name:"Tetrahedron",
-	category:"Geometry",
+	category:["Geometry"],
 	inputs:{
 		edgeLength:{	type:"distance", units:"m",	min:0.01,	max:4},
 		subDivisions:{	type:"int",					min:0,		max:4}

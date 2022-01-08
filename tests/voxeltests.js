@@ -2,7 +2,7 @@
 var testVoxelsGenerator = {
 	version:1,
 	name:"Voxels",
-	category:"Test",
+	category:["Test"],
 	inputs:{
 		width:{	type:"distance",	units:"m",	min:1.0, max:5 },
 		depth:{	type:"distance",	units:"m",	min:1.0, max:5 },

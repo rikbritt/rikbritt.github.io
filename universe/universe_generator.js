@@ -11,7 +11,7 @@ var universeDataDef = {
 var universeGenerator = {
 	version:1,
 	name:"Universe",
-	category:"Universe",
+	category:["Universe"],
 	inputs:{
 	},
 	outputs:{

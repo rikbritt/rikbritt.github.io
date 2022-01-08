@@ -3,7 +3,7 @@
 var characterGenerator = {
 	version:1,
 	name:"Character",
-	category:"Character",
+	category:["Character"],
 	inputs:{
 		species:{		type:"data",		dataType:speciesDataDef	},
 		culture:{		type:"data",		dataType:cultureDataDef,

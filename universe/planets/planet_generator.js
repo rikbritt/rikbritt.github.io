@@ -25,7 +25,7 @@ var planetDataDef = {
 var planetGenerator = {
 	version:1,
 	name:"Planet",
-	category:"Universe",
+	category:["Universe"],
 	inputs:{
 		planet:{		type:"data",		dataType:planetDataDef, autoGenerate:true	}
 	},

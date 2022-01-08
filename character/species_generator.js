@@ -21,7 +21,7 @@ var speciesDataDef = {
 var speciesGenerator = {
 	version:1,
 	name:"Species",
-	category:"Character",
+	category:["Character"],
 	inputs:{
 		species:{		type:"data",		dataType:speciesDataDef	}
 	},

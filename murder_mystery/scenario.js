@@ -1,7 +1,7 @@
 var mm_scenarioGenerator = {
 	version:1,
 	name:"Scenario",
-	category:"Murder Mystery",
+	category:["Murder Mystery"],
 	inputs:{
 		numPlayers:{		type:"int", min:3, max:10	}
 	},

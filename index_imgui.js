@@ -261,19 +261,24 @@ function UpdateGeneratorsList()
 {    
 	for(var i=0; i<bg.generators.length; ++i)
 	{
-		if(ImGui.BeginMenu(bg.generators[i].category))
+		for(var c=0; c<bg.generators[i].category.length; ++c)
 		{
-			if(ImGui.MenuItem(bg.generators[i].name))
-			{
-				gGeneratorInstances.push(
-					{
-						seed:0,
-						generator:bg.generators[i],
-						setInputs:{},
-						output:{}
-					}
-				);
-			}
+			var category = bg.generators[i].category[c];
+			ImGui.BeginMenu(category);
+		}
+		if(ImGui.MenuItem(bg.generators[i].name))
+		{
+			gGeneratorInstances.push(
+				{
+					seed:0,
+					generator:bg.generators[i],
+					setInputs:{},
+					output:{}
+				}
+			);
+		}
+		for(var c=0; c<bg.generators[i].category.length; ++c)
+		{
 			ImGui.EndMenu();
 		}
 	}

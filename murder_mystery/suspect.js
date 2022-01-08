@@ -10,7 +10,7 @@ var mm_suspectDataDef = {
 var mm_suspectGenerator = {
 	version:1,
 	name:"Suspect",
-	category:"Murder Mystery",
+	category:["Murder Mystery"],
 	inputs:{
 		suspect:{			type:"data",		dataType:mm_suspectDataDef	}
 		

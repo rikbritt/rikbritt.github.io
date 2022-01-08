@@ -1,7 +1,7 @@
 var mm_relationshipGenerator = {
 	version:1,
 	name:"Relationship",
-	category:"Murder Mystery / Person",
+	category:["Murder Mystery","Person"],
 	inputs:{
 		person1:{	type:"data",		dataType:mm_personDataDef },
 		person2:{	type:"data",		dataType:mm_personDataDef }

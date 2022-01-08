@@ -9,7 +9,7 @@
 var galaxyGenerator = {
 	version:1,
 	name:"Galaxy",
-	category:"Universe",
+	category:["Universe"],
 	inputs:{
 		//system:{		type:"data",		dataType:galaxyDataDef	}
 	},

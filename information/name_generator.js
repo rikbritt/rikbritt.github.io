@@ -1,7 +1,7 @@
 var nameV2Generator = {
 	version:1,
 	name:"Name V2",
-	category:"Information",
+	category:["Information"],
 	inputs:{
 	},
 	outputs:{
@@ -18,7 +18,7 @@ bg.RegisterGenerator(nameV2Generator);
 var nameV1Generator = {
 	version:1,
 	name:"Name V1",
-	category:"Information",
+	category:["Information"],
 	inputs:{
 	},
 	outputs:{

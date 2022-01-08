@@ -11,7 +11,7 @@ var mm_nameDataDef = {
 var mm_nameGenerator = {
 	version:1,
 	name:"Name",
-	category:"Murder Mystery / Person",
+	category:["Murder Mystery","Person"],
 	inputs:{
 		male:{		type:"bool" }
 	},

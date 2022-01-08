@@ -1,7 +1,7 @@
 var stoneWallStoneGenerator = {
 	version:1,
 	name:"Stone Wall Stone Generator",
-	category:"Buildings / Wall",
+	category:["Buildings","Wall"],
 	inputs:{
 		width:{ 		type:"distance", 	units:"m", min:0.1, max:1	},
 		depth:{ 		type:"distance", 	units:"m", min:0.1, max:1	},
@@ -23,7 +23,7 @@ bg.RegisterGenerator(stoneWallStoneGenerator);
 var stoneWallV1Generator = {
 	version:1,
 	name:"Stone Wall Generator V1",
-	category:"Buildings / Wall",
+	category:["Buildings","Wall"],
 	inputs:{
 		path:{		
 			type:"path", 
@@ -70,7 +70,7 @@ bg.RegisterGenerator(stoneWallV1Generator);
 var stoneWallGenerator = {
 	version:1,
 	name:"Stone Wall Generator",
-	category:"Buildings / Wall",
+	category:["Buildings","Wall"],
 	inputs:{
 		path:{		type:"path", script:function(){ return bg.CreatePath([bg.CreateTranslation(-1, 0, 0), bg.CreateTranslation(0, 0, 0), bg.CreateTranslation(0, 0, 1)/*, bg.CreateTranslation(1, 0, 2)*/]);  }	}
 	},

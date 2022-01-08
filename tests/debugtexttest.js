@@ -2,7 +2,7 @@
 var testDebugTextGenerator = {
 	version:1,
 	name:"Debug Text",
-	category:"Test",
+	category:["Test"],
 	inputs:{
 	},
 	outputs:{
