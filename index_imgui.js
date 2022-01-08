@@ -384,67 +384,6 @@ function RenderHierarchy()
 	paper.view.draw();
 }
 
-var image_urls = [
-    "https://threejs.org/examples/textures/crate.gif",
-    "https://threejs.org/examples/textures/sprite.png",
-    "https://threejs.org/examples/textures/uv_grid_opengl.jpg",
-];
-var image_url = image_urls[0];
-var image_element  = null;
-var image_gl_texture = null;
-
-function StartUpImage()
- {
-	image_element = document.createElement("img");
-	image_element.crossOrigin = "anonymous";
-	image_element.src = image_url;
-    
-    
-    var gl = ImGui_Impl.gl;
-    if (gl) 
-	{
-        var width = 256;
-        var height = 256;
-        var pixels = new Uint8Array(4 * width * height);
-        image_gl_texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, image_gl_texture);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-
-        if (image_element) {
-            image_element.addEventListener("load", (event) => {
-                if (image_element) {
-                    gl.bindTexture(gl.TEXTURE_2D, image_gl_texture);
-                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_element);
-                }
-            });
-        }
-    }
-
-    var ctx = ImGui_Impl.ctx;
-    if (ctx) {
-        image_gl_texture = image_element; // HACK
-    }
-}
-
-function CleanUpImage() {
-    var gl = ImGui_Impl.gl;
-    if (gl) {
-        gl.deleteTexture(image_gl_texture);
-		image_gl_texture = null;
-    }
-
-    var ctx= ImGui_Impl.ctx;
-    if (ctx) {
-        image_gl_texture = null;
-    }
-
-    image_element = null;
-}
-
 function OnPageLoaded() {
 
     (async function() {
@@ -473,8 +412,6 @@ function OnPageLoaded() {
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
-
-		StartUpImage();
 			
 		var clock = new THREE.Clock();
 
@@ -484,11 +421,6 @@ function OnPageLoaded() {
 
 			var dt = clock.getDelta();
 			UpdateImgui(dt, timestamp);
-
-			ImGui.Begin("image");
-			ImGui.Image(image_gl_texture, new ImGui.Vec2(48, 48));
-			ImGui.Text(gBlockImGuiInput ? "Block" : "No Block");
-			ImGui.End();
 
 /*
 			if(gRenderScene)
