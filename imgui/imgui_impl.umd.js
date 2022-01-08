@@ -675,7 +675,16 @@
                                         const image = draw_cmd.TextureId; // HACK
                                         const width = image instanceof HTMLVideoElement ? image.videoWidth : image.width;
                                         const height = image instanceof HTMLVideoElement ? image.videoHeight : image.height;
-                                        image && exports.ctx.drawImage(image, minmin.uv[0] * width, minmin.uv[1] * height, (maxmax.uv[0] - minmin.uv[0]) * width, (maxmax.uv[1] - minmin.uv[1]) * height, minmin.pos[0], minmin.pos[1], maxmax.pos[0] - minmin.pos[0], maxmax.pos[1] - minmin.pos[1]);
+                                        image && exports.ctx.drawImage(
+                                            image,
+                                            minmin.uv[0] * width, 
+                                            minmin.uv[1] * height, 
+                                            (maxmax.uv[0] - minmin.uv[0]) * width,
+                                            (maxmax.uv[1] - minmin.uv[1]) * height,
+                                            minmin.pos[0],
+                                            minmin.pos[1],
+                                            maxmax.pos[0] - minmin.pos[0],
+                                            -maxmax.pos[1] - minmin.pos[1]);
                                         // ctx.beginPath();
                                         // ctx.rect(minmin.pos[0], minmin.pos[1], maxmax.pos[0] - minmin.pos[0], maxmax.pos[1] - minmin.pos[1]);
                                         // ctx.strokeStyle = "yellow";
