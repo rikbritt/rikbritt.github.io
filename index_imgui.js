@@ -6,10 +6,8 @@ var gRenderOptions = {
 	showWireframe:false,
 	showConstructionInfo:false
 };
+var gShowHierarchyEditor = false;
 var gBlankEntry = "--- None ---";
-var gBlockImGuiInput = false;
-var gGeneratorRenderTargetWidth = 1920 / 2;
-var gGeneratorRenderTargetHeight = 1080 / 2;
 
 function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
@@ -89,12 +87,18 @@ function UpdateImgui(dt, timestamp)
 		}
 		if (ImGui.BeginMenu("Hierarchies"))
 		{
+			if(ImGui.MenuItem("Hierarchy Editor"))
+			{
+				gShowHierarchyEditor != gShowHierarchyEditor;
+			}
 			UpdateGeneratorHierarchiesList();
 			ImGui.EndMenu();
 		}
 		ImGui.EndMainMenuBar();
 	}
 	ImGui.End();
+
+	UpdateHierarchyEditor();
 
 	for(var i=0; i<gGeneratorInstances.length; ++i)
 	{
@@ -113,41 +117,22 @@ function UpdateImgui(dt, timestamp)
 		  }
 	  }
 
-	ImGui.Text("Generator Output");
-	{
-		if(generatorInstance.output.outputs)
-		{
-			if(generatorInstance.output.outputs.model == null)
-			{
-				UpdateObjectImGui(generatorInstance.output.outputs, "output");
-			}
-			else
-			{
-				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
-				//get win width
-				var avail_width = ImGui.GetContentRegionAvail().x;
-				var image_width = avail_width - 8;
-				if(image_width > 2)
-				{
-					var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
-					ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new ImGui.Vec2(0,1), new ImGui.Vec2(1,0));
-					if(ImGui.IsItemHovered())
-					{
-						generatorInstance.sendInputToScene = true;
-					}
-					else
-					{
-						generatorInstance.sendInputToScene = false;
-					}
-					if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
-					{
-						ImGui.EndDragDropSource();
-					}
-				}
-			}
-		}
-	}
-	ImGui.End();
+	  ImGui.Text("Generator Output");
+	  ImGui.Text(`${ImGui.GetCursorScreenPos().x} ${ImGui.GetCursorScreenPos().y}`);
+	  {
+		  if(generatorInstance.output.outputs)
+		  {
+			  if(generatorInstance.output.outputs.model == null)
+			  {
+				  UpdateObjectImGui(generatorInstance.output.outputs, "output");
+			  }
+			  else
+			  {
+				  generatorInstance.viewportLocation = ImGui.GetCursorScreenPos();
+			  }
+		  }
+	  }
+	  ImGui.End();
 	}
 
 
@@ -174,13 +159,11 @@ function RunGeneratorInstance(generatorInstance)
 	{
 		if(generatorInstance.renderScene == null)
 		{
-			var renderWidth = gGeneratorRenderTargetWidth;
-			var renderHeight = gGeneratorRenderTargetHeight;
+			const canvas = document.getElementById("output");
+			var renderWidth = canvas.clientWidth;
+			var renderHeight = canvas.clientHeight;
 		
 			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, gRenderer, function() {}, function() {});
-			generatorInstance.renderTarget = new THREE.WebGLRenderTarget( renderWidth, renderHeight, 
-				{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
-			generatorInstance.renderTarget.texture.flipY = false;
 		}
 		else
 		{
@@ -269,20 +252,7 @@ function UpdateGeneratorsList()
 {    
 	for(var i=0; i<bg.generators.length; ++i)
 	{
-		var numOpen = 0;
-		for(var c=0; c<bg.generators[i].category.length; ++c)
-		{
-			var category = bg.generators[i].category[c];
-			if(ImGui.BeginMenu(category))
-			{
-				++numOpen;
-			}
-			else
-			{
-				break;
-			}
-		}
-		if(numOpen == bg.generators[i].category.length)
+		if(ImGui.BeginMenu(bg.generators[i].category))
 		{
 			if(ImGui.MenuItem(bg.generators[i].name))
 			{
@@ -295,9 +265,6 @@ function UpdateGeneratorsList()
 					}
 				);
 			}
-		}
-		for(var c=0; c<numOpen; ++c)
-		{
 			ImGui.EndMenu();
 		}
 	}
@@ -311,6 +278,25 @@ function UpdateGeneratorHierarchiesList()
 		{
 			//gChosenGenerator = bg.generators[i];
 		}
+	}
+}
+
+function UpdateHierarchyEditor()
+{
+	if(gShowHierarchyEditor)
+	{
+		ImGui.Begin("Hierarchy Editor");
+
+		var th = 4.0;
+		var sz = {value:150}
+		var x = 50;
+		var y = 50;
+		var cp4 = [    new ImGui.Vec2(x, y),     new ImGui.Vec2(x + sz.value * 1.3, y + sz.value * 0.3), 
+			    new ImGui.Vec2(x + sz.value - sz.value * 1.3, y + sz.value - sz.value * 0.3),
+				    new ImGui.Vec2(x + sz.value, y + sz.value) ];
+					var curve_segments = 168;
+					dw.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], c.toImU32(), th, curve_segments);
+		ImGui.End();
 	}
 }
 
@@ -412,10 +398,10 @@ function OnPageLoaded() {
         ImGui.CreateContext();
       
         ImGui.StyleColorsDark();
+        //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-        gRenderer = new THREE.WebGLRenderer({canvas:canvas});
-		gRenderer.setSize( renderWidth, renderHeight );
+        gRenderer = bg.CreateRenderer(renderWidth, renderHeight, canvas);
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
@@ -439,24 +425,6 @@ function OnPageLoaded() {
 				}
 			}
 */
-			
-			for(var i=0; i<gGeneratorInstances.length; ++i)
-			{
-				var generatorInstance = gGeneratorInstances[i];
-				if(generatorInstance.renderScene)
-				{
-					bg.UpdateScene(generatorInstance.renderScene, generatorInstance.sendInputToScene, dt, timestamp);
-				}
-			}
-
-			for(var i=0; i<gGeneratorInstances.length; ++i)
-			{
-				var generatorInstance = gGeneratorInstances[i];
-				if(generatorInstance.renderScene)
-				{
-					bg.RenderScene(generatorInstance.renderTarget, generatorInstance.renderScene, dt, timestamp);				
-				}
-			}
 
 			if(gRenderImGui)
 			{
@@ -473,6 +441,15 @@ function OnPageLoaded() {
 		
 				//Render the imgui data
 				ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
+			}
+			
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.UpdateScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
+				}
 			}
 		};
 
