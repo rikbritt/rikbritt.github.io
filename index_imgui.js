@@ -329,8 +329,8 @@ function UpdateHierarchyEditor()
 		var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 		var th = 4.0;
 		var sz = {value:150}
-		var x = 50;
-		var y = 50;
+		var x = ImGui.GetWindowPos().x + 50;
+		var y = ImGui.GetWindowPos().y + 50;
 		var cp4 = [    new ImGui.Vec2(x, y),     new ImGui.Vec2(x + sz.value * 1.3, y + sz.value * 0.3), 
 			    new ImGui.Vec2(x + sz.value - sz.value * 1.3, y + sz.value - sz.value * 0.3),
 				    new ImGui.Vec2(x + sz.value, y + sz.value) ];
