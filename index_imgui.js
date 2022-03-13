@@ -92,7 +92,7 @@ function UpdateImgui(dt, timestamp)
 		{
 			if(ImGui.MenuItem("Hierarchy Editor"))
 			{
-				gShowHierarchyEditor != gShowHierarchyEditor;
+				gShowHierarchyEditor = !gShowHierarchyEditor;
 			}
 			UpdateGeneratorHierarchiesList();
 			ImGui.EndMenu();
