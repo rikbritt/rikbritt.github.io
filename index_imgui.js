@@ -326,6 +326,7 @@ function UpdateHierarchyEditor()
 	{
 		ImGui.Begin("Hierarchy Editor");
 		var dw = ImGui.GetWindowDrawList();
+		var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 		var th = 4.0;
 		var sz = {value:150}
 		var x = 50;
