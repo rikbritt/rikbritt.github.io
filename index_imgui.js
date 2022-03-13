@@ -8,6 +8,9 @@ var gRenderOptions = {
 };
 var gShowHierarchyEditor = false;
 var gBlankEntry = "--- None ---";
+var gBlockImGuiInput = false;
+var gGeneratorRenderTargetWidth = 1920 / 2;
+var gGeneratorRenderTargetHeight = 1080 / 2;
 
 function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
@@ -116,25 +119,43 @@ function UpdateImgui(dt, timestamp)
 			  RunGeneratorInstance(generatorInstance);
 		  }
 	  }
-
-	  ImGui.Text("Generator Output");
-	  ImGui.Text(`${ImGui.GetCursorScreenPos().x} ${ImGui.GetCursorScreenPos().y}`);
-	  {
-		  if(generatorInstance.output.outputs)
-		  {
-			  if(generatorInstance.output.outputs.model == null)
-			  {
-				  UpdateObjectImGui(generatorInstance.output.outputs, "output");
-			  }
-			  else
-			  {
-				  generatorInstance.viewportLocation = ImGui.GetCursorScreenPos();
-			  }
-		  }
-	  }
-	  ImGui.End();
 	}
 
+	ImGui.Text("Generator Output");
+	{
+		if(generatorInstance.output.outputs)
+		{
+			if(generatorInstance.output.outputs.model == null)
+			{
+				UpdateObjectImGui(generatorInstance.output.outputs, "output");
+			}
+			else
+			{
+				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
+				//get win width
+				var avail_width = ImGui.GetContentRegionAvail().x;
+				var image_width = avail_width - 8;
+				if(image_width > 2)
+				{
+					var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
+					ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new ImGui.Vec2(0,1), new ImGui.Vec2(1,0));
+					if(ImGui.IsItemHovered())
+					{
+						generatorInstance.sendInputToScene = true;
+					}
+					else
+					{
+						generatorInstance.sendInputToScene = false;
+					}
+					if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+					{
+						ImGui.EndDragDropSource();
+					}
+				}
+			}
+		}
+	}
+	ImGui.End();
 
 	ImGui.EndFrame();
 }
@@ -159,11 +180,13 @@ function RunGeneratorInstance(generatorInstance)
 	{
 		if(generatorInstance.renderScene == null)
 		{
-			const canvas = document.getElementById("output");
-			var renderWidth = canvas.clientWidth;
-			var renderHeight = canvas.clientHeight;
+			var renderWidth = gGeneratorRenderTargetWidth;
+			var renderHeight = gGeneratorRenderTargetHeight;
 		
 			generatorInstance.renderScene = bg.CreateScene(renderWidth, renderHeight, gRenderer, function() {}, function() {});
+			generatorInstance.renderTarget = new THREE.WebGLRenderTarget( renderWidth, renderHeight, 
+				{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
+			generatorInstance.renderTarget.texture.flipY = false;
 		}
 		else
 		{
@@ -252,7 +275,20 @@ function UpdateGeneratorsList()
 {    
 	for(var i=0; i<bg.generators.length; ++i)
 	{
-		if(ImGui.BeginMenu(bg.generators[i].category))
+		var numOpen = 0;
+		for(var c=0; c<bg.generators[i].category.length; ++c)
+		{
+			var category = bg.generators[i].category[c];
+			if(ImGui.BeginMenu(category))
+			{
+				++numOpen;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if(numOpen == bg.generators[i].category.length)
 		{
 			if(ImGui.MenuItem(bg.generators[i].name))
 			{
@@ -265,6 +301,9 @@ function UpdateGeneratorsList()
 					}
 				);
 			}
+		}
+		for(var c=0; c<numOpen; ++c)
+		{
 			ImGui.EndMenu();
 		}
 	}
@@ -401,7 +440,9 @@ function OnPageLoaded() {
         //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-        gRenderer = bg.CreateRenderer(renderWidth, renderHeight, canvas);
+		gRenderer = new THREE.WebGLRenderer({canvas:canvas});
+		gRenderer.setSize( renderWidth, renderHeight );
+        //gRenderer = bg.CreateRenderer(renderWidth, renderHeight, canvas);
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
@@ -425,6 +466,23 @@ function OnPageLoaded() {
 				}
 			}
 */
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.UpdateScene(generatorInstance.renderScene, generatorInstance.sendInputToScene, dt, timestamp);
+				}
+			}
+
+			for(var i=0; i<gGeneratorInstances.length; ++i)
+			{
+				var generatorInstance = gGeneratorInstances[i];
+				if(generatorInstance.renderScene)
+				{
+					bg.RenderScene(generatorInstance.renderTarget, generatorInstance.renderScene, dt, timestamp);				
+				}
+			}
 
 			if(gRenderImGui)
 			{
@@ -443,6 +501,7 @@ function OnPageLoaded() {
 				ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
 			}
 			
+			/*
 			for(var i=0; i<gGeneratorInstances.length; ++i)
 			{
 				var generatorInstance = gGeneratorInstances[i];
@@ -451,6 +510,7 @@ function OnPageLoaded() {
 					bg.UpdateScene(generatorInstance.viewportLocation, generatorInstance.renderScene, dt, timestamp);
 				}
 			}
+			*/
 		};
 
 		animate();
