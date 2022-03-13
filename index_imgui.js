@@ -120,7 +120,7 @@ function UpdateImgui(dt, timestamp)
 		  }
 	  }
 	}
-
+/*
 	ImGui.Text("Generator Output");
 	{
 		if(generatorInstance.output.outputs)
@@ -155,6 +155,7 @@ function UpdateImgui(dt, timestamp)
 			}
 		}
 	}
+	*/
 	ImGui.End();
 
 	ImGui.EndFrame();
