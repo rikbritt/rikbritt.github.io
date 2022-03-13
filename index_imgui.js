@@ -119,43 +119,42 @@ function UpdateImgui(dt, timestamp)
 			  RunGeneratorInstance(generatorInstance);
 		  }
 	  }
-	}
-/*
-	ImGui.Text("Generator Output");
-	{
-		if(generatorInstance.output.outputs)
+		
+		ImGui.Text("Generator Output");
 		{
-			if(generatorInstance.output.outputs.model == null)
+			if(generatorInstance.output.outputs)
 			{
-				UpdateObjectImGui(generatorInstance.output.outputs, "output");
-			}
-			else
-			{
-				var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
-				//get win width
-				var avail_width = ImGui.GetContentRegionAvail().x;
-				var image_width = avail_width - 8;
-				if(image_width > 2)
+				if(generatorInstance.output.outputs.model == null)
 				{
-					var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
-					ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new ImGui.Vec2(0,1), new ImGui.Vec2(1,0));
-					if(ImGui.IsItemHovered())
+					UpdateObjectImGui(generatorInstance.output.outputs, "output");
+				}
+				else
+				{
+					var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
+					//get win width
+					var avail_width = ImGui.GetContentRegionAvail().x;
+					var image_width = avail_width - 8;
+					if(image_width > 2)
 					{
-						generatorInstance.sendInputToScene = true;
-					}
-					else
-					{
-						generatorInstance.sendInputToScene = false;
-					}
-					if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
-					{
-						ImGui.EndDragDropSource();
+						var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
+						ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new ImGui.Vec2(0,1), new ImGui.Vec2(1,0));
+						if(ImGui.IsItemHovered())
+						{
+							generatorInstance.sendInputToScene = true;
+						}
+						else
+						{
+							generatorInstance.sendInputToScene = false;
+						}
+						if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+						{
+							ImGui.EndDragDropSource();
+						}
 					}
 				}
 			}
 		}
 	}
-	*/
 	ImGui.End();
 
 	ImGui.EndFrame();
