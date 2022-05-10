@@ -70,7 +70,8 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 	//Keep track of which fields were actually overriden
 	if(overidden == undefined)
 	{
-		builtData._overidden = this.CreateEmptyOveriddenTables(fieldsIn, {});
+		overidden = this.CreateEmptyOveriddenTables(fieldsIn, {});
+		builtData._overidden = overidden;
 	}
 	//builtData._def = fieldsIn;
 	
@@ -95,11 +96,11 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 				if(fieldDef.type == "data")
 				{
 					var paramSeed = bg.SeedFromString(fieldName) + seed;
-					fieldValue = bg.BuildDataFields(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate, builtData._overidden[fieldName]);
+					fieldValue = bg.BuildDataFields(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate, overidden[fieldName]);
 				}
 				else
 				{
-					builtData._overidden[fieldName] = true;
+					overidden[fieldName] = true;
 				}
 			}
 			else if(fieldDef.script != undefined)
