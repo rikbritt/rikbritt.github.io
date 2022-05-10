@@ -66,12 +66,30 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 		}
 		else if(paramData.type == "data")
 		{
-			ImGui.PushID(paramKey);
-			if(ImGui.TreeNodeEx(paramKey, ImGui.TreeNodeFlags.DefaultOpen))
+			if(setInputs[paramKey] == null)
 			{
-				UpdateGeneratorInputsImGui(paramData.dataType.fields, setInputs);
-				ImGui.TreePop();
+				if(ImGui.Button("Override " + paramKey))
+				{
+					setInputs[paramKey] = {};//temp
+				}
 			}
+			else
+			{
+				if(ImGui.Button("Clear " + paramKey))
+				{
+					delete setInputs[paramKey];
+				}
+				else
+				{
+					ImGui.SameLine();
+					if(ImGui.TreeNodeEx(paramKey, ImGui.TreeNodeFlags.DefaultOpen))
+					{
+		
+						UpdateGeneratorInputsImGui(paramData.dataType.fields, setInputs[paramKey]);
+						ImGui.TreePop();
+					}
+				}
+			}			
 		}
 		else if(paramData.type == "bool")
 		{
