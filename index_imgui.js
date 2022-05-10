@@ -47,14 +47,23 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 		{
 			if(setInputs[paramKey] == null)
 			{
-				setInputs[paramKey] = paramData.min;//temp
+				if(ImGui.Button("Override " + paramKey))
+				{
+					setInputs[paramKey] = paramData.min;//temp
+				}
 			}
-			if(ImGui.Button("Clear"))
+			else
 			{
-				setInputs[paramKey] = paramData.min;
+				if(ImGui.Button("Clear " + paramKey))
+				{
+					delete setInputs[paramKey];
+				}
+				else
+				{
+					ImGui.SameLine();
+					ImGui.SliderInt(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
+				}
 			}
-			ImGui.SameLine();
-			ImGui.SliderInt(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
 		}
 		else if(paramData.type == "params")
 		{			
@@ -64,13 +73,45 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 		{
 			if(setInputs[paramKey] == null)
 			{
-				setInputs[paramKey] = true;//temp
+				if(ImGui.Button("Override " + paramKey))
+				{
+					setInputs[paramKey] = true;//temp
+				}
 			}
-			ImGui.Checkbox(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _);
+			else
+			{
+				if(ImGui.Button("Clear " + paramKey))
+				{
+					delete setInputs[paramKey];
+				}
+				else
+				{
+					ImGui.SameLine();
+					ImGui.Checkbox(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _);
+				}
+			}
 		}
 		else if(paramData.type == "text")
 		{
-
+			if(setInputs[paramKey] == null)
+			{
+				if(ImGui.Button("Override " + paramKey))
+				{
+					setInputs[paramKey] = "";//temp
+				}
+			}
+			else
+			{
+				if(ImGui.Button("Clear " + paramKey))
+				{
+					delete setInputs[paramKey];
+				}
+				else
+				{
+					ImGui.SameLine();
+					ImGui.InputText(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, 256);
+				}
+			}
 		}
 		else
 		{
