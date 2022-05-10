@@ -65,9 +65,9 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 				}
 			}
 		}
-		else if(paramData.type == "params")
+		else if(paramData.type == "data")
 		{			
-			UpdateGeneratorInputsImGui(paramData.paramType.fields, setInputs);
+			UpdateGeneratorInputsImGui(paramData.dataType.fields, setInputs);
 		}
 		else if(paramData.type == "bool")
 		{
