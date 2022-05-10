@@ -16,7 +16,8 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
 	ImGui.Indent();
 	for([paramKey, paramData] of Object.entries(generatorInputs))
-	{		
+	{
+		ImGui.PushID(paramKey);
 		var addclearButton = false;
 		if(paramData.type == "float" 
 			|| paramData.type == "distance"
@@ -24,14 +25,24 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 		{
 			if(setInputs[paramKey] == null)
 			{
-				setInputs[paramKey] = paramData.min;//temp
+				if(ImGui.Button("Override"))
+				{
+					setInputs[paramKey] = paramData.min;//temp
+				}
 			}
-			if(ImGui.Button("Clear"))
+			else
 			{
-				setInputs[paramKey] = paramData.min;
+				if(ImGui.Button("Clear"))
+				{
+					delete setInputs[paramKey];
+				}
+				else
+				{
+					setInputs[paramKey] = paramData.min;
+					ImGui.SameLine();
+					ImGui.SliderFloat(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
+				}
 			}
-			ImGui.SameLine();
-			ImGui.SliderFloat(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
 		}
 		else if(paramData.type == "int")
 		{
@@ -58,15 +69,20 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 			}
 			ImGui.Checkbox(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _);
 		}
+		else if(paramData.type == "text")
+		{
+
+		}
 		else
 		{
-			ImGui.Text(`Unknown param '${paramKey}' of type '${paramData.type}'`);
+			ImGui.Text(`Unknown param type '${paramData.type}' for '${paramKey}'`);
 		}
 		
 		if(paramData.description != null)
 		{
 			ImGui.Text(paramData.description);
-		}		
+		}
+		ImGui.PopID();
 	}
 	ImGui.Unindent();
 }
