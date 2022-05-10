@@ -215,3 +215,8 @@ bg.GenerateHierarchyNode = function(targetNode, seed, nodeInputDataDef)
 	}
 	return bg.RunGenerator(targetNode.generator, seed, nodeInputDataDef);
 }
+
+bg.SetIfNotOverriden = function(override_val, generated_val)
+{
+	return override_val == null ? generated_val : override_val;
+}

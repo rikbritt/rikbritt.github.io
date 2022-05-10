@@ -24,7 +24,11 @@ var mm_personGenerator = {
 	script:function(inputs, outputs){
 		outputs.data = inputs.person;
 		
-		outputs.data.name = bg.RunGenerator(mm_nameGenerator, inputs.seed, {male:inputs.person.male}).outputs.data;
+		var name = bg.RunGenerator(mm_nameGenerator, inputs.seed, {male:inputs.person.male}).outputs.data;
+		outputs.data.forename = bg.SetIfNotOverriden(inputs.person.forename, name.forename);
+		outputs.data.surname = bg.SetIfNotOverriden(inputs.person.surname, name.surname);
+		outputs.data.maidenName = bg.SetIfNotOverriden(inputs.person.maidenName, name.maidenName);
+		outputs.data.middleName = bg.SetIfNotOverriden(inputs.person.middleName, name.middleName);
 		
 	}
 }
