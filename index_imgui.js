@@ -351,6 +351,7 @@ function UpdateObjectImGui(object, name)
 			{
 				UpdateObjectImGui(object[i], name + "[" + i + "]");
 			}
+			ImGui.TreePop();
 		}
 	}
 	else if(typeof(object) == 'object')
@@ -361,6 +362,7 @@ function UpdateObjectImGui(object, name)
 			{
 				UpdateObjectImGui(val, key);
 			}
+			ImGui.TreePop();
 		}
 	}
 	else
