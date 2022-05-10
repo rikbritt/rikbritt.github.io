@@ -60,7 +60,7 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 		}
 		else
 		{
-			ImGui.Text("Unknown param : " + paramKey);
+			ImGui.Text(`Unknown param '${paramKey}' of type '${paramData.type}'`);
 		}
 		
 		if(paramData.description != null)

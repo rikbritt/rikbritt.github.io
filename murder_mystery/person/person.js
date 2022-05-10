@@ -16,7 +16,7 @@ var mm_personGenerator = {
 	name:"Person",
 	category:["Murder Mystery"],
 	inputs:{
-		person:{		type:"data",		dataType:mm_personDataDef	}
+		person:{	type:"params",		dataType:mm_personDataDef	}
 	},
 	outputs:{
 		data:{		type:"data",		dataType:mm_personDataDef	}
@@ -25,7 +25,7 @@ var mm_personGenerator = {
 		outputs.data = inputs.person;
 		
 		outputs.data.name = bg.RunGenerator(mm_nameGenerator, inputs.seed, {male:inputs.person.male}).outputs.data;
-			
+		
 	}
 }
 bg.RegisterGenerator(mm_personGenerator);
