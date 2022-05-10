@@ -12,132 +12,92 @@ var gBlockImGuiInput = false;
 var gGeneratorRenderTargetWidth = 1920 / 2;
 var gGeneratorRenderTargetHeight = 1080 / 2;
 
+function GetParamDefault(paramData)
+{
+	if(paramData.type == "float" 
+	|| paramData.type == "distance"
+	|| paramData.type == "time"
+	|| paramData.type == "int")
+	{
+		return paramData.min;
+	}
+	else if(paramData.type == "data")
+	{
+		return {};
+	}
+	else if(paramData.type == "bool")
+	{
+		return false;
+	}
+	else if(paramData.type == "text")
+	{
+		return "";
+	}
+	else
+	{
+		return null;
+	}
+}
+
+function UpdateParamEditor(paramData, setInputs, paramKey)
+{
+	if(paramData.type == "float" 
+	|| paramData.type == "distance"
+	|| paramData.type == "time")
+	{
+		ImGui.SliderFloat(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);		
+	}
+	else if(paramData.type == "int")
+	{
+		ImGui.SliderInt(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
+	}
+	else if(paramData.type == "data")
+	{
+		if(ImGui.TreeNodeEx(paramKey, ImGui.TreeNodeFlags.DefaultOpen))
+		{
+			UpdateGeneratorInputsImGui(paramData.dataType.fields, setInputs[paramKey]);
+			ImGui.TreePop();
+		}
+	}
+	else if(paramData.type == "bool")
+	{
+		ImGui.Checkbox(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _);
+	}
+	else if(paramData.type == "text")
+	{
+		ImGui.InputText(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, 256);
+	}
+	else
+	{
+		ImGui.Text(`Unknown param type '${paramData.type}' for '${paramKey}'`);
+	}
+}
+
 function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
 	for([paramKey, paramData] of Object.entries(generatorInputs))
 	{
 		ImGui.PushID(paramKey);
 		var addclearButton = false;
-		if(paramData.type == "float" 
-			|| paramData.type == "distance"
-			|| paramData.type == "time")
-		{
-			if(setInputs[paramKey] == null)
-			{
-				if(ImGui.Button("Override " + paramKey))
-				{
-					setInputs[paramKey] = paramData.min;//temp
-				}
-			}
-			else
-			{
-				if(ImGui.Button("Clear " + paramKey))
-				{
-					delete setInputs[paramKey];
-				}
-				else
-				{
-					ImGui.SameLine();
-					ImGui.SliderFloat(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
-				}
-			}
-		}
-		else if(paramData.type == "int")
-		{
-			if(setInputs[paramKey] == null)
-			{
-				if(ImGui.Button("Override " + paramKey))
-				{
-					setInputs[paramKey] = paramData.min;//temp
-				}
-			}
-			else
-			{
-				if(ImGui.Button("Clear " + paramKey))
-				{
-					delete setInputs[paramKey];
-				}
-				else
-				{
-					ImGui.SameLine();
-					ImGui.SliderInt(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
-				}
-			}
-		}
-		else if(paramData.type == "data")
-		{
-			if(setInputs[paramKey] == null)
-			{
-				if(ImGui.Button("Override " + paramKey))
-				{
-					setInputs[paramKey] = {};//temp
-				}
-			}
-			else
-			{
-				if(ImGui.Button("Clear " + paramKey))
-				{
-					delete setInputs[paramKey];
-				}
-				else
-				{
-					ImGui.SameLine();
-					if(ImGui.TreeNodeEx(paramKey, ImGui.TreeNodeFlags.DefaultOpen))
-					{
 		
-						UpdateGeneratorInputsImGui(paramData.dataType.fields, setInputs[paramKey]);
-						ImGui.TreePop();
-					}
-				}
-			}			
-		}
-		else if(paramData.type == "bool")
+		if(setInputs[paramKey] == null)
 		{
-			if(setInputs[paramKey] == null)
+			if(ImGui.Button("Override " + paramKey))
 			{
-				if(ImGui.Button("Override " + paramKey))
-				{
-					setInputs[paramKey] = true;//temp
-				}
-			}
-			else
-			{
-				if(ImGui.Button("Clear " + paramKey))
-				{
-					delete setInputs[paramKey];
-				}
-				else
-				{
-					ImGui.SameLine();
-					ImGui.Checkbox(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _);
-				}
-			}
-		}
-		else if(paramData.type == "text")
-		{
-			if(setInputs[paramKey] == null)
-			{
-				if(ImGui.Button("Override " + paramKey))
-				{
-					setInputs[paramKey] = "";//temp
-				}
-			}
-			else
-			{
-				if(ImGui.Button("Clear " + paramKey))
-				{
-					delete setInputs[paramKey];
-				}
-				else
-				{
-					ImGui.SameLine();
-					ImGui.InputText(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, 256);
-				}
+				setInputs[paramKey] = GetParamDefault(paramData);
 			}
 		}
 		else
 		{
-			ImGui.Text(`Unknown param type '${paramData.type}' for '${paramKey}'`);
+			if(ImGui.Button("Clear " + paramKey))
+			{
+				delete setInputs[paramKey];
+			}
+			else
+			{
+				ImGui.SameLine();
+				UpdateParamEditor(paramData, setInputs, paramKey)
+			}
 		}
 		
 		if(paramData.description != null)
