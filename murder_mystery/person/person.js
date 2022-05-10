@@ -16,7 +16,7 @@ var mm_personGenerator = {
 	name:"Person",
 	category:["Murder Mystery"],
 	inputs:{
-		person:{	type:"params",		dataType:mm_personDataDef	}
+		person:{	type:"params",		paramType:mm_personDataDef	}
 	},
 	outputs:{
 		data:{		type:"data",		dataType:mm_personDataDef	}
