@@ -14,10 +14,10 @@ var gGeneratorRenderTargetHeight = 1080 / 2;
 
 function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 {
-	ImGui.Indent();
 	for([paramKey, paramData] of Object.entries(generatorInputs))
 	{
 		ImGui.PushID(paramKey);
+		ImGui.TreeNodeEx(paramKey);
 		var addclearButton = false;
 		if(paramData.type == "float" 
 			|| paramData.type == "distance"
@@ -122,9 +122,8 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 		{
 			ImGui.Text(paramData.description);
 		}
-		ImGui.PopID();
+		ImGui.TreePop();
 	}
-	ImGui.Unindent();
 }
 
 function UpdateImgui(dt, timestamp)
@@ -168,8 +167,13 @@ function UpdateImgui(dt, timestamp)
 		  {
 			generatorInstance.seed = Math.floor( Math.random() * 2000 );
 		  }
+		  ImGui.SameLine();
 		  ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
-		  UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
+		  if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
+		  {	
+			  UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
+			  ImGui.TreePop();
+		  }
 		  if(ImGui.Button("Generate"))
 		  {
 			  RunGeneratorInstance(generatorInstance);
