@@ -38,7 +38,19 @@ bg.CreateWeightingDataDef = function(dataDefIn)
 	return weightDataDefOut;
 }
 
-bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate)
+bg.CreateEmptyOveriddenTables = function(fields, overidden)
+{
+	for([fieldName, fieldDef] of Object.entries(fields))
+	{
+		if(fieldDef.type == "data")
+		{
+			overidden[fieldName] = this.CreateEmptyOveriddenTables(fieldDef.dataType.fields, {} );
+		}
+	}
+	return overidden;
+}
+
+bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 {
 	if(seed == undefined)
 	{
@@ -54,10 +66,16 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate)
 	var fieldName = ""; //Required because this func is recursive and JS is weird with scope.
 	var fieldDef = "";
 	builtData.seed = seed;
+
+	//Keep track of which fields were actually overriden
+	if(overidden == undefined)
+	{
+		builtData._overidden = this.CreateEmptyOveriddenTables(fieldsIn, {});
+	}
 	//builtData._def = fieldsIn;
 	
-	for([fieldName, fieldDef] of Object.entries(fieldsIn)) {
-		
+	for([fieldName, fieldDef] of Object.entries(fieldsIn))
+	{
 		var fieldValue = null;
 		if(autoGenerate)
 		{
@@ -77,7 +95,11 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate)
 				if(fieldDef.type == "data")
 				{
 					var paramSeed = bg.SeedFromString(fieldName) + seed;
-					fieldValue = bg.BuildDataFields(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate);
+					fieldValue = bg.BuildDataFields(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate, builtData._overidden[fieldName]);
+				}
+				else
+				{
+					builtData._overidden[fieldName] = true;
 				}
 			}
 			else if(fieldDef.script != undefined)

@@ -25,10 +25,10 @@ var mm_personGenerator = {
 		outputs.data = inputs.person;
 		
 		var name = bg.RunGenerator(mm_nameGenerator, inputs.seed, {male:inputs.person.male}).outputs.data;
-		outputs.data.forename = bg.SetIfNotOverriden(inputs.person.forename, name.forename);
-		outputs.data.surname = bg.SetIfNotOverriden(inputs.person.surname, name.surname);
-		outputs.data.maidenName = bg.SetIfNotOverriden(inputs.person.maidenName, name.maidenName);
-		outputs.data.middleName = bg.SetIfNotOverriden(inputs.person.middleName, name.middleName);
+		outputs.data.forename = bg.SetIfNotOverriden(inputs._overidden.person.forename, inputs.person.forename, name.forename);
+		outputs.data.surname = bg.SetIfNotOverriden(inputs._overidden.person.surname, inputs.person.surname, name.surname);
+		outputs.data.maidenName = bg.SetIfNotOverriden(inputs._overidden.person.maidenName, inputs.person.maidenName, name.maidenName);
+		outputs.data.middleName = bg.SetIfNotOverriden(inputs._overidden.person.middleName, inputs.person.middleName, name.middleName);
 		
 	}
 }
