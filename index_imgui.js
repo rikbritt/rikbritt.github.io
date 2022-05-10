@@ -25,20 +25,19 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 		{
 			if(setInputs[paramKey] == null)
 			{
-				if(ImGui.Button("Override"))
+				if(ImGui.Button("Override " + paramKey))
 				{
 					setInputs[paramKey] = paramData.min;//temp
 				}
 			}
 			else
 			{
-				if(ImGui.Button("Clear"))
+				if(ImGui.Button("Clear " + paramKey))
 				{
 					delete setInputs[paramKey];
 				}
 				else
 				{
-					setInputs[paramKey] = paramData.min;
 					ImGui.SameLine();
 					ImGui.SliderFloat(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
 				}
