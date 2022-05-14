@@ -145,9 +145,9 @@ function UpdateImgui(dt, timestamp)
 		var generatorInstance = gGeneratorInstances[i];
 		if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`))
 		{
-			if(generatorInstance.description != undefined)
+			if(generatorInstance.generator.description != undefined)
 			{
-				ImGui.Text(generatorInstance.description);
+				ImGui.Text(generatorInstance.generator.description);
 			}
 			if(ImGui.Button("Randomise"))
 			{
