@@ -33,6 +33,10 @@ function GetParamDefault(paramData)
 	{
 		return "";
 	}
+	else if(paramData.type == "list")
+	{
+		return [];
+	}
 	else
 	{
 		return null;
@@ -66,6 +70,10 @@ function UpdateParamEditor(paramData, setInputs, paramKey)
 	else if(paramData.type == "text")
 	{
 		ImGui.InputText(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, 256);
+	}
+	else if(paramData.type == "list")
+	{
+		ImGui.Text(`LIST '${paramData.type}' for '${paramKey}'`);
 	}
 	else
 	{

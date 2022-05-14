@@ -10,3 +10,12 @@ var mm_relationshipDataDef = {
 		toName:{		type:"text" },
 	}
 }
+
+//High level, like 'work', 'family', 'friend'
+var mm_relationshipTypeDataDef = {
+	version:1,
+	name:"RelationshipType",
+	fields:{
+		types:{			type:"list", 	min:1,	max:3,	elementType:{ type:"text" } }
+	}
+}

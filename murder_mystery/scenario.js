@@ -39,7 +39,7 @@ var mm_scenarioGenerator2 = {
 					person2:outputs.data.people[j],
 				};
 				
-				var relationships = bg.RunGenerator(mm_relationshipGenerator, inputs.seed+i, relationshipInputs).outputs;
+				var relationships = bg.RunGenerator(mm_relationshipGenerator1, inputs.seed+i, relationshipInputs).outputs;
 				
 				if(j==0)
 				{
@@ -92,7 +92,7 @@ var mm_scenarioGenerator = {
 					person2:outputs.data.people[j],
 				};
 				
-				var relationships = bg.RunGenerator(mm_relationshipGenerator, inputs.seed+i, relationshipInputs).outputs;
+				var relationships = bg.RunGenerator(mm_relationshipGenerator1, inputs.seed+i, relationshipInputs).outputs;
 				
 				if(j==0)
 				{
