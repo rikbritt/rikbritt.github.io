@@ -80,10 +80,22 @@ function UpdateParamEditor(paramData, setInputs, paramKey)
 		}
 		else
 		{
-			ImGui.Text(`${list.length} elements`);
+			ImGui.Text(`${list.length} / ${paramData.max} elements`);
 			for(var i=0; i<list.length; ++i)
 			{
-				ImGui.Text(`${i} : ?`);
+				ImGui.PushID(i);
+				if(ImGui.Button("Del"))
+				{
+					list.splice(i, 1);
+					--i;
+				}
+				else
+				{
+					ImGui.SameLine();
+					ImGui.Text(`${i} : ?`);
+					//TODO - Recurse into UpdateParamEditor, although it'll need a refactor
+				}
+				ImGui.PopID();
 			}
 			if(list.length < paramData.max && ImGui.Button("Add Element"))
 			{
