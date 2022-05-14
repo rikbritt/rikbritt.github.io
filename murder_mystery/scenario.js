@@ -1,17 +1,19 @@
 var mm_scenarioGenerator = {
 	version:1,
-	name:"Scenario",
+	name:"Scenario V1",
+	description:"People First, Then Relationships",
 	category:["Murder Mystery"],
 	inputs:{
-		numPlayers:{		type:"int", min:3, max:10	}
+		numPeople:{		type:"int", min:3, max:20	}
 	},
 	outputs:{
 		data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
 	},
-	script:function(inputs, outputs){
+	script:function(inputs, outputs)
+	{
 		outputs.data = inputs;
 		outputs.data.people = [];
-		for(var i=0; i<inputs.numPlayers; ++i)
+		for(var i=0; i<inputs.numPeople; ++i)
 		{
 			var person = bg.RunGenerator(mm_personGenerator, inputs.seed+i, {}).outputs.data;
 			outputs.data.people.push(person);
@@ -23,9 +25,9 @@ var mm_scenarioGenerator = {
 		
 		//Relationships
 		outputs.data.relationships = [];
-		for(var i=0; i<inputs.numPlayers; ++i)
+		for(var i=0; i<inputs.numPeople; ++i)
 		{
-			for(var j=0; j<inputs.numPlayers; ++j)
+			for(var j=0; j<inputs.numPeople; ++j)
 			{
 				if(i==j)
 				{

@@ -142,25 +142,29 @@ function UpdateImgui(dt, timestamp)
 
 	for(var i=0; i<gGeneratorInstances.length; ++i)
 	{
-	  var generatorInstance = gGeneratorInstances[i];
-	  if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`))
-	  {
-		  if(ImGui.Button("Randomise"))
-		  {
-			generatorInstance.seed = Math.floor( Math.random() * 2000 );
-		  }
-		  ImGui.SameLine();
-		  ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
-		  if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
-		  {	
-			  UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
-			  ImGui.TreePop();
-		  }
-		  if(ImGui.Button("Generate"))
-		  {
-			  RunGeneratorInstance(generatorInstance);
-		  }
-	  }
+		var generatorInstance = gGeneratorInstances[i];
+		if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`))
+		{
+			if(generatorInstance.description != undefined)
+			{
+				ImGui.Text(generatorInstance.description);
+			}
+			if(ImGui.Button("Randomise"))
+			{
+				generatorInstance.seed = Math.floor( Math.random() * 2000 );
+			}
+			ImGui.SameLine();
+			ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
+			if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
+			{	
+				UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
+				ImGui.TreePop();
+			}
+			if(ImGui.Button("Generate"))
+			{
+				RunGeneratorInstance(generatorInstance);
+			}
+	  	}
 		
 		ImGui.Text("Generator Output");
 		{
@@ -343,6 +347,10 @@ function UpdateGeneratorsList()
 					}
 				);
 			}
+			if(bg.generators[i].description != undefined && ImGui.IsItemHovered())
+			{
+				ImGui.SetTooltip(bg.generators[i].description);
+			}
 		}
 		for(var c=0; c<numOpen; ++c)
 		{
@@ -462,7 +470,8 @@ function RenderHierarchy()
 	paper.view.draw();
 }
 
-function OnPageLoaded() {
+function OnPageLoaded() 
+{
 
     (async function() {
         await ImGui.default();
