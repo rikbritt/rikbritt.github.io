@@ -73,7 +73,23 @@ function UpdateParamEditor(paramData, setInputs, paramKey)
 	}
 	else if(paramData.type == "list")
 	{
-		ImGui.Text(`LIST '${paramData.type}' for '${paramKey}'`);
+		var list = setInputs[paramKey];
+		if(Array.isArray(list) == false)
+		{
+			ImGui.Text(`${paramKey} is not a JS Array!`);
+		}
+		else
+		{
+			ImGui.Text(`${list.length} elements`);
+			for(var i=0; i<list.length; ++i)
+			{
+				ImGui.Text(`${i} : ?`);
+			}
+			if(list.length < paramData.max && ImGui.Button("Add Element"))
+			{
+				list.push("Element");
+			}
+		}
 	}
 	else
 	{
