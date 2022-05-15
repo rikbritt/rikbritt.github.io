@@ -13,8 +13,8 @@ var mm_relationshipsGenerator = {
 	},
 	script:function(inputs, outputs){
 		
-		outputs.relationship1To2 = bg.BuildDataFields(mm_relationshipDataDef, 0, null);
-		outputs.relationship2To1 = bg.BuildDataFields(mm_relationshipDataDef, 0, null);
+		outputs.relationship1To2 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed + 1, null);
+		outputs.relationship2To1 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed + 1, null);
 	}
 }
 bg.RegisterGenerator(mm_relationshipsGenerator);
