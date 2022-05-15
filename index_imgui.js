@@ -103,7 +103,7 @@ function UpdateParamEditor(paramData, getFunc, setFunc, paramKey)
 								l[idx] = val;
 								return val;
 							} }(),
-							i
+							`${i}`
 						);
 					}
 					ImGui.PopID();
