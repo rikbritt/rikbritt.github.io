@@ -116,7 +116,7 @@ bg.CreateFieldType(
 		var list = [];
 		for(var i=0; i<numItems; ++i)
 		{
-			list.push( bg.CreateFieldType( fieldDef.elementType, seed+i));
+			list.push( bg.GenerateFieldValue( fieldDef.elementType, seed+i));
 		}
 
 		return list;
