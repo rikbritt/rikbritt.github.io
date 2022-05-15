@@ -118,6 +118,8 @@ bg.CreateFieldType(
 		{
 			list.push( bg.CreateFieldType( fieldDef.elementType, seed+i));
 		}
+
+		return list;
 	}
 )
 
