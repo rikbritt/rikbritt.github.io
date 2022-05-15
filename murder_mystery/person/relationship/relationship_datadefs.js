@@ -19,3 +19,14 @@ var mm_relationshipTypeDataDef = {
 		types:{			type:"list", 	min:1,	max:3,	elementType:{ type:"text" } }
 	}
 }
+
+var mm_relationshipLinkDataDef = {
+	version:1,
+	name:"Relationship Link",
+	fields:{
+		aToBRelationship:{			type:"data",	dataType:mm_relationshipDataDef },
+		bToARelationship:{			type:"data",	dataType:mm_relationshipDataDef },
+		aName:{		type:"text" },
+		bName:{		type:"text" },
+	}
+}

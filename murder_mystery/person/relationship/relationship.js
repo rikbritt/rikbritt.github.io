@@ -8,14 +8,25 @@ var mm_relationshipsGenerator = {
 		people:{ 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
 	},
 	outputs:{
-		relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
-		relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
+		//relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
+		//relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
 	},
 	script:function(inputs, outputs){
-		
-		//for(var p1=0; p1<inputs.people.length; ++p1)
-		outputs.relationship1To2 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed + 1, null);
-		outputs.relationship2To1 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed + 1, null);
+		outputs.relationships = [];
+		var r_seed = inputs.seed;
+		for(var p1=0; p1<inputs.people.length; ++p1)
+		{
+			for(var p2=0; p2<inputs.people.length; ++p2)
+			{
+				if(p1 == p2)
+				{
+					continue;
+				}
+
+				outputs.relationships.push(bg.BuildDataFields(mm_relationshipLinkDataDef.fields, r_seed, null));
+				++r_seed;
+			}
+		}
 	}
 }
 bg.RegisterGenerator(mm_relationshipsGenerator);
