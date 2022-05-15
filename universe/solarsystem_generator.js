@@ -2,7 +2,7 @@ var solarSystemDataDef = {
 	version:1,
 	name:"Solar System",
 	fields:{
-		planets:{			type:"list", min:0, max:20	}
+		planets:{			type:"list", min:0, max:20, elementType:{ type:"int", min:0,	max:3 }	}
 	}
 };
 

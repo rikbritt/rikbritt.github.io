@@ -93,8 +93,18 @@ function UpdateParamEditor(paramData, getFunc, setFunc, paramKey)
 					else
 					{
 						ImGui.SameLine();
-						ImGui.Text(`${i} : ?`);
-						//TODO - Recurse into UpdateParamEditor, although it'll need a refactor
+						ImGui.Text(`${i} :`);
+						UpdateParamEditor(
+							paramData.elementType,
+							function() { var l = list; var idx = i; return function () { 
+								return l[idx];
+							 } }(),
+							function() { var l = list; var idx = i; return function (val) {
+								l[idx] = val;
+								return val;
+							} }(),
+							i
+						);
 					}
 					ImGui.PopID();
 				}
