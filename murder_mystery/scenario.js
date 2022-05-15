@@ -24,29 +24,11 @@ var mm_scenarioGenerator2 = {
 		outputs.data.murderer = 1;//outputs.data.people[1];
 		
 		//Relationships
-		outputs.data.relationships = [];
-		for(var i=0; i<inputs.numPeople; ++i)
-		{
-			for(var j=0; j<inputs.numPeople; ++j)
-			{
-				if(i==j)
-				{
-					continue;
-				}
-				
-				var relationshipInputs = {
-					person1:outputs.data.people[i],
-					person2:outputs.data.people[j],
-				};
-				
-				var relationships = bg.RunGenerator(mm_relationshipGenerator1, inputs.seed+i, relationshipInputs).outputs;
-				
-				if(j==0)
-				{
-					outputs.data.relationships.push(relationships.relationship1To2);
-				}
-			}
-		}
+		var relationshipInputs = {
+			people:outputs.data.people 
+		};
+		var relationships = bg.RunGenerator(mm_relationshipsGenerator, inputs.seed+1, relationshipInputs);
+		outputs.data.relationships = relationships.outputs.relationships;
 	}
 }
 bg.RegisterGenerator(mm_scenarioGenerator2);
