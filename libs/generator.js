@@ -156,7 +156,8 @@ bg.RunGenerator = function(generator, seed, inputs)
 	}
 	catch(err)
 	{
-		outputs.error = err.message;
+		//outputs.error = err.message;
+		outputs.error = err.stack;
 	}
 	
 	//#TODO: Check outputs - each named output must exist.
