@@ -5,9 +5,7 @@ var mm_relationshipDataDef = {
 		type:{			type:"text" },
 		friendship:{	type:"norm",	min:0,	max:1 },
 		respect:{		type:"norm",	min:0,	max:1 },
-		attraction:{	type:"norm",	min:0,	max:1 },
-		fromName:{		type:"text" },
-		toName:{		type:"text" },
+		attraction:{	type:"norm",	min:0,	max:1 }
 	}
 }
 

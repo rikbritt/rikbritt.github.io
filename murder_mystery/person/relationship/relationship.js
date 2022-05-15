@@ -36,6 +36,16 @@ var mm_relationshipsGenerator = {
 			}
 			++p2StartIdx;
 		}
+
+		//Graph UML
+		outputs.uml = "@startuml\n";
+		outputs.uml += "digraph G {\n";
+		for(var i=0; i<inputs.people.length; ++i)
+		{
+			outputs.uml += `    "${inputs.people[i].name}" -> "A"`;
+		}
+		outputs.uml += "}\n";
+		outputs.uml += "@enduml\n";
 	}
 }
 bg.RegisterGenerator(mm_relationshipsGenerator);
