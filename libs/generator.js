@@ -150,7 +150,14 @@ bg.RunGenerator = function(generator, seed, inputs)
 	
 	Math.seedrandom(seed);
 	var outputs = {};
-	generator.script(builtInputs, outputs);
+	try
+	{
+		generator.script(builtInputs, outputs);
+	}
+	catch(err)
+	{
+		outputs.error = err.message;
+	}
 	
 	//#TODO: Check outputs - each named output must exist.
 	
