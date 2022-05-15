@@ -43,37 +43,37 @@ function GetParamDefault(paramData)
 	}
 }
 
-function UpdateParamEditor(paramData, setInputs, paramKey)
+function UpdateParamEditor(paramData, getFunc, setFunc, paramKey)
 {
 	if(paramData.type == "float" 
 	|| paramData.type == "distance"
 	|| paramData.type == "time")
 	{
-		ImGui.SliderFloat(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);		
+		ImGui.SliderFloat(paramKey, (_ = getFunc()) => setFunc(_), paramData.min, paramData.max);		
 	}
 	else if(paramData.type == "int")
 	{
-		ImGui.SliderInt(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, paramData.min, paramData.max);
+		ImGui.SliderInt(paramKey, (_ = getFunc()) => setFunc(_), paramData.min, paramData.max);
 	}
 	else if(paramData.type == "data")
 	{
 		if(ImGui.TreeNodeEx(paramKey, ImGui.TreeNodeFlags.DefaultOpen))
 		{
-			UpdateGeneratorInputsImGui(paramData.dataType.fields, setInputs[paramKey]);
+			UpdateGeneratorInputsImGui(paramData.dataType.fields, getFunc());
 			ImGui.TreePop();
 		}
 	}
 	else if(paramData.type == "bool")
 	{
-		ImGui.Checkbox(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _);
+		ImGui.Checkbox(paramKey, (_ = getFunc()) => setFunc(_));
 	}
 	else if(paramData.type == "text")
 	{
-		ImGui.InputText(paramKey, (_ = setInputs[paramKey]) => setInputs[paramKey] = _, 256);
+		ImGui.InputText(paramKey, (_ = getFunc()) => setFunc(_), 256);
 	}
 	else if(paramData.type == "list")
 	{
-		var list = setInputs[paramKey];
+		var list = getFunc();
 		if(Array.isArray(list) == false)
 		{
 			ImGui.Text(`${paramKey} is not a JS Array!`);
@@ -134,7 +134,12 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 			else
 			{
 				ImGui.SameLine();
-				UpdateParamEditor(paramData, setInputs, paramKey)
+				UpdateParamEditor(
+					paramData,
+					function () { return setInputs[paramKey]; },
+					function (val) { setInputs[paramKey] = val; },
+					paramKey
+				);
 			}
 		}
 		
