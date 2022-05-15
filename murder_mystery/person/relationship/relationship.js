@@ -42,7 +42,7 @@ var mm_relationshipsGenerator = {
 		outputs.uml += "digraph G {\n";
 		for(var i=0; i<inputs.people.length; ++i)
 		{
-			outputs.uml += `    "${inputs.people[i].name}" -> "A"`;
+			outputs.uml += `    "${inputs.people[i].name}" -> "A"\n`;
 		}
 		outputs.uml += "}\n";
 		outputs.uml += "@enduml\n";
