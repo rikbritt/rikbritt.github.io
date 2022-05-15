@@ -113,7 +113,11 @@ bg.CreateFieldType(
 	"list",
 	function(fieldDef, seed) {
 		var numItems = bg.GetRandomIntFromSeed(seed, fieldDef.min, fieldDef.max);
-		return {num:numItems, seed:seed};
+		var list = [];
+		for(var i=0; i<numItems; ++i)
+		{
+			list.add( bg.CreateFieldType( fieldDef.elementType, seed+i));
+		}
 	}
 )
 

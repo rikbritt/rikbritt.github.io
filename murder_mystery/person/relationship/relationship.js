@@ -13,6 +13,7 @@ var mm_relationshipsGenerator = {
 	},
 	script:function(inputs, outputs){
 		
+		//for(var p1=0; p1<inputs.people.length; ++p1)
 		outputs.relationship1To2 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed + 1, null);
 		outputs.relationship2To1 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed + 1, null);
 	}
