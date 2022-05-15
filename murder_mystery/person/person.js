@@ -4,6 +4,7 @@ var mm_personDataDef = {
 	fields:{
 		age:{			type:"time",	units:"years", min:5, max:80 },
 		male:{			type:"bool" },
+		name:{			type:"text" },
 		forename:{		type:"text" },
 		surname:{		type:"text"	},
 		maidenName:{	type:"text"	},
@@ -29,7 +30,7 @@ var mm_personGenerator = {
 		outputs.data.surname = bg.SetIfNotOverriden(inputs._overidden.person.surname, inputs.person.surname, name.surname);
 		outputs.data.maidenName = bg.SetIfNotOverriden(inputs._overidden.person.maidenName, inputs.person.maidenName, name.maidenName);
 		outputs.data.middleName = bg.SetIfNotOverriden(inputs._overidden.person.middleName, inputs.person.middleName, name.middleName);
-		
+		outputs.data.name = outputs.data.forename + " " + outputs.data.surname;
 	}
 }
 bg.RegisterGenerator(mm_personGenerator);

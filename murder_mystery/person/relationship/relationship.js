@@ -14,18 +14,27 @@ var mm_relationshipsGenerator = {
 	script:function(inputs, outputs){
 		outputs.relationships = [];
 		var r_seed = inputs.seed;
-		for(var p1=0; p1<inputs.people.length; ++p1)
+
+		var p2StartIdx = 1;
+		for(var p1Idx=0; p1Idx<inputs.people.length; ++p1Idx)
 		{
-			for(var p2=0; p2<inputs.people.length; ++p2)
+			var p1 = inputs.people[p1Idx];
+			for(var p2Idx=p2StartIdx; p2Idx<inputs.people.length; ++p2Idx)
 			{
+				var p2 = inputs.people[p2Idx];
 				if(p1 == p2)
 				{
 					continue;
 				}
 
-				outputs.relationships.push(bg.BuildDataFields(mm_relationshipLinkDataDef.fields, r_seed, null));
+				var link = bg.BuildDataFields(mm_relationshipLinkDataDef.fields, r_seed, null);
+				link.aName = p1.name;
+				link.bName = p2.name;
+
+				outputs.relationships.push(link);
 				++r_seed;
 			}
+			++p2StartIdx;
 		}
 	}
 }
