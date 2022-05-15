@@ -29,7 +29,7 @@ var mm_scenarioGenerator2 = {
 		};
 		var relationships = bg.RunGenerator(mm_relationshipsGenerator, inputs.seed+1, relationshipInputs);
 		outputs.data.relationships = relationships.outputs.relationships;
-		outputs.data.relationshipsUML = relationships.outputs.relationships;
+		outputs.data.relationshipsUML = relationships.outputs.uml;
 	}
 }
 bg.RegisterGenerator(mm_scenarioGenerator2);
