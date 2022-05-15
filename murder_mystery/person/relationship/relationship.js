@@ -5,7 +5,7 @@ var mm_relationshipsGenerator = {
 	category:["Murder Mystery","Person"],
 	inputs:{
 		//How close they are?
-		people:{ 				type:"list", 		elementType:{ type:"data", dataType:mm_personDataDef} }
+		people:{ 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
 	},
 	outputs:{
 		relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
