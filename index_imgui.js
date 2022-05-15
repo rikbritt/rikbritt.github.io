@@ -136,8 +136,12 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 				ImGui.SameLine();
 				UpdateParamEditor(
 					paramData,
-					function() { var inputs = setInputs; var key = paramKey; return function () { return inputs[key]; } }(),
-					function() { var inputs = setInputs; var key = paramKey; return function (val) { inputs[key] = val; } }(),
+					function() { var inputs = setInputs; var key = paramKey; return function () { 
+						return inputs[key];
+					 } }(),
+					function() { var inputs = setInputs; var key = paramKey; return function (val) {
+						 inputs[key] = val; 
+						} }(),
 					paramKey
 				);
 			}
