@@ -110,7 +110,7 @@ function UpdateParamEditor(paramData, getFunc, setFunc, paramKey)
 				}
 				if(list.length < paramData.max && ImGui.Button("Add Element"))
 				{
-					list.push("Element");
+					list.push(GetParamDefault(paramData.elementType));
 				}
 			}
 		}
