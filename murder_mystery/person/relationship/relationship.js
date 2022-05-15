@@ -16,7 +16,7 @@ var mm_relationshipsGenerator = {
 		
 	}
 }
-bg.RegisterGenerator(mm_relationshipTypeGenerator);
+bg.RegisterGenerator(mm_relationshipsGenerator);
 
 
 var mm_relationshipGenerator1 = {
