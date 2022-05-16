@@ -12,6 +12,7 @@ var mm_scenarioGenerator2 = {
 	script:function(inputs, outputs)
 	{
 		//outputs.data = inputs;
+		outputs.data = {};
 		outputs.data.people = [];
 		for(var i=0; i<inputs.numPeople; ++i)
 		{
