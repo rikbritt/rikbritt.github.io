@@ -63,8 +63,8 @@ var mm_relationshipsGenerator = {
 			for(var e=0; e<outputs.relationshipGraph.edges.length; ++e)
 			{
 				var edge = outputs.relationshipGraph.edges[e];
-				var p1 = inputs.people[e.a];
-				var p2 = inputs.people[e.b];
+				var p1 = inputs.people[edge.a];
+				var p2 = inputs.people[edge.b];
 
 				//Call this generator to make the link, but it'll be random,
 				//so we'll sort it out
