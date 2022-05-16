@@ -475,14 +475,14 @@ function UpdateObjectImGui(object, name)
 	}
 	else
 	{
-		ImGui.Text(name + " : " + String(object));
-		ImGui.SameLine();
 		if(ImGui.SmallButton("Copy"))
 		{
 			ImGui.LogToClipboard();
 			ImGui.LogText(String(object));
 			ImGui.LogFinish();
 		}
+		ImGui.SameLine();
+		ImGui.Text(name + " : " + String(object));
 	}
 	
 	ImGui.PopID();
