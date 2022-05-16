@@ -5,7 +5,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 	category:["Murder Mystery","Person"],
 	inputs:{
 		//How close they are?
-		graph:{ 				type:"data",		dataType:mm_relationshipGraphDataDef }
+		graph:{ 				type:"data",		dataType:mm_GraphDataDef }
 	},
 	outputs:{
 		//info on links
