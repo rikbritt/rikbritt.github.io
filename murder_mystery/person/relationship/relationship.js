@@ -12,6 +12,8 @@ var mm_relationshipBioRelationshipsGenerator = {
 	},
 	script:function(inputs, outputs)
 	{
+		//Pick a random edge to seed some bio relationships
+		//Build a family tree
 		outputs.edges = [0];
 	}
 }
