@@ -477,7 +477,7 @@ function UpdateObjectImGui(object, name)
 	{
 		ImGui.Text(name + " : " + String(object));
 		ImGui.SameLine();
-		if(ImGui.Button("Copy"))
+		if(ImGui.SmallButton("Copy"))
 		{
 			ImGui.LogToClipboard();
 			ImGui.LogText(String(object));

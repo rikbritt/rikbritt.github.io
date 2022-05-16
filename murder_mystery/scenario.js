@@ -7,11 +7,11 @@ var mm_scenarioGenerator2 = {
 		numPeople:{		type:"int", min:3, max:20	}
 	},
 	outputs:{
-		data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
+		//data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
 	},
 	script:function(inputs, outputs)
 	{
-		outputs.data = inputs;
+		//outputs.data = inputs;
 		outputs.data.people = [];
 		for(var i=0; i<inputs.numPeople; ++i)
 		{
