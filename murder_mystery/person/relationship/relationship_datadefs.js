@@ -29,20 +29,37 @@ var mm_relationshipLinkDataDef = {
 	}
 }
 
-var mm_relationshipGraphEdgeDataDef = {
+var mm_GraphEdgeDataDef = {
 	version:1,
-	name:"RelationshipGraphEdge",
+	name:"GraphEdge",
 	fields:{
 		a:{			type:"int", 	min:0,	max:100 },
 		b:{			type:"int", 	min:0,	max:100 },
 	}
 }
 
-var mm_relationshipGraphDataDef = {
+var mm_GraphDataDef = {
 	version:1,
-	name:"RelationshipGraph",
+	name:"Graph",
 	fields:{
 		nodes:{			type:"list", 	min:0,	max:100,	elementType:{ type:"text" } }, //node names
-		edges:{			type:"list", 	min:0,	max:100,	elementType:{ type:"data", dataType:mm_relationshipGraphEdgeDataDef } }
+		edges:{			type:"list", 	min:0,	max:100,	elementType:{ type:"data", dataType:mm_GraphEdgeDataDef } }
 	}
+}
+
+function MM_GraphToUML(graph)
+{
+	var uml = "";
+	uml += "@startuml\n";
+	uml += "digraph G {\n";
+	for(var e=0; e<graph.edges.length; ++e)
+	{
+		var edge = graph.edges[e];
+		var a = graph.nodes[edge.a];
+		var b = graph.nodes[edge.b];
+		uml += `    "${a}" -> "${b}"\n`;
+	}
+	uml += "}\n";
+	uml += "@enduml\n";
+	return uml;
 }
