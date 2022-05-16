@@ -51,13 +51,13 @@ function MM_GraphToUML(graph)
 {
 	var uml = "";
 	uml += "@startuml\n";
-	uml += "digraph G {\n";
+	uml += "graph G {\n";
 	for(var e=0; e<graph.edges.length; ++e)
 	{
 		var edge = graph.edges[e];
 		var a = graph.nodes[edge.a];
 		var b = graph.nodes[edge.b];
-		uml += `    "${a}" -> "${b}"\n`;
+		uml += `    "${a}" -- "${b}"\n`;
 	}
 	uml += "}\n";
 	uml += "@enduml\n";

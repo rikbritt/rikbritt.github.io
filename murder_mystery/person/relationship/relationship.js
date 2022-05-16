@@ -12,9 +12,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 	},
 	script:function(inputs, outputs)
 	{
-		outputs.data = {
-			edges:[0]
-		};
+		outputs.edges = [0];
 	}
 }
 bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
@@ -56,7 +54,7 @@ var mm_relationshipsGenerator = {
 			}
 		}
 
-		//Build relationships list
+		//Build relationship links
 		{
 			outputs.relationships = [];
 
@@ -74,6 +72,14 @@ var mm_relationshipsGenerator = {
 
 				outputs.relationships.push(link);
 			}
+		}
+
+		//Build bio relationships
+		{
+			var bio_inputs = {
+				graph:outputs.relationshipGraph
+			};
+			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator, inputs.seed, bio_inputs).outputs;
 		}
 
 		//Graph UML
