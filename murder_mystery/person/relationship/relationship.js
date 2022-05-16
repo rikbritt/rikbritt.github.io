@@ -12,6 +12,9 @@ var mm_relationshipBioRelationshipsGenerator = {
 	},
 	script:function(inputs, outputs)
 	{
+		outputs.data = {
+			edges:[0]
+		};
 	}
 }
 bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
@@ -31,34 +34,48 @@ var mm_relationshipsGenerator = {
 	},
 	script:function(inputs, outputs)
 	{
-		outputs.relationships = [];
-		var r_seed = inputs.seed;
-
-		var p2StartIdx = 1;
-		for(var p1Idx=0; p1Idx<inputs.people.length; ++p1Idx)
+		//Build Relationships Graph
 		{
-			var p1 = inputs.people[p1Idx];
-			for(var p2Idx=p2StartIdx; p2Idx<inputs.people.length; ++p2Idx)
+			//Create Biological Relationships First
+			outputs.relationshipGraph = {
+				nodes:[],
+				edges:[]
+			};
+			for(var i=0; i<inputs.people.length; ++i)
 			{
-				var p2 = inputs.people[p2Idx];
-				if(p1 == p2)
+				outputs.relationshipGraph.nodes.push(inputs.people[i].name);
+			}
+			var p2StartIdx = 1;
+			for(var p1Idx=0; p1Idx<inputs.people.length; ++p1Idx)
+			{
+				for(var p2Idx=p2StartIdx; p2Idx<inputs.people.length; ++p2Idx)
 				{
-					continue;
+					outputs.relationshipGraph.edges.push({a:p1Idx, b:p2Idx});
 				}
+				++p2StartIdx;
+			}
+		}
+
+		//Build relationships list
+		{
+			outputs.relationships = [];
+
+			for(var e=0; e<outputs.relationshipGraph.edges.length; ++e)
+			{
+				var edge = outputs.relationshipGraph.edges[e];
+				var p1 = inputs.people[e.a];
+				var p2 = inputs.people[e.b];
 
 				//Call this generator to make the link, but it'll be random,
 				//so we'll sort it out
-				var link = bg.BuildDataFields(mm_relationshipLinkDataDef.fields, r_seed, null);
+				var link = bg.BuildDataFields(mm_relationshipLinkDataDef.fields, inputs.seed + e, null);
 				link.aName = p1.name;
 				link.bName = p2.name;
 
 				outputs.relationships.push(link);
-				++r_seed;
 			}
-			++p2StartIdx;
 		}
 
-		//Create Biological Relationships First
 		
 		//Graph UML
 		outputs.uml = "@startuml\n";

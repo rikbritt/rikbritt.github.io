@@ -33,8 +33,8 @@ var mm_relationshipGraphEdgeDataDef = {
 	version:1,
 	name:"RelationshipGraphEdge",
 	fields:{
-		a:{			type:"text" },
-		b:{			type:"text" },
+		a:{			type:"int", 	min:0,	max:100 },
+		b:{			type:"int", 	min:0,	max:100 },
 	}
 }
 
