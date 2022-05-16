@@ -28,3 +28,21 @@ var mm_relationshipLinkDataDef = {
 		bName:{		type:"text" },
 	}
 }
+
+var mm_relationshipGraphEdgeDataDef = {
+	version:1,
+	name:"RelationshipGraphEdge",
+	fields:{
+		a:{			type:"text" },
+		b:{			type:"text" },
+	}
+}
+
+var mm_relationshipGraphDataDef = {
+	version:1,
+	name:"RelationshipGraph",
+	fields:{
+		nodes:{			type:"list", 	min:0,	max:100,	elementType:{ type:"text" } }, //node names
+		edges:{			type:"list", 	min:0,	max:100,	elementType:{ type:"data", dataType:mm_relationshipGraphEdgeDataDef } }
+	}
+}

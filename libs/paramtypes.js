@@ -112,6 +112,14 @@ bg.CreateFieldType(
 bg.CreateFieldType(
 	"list",
 	function(fieldDef, seed) {
+		if(fieldDef.min == undefined)
+		{
+			fieldDef.min = 0;
+		}
+		if(fieldDef.max == undefined)
+		{
+			fieldDef.max = 100;
+		}
 		var numItems = bg.GetRandomIntFromSeed(seed, fieldDef.min, fieldDef.max);
 		var list = [];
 		for(var i=0; i<numItems; ++i)

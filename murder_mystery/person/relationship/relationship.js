@@ -1,3 +1,21 @@
+var mm_relationshipBioRelationshipsGenerator = {
+	version:1,
+	name:"Bio Relationships Graph",
+	description:"Given a relationship graph, adds biological relationships.",
+	category:["Murder Mystery","Person"],
+	inputs:{
+		//How close they are?
+		graph:{ 				type:"data",		dataType:mm_relationshipGraphDataDef }
+	},
+	outputs:{
+		//info on links
+	},
+	script:function(inputs, outputs)
+	{
+	}
+}
+bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
+
 var mm_relationshipsGenerator = {
 	version:1,
 	name:"Relationships",
@@ -11,7 +29,8 @@ var mm_relationshipsGenerator = {
 		//relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
 		//relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
 	},
-	script:function(inputs, outputs){
+	script:function(inputs, outputs)
+	{
 		outputs.relationships = [];
 		var r_seed = inputs.seed;
 
@@ -27,6 +46,8 @@ var mm_relationshipsGenerator = {
 					continue;
 				}
 
+				//Call this generator to make the link, but it'll be random,
+				//so we'll sort it out
 				var link = bg.BuildDataFields(mm_relationshipLinkDataDef.fields, r_seed, null);
 				link.aName = p1.name;
 				link.bName = p2.name;
@@ -37,6 +58,8 @@ var mm_relationshipsGenerator = {
 			++p2StartIdx;
 		}
 
+		//Create Biological Relationships First
+		
 		//Graph UML
 		outputs.uml = "@startuml\n";
 		outputs.uml += "digraph G {\n";
