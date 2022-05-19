@@ -6,9 +6,12 @@ bg.CreateGraph = function()
     };
 }
 
-bg.AddGraphNode = function(graph, node_id)
+bg.AddGraphNode = function(graph, node_id, node_data)
 {
-    graph.nodes.push(node_id);
+    graph.nodes.push({
+        id:node_id,
+        data:node_data
+    });
 }
 
 bg.AddGraphEdge = function(graph, from_idx, to_idx)

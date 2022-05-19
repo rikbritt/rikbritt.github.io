@@ -55,8 +55,8 @@ function MM_GraphToUML(graph)
 	for(var e=0; e<graph.edges.length; ++e)
 	{
 		var edge = graph.edges[e];
-		var a = graph.nodes[edge.a];
-		var b = graph.nodes[edge.b];
+		var a = graph.nodes[edge.a].id;
+		var b = graph.nodes[edge.b].id;
 		uml += `    "${a}" -- "${b}"\n`;
 	}
 	uml += "}\n";

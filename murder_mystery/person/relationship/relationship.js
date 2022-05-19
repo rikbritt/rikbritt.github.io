@@ -14,13 +14,20 @@ var mm_relationshipBioRelationshipsGenerator = {
 	script:function(inputs, outputs)
 	{
 		//Make a list of nodes to pick from
-		var free_nodes = inputs.graph.nodes.filter( 
-			node => !inputs.taken_nodes.includes(node) 
+		var male_free_nodes = inputs.graph.nodes.filter( 
+			id => inputs.taken_nodes.find(
+				n => n.id == id && n.data.male
+			) != undefined 
+		);
+		var female_free_nodes = inputs.graph.nodes.filter( 
+			id => inputs.taken_nodes.find(
+				n => n.id == id && n.data.male == false
+			) != undefined
 		);
 		//Pick a random edge to seed some bio relationships
 		//Build a family tree graph
 		outputs.bio_tree = bg.CreateGraph();
-		bg.AddGraphNode( outputs.bio_tree, bg.GetRandomArrayEntry(inputs.seed, free_nodes));
+		bg.AddGraphNode( outputs.bio_tree, bg.GetRandomArrayEntry(inputs.seed, male_free_nodes));
 	}
 }
 bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
@@ -46,7 +53,7 @@ var mm_relationshipsGenerator = {
 			outputs.relationshipGraph = bg.CreateGraph();
 			for(var i=0; i<inputs.people.length; ++i)
 			{
-				bg.AddGraphNode(outputs.relationshipGraph, inputs.people[i].name);
+				bg.AddGraphNode(outputs.relationshipGraph, inputs.people[i].name, inputs.people[i]);
 			}
 			var p2StartIdx = 1;
 			for(var p1Idx=0; p1Idx<inputs.people.length; ++p1Idx)
