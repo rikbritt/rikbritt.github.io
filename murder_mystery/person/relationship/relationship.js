@@ -5,17 +5,20 @@ var mm_relationshipBioRelationshipsGenerator = {
 	category:["Murder Mystery","Person"],
 	inputs:{
 		//How close they are?
-		graph:{ 				type:"data",		dataType:mm_GraphDataDef }
+		graph:{ 				type:"data",		dataType:mm_GraphDataDef },
+		taken_nodes:{			type:"list",		elementType:{ type:"string" } } //which nodes are already used by another tree
 	},
 	outputs:{
 		//info on links
 	},
 	script:function(inputs, outputs)
 	{
+		//Make a list of nodes to pick from
+		var free_nodes = inputs.graph.nodes.filter( node => inputs.taken_nodes.find(node) == undefined );
 		//Pick a random edge to seed some bio relationships
 		//Build a family tree graph
 		outputs.bio_tree = bg.CreateGraph();
-		bg.AddGraphNode( bg.GetRandomArrayEntry(inputs.seed, inputs.graph.nodes));
+		bg.AddGraphNode( outputs.bio_tree, bg.GetRandomArrayEntry(inputs.seed, free_nodes));
 	}
 }
 bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
