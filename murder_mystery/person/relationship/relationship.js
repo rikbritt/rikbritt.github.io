@@ -29,9 +29,8 @@ var mm_relationshipBioRelationshipsGenerator = {
 			) == undefined 
 		);
 
-		var CreateGeneration = function(current_gen)
+		var CreateGeneration = function(current_gen, father)
 		{
-			var father = bg.GetAndRemoveRandomArrayEntry(child_seed++, male_free_nodes);
 			var can_have_child = male_free_nodes.length > 0 || female_free_nodes.length > 1;
 			var wants_child = can_have_child && bg.GetRandomBool(child_seed++);
 			if(wants_child)
@@ -43,20 +42,26 @@ var mm_relationshipBioRelationshipsGenerator = {
 								bg.GetAndRemoveRandomArrayEntry(child_seed++, male_free_nodes)
 								: bg.GetAndRemoveRandomArrayEntry(child_seed++, female_free_nodes);
 
-				bg.AddGraphNode(outputs.bio_graph, father.id, father.data);
+				if(current_gen == 0)
+				{
+					bg.AddGraphNode(outputs.bio_graph, father.id, father.data);
+				}
 				bg.AddGraphNode(outputs.bio_graph, mother.id, mother.data);
 				bg.AddGraphNode(outputs.bio_graph, child.id, child.data);
 				bg.AddGraphEdgeById(outputs.bio_graph, father.id, child.id);
 				bg.AddGraphEdgeById(outputs.bio_graph, mother.id, child.id);
 
-				if(current_gen + 1 < max_generations)
+				if(child_is_boy && current_gen + 1 < max_generations)
 				{
-					CreateGeneration(current_gen+1);
+					CreateGeneration(current_gen+1, child_is_boy);
 				}
 			}
 		};
 
-		CreateGeneration(0);
+		if( male_free_nodes.length > 0)
+		{
+			CreateGeneration(0, bg.GetAndRemoveRandomArrayEntry(child_seed++, male_free_nodes));
+		}
 	}
 }
 bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
