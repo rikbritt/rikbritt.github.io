@@ -20,7 +20,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 			) != undefined 
 		);
 		var female_free_nodes = inputs.graph.nodes.filter( 
-			n => node.data.male == false && inputs.taken_nodes.find(
+			node => node.data.male == false && inputs.taken_nodes.find(
 				n => n.id == node.id
 			) != undefined 
 		);
