@@ -32,7 +32,7 @@ var mm_scenarioGenerator2 = {
 		outputs.data.relationships = relationships.outputs.relationships;
 		outputs.data.relationshipsUML = relationships.outputs.uml;
 		outputs.data.bio_graph = relationships.outputs.bio_graph;
-		outputs.data.bio_graph_uml = MM_GraphToUML(outputs.data.bio_graph);
+		outputs.data.bio_graph_uml = MM_DiGraphToUML(outputs.data.bio_graph);
 	}
 }
 bg.RegisterGenerator(mm_scenarioGenerator2);
