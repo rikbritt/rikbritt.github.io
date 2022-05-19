@@ -13,8 +13,9 @@ var mm_relationshipBioRelationshipsGenerator = {
 	script:function(inputs, outputs)
 	{
 		//Pick a random edge to seed some bio relationships
-		//Build a family tree
-		outputs.edges = [0];
+		//Build a family tree graph
+		outputs.bio_tree = bg.CreateGraph();
+		bg.AddGraphNode( bg.GetRandomArrayEntry(inputs.seed, inputs.graph.nodes));
 	}
 }
 bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
@@ -37,20 +38,17 @@ var mm_relationshipsGenerator = {
 		//Build Relationships Graph
 		{
 			//Create Biological Relationships First
-			outputs.relationshipGraph = {
-				nodes:[],
-				edges:[]
-			};
+			outputs.relationshipGraph = bg.CreateGraph();
 			for(var i=0; i<inputs.people.length; ++i)
 			{
-				outputs.relationshipGraph.nodes.push(inputs.people[i].name);
+				bg.AddGraphNode(outputs.relationshipGraph, inputs.people[i].name);
 			}
 			var p2StartIdx = 1;
 			for(var p1Idx=0; p1Idx<inputs.people.length; ++p1Idx)
 			{
 				for(var p2Idx=p2StartIdx; p2Idx<inputs.people.length; ++p2Idx)
 				{
-					outputs.relationshipGraph.edges.push({a:p1Idx, b:p2Idx});
+					bg.AddGraphEdge(outputs.relationshipGraph, p1Idx, p2Idx);
 				}
 				++p2StartIdx;
 			}
