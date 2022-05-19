@@ -88,7 +88,7 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 			//If a value has already been generated/set, then use it
 			fieldValue = fieldDef.value;
 		}
-		else if(autoGenerate)
+		else if(autoGenerate && fieldValue == null)
 		{
 			if(inputs != undefined && inputs[fieldName] != undefined)
 			{
