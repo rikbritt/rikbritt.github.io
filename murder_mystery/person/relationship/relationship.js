@@ -13,6 +13,8 @@ var mm_relationshipBioRelationshipsGenerator = {
 	},
 	script:function(inputs, outputs)
 	{
+		outputs.bio_graph = bg.CreateGraph();
+
 		var max_generations = bg.GetRandomIntFromSeed(inputs.seed, 1, 5);
 		var child_seed = inputs.seed + 100;
 		//Make a list of nodes to pick from
@@ -40,6 +42,12 @@ var mm_relationshipBioRelationshipsGenerator = {
 				var child = child_is_boy ?
 								bg.GetAndRemoveRandomArrayEntry(child_seed++, male_free_nodes)
 								: bg.GetAndRemoveRandomArrayEntry(child_seed++, female_free_nodes);
+
+				bg.AddGraphNode(outputs.bio_graph, father.id, father.data);
+				bg.AddGraphNode(outputs.bio_graph, mother.id, mother.data);
+				bg.AddGraphNode(outputs.bio_graph, child.id, child.data);
+				bg.AddGraphEdgeById(outputs.bio_graph, father.id, child.id);
+				bg.AddGraphEdgeById(outputs.bio_graph, mother.id, child.id);
 
 				if(current_gen + 1 < max_generations)
 				{
@@ -81,7 +89,7 @@ var mm_relationshipsGenerator = {
 			{
 				for(var p2Idx=p2StartIdx; p2Idx<inputs.people.length; ++p2Idx)
 				{
-					bg.AddGraphEdge(outputs.relationshipGraph, p1Idx, p2Idx);
+					bg.AddGraphEdgeByIdx(outputs.relationshipGraph, p1Idx, p2Idx);
 				}
 				++p2StartIdx;
 			}
