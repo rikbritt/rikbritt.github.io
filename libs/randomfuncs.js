@@ -313,6 +313,6 @@ bg.GetRandomArrayEntry = function(seed, array) {
 bg.GetAndRemoveRandomArrayEntry = function(seed, array) {
 	var chosen = bg.GetRandomIntFromSeed(seed, 0, array.length-1);
 	var chosen_val = array[chosen];
-  array.slice(chosen, 1);
+  array.splice(chosen, 1);
   return chosen_val;
 }
