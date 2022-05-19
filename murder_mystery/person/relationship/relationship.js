@@ -17,12 +17,12 @@ var mm_relationshipBioRelationshipsGenerator = {
 		var male_free_nodes = inputs.graph.nodes.filter( 
 			node => node.data.male && inputs.taken_nodes.find(
 				n => n.id == node.id
-			) != undefined 
+			) == undefined 
 		);
 		var female_free_nodes = inputs.graph.nodes.filter( 
 			node => node.data.male == false && inputs.taken_nodes.find(
 				n => n.id == node.id
-			) != undefined 
+			) == undefined 
 		);
 		//Pick a random edge to seed some bio relationships
 		//Build a family tree graph
