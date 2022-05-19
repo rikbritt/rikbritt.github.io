@@ -121,6 +121,7 @@ var mm_relationshipsGenerator = {
 				graph:outputs.relationshipGraph
 			};
 			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator, inputs.seed, bio_inputs).outputs;
+			outputs.bio_graph = data.bio_graph;
 		}
 
 		//Graph UML
