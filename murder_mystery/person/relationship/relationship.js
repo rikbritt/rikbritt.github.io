@@ -13,6 +13,8 @@ var mm_relationshipBioRelationshipsGenerator = {
 	},
 	script:function(inputs, outputs)
 	{
+		var max_generations = bg.GetRandomIntFromSeed(inputs.seed, 1, 5);
+		var child_seed = inputs.seed + 100;
 		//Make a list of nodes to pick from
 		var male_free_nodes = inputs.graph.nodes.filter( 
 			node => node.data.male && inputs.taken_nodes.find(
@@ -24,10 +26,29 @@ var mm_relationshipBioRelationshipsGenerator = {
 				n => n.id == node.id
 			) == undefined 
 		);
-		//Pick a random edge to seed some bio relationships
-		//Build a family tree graph
-		outputs.bio_tree = bg.CreateGraph();
-		bg.AddGraphNode( outputs.bio_tree, bg.GetRandomArrayEntry(inputs.seed, male_free_nodes));
+
+		var CreateGeneration = function(current_gen)
+		{
+			var father = bg.GetAndRemoveRandomArrayEntry(child_seed++, male_free_nodes);
+			var can_have_child = male_free_nodes.length > 0 || female_free_nodes.length > 1;
+			var wants_child = can_have_child && bg.GetRandomBool(child_seed++);
+			if(wants_child)
+			{
+				var mother = bg.GetAndRemoveRandomArrayEntry(child_seed++, female_free_nodes);
+
+				var child_is_boy = female_free_nodes.length == 0 || bg.GetRandomBool(child_seed++);
+				var child = child_is_boy ?
+								bg.GetAndRemoveRandomArrayEntry(child_seed++, male_free_nodes)
+								: bg.GetAndRemoveRandomArrayEntry(child_seed++, female_free_nodes);
+
+				if(current_gen + 1 < max_generations)
+				{
+					CreateGeneration(current_gen+1);
+				}
+			}
+		};
+
+		CreateGeneration(0);
 	}
 }
 bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
