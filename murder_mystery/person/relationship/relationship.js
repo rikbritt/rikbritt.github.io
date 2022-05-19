@@ -53,7 +53,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 
 				if(child_is_boy && current_gen + 1 < max_generations)
 				{
-					CreateGeneration(current_gen+1, child_is_boy);
+					CreateGeneration(current_gen+1, child);
 				}
 			}
 		};
