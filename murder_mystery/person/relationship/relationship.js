@@ -15,7 +15,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 	{
 		//Make a list of nodes to pick from
 		var free_nodes = inputs.graph.nodes.filter( 
-			node => inputs.taken_nodes.find(node) == undefined 
+			node => !inputs.taken_nodes.includes(node) 
 		);
 		//Pick a random edge to seed some bio relationships
 		//Build a family tree graph
