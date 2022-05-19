@@ -482,7 +482,19 @@ function UpdateObjectImGui(object, name)
 			ImGui.LogFinish();
 		}
 		ImGui.SameLine();
-		ImGui.Text(name + " : " + String(object));
+		var str = String(object);
+		if(str.length > 128)
+		{
+			if(ImGui.TreeNodeEx(name))
+			{
+				ImGui.Text(str);
+				ImGui.TreePop();
+			}
+		}
+		else
+		{
+			ImGui.Text(name + " : " + str);
+		}
 	}
 	
 	ImGui.PopID();
