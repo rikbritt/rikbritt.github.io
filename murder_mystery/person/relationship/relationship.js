@@ -1,3 +1,84 @@
+var mm_relationshipBioRelationshipsGenerator2 = {
+	version:1,
+	name:"Bio Relationships Graph 2",
+	description:"Given abstract people graph, adds biological relationships.",
+	category:["Murder Mystery","Person"],
+	inputs:{
+		//How close they are?
+		graph:{ 				type:"data",		dataType:mm_GraphDataDef },
+		taken_nodes:{			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
+	},
+	outputs:{
+		//info on links
+	},
+	script:function(inputs, outputs)
+	{
+		outputs.bio_graph = bg.CreateGraph();
+
+		var max_generations = bg.GetRandomIntFromSeed(inputs.seed, 1, 5);
+		var child_seed = inputs.seed + 100;
+		//Make a list of nodes to pick from
+		var free_nodes = inputs.graph.nodes.filter( 
+			node => inputs.taken_nodes.find(
+				n => n.id == node.id
+			) == undefined 
+		);
+
+		//var male_free_nodes = inputs.graph.nodes.filter( 
+		//	node => node.data.male && inputs.taken_nodes.find(
+		//		n => n.id == node.id
+		//	) == undefined 
+		//);
+		//var female_free_nodes = inputs.graph.nodes.filter( 
+		//	node => node.data.male == false && inputs.taken_nodes.find(
+		//		n => n.id == node.id
+		//	) == undefined 
+		//);
+
+		var CreateGeneration = function(current_gen, father, mother)
+		{
+			father.male = true;
+			mother.male = false;
+			bg.AddGraphNode(outputs.bio_graph, father.id, father.data);
+			bg.AddGraphNode(outputs.bio_graph, mother.id, mother.data);
+
+			var can_have_child = free_nodes.length >= 1;
+			var wants_child = can_have_child && bg.GetRandomBool(child_seed++);
+			if(wants_child)
+			{
+				var child = bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes);
+				child.male = bg.GetRandomBool(child_seed++);
+
+				bg.AddGraphNode(outputs.bio_graph, child.id, child.data);
+				bg.AddGraphEdgeById(outputs.bio_graph, father.id, child.id);
+				bg.AddGraphEdgeById(outputs.bio_graph, mother.id, child.id);
+
+				var child_can_have_child = free_nodes.length >= 2; //partner and child
+				if(child_can_have_child && current_gen + 1 < max_generations && bg.GetRandomBool(child_seed++))
+				{
+					if(child.male)
+					{
+						CreateGeneration(current_gen+1, child, bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes));
+					}
+					else
+					{
+						CreateGeneration(current_gen+1, bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes), child);
+					}
+				}
+			}
+		};
+
+		if( free_nodes.length >= 2)
+		{
+			CreateGeneration(0, 
+				bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes),
+				bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes)
+			);
+		}
+	}
+}
+bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator2);
+
 var mm_relationshipBioRelationshipsGenerator = {
 	version:1,
 	name:"Bio Relationships Graph",

@@ -34,7 +34,7 @@ var mm_scenarioGenerator3 = {
 				graph:bg.CreateGraphFromList(outputs.data.abstract_people)
 			};
 
-			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator, inputs.seed, bio_inputs).outputs;
+			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, inputs.seed, bio_inputs).outputs;
 			outputs.bio_graph = data.bio_graph;
 		}
 	}
