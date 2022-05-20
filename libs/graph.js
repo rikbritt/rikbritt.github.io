@@ -6,6 +6,16 @@ bg.CreateGraph = function()
     };
 }
 
+bg.CreateGraphFromList = function(list)
+{
+    var g = bg.CreateGraph();
+    for(var i=0; i<list.length; ++i)
+    {
+        bg.AddGraphNode(g, list[i].id, { listEntry:list[i] });
+    }
+    return g;
+}
+
 bg.AddGraphNode = function(graph, node_id, node_data)
 {
     graph.nodes.push({

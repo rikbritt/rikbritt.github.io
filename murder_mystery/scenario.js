@@ -1,3 +1,46 @@
+
+var mm_scenarioGenerator3 = {
+	version:1,
+	name:"Scenario V3",
+	description:"Abstract People, Then Bio Relationships, Then people",
+	category:["Murder Mystery"],
+	inputs:{
+		numPlayers:					{		type:"int", min:3, max:20			},
+		numPeoplePlayerCanPick:		{		type:"int", min:1, max:8, default:4	}
+	},
+	outputs:{
+		data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
+	},
+	script:function(inputs, outputs)
+	{
+		outputs.data = inputs;
+
+		//Calc how many abstract people to make
+		var num_abstract_people = inputs.numPeoplePlayerCanPick * inputs.numPlayers;
+		outputs.data.abstract_people = [];
+		for(var i=0; i<num_abstract_people; ++i)
+		{
+			var abstract_person = 
+			{
+				//anything?
+				id:i
+			};
+			outputs.data.abstract_people.push(abstract_person);
+		}
+
+		//Make some families
+		{
+			var bio_inputs = {
+				graph:bg.CreateGraphFromList(outputs.data.abstract_people)
+			};
+
+			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator, inputs.seed, bio_inputs).outputs;
+			outputs.bio_graph = data.bio_graph;
+		}
+	}
+}
+bg.RegisterGenerator(mm_scenarioGenerator3);
+
 var mm_scenarioGenerator2 = {
 	version:1,
 	name:"Scenario V2",
