@@ -37,8 +37,8 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 
 		var CreateGeneration = function(current_gen, father, mother)
 		{
-			father.male = true;
-			mother.male = false;
+			father.data.male = true;
+			mother.data.male = false;
 			bg.AddGraphNode(outputs.bio_graph, father.id, father.data);
 			bg.AddGraphNode(outputs.bio_graph, mother.id, mother.data);
 
@@ -47,7 +47,7 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 			if(wants_child)
 			{
 				var child = bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes);
-				child.male = bg.GetRandomBool(child_seed++);
+				child.data.male = bg.GetRandomBool(child_seed++);
 
 				bg.AddGraphNode(outputs.bio_graph, child.id, child.data);
 				bg.AddGraphEdgeById(outputs.bio_graph, father.id, child.id);
@@ -56,7 +56,7 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 				var child_can_have_child = free_nodes.length >= 2; //partner and child
 				if(child_can_have_child && current_gen + 1 < max_generations && bg.GetRandomBool(child_seed++))
 				{
-					if(child.male)
+					if(child.data.male)
 					{
 						CreateGeneration(current_gen+1, child, bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes));
 					}

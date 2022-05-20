@@ -36,6 +36,7 @@ var mm_scenarioGenerator3 = {
 
 			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, inputs.seed, bio_inputs).outputs;
 			outputs.bio_graph = data.bio_graph;
+			outputs.bio_graph_uml = MM_GraphToUML(outputs.bio_graph);
 		}
 	}
 }
