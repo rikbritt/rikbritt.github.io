@@ -50,7 +50,11 @@ var mm_scenarioGenerator3 = {
 				for(var i=0; i<data.bio_graph.edges.length; ++i)
 				{
 					var edge = data.bio_graph.edges[i];
-					bg.AddGraphEdgeByIdx(outputs.bio_graph, edge.a, edge.b);
+					bg.AddGraphEdgeById(
+						outputs.bio_graph,
+						 data.bio_graph.nodes[edge.a].id, 
+						data.bio_graph.nodes[edge.b].id
+					);
 				}
 				outputs.bio_graph.push(data.bio_graph);
 			}
