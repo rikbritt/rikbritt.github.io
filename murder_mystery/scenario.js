@@ -57,7 +57,7 @@ var mm_scenarioGenerator3 = {
 					);
 				}
 			}
-			outputs.bio_graph_uml = MM_DiGraphToUML(data.bio_graph);
+			outputs.bio_graph_uml = MM_DiGraphToUML(outputs.bio_graph);
 		}
 	}
 }
