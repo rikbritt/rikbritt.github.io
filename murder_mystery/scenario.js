@@ -34,18 +34,18 @@ var mm_scenarioGenerator3 = {
 
 			var bio_inputs = {
 				graph:graph_for_fam_gen,
-				taken:[]
+				taken_nodes:[]
 			};
 
 			outputs.bio_graph = [];
 			outputs.bio_graph_uml = [];
-			while(bio_inputs.taken.length < graph_for_fam_gen.nodes.length)
+			while(bio_inputs.taken_nodes.length < graph_for_fam_gen.nodes.length)
 			{
 				var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, inputs.seed, bio_inputs).outputs;
 
 				for(var i=0; i<data.bio_graph.nodes.length; ++i)
 				{
-					bio_inputs.taken.push( data.bio_graph.nodes[i].id);
+					bio_inputs.taken_nodes.push( data.bio_graph.nodes[i].id);
 				}
 				outputs.bio_graph.push(data.bio_graph);
 				outputs.bio_graph_uml.push(MM_DiGraphToUML(data.bio_graph));
