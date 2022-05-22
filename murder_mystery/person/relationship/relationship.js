@@ -20,7 +20,7 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 		//Make a list of nodes to pick from
 		var free_nodes = inputs.graph.nodes.filter( 
 			node => inputs.taken_nodes.find(
-				n => n.id == node.id
+				n => n == node.id
 			) == undefined 
 		);
 

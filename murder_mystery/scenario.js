@@ -30,13 +30,26 @@ var mm_scenarioGenerator3 = {
 
 		//Make some families
 		{
+			var graph_for_fam_gen = bg.CreateGraphFromList(outputs.data.abstract_people);
+
 			var bio_inputs = {
-				graph:bg.CreateGraphFromList(outputs.data.abstract_people)
+				graph:graph_for_fam_gen,
+				taken:[]
 			};
 
-			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, inputs.seed, bio_inputs).outputs;
-			outputs.bio_graph = data.bio_graph;
-			outputs.bio_graph_uml = MM_DiGraphToUML(outputs.bio_graph);
+			outputs.bio_graph = []];
+			outputs.bio_graph_uml = []);
+			while(bio_inputs.length < graph_for_fam_gen.nodes.length)
+			{
+				var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, inputs.seed, bio_inputs).outputs;
+
+				for(var i=0; i<data.bio_graph.nodes.length; ++i)
+				{
+					taken.push( data.bio_graph.nodes[i].id);
+				}
+				outputs.bio_graph.push(data.bio_graph);
+				outputs.bio_graph_uml.push(MM_DiGraphToUML(outputs.bio_graph));
+			}
 		}
 	}
 }
