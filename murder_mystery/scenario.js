@@ -39,7 +39,7 @@ var mm_scenarioGenerator3 = {
 
 			outputs.bio_graph = [];
 			outputs.bio_graph_uml = [];
-			while(bio_inputs.length < graph_for_fam_gen.nodes.length)
+			while(bio_inputs.taken.length < graph_for_fam_gen.nodes.length)
 			{
 				var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, inputs.seed, bio_inputs).outputs;
 
