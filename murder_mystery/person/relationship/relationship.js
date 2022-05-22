@@ -52,9 +52,6 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 				var child = bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes);
 				child.data.male = bg.GetRandomBool(child_seed++);
 
-				bg.AddGraphEdgeById(outputs.bio_graph, father.id, child.id);
-				bg.AddGraphEdgeById(outputs.bio_graph, mother.id, child.id);
-
 				var child_can_have_child = free_nodes.length >= 2; //partner and child
 				if(child_can_have_child && current_gen + 1 < max_generations && bg.GetRandomBool(child_seed++))
 				{
@@ -71,6 +68,9 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 				{
 					bg.AddGraphNode(outputs.bio_graph, child.id, child.data);
 				}
+
+				bg.AddGraphEdgeById(outputs.bio_graph, father.id, child.id);
+				bg.AddGraphEdgeById(outputs.bio_graph, mother.id, child.id);
 			}
 		};
 
