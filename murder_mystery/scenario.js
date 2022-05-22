@@ -37,10 +37,11 @@ var mm_scenarioGenerator3 = {
 				taken_nodes:[]
 			};
 
+			var bio_graph_seed = inputs.seed;
 			outputs.bio_graph = bg.CreateGraphFromList(outputs.data.abstract_people);
 			while(bio_inputs.taken_nodes.length < graph_for_fam_gen.nodes.length)
 			{
-				var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, inputs.seed, bio_inputs).outputs;
+				var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator2, bio_graph_seed, bio_inputs).outputs;
 
 				for(var i=0; i<data.bio_graph.nodes.length; ++i)
 				{
@@ -56,6 +57,7 @@ var mm_scenarioGenerator3 = {
 						data.bio_graph.nodes[edge.b].id
 					);
 				}
+				bio_graph_seed += 1;
 			}
 			outputs.bio_graph_uml = MM_DiGraphToUML(outputs.bio_graph);
 		}
