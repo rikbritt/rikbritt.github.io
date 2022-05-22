@@ -42,14 +42,16 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 			bg.AddGraphNode(outputs.bio_graph, father.id, father.data);
 			bg.AddGraphNode(outputs.bio_graph, mother.id, mother.data);
 
-			var can_have_child = free_nodes.length >= 1;
-			var wants_child = can_have_child && bg.GetRandomBool(child_seed++);
-			if(wants_child)
+			var num_children = bg.GetRandomIntFromSeed(child_seed++, 0, 5);
+			for(var i=0; i<num_children; ++i)
 			{
+				if(free_nodes.length == 0)
+				{
+					return;
+				}
 				var child = bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes);
 				child.data.male = bg.GetRandomBool(child_seed++);
 
-				bg.AddGraphNode(outputs.bio_graph, child.id, child.data);
 				bg.AddGraphEdgeById(outputs.bio_graph, father.id, child.id);
 				bg.AddGraphEdgeById(outputs.bio_graph, mother.id, child.id);
 
@@ -64,6 +66,10 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 					{
 						CreateGeneration(current_gen+1, bg.GetAndRemoveRandomArrayEntry(child_seed++, free_nodes), child);
 					}
+				}
+				else
+				{
+					bg.AddGraphNode(outputs.bio_graph, child.id, child.data);
 				}
 			}
 		};
