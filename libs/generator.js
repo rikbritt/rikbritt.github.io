@@ -78,17 +78,13 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 	for([fieldName, fieldDef] of Object.entries(fieldsIn))
 	{
 		var fieldValue = null;
-		if(autoGenerate)
-		{
-			fieldValue = fieldDef.default; //If there's a default value, use it. Otherwise this is undefined.
-		}
 		
 		if(fieldDef.value != undefined)
 		{
 			//If a value has already been generated/set, then use it
 			fieldValue = fieldDef.value;
 		}
-		else if(autoGenerate && fieldValue == null)
+		else if(autoGenerate)
 		{
 			if(inputs != undefined && inputs[fieldName] != undefined)
 			{
@@ -102,6 +98,10 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 				{
 					overidden[fieldName] = true;
 				}
+			}
+			else if(fieldDef.default != undefined)
+			{
+				fieldValue = fieldDef.default; //If there's a default value, use it. Otherwise this is undefined.
 			}
 			else if(fieldDef.script != undefined)
 			{
