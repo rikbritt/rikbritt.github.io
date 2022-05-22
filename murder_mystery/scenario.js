@@ -45,7 +45,7 @@ var mm_scenarioGenerator3 = {
 
 				for(var i=0; i<data.bio_graph.nodes.length; ++i)
 				{
-					taken.push( data.bio_graph.nodes[i].id);
+					bio_inputs.taken.push( data.bio_graph.nodes[i].id);
 				}
 				outputs.bio_graph.push(data.bio_graph);
 				outputs.bio_graph_uml.push(MM_DiGraphToUML(outputs.bio_graph));
