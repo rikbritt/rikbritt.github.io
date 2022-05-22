@@ -56,7 +56,6 @@ var mm_scenarioGenerator3 = {
 						data.bio_graph.nodes[edge.b].id
 					);
 				}
-				outputs.bio_graph.push(data.bio_graph);
 			}
 			outputs.bio_graph_uml.push(MM_DiGraphToUML(data.bio_graph));
 		}
