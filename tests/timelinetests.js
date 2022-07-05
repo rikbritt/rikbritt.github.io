@@ -13,7 +13,7 @@ var testTimelineGenerator = {
         var timeline = bg.CreateTimeline("Test Timeline");
         bg.TimelineAddEvent(timeline, 10, "Test", {});
         bg.TimelineAddEvent(timeline, 10, "Test2", {});
-        bg.TimelineAddEvent(timeline, 20, "Test3", {});
+        bg.TimelineAddEvent(timeline, 20, "Test3", {data:"hi"});
         outputs.data = timeline;
 	}
 }
