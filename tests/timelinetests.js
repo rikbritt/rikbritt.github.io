@@ -17,4 +17,4 @@ var testTimelineGenerator = {
         outputs.data = timeline;
 	}
 }
-bg.RegisterGenerator(testVoxelsGenerator);
+bg.RegisterGenerator(testTimelineGenerator);
