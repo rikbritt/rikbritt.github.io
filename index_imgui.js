@@ -462,6 +462,17 @@ function UpdateObjectImGui(object, name)
 			ImGui.TreePop();
 		}
 	}
+	else if(object instanceof Map)
+	{
+		if(ImGui.TreeNodeEx(name, ImGui.TreeNodeFlags.DefaultOpen))
+		{
+			for([key, val] of object) 
+			{
+				UpdateObjectImGui(val, key);
+			}
+			ImGui.TreePop();
+		}
+	}
 	else if(typeof(object) == 'object')
 	{
 		if(ImGui.TreeNodeEx(name, ImGui.TreeNodeFlags.DefaultOpen))
