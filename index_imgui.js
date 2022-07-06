@@ -477,6 +477,13 @@ function UpdateObjectImGui(object, name)
 	{
 		if(ImGui.TreeNodeEx(name, ImGui.TreeNodeFlags.DefaultOpen))
 		{
+			if(object.data_type == "timeline")
+			{
+				if(ImGui.TreeNodeEx("Timeline Visualisation"))
+				{
+					ImGui.Text("VISUALISATION HERE!");
+				}
+			}
 			for([key, val] of Object.entries(object)) 
 			{
 				UpdateObjectImGui(val, key);

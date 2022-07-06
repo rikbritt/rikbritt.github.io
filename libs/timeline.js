@@ -3,7 +3,8 @@ bg.TimelineCreate = function(name, meta_data)
     return {
         name:name,
         streams:{},
-        meta:meta_data
+        meta:meta_data,
+        data_type:"timeline"
     };
 }
 

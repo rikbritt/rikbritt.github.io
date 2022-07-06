@@ -6,7 +6,7 @@ var testTimelineGenerator = {
 	inputs:{
 	},
 	outputs:{
-		data:{		type:"text"	}
+		data:{		type:"timeline"	}
 	},
 	script:function(inputs, outputs)
     {
