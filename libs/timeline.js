@@ -1,18 +1,31 @@
-bg.CreateTimeline = function(name)
+bg.TimelineCreate = function(name, meta_data)
 {
     return {
         name:name,
-        events_by_time: new Map()
+        streams:{},
+        meta:meta_data
     };
 }
 
-bg.TimelineAddEvent = function(timeline, time, name, meta_data)
+bg.TimelineCreateStream = function(timeline, name, meta_data)
 {
-    var events_for_time = timeline.events_by_time.get(time);
+    //TODO: Check for name clash?
+    var stream = {
+        name:name,
+        meta:meta_data,
+        events_by_time:new Map()
+    };
+    timeline.streams[name] = stream;
+    return stream;
+}
+
+bg.TimelineAddStreamEvent = function(stream, time, name, meta_data)
+{
+    var events_for_time = stream.events_by_time.get(time);
     if(events_for_time == null)
     {
         events_for_time = [];
-        timeline.events_by_time.set(time, events_for_time);
+        stream.events_by_time.set(time, events_for_time);
     }
     events_for_time.push(
         {

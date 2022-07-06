@@ -10,10 +10,11 @@ var testTimelineGenerator = {
 	},
 	script:function(inputs, outputs)
     {
-        var timeline = bg.CreateTimeline("Test Timeline");
-        bg.TimelineAddEvent(timeline, 10, "Test", {});
-        bg.TimelineAddEvent(timeline, 10, "Test2", {});
-        bg.TimelineAddEvent(timeline, 20, "Test3", {data:"hi"});
+        var timeline = bg.TimelineCreate("Test Timeline");
+		var bob_stream = bg.TimelineCreateStream(timeline, "Bob", {age:25});
+        bg.TimelineAddStreamEvent(bob_stream, 10, "Test", {});
+        bg.TimelineAddStreamEvent(bob_stream, 10, "Test2", {});
+        bg.TimelineAddStreamEvent(bob_stream, 20, "Test3", {data:"hi"});
         outputs.data = timeline;
 	}
 }
