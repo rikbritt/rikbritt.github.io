@@ -481,7 +481,7 @@ function UpdateObjectImGui(object, name)
 			{
 				if(ImGui.TreeNodeEx("Timeline Visualisation"))
 				{
-					ImGui.Text("VISUALISATION HERE!");
+					AddTimeline("vis", object);
 					ImGui.TreePop();
 				}
 			}
