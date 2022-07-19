@@ -36,7 +36,7 @@ function DrawTimelineRange(ctx, name, start, end)
         ctx.range_col
     );
     
-    ctx.draw.PushClipRect({x:bx,y:ctx.y}, {x:bex, y:ry + ctx.stream_height});
+    ctx.draw.PushClipRect({x:bx,y:ctx.y}, {x:bex, y:ry + ctx.stream_height}, true);
     //ctx.draw.AddRectFilled({x:ctx.GetTimeX(start),y:ctx.y},{x:ctx.GetTimeX(end),y:ctx.y+20},0xFFFFFFFF );
     ctx.draw.AddText({x:bx, y:ry+2}, 0xFF0000FF, name);
     ctx.draw.PopClipRect();
