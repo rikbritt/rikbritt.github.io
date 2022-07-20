@@ -22,6 +22,12 @@ bg.TimelineCreateStream = function(timeline, name, meta_data)
 
 bg.TimelineAddStreamEvent = function(stream, time, name, meta_data)
 {
+    return bg.TimelineAddStreamEvent(stream, time, time, name, meta_data);
+}
+
+
+bg.TimelineAddStreamRange = function(stream, start_time, end_time, name, meta_data)
+{
     var events_for_time = stream.events_by_time.get(time);
     if(events_for_time == null)
     {
@@ -31,6 +37,7 @@ bg.TimelineAddStreamEvent = function(stream, time, name, meta_data)
     events_for_time.push(
         {
             name:name,
+            end:end_time,
             meta:meta_data
         }
     );
