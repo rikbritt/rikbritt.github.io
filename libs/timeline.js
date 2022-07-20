@@ -27,11 +27,11 @@ bg.TimelineAddStreamEvent = function(stream, time, name, meta_data)
 
 bg.TimelineAddStreamRange = function(stream, start_time, end_time, name, meta_data)
 {
-    var events_for_time = stream.events_by_time.get(time);
+    var events_for_time = stream.events_by_time.get(start_time);
     if(events_for_time == null)
     {
         events_for_time = [];
-        stream.events_by_time.set(time, events_for_time);
+        stream.events_by_time.set(start_time, events_for_time);
     }
     events_for_time.push(
         {
