@@ -5,10 +5,11 @@ function CreateTimelineContext()
         x:ImGui.GetCursorScreenPos().x,
         y:ImGui.GetCursorScreenPos().y,
         GetTimeX:function(t) {
-            return this.x + (t * 4);
+            return this.x + this.stream_name_width + (t * 4);
         },
         stream_height:20,
         stream_y:0,
+        stream_name_width:50,
         range_col:0xFFA49780
     };
     
@@ -42,6 +43,32 @@ function DrawTimelineRange(ctx, name, start, end)
     ctx.draw.PopClipRect();
 }
 
+function DrawTimelineEvent(ctx, name, time)
+{
+    var ey = ctx.stream_y + ctx.y; //event y
+    var ex = ctx.GetTimeX(time); //event x
+    ctx.draw.AddLine(
+        {x:ex, y:ey},
+        {x:ex, y:ey + ctx.stream_height},
+        0xFFFFFFFF
+    );
+    
+    ctx.draw.PushClipRect({x:ex, y:ey}, {x:ex + 200, y:ey + ctx.stream_height}, true);
+    ctx.draw.AddText({x:ex+2, y:ey+2}, 0xFF0000FF, name);
+    ctx.draw.PopClipRect();
+}
+
+function DrawStreamName(ctx, name)
+{
+    var sy = ctx.stream_y + ctx.y; //stream y
+    var sx = ctx.x + 2;
+    var sw = ctx.stream_name_width; //stream width
+    ctx.draw.AddRectFilled({x:sx,y:sy}, {x:sx + sw, y:sy + ctx.stream_height},0xFF444444 );
+    ctx.draw.PushClipRect({x:sx, y:sy}, {x:sx + sw, y:sy + ctx.stream_height}, true);
+    ctx.draw.AddText({x:sx+2, y:sy+2}, 0xFF0000FF, name);
+    ctx.draw.PopClipRect();
+}
+
 function AddTimeline(id, timeline)
 {
     ImGui.BeginChild(id, new ImGui.Vec2(-1,-1), true, ImGui.ImGuiWindowFlags.HorizontalScrollbar)
@@ -52,11 +79,16 @@ function AddTimeline(id, timeline)
     var ctx = CreateTimelineContext();
     DrawTimelineRange(ctx, "Test Range", 5, 25);
     
+    DrawTimelineEvent(ctx, "Event", 35);
+    DrawStreamName(ctx, "Frank");
+    
     ctx.stream_y = 30;
     DrawTimelineRange(ctx, "Test Range 2", 15, 50);
+    DrawStreamName(ctx, "Bob");
     
     ctx.stream_y = 60;
     DrawTimelineRange(ctx, "Test Range 3", 15, 50);
+    DrawStreamName(ctx, "Mike");
 
     //draw_list.AddLine({x:p.x+5,y:p.y+5}, {x:p.x+210,y:p.y+220},0xFFFFFFFF);
 
