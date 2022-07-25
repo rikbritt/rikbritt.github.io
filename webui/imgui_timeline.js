@@ -9,8 +9,10 @@ function CreateTimelineContext()
         },
         stream_height:20,
         stream_y:0,
-        stream_name_width:50,
-        range_col:0xFFA49780
+        stream_name_width:100,
+        range_col:0xFFA49780,
+        indent:0,
+        indent_size:10
     };
     
     return ctx;
@@ -66,12 +68,47 @@ function DrawTimelineRange(ctx, name, start, end)
 function DrawStreamName(ctx, name)
 {
     var sy = ctx.stream_y + ctx.y; //stream y
-    var sx = ctx.x + 2;
-    var sw = ctx.stream_name_width; //stream width
-    ctx.draw.AddRectFilled({x:sx,y:sy}, {x:sx + sw, y:sy + ctx.stream_height},0xFF444444 );
+    var sx = ctx.x + 2 + ctx.indent;
+    var sw = ctx.stream_name_width - ctx.indent; //stream width
     ctx.draw.PushClipRect({x:sx, y:sy}, {x:sx + sw, y:sy + ctx.stream_height}, true);
-    ctx.draw.AddText({x:sx+2, y:sy+2}, 0xFF0000FF, name);
+    //ctx.draw.AddRectFilled({x:sx,y:sy}, {x:sx + sw, y:sy + ctx.stream_height},0xFF444444 );
+    //ctx.draw.AddText({x:sx+2, y:sy+2}, 0xFF0000FF, name);
+    ImGui.SetCursorScreenPos({x:sx,y:sy});
+    ImGui.BeginChild(name,{x:sw,y:ctx.stream_height}, false, ImGui.ImGuiWindowFlags.NoScrollbar );
+    var open = ImGui.CollapsingHeader(name);
+    ImGui.EndChild();
     ctx.draw.PopClipRect();
+    return open;
+}
+
+function DrawStream(ctx, stream)
+{
+	for([time, events] of stream.events_by_time) 
+	{
+	    for(var i=0; i<events.length; ++i)
+	    {
+	        var event = events[i];
+	        DrawTimelineRange(ctx, event.name, time, event.end);
+	    }
+	}
+	
+    if(DrawStreamName(ctx, stream.name))
+    {
+        ctx.stream_y += 30;
+        ctx.indent += ctx.indent_size;
+        if(stream.child_streams != null)
+        {
+            for([key, child_stream] of Object.entries(stream.child_streams))
+        	{
+        	    DrawStream(ctx, child_stream);
+        	}
+        }
+        ctx.indent -= ctx.indent_size;
+    }
+    else
+    {
+        ctx.stream_y += 30;
+    }
 }
 
 function AddTimeline(id, timeline)
@@ -84,16 +121,7 @@ function AddTimeline(id, timeline)
     var ctx = CreateTimelineContext();
     for([key, stream] of Object.entries(timeline.streams))
 	{
-		for([time, events] of stream.events_by_time) 
-		{
-		    for(var i=0; i<events.length; ++i)
-		    {
-		        var event = events[i];
-		        DrawTimelineRange(ctx, event.name, time, event.end);
-		    }
-		}
-        DrawStreamName(ctx, stream.name);
-        ctx.stream_y += 30;
+	    DrawStream(ctx, stream);
 	}
 
     /*
@@ -115,3 +143,30 @@ function AddTimeline(id, timeline)
     ImGui.EndChild();
     ImGui.EndChild();
 }
+
+var demo_data = 
+{
+    streams:{
+        test_1:{
+            name:"Test1",
+            events_by_time:new Map(),
+            child_streams:{
+                child_1:{
+                    name:"Child1",
+                    events_by_time:new Map(),
+                }
+            }
+        },
+        test_2:{
+            name:"Test2",
+            events_by_time:new Map()
+        }
+    }
+};
+
+/*
+demo_data.streams.test_1.events_by_time.set(5, [{name:"hi",end:5}])
+demo_data.streams.test_1.child_streams.child_1.events_by_time.set(5, [{name:"yo",end:15}])
+
+AddTimeline("t", demo_data);
+*/
