@@ -81,7 +81,7 @@ function DrawStreamName(ctx, name, has_children)
     {
         flags |= ImGui.ImGuiTreeNodeFlags.Leaf;
     }
-    var open = ImGui.CollapsingHeader(name, flags);
+    var open = ImGui.CollapsingHeader(has_children ? name : " " + name, flags);
     ImGui.EndChild();
     ctx.draw.PopClipRect();
     return open;
