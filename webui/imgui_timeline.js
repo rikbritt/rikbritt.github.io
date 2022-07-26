@@ -4,8 +4,10 @@ function CreateTimelineContext()
         draw:ImGui.GetWindowDrawList(),
         x:ImGui.GetCursorScreenPos().x,
         y:ImGui.GetCursorScreenPos().y,
+        x_scale:4,
+        x_offset:0,
         GetTimeX:function(t) {
-            return this.x + this.stream_name_width + (t * 4);
+            return this.x + this.stream_name_width + (t * this.x_scale) + this.x_offset;
         },
         stream_height:20,
         stream_y:0,
@@ -120,12 +122,22 @@ function DrawStream(ctx, stream)
 
 function AddTimeline(id, timeline)
 {
+    var ctx = CreateTimelineContext();
+
+    if(ImGui.CollapsingHeader("Vis Options"))
+    {
+        ImGui.Indent();
+        ImGui.SliderFloat("Scale X", (_ = ctx.x_scale) => ctx.x_scale = _, 0.1, 50.0);
+        ImGui.SliderFloat("Scroll X", (_ = ctx.x_offset) => ctx.x_offset = _, -200.0, 200.0);
+        ImGui.Unindent();
+    }
     ImGui.BeginChild(id, new ImGui.Vec2(-1,-1), true, ImGui.ImGuiWindowFlags.HorizontalScrollbar)
     ImGui.BeginChild("TimelineScrollArea", new ImGui.Vec2(500,100));
-    var draw_list = ImGui.GetWindowDrawList();
+    
     var p = ImGui.GetCursorScreenPos();
+    ctx.x = p.x;
+    ctx.y = p.y;
 
-    var ctx = CreateTimelineContext();
     for([key, stream] of Object.entries(timeline.streams))
 	{
 	    DrawStream(ctx, stream);
@@ -145,7 +157,6 @@ function AddTimeline(id, timeline)
     DrawTimelineRange(ctx, "Test Range 3", 15, 50);
     DrawStreamName(ctx, "Mike");
     */
-    //draw_list.AddLine({x:p.x+5,y:p.y+5}, {x:p.x+210,y:p.y+220},0xFFFFFFFF);
 
     ImGui.EndChild();
     ImGui.EndChild();
