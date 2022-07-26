@@ -21,6 +21,8 @@ var testTimelineGenerator = {
         bg.TimelineAddStreamEvent(frank_stream, 10, "Test2", {});
         bg.TimelineAddStreamRange(frank_stream, 20, 40, "Test3", {data:"hi"});
 
+		var child1 = bg.TimelineCreateChildStream(frank_stream, "Child1");
+        bg.TimelineAddStreamEvent(child1, 12, "Child1Test", {});
         outputs.data = timeline;
 	}
 }

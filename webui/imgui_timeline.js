@@ -144,6 +144,7 @@ function AddTimeline(id, timeline)
     ImGui.EndChild();
 }
 
+/*
 var demo_data = 
 {
     streams:{
@@ -164,7 +165,6 @@ var demo_data =
     }
 };
 
-/*
 demo_data.streams.test_1.events_by_time.set(5, [{name:"hi",end:5}])
 demo_data.streams.test_1.child_streams.child_1.events_by_time.set(5, [{name:"yo",end:15}])
 
