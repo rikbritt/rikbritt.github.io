@@ -6,8 +6,11 @@ function CreateTimelineContext()
         y:ImGui.GetCursorScreenPos().y,
         x_scale:4,
         x_offset:0,
+        GetStreamStartX:function() {
+            return this.x + this.stream_name_width;
+        },
         GetTimeX:function(t) {
-            return this.x + this.stream_name_width + (t * this.x_scale) + this.x_offset;
+            return this.GetStreamStartX() + (t * this.x_scale) + this.x_offset;
         },
         stream_height:20,
         stream_y:0,
@@ -91,6 +94,9 @@ function DrawStreamName(ctx, name, has_children)
 
 function DrawStream(ctx, stream)
 {
+    var sx = ctx.GetStreamStartX();
+    var sy = ctx.stream_y + ctx.y;
+    ctx.draw.PushClipRect({x:sx, y:sy}, {x:sx + ImGui.GetWindowContentRegionWidth(), y:sy + ctx.stream_height}, true);
 	for([time, events] of stream.events_by_time) 
 	{
 	    for(var i=0; i<events.length; ++i)
@@ -99,6 +105,7 @@ function DrawStream(ctx, stream)
 	        DrawTimelineRange(ctx, event.name, time, event.end);
 	    }
 	}
+    ctx.draw.PopClipRect();
 	
     var has_children = stream.child_streams != null && Object.entries(stream.child_streams).length > 0;
     if(DrawStreamName(ctx, stream.name, has_children))
