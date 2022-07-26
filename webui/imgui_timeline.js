@@ -65,7 +65,7 @@ function DrawTimelineRange(ctx, name, start, end)
     ctx.draw.PopClipRect();
 }
 
-function DrawStreamName(ctx, name)
+function DrawStreamName(ctx, name, has_children)
 {
     var sy = ctx.stream_y + ctx.y; //stream y
     var sx = ctx.x + 2 + ctx.indent;
@@ -75,7 +75,13 @@ function DrawStreamName(ctx, name)
     //ctx.draw.AddText({x:sx+2, y:sy+2}, 0xFF0000FF, name);
     ImGui.SetCursorScreenPos({x:sx,y:sy});
     ImGui.BeginChild(name,{x:sw,y:ctx.stream_height}, false, ImGui.ImGuiWindowFlags.NoScrollbar );
-    var open = ImGui.CollapsingHeader(name);
+
+    var flags = ImGui.ImGuiTreeNodeFlags.CollapsingHeader;
+    if(has_children == false)
+    {
+        flags |= ImGui.ImGuiTreeNodeFlags.Leaf;
+    }
+    var open = ImGui.CollapsingHeader(name, flags);
     ImGui.EndChild();
     ctx.draw.PopClipRect();
     return open;
@@ -92,7 +98,8 @@ function DrawStream(ctx, stream)
 	    }
 	}
 	
-    if(DrawStreamName(ctx, stream.name))
+    var has_children = stream.child_streams != null && Object.entries(stream.child_streams).length > 0;
+    if(DrawStreamName(ctx, stream.name, has_children))
     {
         ctx.stream_y += 30;
         ctx.indent += ctx.indent_size;
