@@ -15,7 +15,7 @@ bg.TimelineCreate = function(name, meta_data)
             }
             for([key, child_stream] of Object.entries(this.streams))
         	{
-                last_time = child_stream.GetStreamsLastTime(last_time);
+                last_time = child_stream.CalcTimelineLastTime(last_time);
             }
             return last_time;
         }
@@ -39,7 +39,7 @@ bg.TimelineCreateStream = function(timeline, name, meta_data)
             }
             for([key, child_stream] of Object.entries(this.streams))
         	{
-                last_time = child_stream.GetStreamsLastTime(last_time);
+                last_time = child_stream.CalcTimelineLastTime(last_time);
             }
             return last_time;
         }
