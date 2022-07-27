@@ -50,7 +50,7 @@ bg.TimelineCreateStream = function(timeline, name, meta_data)
 
 bg.TimelineCreateChildStream = function(parent_stream, name, meta_data)
 {
-    return TimelineCreateStream(parent_stream, name, meta_data);
+    return bg.TimelineCreateStream(parent_stream, name, meta_data);
 }
 
 bg.TimelineAddStreamEvent = function(stream, time, name, meta_data)
