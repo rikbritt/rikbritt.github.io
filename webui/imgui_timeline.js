@@ -99,8 +99,8 @@ function DrawStream(ctx, stream)
 {
     var sx = ctx.GetStreamStartX();
     var sy = ctx.stream_y + ctx.y;
-    ctx.draw.AddText({x:ImGui.GetContentRegionAvail().x, y:sy}, 0xFF0000FF, "" + ImGui.GetContentRegionAvail().x);
-    ctx.draw.PushClipRect({x:sx, y:sy}, {x:sx + ImGui.GetContentRegionAvail().x, y:sy + ctx.stream_height}, true);
+    //ctx.draw.AddText({x:ImGui.GetContentRegionAvail().x, y:sy}, 0xFF0000FF, "" + ImGui.GetContentRegionAvail().x);
+    //ctx.draw.PushClipRect({x:sx, y:sy}, {x:sx + ImGui.GetContentRegionAvail().x, y:sy + ctx.stream_height}, true);
 	for([time, events] of stream.events_by_time) 
 	{
 	    for(var i=0; i<events.length; ++i)
@@ -109,7 +109,7 @@ function DrawStream(ctx, stream)
 	        DrawTimelineRange(ctx, event.name, time, event.end);
 	    }
 	}
-    ctx.draw.PopClipRect();
+    //ctx.draw.PopClipRect();
 	
     var has_children = stream.streams != null && Object.entries(stream.streams).length > 0;
     if(DrawStreamName(ctx, stream.name, has_children))
