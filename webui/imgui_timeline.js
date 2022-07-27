@@ -12,6 +12,9 @@ function CreateTimelineContext()
         GetTimeX:function(t) {
             return this.GetStreamStartX() + (t * this.x_scale) + this.x_offset;
         },
+        GetTimelineFullWidth:function(last_time) {
+            return this.GetTimeX(last_time);
+        },
         stream_height:20,
         stream_y:0,
         stream_name_width:100,
@@ -108,14 +111,14 @@ function DrawStream(ctx, stream)
 	}
     ctx.draw.PopClipRect();
 	
-    var has_children = stream.child_streams != null && Object.entries(stream.child_streams).length > 0;
+    var has_children = stream.streams != null && Object.entries(stream.streams).length > 0;
     if(DrawStreamName(ctx, stream.name, has_children))
     {
         ctx.stream_y += 30;
         ctx.indent += ctx.indent_size;
-        if(stream.child_streams != null)
+        if(stream.streams != null)
         {
-            for([key, child_stream] of Object.entries(stream.child_streams))
+            for([key, child_stream] of Object.entries(stream.streams))
         	{
         	    DrawStream(ctx, child_stream);
         	}
@@ -139,8 +142,9 @@ function AddTimeline(id, timeline)
         ImGui.SliderFloat("Scroll X", (_ = ctx.x_offset) => ctx.x_offset = _, -200.0, 200.0);
         ImGui.Unindent();
     }
-    ImGui.BeginChild(id, new ImGui.Vec2(-1,-1), true, ImGui.ImGuiWindowFlags.HorizontalScrollbar)
-    ImGui.BeginChild("TimelineScrollArea", new ImGui.Vec2(500,100));
+    ImGui.BeginChild(id, new ImGui.Vec2(-1,-1), true, ImGui.ImGuiWindowFlags.HorizontalScrollbar);
+    var timeline_last_time = timeline.CalcTimelineLastTime();
+    ImGui.BeginChild("TimelineScrollArea", new ImGui.Vec2(ctx.GetTimelineFullWidth(timeline_last_time), 100));
     
     var p = ImGui.GetCursorScreenPos();
     ctx.x = p.x;
@@ -177,7 +181,7 @@ var demo_data =
         test_1:{
             name:"Test1",
             events_by_time:new Map(),
-            child_streams:{
+            streams:{
                 child_1:{
                     name:"Child1",
                     events_by_time:new Map(),
@@ -192,7 +196,7 @@ var demo_data =
 };
 
 demo_data.streams.test_1.events_by_time.set(5, [{name:"hi",end:5}])
-demo_data.streams.test_1.child_streams.child_1.events_by_time.set(5, [{name:"yo",end:15}])
+demo_data.streams.test_1.streams.child_1.events_by_time.set(5, [{name:"yo",end:15}])
 
 AddTimeline("t", demo_data);
 */

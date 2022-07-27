@@ -4,7 +4,21 @@ bg.TimelineCreate = function(name, meta_data)
         name:name,
         streams:{},
         meta:meta_data,
-        data_type:"timeline"
+        data_type:"timeline",
+        last_time:0,
+        CalcTimelineLastTime:function()
+        {
+            var last_time = 0;
+            if(this.last_time > last_time)
+            {
+                last_time = this.last_time;
+            }
+            for([key, child_stream] of Object.entries(this.streams))
+        	{
+                last_time = child_stream.GetStreamsLastTime(last_time);
+            }
+            return last_time;
+        }
     };
 }
 
@@ -15,7 +29,20 @@ bg.TimelineCreateStream = function(timeline, name, meta_data)
         name:name,
         meta:meta_data,
         events_by_time:new Map(),
-        child_streams: {}
+        streams: {},
+        last_time:0,
+        CalcTimelineLastTime:function(last_time) //checks children too
+        {
+            if(this.last_time > last_time)
+            {
+                last_time = this.last_time;
+            }
+            for([key, child_stream] of Object.entries(this.streams))
+        	{
+                last_time = child_stream.GetStreamsLastTime(last_time);
+            }
+            return last_time;
+        }
     };
     timeline.streams[name] = stream;
     return stream;
@@ -23,14 +50,7 @@ bg.TimelineCreateStream = function(timeline, name, meta_data)
 
 bg.TimelineCreateChildStream = function(parent_stream, name, meta_data)
 {
-    //TODO: Check for name clash?
-    parent_stream.child_streams.name = {
-        name:name,
-        meta:meta_data,
-        events_by_time:new Map(),
-        child_streams: {}
-    };
-    return parent_stream.child_streams.name;
+    return TimelineCreateStream(parent_stream, name, meta_data);
 }
 
 bg.TimelineAddStreamEvent = function(stream, time, name, meta_data)
@@ -53,4 +73,9 @@ bg.TimelineAddStreamRange = function(stream, start_time, end_time, name, meta_da
             meta:meta_data
         }
     );
+
+    if(end_time > stream.last_time)
+    {
+        stream.last_time = end_time;
+    }
 }
