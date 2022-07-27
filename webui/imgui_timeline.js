@@ -96,6 +96,7 @@ function DrawStream(ctx, stream)
 {
     var sx = ctx.GetStreamStartX();
     var sy = ctx.stream_y + ctx.y;
+    ctx.draw.AddText({x:ImGui.GetContentRegionAvail().x, y:sy}, 0xFF0000FF, "" + ImGui.GetContentRegionAvail().x);
     ctx.draw.PushClipRect({x:sx, y:sy}, {x:sx + ImGui.GetContentRegionAvail().x, y:sy + ctx.stream_height}, true);
 	for([time, events] of stream.events_by_time) 
 	{
