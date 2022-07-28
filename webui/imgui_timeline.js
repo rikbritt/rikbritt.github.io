@@ -16,7 +16,7 @@ function CreateTimelineContext()
             return this.GetTimeX(last_time);
         },
         GetTimelineFullHeight:function(num_streams) {
-            return (stream_height + stream_y_gap) * num_streams;
+            return (this.stream_height + this.stream_y_gap) * num_streams;
         },
         stream_height:20,
         stream_y_gap:10,
