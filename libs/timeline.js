@@ -55,15 +55,15 @@ bg.TimelineCreate = function(name, meta_data)
 
 bg.TimelineCreateStream = function(timeline, name, meta_data)
 {
-    //TODO: Check for name clash?
-    var stream = bg.TimelineInternal.CreateStream(name, meta_data);
-    timeline.root_stream.streams[name] = stream;
-    return stream;
+    return bg.TimelineCreateChildStream(timeline.root_stream, name, meta_data);
 }
 
 bg.TimelineCreateChildStream = function(parent_stream, name, meta_data)
 {
-    return bg.TimelineCreateStream(parent_stream, name, meta_data);
+    //TODO: Check for name clash?
+    var stream = bg.TimelineInternal.CreateStream(name, meta_data);
+    timeline.streams[name] = stream;
+    return stream;
 }
 
 bg.TimelineAddStreamEvent = function(stream, time, name, meta_data)
