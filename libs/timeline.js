@@ -1,23 +1,54 @@
+bg.TimelineInternal = 
+{
+    CreateStream:function(name, meta_data)
+    {
+        var stream = 
+        {
+            name:name,
+            meta:meta_data,
+            events_by_time:new Map(),
+            streams: {},
+            last_time:0,
+            CalcTimelineLastTime:function(last_time) //checks children too
+            {
+                if(this.last_time > last_time)
+                {
+                    last_time = this.last_time;
+                }
+                for([key, child_stream] of Object.entries(this.streams))
+                {
+                    last_time = child_stream.CalcTimelineLastTime(last_time);
+                }
+                return last_time;
+            },
+            CalcNumStreams:function()
+            {
+                var count = Object.keys(this.streams).length;
+                for([key, child_stream] of Object.entries(this.streams))
+                {
+                    count += child_stream.CalcNumStreams();
+                }
+                return count;
+            }
+        };
+        return stream;
+    }
+};
+
 bg.TimelineCreate = function(name, meta_data)
 {
     return {
         name:name,
-        streams:{},
         meta:meta_data,
         data_type:"timeline",
-        last_time:0,
+        root_stream:bg.TimelineInternal.CreateStream(name, {}),
         CalcTimelineLastTime:function()
         {
-            var last_time = 0;
-            if(this.last_time > last_time)
-            {
-                last_time = this.last_time;
-            }
-            for([key, child_stream] of Object.entries(this.streams))
-        	{
-                last_time = child_stream.CalcTimelineLastTime(last_time);
-            }
-            return last_time;
+            return this.root_stream.CalcTimelineLastTime(0);
+        },
+        CalcNumStreams:function()
+        {
+            return this.root_stream.CalcNumStreams();
         }
     };
 }
@@ -25,25 +56,7 @@ bg.TimelineCreate = function(name, meta_data)
 bg.TimelineCreateStream = function(timeline, name, meta_data)
 {
     //TODO: Check for name clash?
-    var stream = {
-        name:name,
-        meta:meta_data,
-        events_by_time:new Map(),
-        streams: {},
-        last_time:0,
-        CalcTimelineLastTime:function(last_time) //checks children too
-        {
-            if(this.last_time > last_time)
-            {
-                last_time = this.last_time;
-            }
-            for([key, child_stream] of Object.entries(this.streams))
-        	{
-                last_time = child_stream.CalcTimelineLastTime(last_time);
-            }
-            return last_time;
-        }
-    };
+    var stream = bg.TimelineInternal.CreateStream(name, meta_data);
     timeline.streams[name] = stream;
     return stream;
 }

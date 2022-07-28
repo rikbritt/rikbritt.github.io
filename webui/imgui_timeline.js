@@ -15,7 +15,11 @@ function CreateTimelineContext()
         GetTimelineFullWidth:function(last_time) {
             return this.GetTimeX(last_time);
         },
+        GetTimelineFullHeight:function(num_streams) {
+            return (stream_height + stream_y_gap) * num_streams;
+        },
         stream_height:20,
+        stream_y_gap:10,
         stream_y:0,
         stream_name_width:100,
         range_col:0xFFA49780,
@@ -114,7 +118,7 @@ function DrawStream(ctx, stream)
     var has_children = stream.streams != null && Object.entries(stream.streams).length > 0;
     if(DrawStreamName(ctx, stream.name, has_children))
     {
-        ctx.stream_y += 30;
+        ctx.stream_y += ctx.stream_y_gap + ctx.stream_height;
         ctx.indent += ctx.indent_size;
         if(stream.streams != null)
         {
@@ -127,7 +131,7 @@ function DrawStream(ctx, stream)
     }
     else
     {
-        ctx.stream_y += 30;
+        ctx.stream_y += ctx.stream_y_gap + ctx.stream_height;
     }
 }
 
@@ -144,13 +148,15 @@ function AddTimeline(id, timeline)
     }
     ImGui.BeginChild(id, new ImGui.Vec2(-1,-1), true, ImGui.ImGuiWindowFlags.HorizontalScrollbar);
     var timeline_last_time = timeline.CalcTimelineLastTime();
-    ImGui.BeginChild("TimelineScrollArea", new ImGui.Vec2(ctx.GetTimelineFullWidth(timeline_last_time), 100));
+    var timeline_num_streams = timeline.CalcNumStreams();
+    var timeline_area_size = {x:ctx.GetTimelineFullWidth(timeline_last_time), y:ctx.GetTimelineFullHeight(timeline_num_streams)};
+    ImGui.BeginChild("TimelineScrollArea", timeline_area_size);
     
     var p = ImGui.GetCursorScreenPos();
     ctx.x = p.x;
     ctx.y = p.y;
 
-    for([key, stream] of Object.entries(timeline.streams))
+    for([key, stream] of Object.entries(timeline.root_stream.streams))
 	{
 	    DrawStream(ctx, stream);
 	}
