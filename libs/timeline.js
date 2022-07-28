@@ -57,7 +57,7 @@ bg.TimelineCreateStream = function(timeline, name, meta_data)
 {
     //TODO: Check for name clash?
     var stream = bg.TimelineInternal.CreateStream(name, meta_data);
-    timeline.streams[name] = stream;
+    timeline.root_stream.streams[name] = stream;
     return stream;
 }
 
