@@ -37,7 +37,8 @@ bg.TimelineInternal =
 
 bg.TimelineDateToTime = function(day, month, year)
 {
-    return (new Date(year, month-1, day)).getUTCMilliseconds();
+    var d = new Date(year, month-1, day);
+    return d.getTime();
 };
 
 bg.TimelineCreate = function(name, meta_data)
