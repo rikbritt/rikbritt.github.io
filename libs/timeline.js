@@ -8,7 +8,20 @@ bg.TimelineInternal =
             meta:meta_data,
             events_by_time:new Map(),
             streams: {},
+            first_time:0,
             last_time:0,
+            CalcTimelineFirstTime:function(first_time) //checks children too
+            {
+                if(this.first_time < first_time)
+                {
+                    first_time = this.first_time;
+                }
+                for([key, child_stream] of Object.entries(this.streams))
+                {
+                    first_time = child_stream.CalcTimelineFirstTime(first_time);
+                }
+                return first_time;
+            },
             CalcTimelineLastTime:function(last_time) //checks children too
             {
                 if(this.last_time > last_time)
@@ -48,6 +61,10 @@ bg.TimelineCreate = function(name, meta_data)
         meta:meta_data,
         data_type:"timeline",
         root_stream:bg.TimelineInternal.CreateStream(name, {}),
+        CalcTimelineFirstTime:function()
+        {
+            return this.root_stream.CalcTimelineFirstTime(0);
+        },
         CalcTimelineLastTime:function()
         {
             return this.root_stream.CalcTimelineLastTime(0);
