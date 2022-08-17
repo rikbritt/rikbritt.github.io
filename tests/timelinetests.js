@@ -12,9 +12,9 @@ var testFixedTimelineGenerator = {
     {
         var timeline = bg.TimelineCreate("Test Timeline");
 		var rik_stream = bg.TimelineCreateStream(timeline, "Rik", {age:25});
-        bg.TimelineAddStreamEvent(bob_stream, bg.TimelineDateToTime(1982, 10, 3), "Born", {});
-        bg.TimelineAddStreamEvent(bob_stream, bg.TimelineDateToTime(2010, 6, 5), "Married", {});
-        bg.TimelineAddStreamRange(bob_stream, bg.TimelineDateToTime(2011, 16, 12), "Daughter Born", {data:"hi"});
+        bg.TimelineAddStreamEvent(rik_stream, bg.TimelineDateToTime(1982, 10, 3), "Born", {});
+        bg.TimelineAddStreamEvent(rik_stream, bg.TimelineDateToTime(2010, 6, 5), "Married", {});
+        bg.TimelineAddStreamRange(rik_stream, bg.TimelineDateToTime(2011, 16, 12), "Daughter Born", {data:"hi"});
 
 		var bob_stream = bg.TimelineCreateStream(timeline, "Bob", {age:25});
         bg.TimelineAddStreamEvent(bob_stream, 10, "Test", {});
