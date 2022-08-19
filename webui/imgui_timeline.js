@@ -1,10 +1,20 @@
+function CreateTimelineViewState(timeline)
+{
+    var timeline_start_time = timeline.CalcTimelineFirstTime();
+    var timeline_end_time = timeline.CalcTimelineLastTime();
+    var view_state = {
+        x_scale:0.4
+    };
+    return view_state;
+}
+
 function CreateTimelineContext(timeline)
 {
     var ctx = {
         draw:ImGui.GetWindowDrawList(),
         x:ImGui.GetCursorScreenPos().x,
         y:ImGui.GetCursorScreenPos().y,
-        x_scale:4,
+        x_scale:timeline.view_state.x_scale,
         x_offset:0,
         GetStreamStartX:function() {
             return this.x + this.stream_name_width;
@@ -140,12 +150,16 @@ function DrawStream(ctx, stream)
 
 function AddTimeline(id, timeline)
 {
+    if(timeline.view_state == null)
+    {
+        timeline.view_state = CreateTimelineViewState(timeline); //Data that persists
+    }
     var ctx = CreateTimelineContext(timeline);
 
     if(ImGui.CollapsingHeader("Vis Options"))
     {
         ImGui.Indent();
-        ImGui.SliderFloat("Scale X", (_ = ctx.x_scale) => ctx.x_scale = _, 0.1, 50.0);
+        ImGui.SliderFloat("Scale X", (_ = timeline.view_state.x_scale) => timeline.view_state.x_scale = _, 0.001, 50.0);
         ImGui.SliderFloat("Scroll X", (_ = ctx.x_offset) => ctx.x_offset = _, -200.0, 200.0);
         ImGui.Unindent();
     }
