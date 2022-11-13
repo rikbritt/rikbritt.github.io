@@ -157,10 +157,7 @@ function UpdateParamEditorV2(paramData, getFunc, setFunc, paramKey)
 	}
 	else if(paramData.type == "data")
 	{
-		if(ImGui.TreeNodeEx(paramKey, ImGui.TreeNodeFlags.DefaultOpen))
-		{
-			UpdateGeneratorInputsImGuiV2_Recurse(paramData.dataType.fields, getFunc());
-		}
+		//Not done here
 	}
 	else if(paramData.type == "bool")
 	{
@@ -172,49 +169,7 @@ function UpdateParamEditorV2(paramData, getFunc, setFunc, paramKey)
 	}
 	else if(paramData.type == "list")
 	{
-		var list = getFunc();
-		if(Array.isArray(list) == false)
-		{
-			ImGui.Text(`${paramKey} is not a JS Array!`);
-		}
-		else
-		{
-			if(ImGui.TreeNodeEx(`${paramKey} ${list.length} / ${paramData.max}`, ImGui.TreeNodeFlags.DefaultOpen))
-			{
-				for(var i=0; i<list.length; ++i)
-				{
-					ImGui.PushID(i);
-					if(ImGui.Button("Del"))
-					{
-						list.splice(i, 1);
-						--i;
-					}
-					else
-					{
-						ImGui.SameLine();
-						ImGui.Text(`${i} :`);
-						UpdateParamEditorV2(
-							paramData.elementType,
-							function() { var l = list; var idx = i; return function () { 
-								return l[idx];
-							 } }(),
-							function() { var l = list; var idx = i; return function (val) {
-								l[idx] = val;
-								return val;
-							} }(),
-							`${i}`
-						);
-					}
-					ImGui.PopID();
-				}
-				if(list.length < paramData.max && ImGui.Button("Add Element"))
-				{
-					list.push(GetParamDefault(paramData.elementType));
-				}
-				
-				ImGui.TreePop();
-			}
-		}
+		//Not done here
 	}
 	else
 	{
@@ -230,19 +185,68 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
         ImGui.TableNextColumn();
 		
 		ImGui.PushID(paramKey);
-		var show_row = true;
-		var has_children = paramData.type == "data" || paramData.type == "list";
-		if(has_children)
+		if(paramData.type == "data")
 		{
-			show_row = ImGui.TreeNode(paramKey);
+			ImGui.TreeNode(paramKey);
+			{
+				UpdateGeneratorInputsImGuiV2_Recurse(paramData.dataType.fields, setInputs[paramKey]);
+			}
+			ImGui.TreePop();
+		}
+		else if(paramData.type == "list")
+		{
+			var list = setInputs[paramKey];
+			if(Array.isArray(list) == false)
+			{
+				ImGui.Text(`${paramKey} is not a JS Array!`);
+			}
+			else
+			{
+				if(ImGui.TreeNodeEx(`${paramKey} ${list.length} / ${paramData.max}`, ImGui.TreeNodeFlags.DefaultOpen))
+				{
+					ImGui.TableNextRow();
+					for(var i=0; i<list.length; ++i)
+					{
+						ImGui.PushID(i);
+						ImGui.Text(`${i} :`);
+
+						ImGui.TableNextColumn();
+						if(ImGui.Button("Del"))
+						{
+							list.splice(i, 1);
+							--i;
+						}
+						else
+						{
+							ImGui.TableNextColumn();
+							UpdateParamEditorV2(
+								paramData.elementType,
+								function() { var l = list; var idx = i; return function () { 
+									return l[idx];
+									} }(),
+								function() { var l = list; var idx = i; return function (val) {
+									l[idx] = val;
+									return val;
+								} }(),
+								`${i}`
+							);
+						}
+						ImGui.PopID();
+					}
+					
+					ImGui.TableNextRow();
+					if(list.length < paramData.max && ImGui.Button("Add Element"))
+					{
+						list.push(GetParamDefault(paramData.elementType));
+					}
+
+					ImGui.TreePop();
+				}
+			}
 		}
 		else
 		{
 			ImGui.Text(paramKey);
-		}
-
-		if(show_row)
-		{
 			var addclearButton = false;
 			
 			ImGui.TableNextColumn();
@@ -274,11 +278,6 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 						paramKey
 					);
 				}
-			}
-
-			if(has_children)
-			{
-				ImGui.TreePop();
 			}
 		}
 		
