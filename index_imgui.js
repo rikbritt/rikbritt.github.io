@@ -41,69 +41,7 @@ function UpdateImgui(dt, timestamp)
 	ImGui.End();
 
 	UpdateHierarchyEditor();
-
-	for(var i=0; i<gGeneratorInstances.length; ++i)
-	{
-		var generatorInstance = gGeneratorInstances[i];
-		if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`))
-		{
-			if(generatorInstance.generator.description != undefined)
-			{
-				ImGui.Text(generatorInstance.generator.description);
-			}
-			if(ImGui.Button("Randomise"))
-			{
-				generatorInstance.seed = Math.floor( Math.random() * 2000 );
-			}
-			ImGui.SameLine();
-			ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
-			if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
-			{	
-				UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
-				ImGui.TreePop();
-			}
-			if(ImGui.Button("Generate"))
-			{
-				RunGeneratorInstance(generatorInstance);
-			}
-	  	}
-		
-		ImGui.Text("Generator Output");
-		{
-			if(generatorInstance.output.outputs)
-			{
-				if(generatorInstance.output.outputs.model == null)
-				{
-					UpdateObjectImGui(generatorInstance.output.outputs, "output");
-				}
-				else
-				{
-					var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
-					//get win width
-					var avail_width = ImGui.GetContentRegionAvail().x;
-					var image_width = avail_width - 8;
-					if(image_width > 2)
-					{
-						var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
-						ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new ImGui.Vec2(0,1), new ImGui.Vec2(1,0));
-						if(ImGui.IsItemHovered())
-						{
-							generatorInstance.sendInputToScene = true;
-						}
-						else
-						{
-							generatorInstance.sendInputToScene = false;
-						}
-						if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
-						{
-							ImGui.EndDragDropSource();
-						}
-					}
-				}
-			}
-		}
-	}
-	ImGui.End();
+	UpdateGeneratorInstances();
 
 	ImGui.EndFrame();
 }
