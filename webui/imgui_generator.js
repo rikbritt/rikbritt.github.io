@@ -143,6 +143,167 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 	}
 }
 
+function UpdateParamEditorV2(paramData, getFunc, setFunc, paramKey)
+{
+	if(paramData.type == "float" 
+	|| paramData.type == "distance"
+	|| paramData.type == "time")
+	{
+		ImGui.SliderFloat(paramKey, (_ = getFunc()) => setFunc(_), paramData.min, paramData.max);		
+	}
+	else if(paramData.type == "int")
+	{
+		ImGui.SliderInt(paramKey, (_ = getFunc()) => setFunc(_), paramData.min, paramData.max);
+	}
+	else if(paramData.type == "data")
+	{
+		if(ImGui.TreeNodeEx(paramKey, ImGui.TreeNodeFlags.DefaultOpen))
+		{
+			UpdateGeneratorInputsImGuiV2_Recurse(paramData.dataType.fields, getFunc());
+		}
+	}
+	else if(paramData.type == "bool")
+	{
+		ImGui.Checkbox(paramKey, (_ = getFunc()) => setFunc(_));
+	}
+	else if(paramData.type == "text")
+	{
+		ImGui.InputText(paramKey, (_ = getFunc()) => setFunc(_), 256);
+	}
+	else if(paramData.type == "list")
+	{
+		var list = getFunc();
+		if(Array.isArray(list) == false)
+		{
+			ImGui.Text(`${paramKey} is not a JS Array!`);
+		}
+		else
+		{
+			if(ImGui.TreeNodeEx(`${paramKey} ${list.length} / ${paramData.max}`, ImGui.TreeNodeFlags.DefaultOpen))
+			{
+				for(var i=0; i<list.length; ++i)
+				{
+					ImGui.PushID(i);
+					if(ImGui.Button("Del"))
+					{
+						list.splice(i, 1);
+						--i;
+					}
+					else
+					{
+						ImGui.SameLine();
+						ImGui.Text(`${i} :`);
+						UpdateParamEditorV2(
+							paramData.elementType,
+							function() { var l = list; var idx = i; return function () { 
+								return l[idx];
+							 } }(),
+							function() { var l = list; var idx = i; return function (val) {
+								l[idx] = val;
+								return val;
+							} }(),
+							`${i}`
+						);
+					}
+					ImGui.PopID();
+				}
+				if(list.length < paramData.max && ImGui.Button("Add Element"))
+				{
+					list.push(GetParamDefault(paramData.elementType));
+				}
+				
+				ImGui.TreePop();
+			}
+		}
+	}
+	else
+	{
+		ImGui.Text(`Unknown param type '${paramData.type}' for '${paramKey}'`);
+	}
+}
+
+function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
+{
+	for([paramKey, paramData] of Object.entries(generatorInputs))
+	{
+        ImGui.TableNextRow();
+        ImGui.TableNextColumn();
+		
+		ImGui.PushID(paramKey);
+		var show_row = true;
+		var has_children = paramData.type == "data" || paramData.type == "list";
+		if(has_children)
+		{
+			show_row = ImGui.TreeNode(paramKey);
+		}
+		else
+		{
+			ImGui.Text(paramKey);
+		}
+
+		if(show_row)
+		{
+			var addclearButton = false;
+			
+			ImGui.TableNextColumn();
+			if(setInputs[paramKey] == null)
+			{
+				if(ImGui.Button("Override " + paramKey))
+				{
+					setInputs[paramKey] = GetParamDefault(paramData);
+				}
+			}
+			else
+			{
+				if(ImGui.Button("Clear " + paramKey))
+				{
+					delete setInputs[paramKey];
+				}
+				else
+				{
+					ImGui.TableNextColumn();
+					UpdateParamEditorV2(
+						paramData,
+						function() { var inputs = setInputs; var key = paramKey; return function () { 
+							return inputs[key];
+						} }(),
+						function() { var inputs = setInputs; var key = paramKey; return function (val) {
+							inputs[key] = val;
+							return val;
+						} }(),
+						paramKey
+					);
+				}
+			}
+
+			if(has_children)
+			{
+				ImGui.TreePop();
+			}
+		}
+		
+		//if(paramData.description != null)
+		//{
+		//	ImGui.Text(paramData.description);
+		//}
+		ImGui.PopID();
+	}
+}
+
+function UpdateGeneratorInputsImGuiV2(generatorInputs, setInputs)
+{
+	ImGui.BeginTable("Parameter_Table", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg);
+
+	ImGui.TableSetupColumn("Param");
+	ImGui.TableSetupColumn("Control");
+	ImGui.TableSetupColumn("Value");
+	ImGui.TableHeadersRow();
+
+	UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs);
+
+	ImGui.EndTable();
+}
+
 function UpdateGeneratorsList() 
 {    
 	for(var i=0; i<bg.generators.length; ++i)
@@ -208,6 +369,11 @@ function UpdateGeneratorInstances()
 				UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
 				ImGui.TreePop();
 			}
+			if(ImGui.CollapsingHeader("Inputs V2"))
+			{
+				UpdateGeneratorInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
+			}
+
 			if(ImGui.Button("Generate"))
 			{
 				RunGeneratorInstance(generatorInstance);
