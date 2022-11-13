@@ -166,6 +166,7 @@ function UpdateGeneratorsList()
 			{
 				gGeneratorInstances.push(
 					{
+						open:true,
 						seed:0,
 						generator:bg.generators[i],
 						setInputs:{},
@@ -190,7 +191,7 @@ function UpdateGeneratorInstances()
 	for(var i=0; i<gGeneratorInstances.length; ++i)
 	{
 		var generatorInstance = gGeneratorInstances[i];
-		if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`))
+		if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`, (_ = generatorInstance.open) => generatorInstance.open = _))
 		{
 			if(generatorInstance.generator.description != undefined)
 			{
@@ -250,4 +251,7 @@ function UpdateGeneratorInstances()
 		}
 		ImGui.End();
 	}
+
+	//Remove all closed windows
+	gGeneratorInstances = gGeneratorInstances.filter(item => item.open);
 }
