@@ -187,10 +187,11 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 		ImGui.PushID(paramKey);
 		if(paramData.type == "data")
 		{
-			ImGui.TreeNode(paramKey);
+			if(ImGui.TreeNode(paramKey))
 			{
 				if(setInputs[paramKey] == null)
 				{
+					ImGui.TableNextColumn();
 					if(ImGui.Button("Override " + paramKey))
 					{
 						setInputs[paramKey] = GetParamDefault(paramData);
@@ -200,8 +201,8 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 				{
 					UpdateGeneratorInputsImGuiV2_Recurse(paramData.dataType.fields, setInputs[paramKey]);
 				}
+				ImGui.TreePop();
 			}
-			ImGui.TreePop();
 		}
 		else if(paramData.type == "list")
 		{
