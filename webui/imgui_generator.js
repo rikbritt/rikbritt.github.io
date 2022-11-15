@@ -258,6 +258,7 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 						}
 						
 						ImGui.TableNextRow();
+						ImGui.TableNextColumn();
 						if(list.length < paramData.max && ImGui.Button("Add Element"))
 						{
 							list.push(GetParamDefault(paramData.elementType));
