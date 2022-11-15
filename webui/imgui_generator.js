@@ -389,11 +389,14 @@ function UpdateGeneratorInstances()
 			}
 			ImGui.SameLine();
 			ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
-			if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
-			{	
-				UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
-				ImGui.TreePop();
-			}
+
+			//TODO: Delete when sure V2 is ok
+			//if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
+			//{	
+			//	UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
+			//	ImGui.TreePop();
+			//}
+			
 			if(ImGui.CollapsingHeader("Inputs V2"))
 			{
 				UpdateGeneratorInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
