@@ -396,8 +396,8 @@ function UpdateGeneratorInstances()
 			//	UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
 			//	ImGui.TreePop();
 			//}
-			
-			if(ImGui.CollapsingHeader("Inputs V2"))
+
+			if(ImGui.CollapsingHeader("Inputs"))
 			{
 				UpdateGeneratorInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
 			}
