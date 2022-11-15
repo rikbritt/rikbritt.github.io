@@ -189,7 +189,17 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 		{
 			ImGui.TreeNode(paramKey);
 			{
-				UpdateGeneratorInputsImGuiV2_Recurse(paramData.dataType.fields, setInputs[paramKey]);
+				if(setInputs[paramKey] == null)
+				{
+					if(ImGui.Button("Override " + paramKey))
+					{
+						setInputs[paramKey] = GetParamDefault(paramData);
+					}
+				}
+				else
+				{
+					UpdateGeneratorInputsImGuiV2_Recurse(paramData.dataType.fields, setInputs[paramKey]);
+				}
 			}
 			ImGui.TreePop();
 		}
