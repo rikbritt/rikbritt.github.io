@@ -229,8 +229,9 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 					{
 						for(var i=0; i<list.length; ++i)
 						{
-							ImGui.TableNextRow();
 							ImGui.PushID(i);
+							ImGui.TableNextRow();
+							ImGui.TableNextColumn();
 							ImGui.Text(`${i} :`);
 
 							ImGui.TableNextColumn();
