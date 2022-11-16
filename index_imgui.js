@@ -36,6 +36,10 @@ function UpdateImgui(dt, timestamp)
 			UpdateGeneratorHierarchiesList();
 			ImGui.EndMenu();
 		}
+		if(ImGui.BeginMenu("Notes"))
+		{
+			UpdateNotesMenu();
+		}
 		ImGui.EndMainMenuBar();
 	}
 	ImGui.End();
