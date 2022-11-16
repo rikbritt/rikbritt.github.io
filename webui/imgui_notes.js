@@ -6,11 +6,12 @@ function UpdateNotesMenu()
 	{
         if(ImGui.MenuItem(paramKey))
         {
+            gNotes[paramKey].open = true;
         }
     }
 }
 
 function AddNotes(category, notes)
 {
-    gNotes[category] = notes;
+    gNotes[category] = {open:false, text:notes};
 }

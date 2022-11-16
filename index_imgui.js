@@ -39,6 +39,7 @@ function UpdateImgui(dt, timestamp)
 		if(ImGui.BeginMenu("Notes"))
 		{
 			UpdateNotesMenu();
+			ImGui.EndMenu();
 		}
 		ImGui.EndMainMenuBar();
 	}

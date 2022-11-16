@@ -1,3 +1,5 @@
+AddNotes("Release Notes",
+`
 V13 - 20/07/2019
 Looking at the Generator/Params/Hierarchy setup with fresh eyes.
 Started a highlevel doc about the concepts here:
@@ -108,3 +110,4 @@ Got some basic HTML sliders for manually setting input values.
 
 V1 - 9/3/2018
 Generating a box, yay.
+`);
