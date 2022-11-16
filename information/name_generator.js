@@ -1,6 +1,7 @@
 var nameV2Generator = {
 	version:1,
 	name:"Name V2",
+	description:"Does nothing, just generates an empty string right now",
 	category:["Information"],
 	inputs:{
 	},
@@ -8,8 +9,6 @@ var nameV2Generator = {
 		data:{		type:"text"	}
 	},
 	script:function(inputs, outputs){
-		
-		
 		outputs.data = "";
 	}
 }
@@ -18,6 +17,7 @@ bg.RegisterGenerator(nameV2Generator);
 var nameV1Generator = {
 	version:1,
 	name:"Name V1",
+	description:"Builds a 'name' from random consonants and vowels",
 	category:["Information"],
 	inputs:{
 	},

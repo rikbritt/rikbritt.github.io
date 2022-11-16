@@ -11,6 +11,7 @@ var universeDataDef = {
 var universeGenerator = {
 	version:1,
 	name:"Universe",
+	description:"WIP - possibly clashes with reality generator. Or this hosts physical info, like galaxies info etc",
 	category:["Universe"],
 	inputs:{
 	},

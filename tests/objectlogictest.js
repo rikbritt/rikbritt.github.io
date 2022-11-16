@@ -1,6 +1,7 @@
 var testObjectLogicGenerator = {
 	version:1,
 	name:"Object Logic",
+	description:"Currently broken, but the idea is you can generate something with an 'update' script for game logic",
 	category:["Test"],
 	inputs:{
 	},

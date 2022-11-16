@@ -2,6 +2,7 @@
 var treeGenerator = {
 	version:1,
 	name:"Tree",
+	description:"WIP 3D tree generator",
 	category:["Nature","Vegetation"],
 	inputs:{
 		treeType:{			type:"data",		dataType:treeTypeDataDef	},

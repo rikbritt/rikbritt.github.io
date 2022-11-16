@@ -68,9 +68,10 @@ var realityDataDef = {
 var realityGenerator = {
 	version:1,
 	name:"Reality",
+	description:"WIP - idea is that it generates all the key information for a 'reality'\nLike whether magic exists, psychic powers, if there's an afterlife etc",
 	category:["Universe"],
 	inputs:{
-		species:{		type:"data",		dataType:realityDataDef	}
+		reality:{		type:"data",		dataType:realityDataDef	}
 	},
 	outputs:{
 		//model:{			type:"model"	}

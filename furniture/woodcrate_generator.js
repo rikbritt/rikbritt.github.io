@@ -2,6 +2,7 @@
 var woodCrateGenerator = {
 	version:1,
 	name:"Wood Crate",
+	description:"Basically just a box :)",
 	category:["Furniture"],
 	inputs:{
 		woodWorking:{	type:"data",		dataType:woodWorkingDataDef	},

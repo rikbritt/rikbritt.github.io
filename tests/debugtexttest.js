@@ -2,6 +2,7 @@
 var testDebugTextGenerator = {
 	version:1,
 	name:"Debug Text",
+	description:"Broken - should be a test of CreateDebugTextNode",
 	category:["Test"],
 	inputs:{
 	},
