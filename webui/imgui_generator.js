@@ -406,6 +406,13 @@ function UpdateGeneratorInstances()
 			{
 				RunGeneratorInstance(generatorInstance);
 			}
+
+			ImGui.SameLine();
+			if(ImGui.Button("Randomise Seed & Generate"))
+			{
+				generatorInstance.seed = Math.floor( Math.random() * 2000 );
+				RunGeneratorInstance(generatorInstance);
+			}
 			
 			
 			ImGui.Text("Generator Output");
