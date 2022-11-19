@@ -18,7 +18,7 @@ function UpdateNotesWindow()
 {
     if(gShowNotes)
     {
-        if(ImGui.Begin("Notes"))
+        if(ImGui.Begin("Notes",  (_ = gShowNotes) => gShowNotes = _)))
         {
             if(ImGui.BeginTabBar("Notes_Tab"))
             {
