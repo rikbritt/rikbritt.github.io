@@ -47,6 +47,7 @@ function UpdateImgui(dt, timestamp)
 
 	UpdateHierarchyEditor();
 	UpdateGeneratorInstances();
+	UpdateNotesWindow();
 
 	ImGui.EndFrame();
 }
