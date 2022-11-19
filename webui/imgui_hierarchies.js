@@ -4,18 +4,35 @@ function UpdateHierarchyEditor()
 {
 	if(gShowHierarchyEditor)
 	{
-		ImGui.Begin("Hierarchy Editor");
-		var dw = ImGui.GetWindowDrawList();
-		var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
-		var th = 4.0;
-		var sz = {value:150}
-		var x = ImGui.GetWindowPos().x + 50;
-		var y = ImGui.GetWindowPos().y + 50;
-		var cp4 = [    new ImGui.Vec2(x, y),     new ImGui.Vec2(x + sz.value * 1.3, y + sz.value * 0.3), 
-			    new ImGui.Vec2(x + sz.value - sz.value * 1.3, y + sz.value - sz.value * 0.3),
-				    new ImGui.Vec2(x + sz.value, y + sz.value) ];
-					var curve_segments = 168;
-					dw.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], c.toImU32(), th, curve_segments);
+		if(ImGui.Begin("Hierarchy Editor"))
+		{
+			var win_width = ImGui.GetContentRegionAvail().x;
+			var win_height = ImGui.GetContentRegionAvail().y;
+			var gens_width = Math.min(200, win_width * 0.5);
+
+			ImGui.BeginChild("Generators", new ImGui.Vec2(gens_width, win_height))
+			for(var i=0; i<bg.generators.length; ++i)
+			{
+				ImGui.Text(bg.generators[i].name);
+			}
+			ImGui.EndChild();
+
+			ImGui.SameLine();
+			ImGui.BeginChild("Canvas", new ImGui.Vec2(win_width - gens_width, win_height))
+
+			var dw = ImGui.GetWindowDrawList();
+			var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
+			var th = 4.0;
+			var sz = {value:150}
+			var x = ImGui.GetWindowPos().x + 50;
+			var y = ImGui.GetWindowPos().y + 50;
+			var cp4 = [    new ImGui.Vec2(x, y),     new ImGui.Vec2(x + sz.value * 1.3, y + sz.value * 0.3), 
+					new ImGui.Vec2(x + sz.value - sz.value * 1.3, y + sz.value - sz.value * 0.3),
+						new ImGui.Vec2(x + sz.value, y + sz.value) ];
+						var curve_segments = 168;
+						dw.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], c.toImU32(), th, curve_segments);
+			ImGui.EndChild();
+		}
 		ImGui.End();
 	}
 }
