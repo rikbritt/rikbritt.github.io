@@ -7,7 +7,7 @@ function UpdateHierarchyEditor()
 	{
 		if(gHierarchyInstances.length == 0)
 		{
-			bg.CreateGenerationHierarchy("New Hierarchy");
+			gHierarchyInstances.push( bg.CreateGenerationHierarchy("New Hierarchy") );
 		}
 
 		var hierarchy_instance = gHierarchyInstances[0];
@@ -29,7 +29,7 @@ function UpdateHierarchyEditor()
 				var node = hierarchy_instance.hierarchyNodes[i];
 				ImGui.Text(node.generator.name);
 			}
-			
+
 			var dw = ImGui.GetWindowDrawList();
 			var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 			var th = 4.0;
