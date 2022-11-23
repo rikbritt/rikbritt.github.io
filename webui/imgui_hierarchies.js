@@ -1,25 +1,35 @@
 var gShowHierarchyEditor = false;
+var gHierarchyInstances = [];
 
 function UpdateHierarchyEditor()
 {
 	if(gShowHierarchyEditor)
 	{
-		if(ImGui.Begin("Hierarchy Editor"))
+		if(gHierarchyInstances.length == 0)
+		{
+			bg.CreateGenerationHierarchy("New Hierarchy");
+		}
+
+		var hierarchy_instance = gHierarchyInstances[0];
+		if(ImGui.Begin("Hierarchy Editor - " + hierarchy_instance.name))
 		{
 			var win_width = ImGui.GetContentRegionAvail().x;
 			var win_height = ImGui.GetContentRegionAvail().y;
 			var gens_width = Math.min(200, win_width * 0.5);
 
-			ImGui.BeginChild("Generators", new ImGui.Vec2(gens_width, win_height))
-			for(var i=0; i<bg.generators.length; ++i)
-			{
-				ImGui.Text(bg.generators[i].name);
-			}
+			ImGui.BeginChild("HierarchyProperties", new ImGui.Vec2(gens_width, win_height))
+			ImGui.Text(hierarchy_instance.name);
 			ImGui.EndChild();
 
 			ImGui.SameLine();
 			ImGui.BeginChild("Canvas", new ImGui.Vec2(win_width - gens_width, win_height))
 
+			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
+			{
+				var node = hierarchy_instance.hierarchyNodes[i];
+				ImGui.Text(node.generator.name);
+			}
+			
 			var dw = ImGui.GetWindowDrawList();
 			var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 			var th = 4.0;
@@ -36,7 +46,10 @@ function UpdateHierarchyEditor()
 			{
 				if(ImGui.BeginMenu("Add Generator..."))
 				{
-					UpdateGeneratorsList();
+					UpdateGeneratorsList(function(generator)
+					{
+						bg.CreateGenerationHierarchyNode(gHierarchyInstances[0], generator);
+					});
 					ImGui.EndMenu();
 				}
 				ImGui.EndPopup();

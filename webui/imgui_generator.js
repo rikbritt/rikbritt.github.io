@@ -329,8 +329,25 @@ function UpdateGeneratorInputsImGuiV2(generatorInputs, setInputs)
 	ImGui.EndTable();
 }
 
-function UpdateGeneratorsList() 
-{    
+function UpdateGeneratorsList( selected_func ) 
+{
+	//Default behaviour - add generator to instances list
+	if(selected_func == null)
+	{
+		selected_func = function(selected_generator)
+		{
+			gGeneratorInstances.push(
+				{
+					open:true,
+					seed:0,
+					generator:selected_generator,
+					setInputs:{},
+					output:{}
+				}
+			);
+		};
+	}
+	
 	for(var i=0; i<bg.generators.length; ++i)
 	{
 		var numOpen = 0;
@@ -350,15 +367,7 @@ function UpdateGeneratorsList()
 		{
 			if(ImGui.MenuItem(bg.generators[i].name))
 			{
-				gGeneratorInstances.push(
-					{
-						open:true,
-						seed:0,
-						generator:bg.generators[i],
-						setInputs:{},
-						output:{}
-					}
-				);
+				selected_func(bg.generators[i]);
 			}
 			if(bg.generators[i].description != undefined && ImGui.IsItemHovered())
 			{
