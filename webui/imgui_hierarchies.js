@@ -31,6 +31,17 @@ function UpdateHierarchyEditor()
 						new ImGui.Vec2(x + sz.value, y + sz.value) ];
 						var curve_segments = 168;
 						dw.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], c.toImU32(), th, curve_segments);
+
+			if (ImGui.BeginPopupContextWindow())
+			{
+				if(ImGui.BeginMenu("Add Generator..."))
+				{
+					UpdateGeneratorsList();
+					ImGui.EndMenu();
+				}
+				ImGui.EndPopup();
+			}
+
 			ImGui.EndChild();
 		}
 		ImGui.End();
