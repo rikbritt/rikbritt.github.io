@@ -1,6 +1,21 @@
 var gShowHierarchyEditor = false;
 var gHierarchyInstances = [];
 
+var NodeImGui = {
+	BeginNode : function(id)
+	{
+		var dw = ImGui.GetWindowDrawList();
+		var x = ImGui.GetWindowPos().x + 150;
+		var y = ImGui.GetWindowPos().y + 150;
+		var col = new ImGui.ImColor(0.5, 1.0, 1.0, 1.00);
+		dw.AddRectFilled(new ImGui.Vec2(x, y), new ImGui.Vec2(x + 100, y + 100), col);   
+	},
+	EndNode : function()
+	{
+
+	}
+};
+
 function UpdateHierarchyEditor()
 {
 	if(gShowHierarchyEditor)
@@ -24,13 +39,16 @@ function UpdateHierarchyEditor()
 			ImGui.SameLine();
 			ImGui.BeginChild("Canvas", new ImGui.Vec2(win_width - gens_width, win_height))
 
+			var dw = ImGui.GetWindowDrawList();
+
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
 			{
 				var node = hierarchy_instance.hierarchyNodes[i];
+				NodeImGui.BeginNode(node.generator.name);
 				ImGui.Text(node.generator.name);
+				NodeImGui.EndNode();
 			}
 
-			var dw = ImGui.GetWindowDrawList();
 			var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 			var th = 4.0;
 			var sz = {value:150}
@@ -52,6 +70,11 @@ function UpdateHierarchyEditor()
 					});
 					ImGui.EndMenu();
 				}
+
+				if(ImGui.MenuItem("Add Note / Comment"))
+				{
+				}
+
 				ImGui.EndPopup();
 			}
 
