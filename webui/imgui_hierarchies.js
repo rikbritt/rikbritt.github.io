@@ -8,7 +8,7 @@ var NodeImGui = {
 		var x = ImGui.GetWindowPos().x + 150;
 		var y = ImGui.GetWindowPos().y + 150;
 		var col = new ImGui.ImColor(0.5, 1.0, 1.0, 1.00);
-		dw.AddRectFilled(new ImGui.Vec2(x, y), new ImGui.Vec2(x + 100, y + 100), col);   
+		dw.AddRectFilled(new ImGui.Vec2(x, y), new ImGui.Vec2(x + 100, y + 100), col.toImU32());   
 	},
 	EndNode : function()
 	{
