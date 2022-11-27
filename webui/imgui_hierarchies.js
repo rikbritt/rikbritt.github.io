@@ -22,10 +22,16 @@ function UpdateHierarchyEditor()
 	{
 		if(gHierarchyInstances.length == 0)
 		{
-			gHierarchyInstances.push( bg.CreateGenerationHierarchy("New Hierarchy") );
+			gHierarchyInstances.push(
+				{
+					instance:bg.CreateGenerationHierarchy("New Hierarchy"),
+					selected_node:0
+				} 
+			);
 		}
 
-		var hierarchy_instance = gHierarchyInstances[0];
+		var hierarchy_editor_instance = gHierarchyInstances[0];
+		var hierarchy_instance = gHierarchyInstances[0].instance;
 		if(ImGui.Begin("Hierarchy Editor - " + hierarchy_instance.name))
 		{
 			var win_width = ImGui.GetContentRegionAvail().x;
@@ -34,6 +40,25 @@ function UpdateHierarchyEditor()
 
 			ImGui.BeginChild("HierarchyProperties", new ImGui.Vec2(gens_width, win_height))
 			ImGui.Text(hierarchy_instance.name);
+
+			ImGui.Text("Num Nodes : " + hierarchy_instance.hierarchyNodes.length);
+			ImGui.Indent();
+			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
+			{
+				var node = hierarchy_instance.hierarchyNodes[i];
+				ImGui.Text(node.generator.name);
+			}
+			ImGui.SliderInt("Selected Node", (_ = hierarchy_editor_instance.selected_node) => hierarchy_editor_instance.selected_node = _, 0, 16);
+			if(hierarchy_editor_instance.selected_node >= 0 && hierarchy_editor_instance.selected_node < hierarchy_instance.hierarchyNodes.length)
+			{
+				ImGui.Text("Selected Node Info : " + hierarchy_instance.hierarchyNodes[hierarchy_editor_instance.selected_node].name);
+			}
+			else
+			{
+				ImGui.Text("Invalid Node");
+			}
+			ImGui.Unindent();
+
 			ImGui.EndChild();
 
 			ImGui.SameLine();
