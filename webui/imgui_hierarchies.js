@@ -91,7 +91,7 @@ function UpdateHierarchyEditor()
 				{
 					UpdateGeneratorsList(function(generator)
 					{
-						bg.CreateGenerationHierarchyNode(gHierarchyInstances[0], generator);
+						bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, generator);
 					});
 					ImGui.EndMenu();
 				}
