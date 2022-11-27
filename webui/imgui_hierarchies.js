@@ -48,10 +48,20 @@ function UpdateHierarchyEditor()
 				var node = hierarchy_instance.hierarchyNodes[i];
 				ImGui.Text(node.generator.name);
 			}
-			ImGui.SliderInt("Selected Node", (_ = hierarchy_editor_instance.selected_node) => hierarchy_editor_instance.selected_node = _, 0, 16);
+			ImGui.SliderInt("Selected Node", (_ = hierarchy_editor_instance.selected_node) => hierarchy_editor_instance.selected_node = _, 0, hierarchy_instance.hierarchyNodes.length-1);
 			if(hierarchy_editor_instance.selected_node >= 0 && hierarchy_editor_instance.selected_node < hierarchy_instance.hierarchyNodes.length)
 			{
-				ImGui.Text("Selected Node Info : " + hierarchy_instance.hierarchyNodes[hierarchy_editor_instance.selected_node].name);
+				var selected_hierarchy_node = hierarchy_instance.hierarchyNodes[hierarchy_editor_instance.selected_node];
+				ImGui.Text("Selected Node Info : " + selected_hierarchy_node.generator.name);
+				ImGui.Text("Selected Node Inputs : ");
+				ImGui.Indent();
+				var generator_inputs = selected_hierarchy_node.generator.inputs;
+				for([paramKey, paramData] of Object.entries(generator_inputs))
+				{
+					ImGui.Text(paramKey);
+				}
+				ImGui.Unindent();
+				ImGui.Text("Selected Node Outputs : ");
 			}
 			else
 			{
