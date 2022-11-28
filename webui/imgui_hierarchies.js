@@ -58,10 +58,17 @@ function UpdateHierarchyEditor()
 				var generator_inputs = selected_hierarchy_node.generator.inputs;
 				for([paramKey, paramData] of Object.entries(generator_inputs))
 				{
-					ImGui.Text(paramKey);
+					ImGui.Text(paramKey + " : " + paramData.type);
 				}
 				ImGui.Unindent();
 				ImGui.Text("Selected Node Outputs : ");
+				ImGui.Indent();
+				var generator_outputs = selected_hierarchy_node.generator.outputs;
+				for([paramKey, paramData] of Object.entries(generator_outputs))
+				{
+					ImGui.Text(paramKey + " : " + paramData.type);
+				}
+				ImGui.Unindent();
 			}
 			else
 			{
