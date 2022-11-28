@@ -2,11 +2,11 @@ var gShowHierarchyEditor = false;
 var gHierarchyInstances = [];
 
 var NodeImGui = {
-	BeginNode : function(id)
+	BeginNode : function(id, node_x, node_y)
 	{
 		var dw = ImGui.GetWindowDrawList();
-		var x = ImGui.GetWindowPos().x + 150;
-		var y = ImGui.GetWindowPos().y + 150;
+		var x = ImGui.GetWindowPos().x + node_x;
+		var y = ImGui.GetWindowPos().y + node_y;
 		var col = new ImGui.ImColor(0.5, 1.0, 1.0, 1.00);
 		dw.AddRectFilled(new ImGui.Vec2(x, y), new ImGui.Vec2(x + 100, y + 100), col.toImU32());   
 	},
@@ -21,6 +21,7 @@ function CreateHierarchyEditor(hierarcy_name)
 	gHierarchyInstances.push(
 		{
 			instance:bg.CreateGenerationHierarchy(hierarcy_name),
+			node_positions:[],
 			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
 			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
 		} 
@@ -36,8 +37,10 @@ function UpdateSelectedNodeInfo(selected_node, hierarchy_instance)
 	if(selected_node.idx >= 0 && selected_node.idx < hierarchy_instance.hierarchyNodes.length)
 	{
 		var selected_hierarchy_node = hierarchy_instance.hierarchyNodes[selected_node.idx];
-		ImGui.Text("Selected Node Info : " + selected_hierarchy_node.generator.name);
-		ImGui.Text("Selected Node Inputs : ");
+		ImGui.Text("Name : " + selected_hierarchy_node.generator.name);
+		ImGui.SliderInt("X", (_ = selected_node.x) => selected_node.x = _, -100, 100);
+		ImGui.SliderInt("Y", (_ = selected_node.y) => selected_node.y = _, -100, 100);
+		ImGui.Text("Inputs : ");
 		ImGui.Indent();
 		var generator_inputs = selected_hierarchy_node.generator.inputs;
 		for([paramKey, paramData] of Object.entries(generator_inputs))
@@ -47,7 +50,7 @@ function UpdateSelectedNodeInfo(selected_node, hierarchy_instance)
 		ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, Object.entries(generator_inputs).length-1);
 		ImGui.Unindent();
 
-		ImGui.Text("Selected Node Outputs : ");
+		ImGui.Text("Outputs : ");
 		ImGui.Indent();
 		var generator_outputs = selected_hierarchy_node.generator.outputs;
 		for([paramKey, paramData] of Object.entries(generator_outputs))
@@ -106,7 +109,10 @@ function UpdateHierarchyEditor()
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
 			{
 				var node = hierarchy_instance.hierarchyNodes[i];
-				NodeImGui.BeginNode(node.generator.name);
+				NodeImGui.BeginNode(node.generator.name,
+					hierarchy_editor_instance.node_positions[i].x,
+					hierarchy_editor_instance.node_positions[i].y
+				);
 				ImGui.Text(node.generator.name);
 				NodeImGui.EndNode();
 			}
@@ -129,6 +135,7 @@ function UpdateHierarchyEditor()
 					UpdateGeneratorsList(function(generator)
 					{
 						bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, generator);
+						gHierarchyInstances[0].node_positions.push({x:0,y:0});
 					});
 					ImGui.EndMenu();
 				}
