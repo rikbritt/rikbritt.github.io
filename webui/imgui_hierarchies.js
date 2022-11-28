@@ -28,8 +28,9 @@ function CreateHierarchyEditor(hierarcy_name)
 	);
 }
 
-function UpdateSelectedNodeInfo(selected_node, hierarchy_instance)
+function UpdateSelectedNodeInfo(selected_node, hierarchy_editor_instance)
 {
+	var hierarchy_instance = hierarchy_editor_instance.instance;
 	ImGui.PushID(selected_node.name);
 	ImGui.Separator();
 	ImGui.Text(selected_node.name);
@@ -37,9 +38,10 @@ function UpdateSelectedNodeInfo(selected_node, hierarchy_instance)
 	if(selected_node.idx >= 0 && selected_node.idx < hierarchy_instance.hierarchyNodes.length)
 	{
 		var selected_hierarchy_node = hierarchy_instance.hierarchyNodes[selected_node.idx];
+		var selected_node_pos = hierarchy_editor_instance.node_positions[selected_node.idx];
 		ImGui.Text("Name : " + selected_hierarchy_node.generator.name);
-		ImGui.SliderInt("X", (_ = selected_node.x) => selected_node.x = _, -100, 100);
-		ImGui.SliderInt("Y", (_ = selected_node.y) => selected_node.y = _, -100, 100);
+		ImGui.SliderInt("X", (_ = selected_node_pos.x) => selected_node_pos.x = _, -100, 100);
+		ImGui.SliderInt("Y", (_ = selected_node_pos.y) => selected_node_pos.y = _, -100, 100);
 		ImGui.Text("Inputs : ");
 		ImGui.Indent();
 		var generator_inputs = selected_hierarchy_node.generator.inputs;
@@ -96,8 +98,8 @@ function UpdateHierarchyEditor()
 			}
 			ImGui.Unindent();
 
-			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_a, hierarchy_instance);
-			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_b, hierarchy_instance);
+			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_a, hierarchy_editor_instance);
+			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_b, hierarchy_editor_instance);
 
 			ImGui.EndChild();
 
