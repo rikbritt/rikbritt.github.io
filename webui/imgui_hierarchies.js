@@ -16,18 +16,59 @@ var NodeImGui = {
 	}
 };
 
+function CreateHierarchyEditor(hierarcy_name)
+{
+	gHierarchyInstances.push(
+		{
+			instance:bg.CreateGenerationHierarchy(hierarcy_name),
+			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
+			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
+		} 
+	);
+}
+
+function UpdateSelectedNodeInfo(selected_node, hierarchy_instance)
+{
+	ImGui.PushID(selected_node.name);
+	ImGui.SliderInt("Selected Node " + selected_node.name, (_ = selected_node.idx) => selected_node.idx = _, 0, hierarchy_instance.hierarchyNodes.length-1);
+	if(selected_node.idx >= 0 && selected_node.idx < hierarchy_instance.hierarchyNodes.length)
+	{
+		var selected_hierarchy_node = hierarchy_instance.hierarchyNodes[selected_node.idx];
+		ImGui.Text("Selected Node Info : " + selected_hierarchy_node.generator.name);
+		ImGui.Text("Selected Node Inputs : ");
+		ImGui.Indent();
+		var generator_inputs = selected_hierarchy_node.generator.inputs;
+		for([paramKey, paramData] of Object.entries(generator_inputs))
+		{
+			ImGui.Text(paramKey + " : " + paramData.type);
+		}
+		ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, Object.entries(generator_inputs).length-1);
+		ImGui.Unindent();
+
+		ImGui.Text("Selected Node Outputs : ");
+		ImGui.Indent();
+		var generator_outputs = selected_hierarchy_node.generator.outputs;
+		for([paramKey, paramData] of Object.entries(generator_outputs))
+		{
+			ImGui.Text(paramKey + " : " + paramData.type);
+		}
+		ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, Object.entries(generator_outputs).length-1);
+		ImGui.Unindent();
+	}
+	else
+	{
+		ImGui.Text("Invalid Node");
+	}
+	ImGui.PopID();
+}
+
 function UpdateHierarchyEditor()
 {
 	if(gShowHierarchyEditor)
 	{
 		if(gHierarchyInstances.length == 0)
 		{
-			gHierarchyInstances.push(
-				{
-					instance:bg.CreateGenerationHierarchy("New Hierarchy"),
-					selected_node:0
-				} 
-			);
+			CreateHierarchyEditor("New Hierarchy");
 		}
 
 		var hierarchy_editor_instance = gHierarchyInstances[0];
@@ -42,39 +83,13 @@ function UpdateHierarchyEditor()
 			ImGui.Text(hierarchy_instance.name);
 
 			ImGui.Text("Num Nodes : " + hierarchy_instance.hierarchyNodes.length);
-			ImGui.Indent();
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
 			{
 				var node = hierarchy_instance.hierarchyNodes[i];
 				ImGui.Text(node.generator.name);
 			}
-			ImGui.SliderInt("Selected Node", (_ = hierarchy_editor_instance.selected_node) => hierarchy_editor_instance.selected_node = _, 0, hierarchy_instance.hierarchyNodes.length-1);
-			if(hierarchy_editor_instance.selected_node >= 0 && hierarchy_editor_instance.selected_node < hierarchy_instance.hierarchyNodes.length)
-			{
-				var selected_hierarchy_node = hierarchy_instance.hierarchyNodes[hierarchy_editor_instance.selected_node];
-				ImGui.Text("Selected Node Info : " + selected_hierarchy_node.generator.name);
-				ImGui.Text("Selected Node Inputs : ");
-				ImGui.Indent();
-				var generator_inputs = selected_hierarchy_node.generator.inputs;
-				for([paramKey, paramData] of Object.entries(generator_inputs))
-				{
-					ImGui.Text(paramKey + " : " + paramData.type);
-				}
-				ImGui.Unindent();
-				ImGui.Text("Selected Node Outputs : ");
-				ImGui.Indent();
-				var generator_outputs = selected_hierarchy_node.generator.outputs;
-				for([paramKey, paramData] of Object.entries(generator_outputs))
-				{
-					ImGui.Text(paramKey + " : " + paramData.type);
-				}
-				ImGui.Unindent();
-			}
-			else
-			{
-				ImGui.Text("Invalid Node");
-			}
-			ImGui.Unindent();
+			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_a, hierarchy_instance);
+			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_b, hierarchy_instance);
 
 			ImGui.EndChild();
 
