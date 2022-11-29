@@ -4,11 +4,54 @@ var gHierarchyInstances = [];
 var NodeImGui = {
 	BeginNode : function(id, node_x, node_y)
 	{
-		var dw = ImGui.GetWindowDrawList();
-		var x = ImGui.GetWindowPos().x + node_x;
-		var y = ImGui.GetWindowPos().y + node_y;
-		var col = new ImGui.ImColor(0.5, 1.0, 1.0, 1.00);
-		dw.AddRectFilled(new ImGui.Vec2(x, y), new ImGui.Vec2(x + 100, y + 100), col.toImU32());   
+		// var dw = ImGui.GetWindowDrawList();
+		// var x = ImGui.GetWindowPos().x + node_x;
+		// var y = ImGui.GetWindowPos().y + node_y;
+		// var col = new ImGui.ImColor(0.5, 1.0, 1.0, 1.00);
+		// dw.AddRectFilled(new ImGui.Vec2(x, y), new ImGui.Vec2(x + 100, y + 100), col.toImU32());   
+
+		var dl = ImGui.GetWindowDrawList();
+
+		var num_inputs = 3;
+		var num_outputs = 3;
+		var max_pins = num_inputs;
+		var line_space = 20;
+
+		var x = ImGui.GetWindowPos().x;
+		var y = ImGui.GetWindowPos().y;
+		node_x += x;
+		node_y += y;
+		var node_w = 170;
+		var node_border = 5;
+		var node_inner_x = node_x + node_border;
+		var title_height = 25;
+		var node_inner_y = node_y + title_height + node_border;
+		var node_h = (max_pins * line_space) + title_height + (node_border * 1);
+
+		var bg_col = new ImGui.ImColor(0.15, 0.15, 0.25, 1.00);
+		var title_bg_col = new ImGui.ImColor(0.3, 0.3, 0.4, 1.00);
+		var title_txt_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
+
+		//background
+		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
+		//title bar
+		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
+		dl.AddText({x:node_inner_x, y:node_y+node_border}, title_txt_col.toImU32(), id);
+
+
+		for(var i=0; i<num_inputs;++i)
+		{
+			var pin_text = "Input " + i;
+			dl.AddText({x:node_inner_x,y:node_inner_y + (i*line_space)}, title_txt_col.toImU32(), pin_text);
+		}
+
+		for(var i=0; i<num_outputs;++i)
+		{
+			var pin_text = "Output " + i;
+			var text_width = ImGui.CalcTextSize(pin_text).x;
+			var text_x = node_x + node_w - node_border - text_width;
+			dl.AddText({x:text_x,y:node_inner_y + (i*line_space)}, title_txt_col.toImU32(), pin_text);
+		}
 	},
 	EndNode : function()
 	{
