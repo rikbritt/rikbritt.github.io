@@ -2,13 +2,25 @@ var gShowHierarchyEditor = false;
 var gHierarchyInstances = [];
 
 var NodeImGui = {
+	Nodes:{},
+	Current_NodeId:0,
+	Current_Node:null,
 	BeginNode : function(id, node_x, node_y)
 	{
-		// var dw = ImGui.GetWindowDrawList();
-		// var x = ImGui.GetWindowPos().x + node_x;
-		// var y = ImGui.GetWindowPos().y + node_y;
-		// var col = new ImGui.ImColor(0.5, 1.0, 1.0, 1.00);
-		// dw.AddRectFilled(new ImGui.Vec2(x, y), new ImGui.Vec2(x + 100, y + 100), col.toImU32());   
+		NodeImGui.Current_NodeId = ImGui.GetID(id);
+		NodeImGui.Current_Node = Nodes[node_id];
+		if(NodeImGui.Current_Node == null)
+		{
+			NodeImGui.Current_Node = {};
+			NodeImGui.Nodes[node_id] = NodeImGui.Current_Node;
+		}
+		NodeImGui.Current_Node.x = node_x;
+		NodeImGui.Current_Node.y = node_y;
+	},
+	EndNode : function()
+	{
+		var node_x = NodeImGui.Current_Node.x;
+		var node_Y = NodeImGui.Current_Node.y;
 
 		var dl = ImGui.GetWindowDrawList();
 
@@ -52,10 +64,6 @@ var NodeImGui = {
 			var text_x = node_x + node_w - node_border - text_width;
 			dl.AddText({x:text_x,y:node_inner_y + (i*line_space)}, title_txt_col.toImU32(), pin_text);
 		}
-	},
-	EndNode : function()
-	{
-
 	}
 };
 
@@ -158,7 +166,7 @@ function UpdateHierarchyEditor()
 					hierarchy_editor_instance.node_positions[i].x,
 					hierarchy_editor_instance.node_positions[i].y
 				);
-				ImGui.Text(node.generator.name);
+				//NodeImGui.InputNode()
 				NodeImGui.EndNode();
 			}
 
