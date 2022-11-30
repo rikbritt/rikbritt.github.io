@@ -55,6 +55,8 @@ var NodeImGui = {
 		var bg_col = new ImGui.ImColor(0.15, 0.15, 0.25, 1.00);
 		var title_bg_col = new ImGui.ImColor(0.3, 0.3, 0.4, 1.00);
 		var title_txt_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
+		var pin_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
+		var pin_inner_col = new ImGui.ImColor(0.0, 0.0, 0.0, 1.00);
 
 		//background
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
@@ -66,7 +68,10 @@ var NodeImGui = {
 		for(var i=0; i<num_inputs;++i)
 		{
 			var pin_text =  NodeImGui.Current_Node.input_pins[i];
-			dl.AddText({x:node_inner_x,y:node_inner_y + (i*line_space)}, title_txt_col.toImU32(), pin_text);
+			var pin_y = node_inner_y + (i*line_space);
+			dl.AddCircleFilled({x:node_inner_x,y:pin_y}, 6.0, pin_col.toImU32(), 8);
+			dl.AddCircleFilled({x:node_inner_x,y:pin_y}, 4.0, pin_inner_col.toImU32(), 8);
+			dl.AddText({x:node_inner_x,y:pin_y}, title_txt_col.toImU32(), pin_text);
 		}
 
 		for(var i=0; i<num_outputs;++i)
@@ -74,7 +79,11 @@ var NodeImGui = {
 			var pin_text =  NodeImGui.Current_Node.output_pins[i];
 			var text_width = ImGui.CalcTextSize(pin_text).x;
 			var text_x = node_x + node_w - node_border - text_width;
-			dl.AddText({x:text_x,y:node_inner_y + (i*line_space)}, title_txt_col.toImU32(), pin_text);
+			var pin_y = node_inner_y + (i*line_space);
+			var pin_x = node_x + node_w - node_border;
+			dl.AddCircleFilled({x:pin_x,y:pin_y}, 6.0, pin_col.toImU32(), 8);
+			dl.AddCircleFilled({x:pin_x,y:pin_y}, 4.0, pin_inner_col.toImU32(), 8);
+			dl.AddText({x:text_x,y:pin_y}, title_txt_col.toImU32(), pin_text);
 		}
 	}
 };
@@ -103,8 +112,8 @@ function UpdateSelectedNodeInfo(selected_node, hierarchy_editor_instance)
 		var selected_hierarchy_node = hierarchy_instance.hierarchyNodes[selected_node.idx];
 		var selected_node_pos = hierarchy_editor_instance.node_positions[selected_node.idx];
 		ImGui.Text("Name : " + selected_hierarchy_node.generator.name);
-		ImGui.SliderInt("X", (_ = selected_node_pos.x) => selected_node_pos.x = _, -100, 100);
-		ImGui.SliderInt("Y", (_ = selected_node_pos.y) => selected_node_pos.y = _, -100, 100);
+		ImGui.SliderInt("X", (_ = selected_node_pos.x) => selected_node_pos.x = _, -100, 500);
+		ImGui.SliderInt("Y", (_ = selected_node_pos.y) => selected_node_pos.y = _, -100, 500);
 		ImGui.Text("Inputs : ");
 		ImGui.Indent();
 		var generator_inputs = selected_hierarchy_node.generator.inputs;
