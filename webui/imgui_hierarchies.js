@@ -14,6 +14,7 @@ var NodeImGui = {
 			NodeImGui.Current_Node = {};
 			NodeImGui.Nodes[NodeImGui.Current_NodeId] = NodeImGui.Current_Node;
 		}
+		NodeImGui.Current_Node.id = id;
 		NodeImGui.Current_Node.x = node_x;
 		NodeImGui.Current_Node.y = node_y;
 	},
@@ -21,6 +22,7 @@ var NodeImGui = {
 	{
 		var node_x = NodeImGui.Current_Node.x;
 		var node_y = NodeImGui.Current_Node.y;
+		var id = NodeImGui.Current_Node.id;
 
 		var dl = ImGui.GetWindowDrawList();
 
