@@ -20,7 +20,7 @@ var NodeImGui = {
 	EndNode : function()
 	{
 		var node_x = NodeImGui.Current_Node.x;
-		var node_Y = NodeImGui.Current_Node.y;
+		var node_y = NodeImGui.Current_Node.y;
 
 		var dl = ImGui.GetWindowDrawList();
 
