@@ -8,7 +8,7 @@ var NodeImGui = {
 	BeginNode : function(id, node_x, node_y)
 	{
 		NodeImGui.Current_NodeId = ImGui.GetID(id);
-		NodeImGui.Current_Node = Nodes[node_id];
+		NodeImGui.Current_Node = NodeImGui.Nodes[node_id];
 		if(NodeImGui.Current_Node == null)
 		{
 			NodeImGui.Current_Node = {};
