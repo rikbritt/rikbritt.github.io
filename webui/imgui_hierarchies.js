@@ -192,11 +192,17 @@ function UpdateHierarchyEditor()
 					hierarchy_editor_instance.node_positions[i].x,
 					hierarchy_editor_instance.node_positions[i].y
 				);
-				NodeImGui.InputPin("Test Input");
-				NodeImGui.InputPin("Frank");
-				NodeImGui.OutputPin("Bob");
-				NodeImGui.OutputPin("Susan");
-				NodeImGui.OutputPin("Hank");
+
+				for([paramKey, paramData] of Object.entries(node.generator.inputs))
+				{
+					NodeImGui.InputPin(paramKey);
+				}
+
+				for([paramKey, paramData] of Object.entries(node.generator.outputs))
+				{
+					NodeImGui.OutputPin(paramKey);
+				}
+
 				NodeImGui.EndNode();
 			}
 
