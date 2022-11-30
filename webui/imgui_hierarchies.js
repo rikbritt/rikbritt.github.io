@@ -198,9 +198,9 @@ function UpdateHierarchyEditor()
 
 			if(ImGui.Button("Add A:Output To B:Input Link"))
 			{
-				var node_a = hierarchy_editor_instance.hierarchyNodes[hierarchy_editor_instance.selected_node_a.idx];
+				var node_a = hierarchy_instance.hierarchyNodes[hierarchy_editor_instance.selected_node_a.idx];
 				var node_a_output_name = Object.entries(node_a.generator.outputs)[hierarchy_editor_instance.selected_node_a.output_pin][0];
-				var node_b = hierarchy_editor_instance.hierarchyNodes[hierarchy_editor_instance.selected_node_b.idx];
+				var node_b = hierarchy_instance.hierarchyNodes[hierarchy_editor_instance.selected_node_b.idx];
 				var node_b_input_name = Object.entries(node_b.generator.outputs)[hierarchy_editor_instance.selected_node_b.input_pin][0];
 				bg.CreateGenerationHierarchyLink(node_a, node_a_output_name, node_b, node_b_input_name);
 			}
