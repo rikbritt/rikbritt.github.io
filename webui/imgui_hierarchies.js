@@ -47,7 +47,7 @@ var NodeImGui = {
 		node_y += y;
 		var node_w = 170;
 		var node_border = 5;
-		var pin_diam = 6;
+		var pin_diam = 8;
 		var node_inner_x = node_x + node_border;
 		var title_height = 25;
 		var node_inner_y = node_y + title_height + node_border;
@@ -73,8 +73,8 @@ var NodeImGui = {
 			var text_y = node_inner_y + (i*line_space); 
 			var pin_x = node_inner_x;
 			var pin_y = text_y + (ImGui.GetTextLineHeight() / 2.0);
-			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam, pin_col.toImU32(), 8);
-			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.66, pin_inner_col.toImU32(), 8);
+			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.8, pin_col.toImU32(), 8);
+			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.6, pin_inner_col.toImU32(), 8);
 			dl.AddText({x:text_x, y:text_y}, title_txt_col.toImU32(), pin_text);
 		}
 
@@ -86,8 +86,8 @@ var NodeImGui = {
 			var text_x = node_x + node_w - node_border - text_width - pin_diam;
 			var pin_y = text_y + (ImGui.GetTextLineHeight() / 2.0);
 			var pin_x = node_x + node_w - node_border;
-			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam, pin_col.toImU32(), 8);
-			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.66, pin_inner_col.toImU32(), 8);
+			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.8, pin_col.toImU32(), 8);
+			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.6, pin_inner_col.toImU32(), 8);
 			dl.AddText({x:text_x, y:text_y}, title_txt_col.toImU32(), pin_text);
 		}
 	}
