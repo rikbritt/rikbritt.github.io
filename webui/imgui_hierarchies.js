@@ -8,11 +8,11 @@ var NodeImGui = {
 	BeginNode : function(id, node_x, node_y)
 	{
 		NodeImGui.Current_NodeId = ImGui.GetID(id);
-		NodeImGui.Current_Node = NodeImGui.Nodes[node_id];
+		NodeImGui.Current_Node = NodeImGui.Nodes[NodeImGui.Current_NodeId];
 		if(NodeImGui.Current_Node == null)
 		{
 			NodeImGui.Current_Node = {};
-			NodeImGui.Nodes[node_id] = NodeImGui.Current_Node;
+			NodeImGui.Nodes[NodeImGui.Current_NodeId] = NodeImGui.Current_Node;
 		}
 		NodeImGui.Current_Node.x = node_x;
 		NodeImGui.Current_Node.y = node_y;
