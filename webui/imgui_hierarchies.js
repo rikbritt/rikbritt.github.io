@@ -20,11 +20,11 @@ var NodeImGui = {
 		NodeImGui.Current_Node.input_pins = [];
 		NodeImGui.Current_Node.output_pins = [];
 	},
-	InputNode : function(pin_id)
+	InputPin : function(pin_id)
 	{
 		NodeImGui.Current_Node.input_pins.push(pin_id);
 	},
-	OutputNode : function(pin_id)
+	OutputPin : function(pin_id)
 	{
 		NodeImGui.Current_Node.output_pins.push(pin_id);
 	},
@@ -178,11 +178,11 @@ function UpdateHierarchyEditor()
 					hierarchy_editor_instance.node_positions[i].x,
 					hierarchy_editor_instance.node_positions[i].y
 				);
-				NodeImGui.InputNode("Test Input");
-				NodeImGui.InputNode("Frank");
-				NodeImGui.OutputNode("Bob");
-				NodeImGui.OutputNode("Susan");
-				NodeImGui.OutputNode("Hank");
+				NodeImGui.InputPin("Test Input");
+				NodeImGui.InputPin("Frank");
+				NodeImGui.OutputPin("Bob");
+				NodeImGui.OutputPin("Susan");
+				NodeImGui.OutputPin("Hank");
 				NodeImGui.EndNode();
 			}
 
