@@ -17,6 +17,16 @@ var NodeImGui = {
 		NodeImGui.Current_Node.id = id;
 		NodeImGui.Current_Node.x = node_x;
 		NodeImGui.Current_Node.y = node_y;
+		NodeImGui.Current_Node.input_pins = [];
+		NodeImGui.Current_Node.output_pins = [];
+	},
+	InputNode : function(pin_id)
+	{
+		NodeImGui.Current_Node.input_pins.push(pin_id);
+	},
+	OutputNode : function(pin_id)
+	{
+		NodeImGui.Current_Node.output_pins.push(pin_id);
 	},
 	EndNode : function()
 	{
@@ -26,9 +36,9 @@ var NodeImGui = {
 
 		var dl = ImGui.GetWindowDrawList();
 
-		var num_inputs = 3;
-		var num_outputs = 3;
-		var max_pins = num_inputs;
+		var num_inputs = NodeImGui.Current_Node.input_pins.length;
+		var num_outputs = NodeImGui.Current_Node.output_pins.length;
+		var max_pins = num_inputs > num_outputs ? num_inputs : num_outputs;
 		var line_space = 20;
 
 		var x = ImGui.GetWindowPos().x;
@@ -55,13 +65,13 @@ var NodeImGui = {
 
 		for(var i=0; i<num_inputs;++i)
 		{
-			var pin_text = "Input " + i;
+			var pin_text =  NodeImGui.Current_Node.input_pins[i];
 			dl.AddText({x:node_inner_x,y:node_inner_y + (i*line_space)}, title_txt_col.toImU32(), pin_text);
 		}
 
 		for(var i=0; i<num_outputs;++i)
 		{
-			var pin_text = "Output " + i;
+			var pin_text =  NodeImGui.Current_Node.output_pins[i];
 			var text_width = ImGui.CalcTextSize(pin_text).x;
 			var text_x = node_x + node_w - node_border - text_width;
 			dl.AddText({x:text_x,y:node_inner_y + (i*line_space)}, title_txt_col.toImU32(), pin_text);
@@ -168,7 +178,11 @@ function UpdateHierarchyEditor()
 					hierarchy_editor_instance.node_positions[i].x,
 					hierarchy_editor_instance.node_positions[i].y
 				);
-				//NodeImGui.InputNode()
+				NodeImGui.InputNode("Test Input");
+				NodeImGui.InputNode("Frank");
+				NodeImGui.OutputNode("Bob");
+				NodeImGui.OutputNode("Susan");
+				NodeImGui.OutputNode("Hank");
 				NodeImGui.EndNode();
 			}
 
