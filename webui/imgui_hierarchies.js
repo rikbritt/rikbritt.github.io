@@ -5,6 +5,10 @@ var NodeImGui = {
 	Nodes:{},
 	Current_NodeId:0,
 	Current_Node:null,
+	BeginCanvas : function(id)
+	{
+
+	},
 	BeginNode : function(id, node_x, node_y)
 	{
 		NodeImGui.Current_NodeId = ImGui.GetID(id);
@@ -90,6 +94,10 @@ var NodeImGui = {
 			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.6, pin_inner_col.toImU32(), 8);
 			dl.AddText({x:text_x, y:text_y}, title_txt_col.toImU32(), pin_text);
 		}
+	},
+	EndCanvas : function()
+	{
+
 	}
 };
 
@@ -138,6 +146,16 @@ function UpdateSelectedNodeInfo(selected_node, hierarchy_editor_instance)
 		}
 		ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, Object.entries(generator_outputs).length-1);
 		ImGui.Unindent();
+
+		ImGui.Text("Links : ");
+		ImGui.Unindent();
+		var links = selected_hierarchy_node.inputs;
+		for(var i=0; i<links.length; ++i)
+		{
+			var link = links[i];
+			ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
+		}
+		ImGui.Indent();
 	}
 	else
 	{
@@ -178,6 +196,15 @@ function UpdateHierarchyEditor()
 			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_a, hierarchy_editor_instance);
 			UpdateSelectedNodeInfo(hierarchy_editor_instance.selected_node_b, hierarchy_editor_instance);
 
+			if(ImGui.Button("Add A:Output To B:Input Link"))
+			{
+				var node_a = hierarchy_editor_instance.hierarchyNodes[hierarchy_editor_instance.selected_node_a.idx];
+				var node_a_output_name = Object.entries(node_a.generator.outputs)[hierarchy_editor_instance.selected_node_a.output_pin][0];
+				var node_b = hierarchy_editor_instance.hierarchyNodes[hierarchy_editor_instance.selected_node_b.idx];
+				var node_b_input_name = Object.entries(node_b.generator.outputs)[hierarchy_editor_instance.selected_node_b.input_pin][0];
+				bg.CreateGenerationHierarchyLink(node_a, node_a_output_name, node_b, node_b_input_name);
+			}
+
 			ImGui.EndChild();
 
 			ImGui.SameLine();
@@ -185,10 +212,12 @@ function UpdateHierarchyEditor()
 
 			var dw = ImGui.GetWindowDrawList();
 
+			NodeImGui.BeginCanvas();
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
 			{
 				var node = hierarchy_instance.hierarchyNodes[i];
-				NodeImGui.BeginNode(node.generator.name,
+				NodeImGui.BeginNode(
+					node.generator.name,
 					hierarchy_editor_instance.node_positions[i].x,
 					hierarchy_editor_instance.node_positions[i].y
 				);
@@ -203,8 +232,15 @@ function UpdateHierarchyEditor()
 					NodeImGui.OutputPin(paramKey);
 				}
 
+				//Input Links
+				for(var j=0; j<node.inputs.length; ++j)
+				{
+					var link = node.inputs[j];
+				}
+
 				NodeImGui.EndNode();
 			}
+			NodeImGui.EndCanvas();
 
 			var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 			var th = 4.0;
