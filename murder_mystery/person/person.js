@@ -1,7 +1,6 @@
 var mm_personDataDef = {
-	version:2,
+	version:1,
 	name:"Person",
-	id:"mm_person",
 	fields:{
 		age:{			type:"time",	units:"years", min:5, max:80 },
 		male:{			type:"bool" },
@@ -14,8 +13,9 @@ var mm_personDataDef = {
 }
 
 var mm_personGenerator = {
-	version:1,
+	version:2,
 	name:"Person",
+	id:"mm_person",
 	category:["Murder Mystery"],
 	inputs:{
 		person:{	type:"data",		dataType:mm_personDataDef	}
