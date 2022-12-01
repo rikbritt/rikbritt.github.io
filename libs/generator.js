@@ -1,8 +1,20 @@
 
 bg.generators = [];
+bg.generatorsByName = {};
 bg.RegisterGenerator = function(generator)
 {
+	if(generator.name == null)
+	{
+		console.error("Failed to register generator without a name");
+	}
+
+	if(bg.generatorsByName[generator.name] != null)
+	{
+		console.error("Already have a generator registered with name " + generator.name);
+	}
+
 	bg.generators.push(generator);
+	bg.generatorsByName[generator.name] = generator;
 }
 
 bg.GetGeneratorFullName = function(generator)

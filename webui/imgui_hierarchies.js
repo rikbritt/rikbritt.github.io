@@ -184,6 +184,17 @@ function UpdateHierarchyEditor()
 			ImGui.BeginChild("HierarchyProperties", new ImGui.Vec2(gens_width, win_height))
 			ImGui.Text(hierarchy_instance.name);
 
+			if(ImGui.Button("Create Test Setup"))
+			{
+				bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, bg.generators[0]);
+				gHierarchyInstances[0].node_positions.push({x:0,y:10});
+
+				bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, bg.generators[1]);
+				gHierarchyInstances[0].node_positions.push({x:100,y:10});
+
+				
+			}
+
 			ImGui.Text("Num Nodes : " + hierarchy_instance.hierarchyNodes.length);
 			ImGui.Indent();
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
