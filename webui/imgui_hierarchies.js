@@ -148,14 +148,14 @@ function UpdateSelectedNodeInfo(selected_node, hierarchy_editor_instance)
 		ImGui.Unindent();
 
 		ImGui.Text("Links : ");
-		ImGui.Unindent();
+		ImGui.Indent();
 		var links = selected_hierarchy_node.inputs;
 		for(var i=0; i<links.length; ++i)
 		{
 			var link = links[i];
 			ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
 		}
-		ImGui.Indent();
+		ImGui.Unindent();
 	}
 	else
 	{
@@ -190,7 +190,7 @@ function UpdateHierarchyEditor()
 				gHierarchyInstances[0].node_positions.push({x:0,y:10});
 
 				var suspect_node = bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, bg.GetGeneratorById("mm_suspect"));
-				gHierarchyInstances[0].node_positions.push({x:100,y:10});
+				gHierarchyInstances[0].node_positions.push({x:300,y:10});
 
 				bg.CreateGenerationHierarchyLink(person_node, "data", suspect_node, "suspect");
 			}
