@@ -186,13 +186,13 @@ function UpdateHierarchyEditor()
 
 			if(ImGui.Button("Create Test Setup"))
 			{
-				bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, bg.generators[0]);
+				var person_node = bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, bg.GetGeneratorById("mm_person"));
 				gHierarchyInstances[0].node_positions.push({x:0,y:10});
 
-				bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, bg.generators[1]);
+				var suspect_node = bg.CreateGenerationHierarchyNode(gHierarchyInstances[0].instance, bg.GetGeneratorById("mm_suspect"));
 				gHierarchyInstances[0].node_positions.push({x:100,y:10});
 
-				
+				bg.CreateGenerationHierarchyLink(person_node, "data", suspect_node, "suspect");
 			}
 
 			ImGui.Text("Num Nodes : " + hierarchy_instance.hierarchyNodes.length);

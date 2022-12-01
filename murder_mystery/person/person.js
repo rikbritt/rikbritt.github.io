@@ -1,6 +1,7 @@
 var mm_personDataDef = {
-	version:1,
+	version:2,
 	name:"Person",
+	id:"mm_person",
 	fields:{
 		age:{			type:"time",	units:"years", min:5, max:80 },
 		male:{			type:"bool" },

@@ -1,20 +1,32 @@
 
 bg.generators = [];
-bg.generatorsByName = {};
+bg.generatorsById = {};
 bg.RegisterGenerator = function(generator)
 {
-	if(generator.name == null)
+	var id = generator.id;
+	if(generator.version==1)
 	{
-		console.error("Failed to register generator without a name");
+		if(generator.name == null)
+		{
+			console.error("Failed to register generator without a name");
+		}
+		var id = generator.name;
+	}
+	else
+	{
+		if(generator.id == null)
+		{
+			console.error("Failed to register generator without an id");
+		}
 	}
 
-	if(bg.generatorsByName[generator.name] != null)
+	if(bg.generatorsById[id] != null)
 	{
-		console.error("Already have a generator registered with name " + generator.name);
+		console.error("Already have a generator registered with id " + id);
 	}
 
 	bg.generators.push(generator);
-	bg.generatorsByName[generator.name] = generator;
+	bg.generatorsById[id] = generator;
 }
 
 bg.GetGeneratorFullName = function(generator)
@@ -26,6 +38,11 @@ bg.GetGeneratorFullName = function(generator)
 	}
 	
 	return name;
+}
+
+bg.GetGeneratorById = function(id)
+{
+	return bg.generatorsById[id];
 }
 
 bg.CreateWeightingDataDef = function(dataDefIn)
