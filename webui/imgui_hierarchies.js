@@ -164,7 +164,7 @@ var NodeImGui = {
 		//Draw Links
 		for(var i=0; i<NodeImGui.Links.length; ++i)
 		{
-			NodeImGui.Internal_DrawLink(node.links[i]);
+			NodeImGui.Internal_DrawLink(NodeImGui.Links[i]);
 		}
 	}
 };
