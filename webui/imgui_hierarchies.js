@@ -8,7 +8,7 @@ var NodeImGui = {
 	Current_Node:null,
 	BeginCanvas : function(id)
 	{
-
+		NodeImGui.Links = [];
 	},
 	BeginNode : function(id, name, node_x, node_y)
 	{
@@ -162,14 +162,10 @@ var NodeImGui = {
 		}
 
 		//Draw Links
-		for([node_id, node] of Object.entries(NodeImGui.Nodes))
-        {
-			for(var i=0; i<node.links.length; ++i)
-			{
-				NodeImGui.Internal_DrawLink(node.links[i]);
-			}
+		for(var i=0; i<NodeImGui.Links.length; ++i)
+		{
+			NodeImGui.Internal_DrawLink(node.links[i]);
 		}
-
 	}
 };
 
