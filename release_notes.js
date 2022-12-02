@@ -1,5 +1,12 @@
 AddNotes("Release Notes",
 `
+02/12/2022
+Been working on this via VSCode and github.
+Working on hierarchy editor - building up imgui node helpers.
+Generators have new params using imgui table.
+Worked with Chris P designing murder mystery gameplay a bit.
+Setup some more mm data while on holiday in Malta :)
+
 V13 - 20/07/2019
 Looking at the Generator/Params/Hierarchy setup with fresh eyes.
 Started a highlevel doc about the concepts here:
