@@ -4,22 +4,23 @@ var gHierarchyInstances = [];
 var NodeImGui = {
 	Nodes:{},
 	Links:[],
-	Current_NodeId:0,
+	Current_NodeImGuiId:0,
 	Current_Node:null,
 	BeginCanvas : function(id)
 	{
 
 	},
-	BeginNode : function(id, node_x, node_y)
+	BeginNode : function(id, name, node_x, node_y)
 	{
-		NodeImGui.Current_NodeId = ImGui.GetID(id);
-		NodeImGui.Current_Node = NodeImGui.Nodes[NodeImGui.Current_NodeId];
+		NodeImGui.Current_NodeImGuiId = ImGui.GetID(id);
+		NodeImGui.Current_Node = NodeImGui.Nodes[NodeImGui.Current_NodeImGuiId];
 		if(NodeImGui.Current_Node == null)
 		{
 			NodeImGui.Current_Node = {};
-			NodeImGui.Nodes[NodeImGui.Current_NodeId] = NodeImGui.Current_Node;
+			NodeImGui.Nodes[NodeImGui.Current_NodeImGuiId] = NodeImGui.Current_Node;
 		}
 		NodeImGui.Current_Node.id = id;
+		NodeImGui.Current_Node.name = name;
 		NodeImGui.Current_Node.x = node_x;
 		NodeImGui.Current_Node.y = node_y;
 		NodeImGui.Current_Node.input_pins = [];
@@ -49,7 +50,7 @@ var NodeImGui = {
 				from:from_imgui_id,
 				from_pin:from_pin,
 				to_pin:to_pin,
-				to:NodeImGui.Current_NodeId
+				to_imgui_id:NodeImGui.Current_NodeImGuiId
 			}
 		);
 	},
@@ -61,7 +62,6 @@ var NodeImGui = {
 	{
 		var node_x = node.x;
 		var node_y = node.y;
-		var id = node.id;
 
 		var dl = ImGui.GetWindowDrawList();
 
@@ -92,7 +92,7 @@ var NodeImGui = {
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
 		//title bar
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
-		dl.AddText({x:node_inner_x, y:node_y+node_border}, title_txt_col.toImU32(), id);
+		dl.AddText({x:node_inner_x, y:node_y+node_border}, title_txt_col.toImU32(), node.name);
 
 
 		for(var i=0; i<num_inputs;++i)
@@ -151,7 +151,7 @@ var NodeImGui = {
 			}
 		}
 
-		
+
 	},
 	EndCanvas : function()
 	{
@@ -300,6 +300,7 @@ function UpdateHierarchyEditor()
 			{
 				var node = hierarchy_instance.hierarchyNodes[i];
 				NodeImGui.BeginNode(
+					node.idx,
 					node.generator.name,
 					hierarchy_editor_instance.node_positions[i].x,
 					hierarchy_editor_instance.node_positions[i].y
@@ -319,7 +320,11 @@ function UpdateHierarchyEditor()
 				for(var j=0; j<node.inputs.length; ++j)
 				{
 					var link = node.inputs[j];
-					NodeImGui.LinkNode(link.fromNode, link.fromNodeOutputName, link.toNodeInputName);
+					NodeImGui.LinkNode(
+						hierarchy_instance.hierarchyNodes[link.fromNodeIdx],
+						link.fromNodeOutputName,
+						link.toNodeInputName
+					);
 				}
 
 				NodeImGui.EndNode();

@@ -216,6 +216,7 @@ bg.CreateGenerationHierarchy = function(hierarchyName)
 bg.CreateGenerationHierarchyNode = function(hierarchy, generator)
 {
 	var node = {
+		idx:hierarchy.hierarchyNodes.length,
 		generator:generator,
 		inputs:[]
 	};
@@ -245,12 +246,13 @@ bg.CreateGenerationHierarchyLink = function(fromNode, fromNodeOutputName, toNode
 		" because '" + fromNodeOutputName + "' doesn't exist on the 'from' node."
 		);
 	}
+	//todo: add idx sanity checks and pass hierarchy in as param to allow that
 	else
 	{
 		var link = {
-			fromNode:fromNode,
+			fromNodeIdx:fromNode.idx,
 			fromNodeOutputName:fromNodeOutputName,
-			toNode:toNode, //Maybe don't include this one.
+			toNodeIdx:toNode.idx, //Maybe don't include this one.
 			toNodeInputName:toNodeInputName
 		};
 		
