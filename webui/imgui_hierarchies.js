@@ -151,21 +151,21 @@ var NodeImGui = {
 			}
 		}
 
-		var link_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
-		var th = 4.0;
+		var link_col = new ImGui.ImColor(0.7, 0.7, 0.7, 1.00);
+		var link_thickness = 2.0;
 		var sz = {value:150}
 		var x = ImGui.GetWindowPos().x + 50;
 		var y = ImGui.GetWindowPos().y + 50;
 		var cp4 = [    
 			{x:out_pin.x, y:out_pin.y},     
-			{x:out_pin.x + 30, y:out_pin.y},
-			{x:in_pin.x - 30, y:in_pin.y},
+			{x:out_pin.x + 60, y:out_pin.y},
+			{x:in_pin.x - 60, y:in_pin.y},
 			{x:in_pin.x, y:in_pin.y}
 		];
 
 		var dl = ImGui.GetWindowDrawList();
-		var curve_segments = 64;
-		dl.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), th, curve_segments);
+		var curve_segments = 32;
+		dl.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), link_thickness, curve_segments);
 
 	},
 	EndCanvas : function()
