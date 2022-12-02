@@ -3,6 +3,7 @@ var gHierarchyInstances = [];
 
 var NodeImGui = {
 	Nodes:{},
+	Links:[],
 	Current_NodeId:0,
 	Current_Node:null,
 	BeginCanvas : function(id)
@@ -26,22 +27,46 @@ var NodeImGui = {
 	},
 	InputPin : function(pin_id)
 	{
-		NodeImGui.Current_Node.input_pins.push(pin_id);
+		NodeImGui.Current_Node.input_pins.push(
+			{
+				id:pin_id
+			}
+		);
 	},
 	OutputPin : function(pin_id)
 	{
-		NodeImGui.Current_Node.output_pins.push(pin_id);
+		NodeImGui.Current_Node.output_pins.push(
+			{
+				id:pin_id
+			}
+		);
+	},
+	LinkNode : function(from_id, from_pin, to_pin)
+	{
+		var from_imgui_id = ImGui.GetID(from_id);
+		NodeImGui.Links.push(
+			{
+				from:from_imgui_id,
+				from_pin:from_pin,
+				to_pin:to_pin,
+				to:NodeImGui.Current_NodeId
+			}
+		);
 	},
 	EndNode : function()
 	{
-		var node_x = NodeImGui.Current_Node.x;
-		var node_y = NodeImGui.Current_Node.y;
-		var id = NodeImGui.Current_Node.id;
+		NodeImGui.Current_Node = null;
+	},
+	Internal_DrawNode : function(node)
+	{
+		var node_x = node.x;
+		var node_y = node.y;
+		var id = node.id;
 
 		var dl = ImGui.GetWindowDrawList();
 
-		var num_inputs = NodeImGui.Current_Node.input_pins.length;
-		var num_outputs = NodeImGui.Current_Node.output_pins.length;
+		var num_inputs = node.input_pins.length;
+		var num_outputs = node.output_pins.length;
 		var max_pins = num_inputs > num_outputs ? num_inputs : num_outputs;
 		var line_space = 20;
 
@@ -72,11 +97,13 @@ var NodeImGui = {
 
 		for(var i=0; i<num_inputs;++i)
 		{
-			var pin_text =  NodeImGui.Current_Node.input_pins[i];
+			var pin_text =  node.input_pins[i].id;
 			var text_x = node_inner_x + pin_diam;
 			var text_y = node_inner_y + (i*line_space); 
 			var pin_x = node_inner_x;
 			var pin_y = text_y + (ImGui.GetTextLineHeight() / 2.0);
+			node.input_pins[i].x = pin_x;
+			node.input_pins[i].y = pin_y;
 			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.8, pin_col.toImU32(), 8);
 			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.6, pin_inner_col.toImU32(), 8);
 			dl.AddText({x:text_x, y:text_y}, title_txt_col.toImU32(), pin_text);
@@ -84,19 +111,64 @@ var NodeImGui = {
 
 		for(var i=0; i<num_outputs;++i)
 		{
-			var pin_text =  NodeImGui.Current_Node.output_pins[i];
+			var pin_text =  node.output_pins[i].id;
 			var text_width = ImGui.CalcTextSize(pin_text).x;
 			var text_y = node_inner_y + (i*line_space); 
 			var text_x = node_x + node_w - node_border - text_width - pin_diam;
 			var pin_y = text_y + (ImGui.GetTextLineHeight() / 2.0);
 			var pin_x = node_x + node_w - node_border;
+			node.output_pins[i].x = pin_x;
+			node.output_pins[i].y = pin_y;
 			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.8, pin_col.toImU32(), 8);
 			dl.AddCircleFilled({x:pin_x,y:pin_y}, pin_diam * 0.6, pin_inner_col.toImU32(), 8);
 			dl.AddText({x:text_x, y:text_y}, title_txt_col.toImU32(), pin_text);
 		}
 	},
+	Internal_DrawLink : function(link)
+	{
+		var from_node = NodeImGui.Nodes[link.from];
+		var to_node = NodeImGui.Nodes[link.to];
+
+		var out_pin = null;
+		for(var i=0; i<from_node.output_pins.length; ++i)
+		{
+			var from_out_pin = from_node.output_pins[i];
+			if(from_out_pin.id == link.from_pin)
+			{
+				out_pin = from_out_pin;
+				break;
+			}
+		}
+		
+		var in_pin = null;
+		for(var i=0; i<to_node.input_pins.length; ++i)
+		{
+			var to_in_pin = to_node.input_pins[i];
+			if(to_in_pin.id == link.to_pin)
+			{
+				in_pin = to_in_pin;
+				break;
+			}
+		}
+
+		
+	},
 	EndCanvas : function()
 	{
+		//Draw Nodes
+		for([node_id, node] of Object.entries(NodeImGui.Nodes))
+        {
+			NodeImGui.Internal_DrawNode(node);
+		}
+
+		//Draw Links
+		for([node_id, node] of Object.entries(NodeImGui.Nodes))
+        {
+			for(var i=0; i<node.links.length; ++i)
+			{
+				NodeImGui.Internal_DrawLink(node.links[i]);
+			}
+		}
 
 	}
 };
@@ -247,6 +319,7 @@ function UpdateHierarchyEditor()
 				for(var j=0; j<node.inputs.length; ++j)
 				{
 					var link = node.inputs[j];
+					NodeImGui.LinkNode(link.fromNode, link.fromNodeOutputName, link.toNodeInputName);
 				}
 
 				NodeImGui.EndNode();
