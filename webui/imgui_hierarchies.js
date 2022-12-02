@@ -321,7 +321,7 @@ function UpdateHierarchyEditor()
 				{
 					var link = node.inputs[j];
 					NodeImGui.LinkNode(
-						hierarchy_instance.hierarchyNodes[link.fromNodeIdx],
+						link.fromNodeIdx,
 						link.fromNodeOutputName,
 						link.toNodeInputName
 					);
