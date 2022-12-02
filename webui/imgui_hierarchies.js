@@ -151,6 +151,20 @@ var NodeImGui = {
 			}
 		}
 
+		var link_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
+		var th = 4.0;
+		var sz = {value:150}
+		var x = ImGui.GetWindowPos().x + 50;
+		var y = ImGui.GetWindowPos().y + 50;
+		var cp4 = [    
+			{x:out_pin.x, y:out_pin.y},     
+			{x:out_pin.x + 30, y:out_pin.y},
+			{x:in_pin.x - 30, y:in_pin.y},
+			{x:in_pin.x, y:in_pin.y}
+		];
+
+		var curve_segments = 64;
+		dw.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), th, curve_segments);
 
 	},
 	EndCanvas : function()
@@ -326,17 +340,6 @@ function UpdateHierarchyEditor()
 				NodeImGui.EndNode();
 			}
 			NodeImGui.EndCanvas();
-
-			var c = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
-			var th = 4.0;
-			var sz = {value:150}
-			var x = ImGui.GetWindowPos().x + 50;
-			var y = ImGui.GetWindowPos().y + 50;
-			var cp4 = [    new ImGui.Vec2(x, y),     new ImGui.Vec2(x + sz.value * 1.3, y + sz.value * 0.3), 
-					new ImGui.Vec2(x + sz.value - sz.value * 1.3, y + sz.value - sz.value * 0.3),
-						new ImGui.Vec2(x + sz.value, y + sz.value) ];
-						var curve_segments = 168;
-						dw.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], c.toImU32(), th, curve_segments);
 
 			if (ImGui.BeginPopupContextWindow())
 			{
