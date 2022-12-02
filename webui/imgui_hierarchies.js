@@ -47,7 +47,7 @@ var NodeImGui = {
 		var from_imgui_id = ImGui.GetID(from_id);
 		NodeImGui.Links.push(
 			{
-				from:from_imgui_id,
+				from_imgui_id:from_imgui_id,
 				from_pin:from_pin,
 				to_pin:to_pin,
 				to_imgui_id:NodeImGui.Current_NodeImGuiId
@@ -126,8 +126,8 @@ var NodeImGui = {
 	},
 	Internal_DrawLink : function(link)
 	{
-		var from_node = NodeImGui.Nodes[link.from];
-		var to_node = NodeImGui.Nodes[link.to];
+		var from_node = NodeImGui.Nodes[link.from_imgui_id];
+		var to_node = NodeImGui.Nodes[link.to_imgui_id];
 
 		var out_pin = null;
 		for(var i=0; i<from_node.output_pins.length; ++i)
