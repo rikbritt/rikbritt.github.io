@@ -163,8 +163,9 @@ var NodeImGui = {
 			{x:in_pin.x, y:in_pin.y}
 		];
 
+		var dl = ImGui.GetWindowDrawList();
 		var curve_segments = 64;
-		dw.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), th, curve_segments);
+		dl.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), th, curve_segments);
 
 	},
 	EndCanvas : function()
