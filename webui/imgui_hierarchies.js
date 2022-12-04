@@ -6,6 +6,7 @@ var NodeImGui = {
 	Links:[],
 	Current_NodeImGuiId:0,
 	Current_Node:null,
+	Scrolling:{x:0, y:0},
 	BeginCanvas : function(id)
 	{
 		NodeImGui.Links = [];
@@ -170,6 +171,21 @@ var NodeImGui = {
 	},
 	EndCanvas : function()
 	{
+		//Draw BG Grid
+	
+		var GRID_STEP = 64.0;
+		var canvas_p0 = ImGui.GetCursorScreenPos();
+		var canvas_sz = ImGui.GetContentRegionAvail();
+		for (var x = fmodf(NodeImGui.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+		{
+			dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
+		}
+
+		for (let y = fmodf(NodeImGui.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
+		{
+			dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
+		}
+	
 		//Draw Nodes
 		for([node_id, node] of Object.entries(NodeImGui.Nodes))
         {
@@ -299,6 +315,8 @@ function UpdateHierarchyEditor()
 				bg.CreateGenerationHierarchyLink(node_a, node_a_output_name, node_b, node_b_input_name);
 			}
 
+			ImGui.SliderInt("Canvas X", (_ = NodeImGui.Scrolling.x) => NodeImGui.Scrolling.x = _, 0, 1000);
+			ImGui.SliderInt("Canvas Y", (_ = NodeImGui.Scrolling.y) => NodeImGui.Scrolling.y = _, 0, 1000);
 			ImGui.EndChild();
 
 			ImGui.SameLine();
