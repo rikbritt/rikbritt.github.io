@@ -4,34 +4,43 @@ var gHierarchyInstances = [];
 function fmodf(a, b) { return a - (Math.floor(a / b) * b); }
 
 var NodeImGui = {
-	Nodes:{},
-	Links:[],
-	Current_NodeImGuiId:0,
-	Current_Node:null,
-	Scrolling:{x:0, y:0},
+	Canvases:{},
 	BeginCanvas : function(id)
 	{
-		NodeImGui.Links = [];
+		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
+		NodeImGui.Current_Canvas = NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId];
+		if(NodeImGui.Current_Canvas == null)
+		{
+			NodeImGui.Current_Canvas = {};
+			NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId] = NodeImGui.Current_Canvas;
+		}
+
+		NodeImGui.Current_Canvas.Nodes = {};
+		NodeImGui.Current_Canvas.Links = [];
+		NodeImGui.Current_Canvas.Current_NodeImGuiId = 0;
+		NodeImGui.Current_Canvas.Current_Node = null;
+		NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 	},
 	BeginNode : function(id, name, node_x, node_y)
 	{
-		NodeImGui.Current_NodeImGuiId = ImGui.GetID(id);
-		NodeImGui.Current_Node = NodeImGui.Nodes[NodeImGui.Current_NodeImGuiId];
-		if(NodeImGui.Current_Node == null)
+		var canvas = NodeImGui.Current_Canvas;
+		canvas.Current_NodeImGuiId = ImGui.GetID(id);
+		canvas.Current_Node = canvas.Nodes[canvas.Current_NodeImGuiId];
+		if(canvas.Current_Node == null)
 		{
-			NodeImGui.Current_Node = {};
-			NodeImGui.Nodes[NodeImGui.Current_NodeImGuiId] = NodeImGui.Current_Node;
+			canvas.Current_Node = {};
+			canvas.Nodes[canvas.Current_NodeImGuiId] = canvas.Current_Node;
 		}
-		NodeImGui.Current_Node.id = id;
-		NodeImGui.Current_Node.name = name;
-		NodeImGui.Current_Node.x = node_x;
-		NodeImGui.Current_Node.y = node_y;
-		NodeImGui.Current_Node.input_pins = [];
-		NodeImGui.Current_Node.output_pins = [];
+		canvas.Current_Node.id = id;
+		canvas.Current_Node.name = name;
+		canvas.Current_Node.x = node_x;
+		canvas.Current_Node.y = node_y;
+		canvas.Current_Node.input_pins = [];
+		canvas.Current_Node.output_pins = [];
 	},
 	InputPin : function(pin_id)
 	{
-		NodeImGui.Current_Node.input_pins.push(
+		NodeImGui.Current_Canvas.Current_Node.input_pins.push(
 			{
 				id:pin_id
 			}
@@ -39,7 +48,7 @@ var NodeImGui = {
 	},
 	OutputPin : function(pin_id)
 	{
-		NodeImGui.Current_Node.output_pins.push(
+		NodeImGui.Current_Canvas.Current_Node.output_pins.push(
 			{
 				id:pin_id
 			}
@@ -48,18 +57,18 @@ var NodeImGui = {
 	LinkNode : function(from_id, from_pin, to_pin)
 	{
 		var from_imgui_id = ImGui.GetID(from_id);
-		NodeImGui.Links.push(
+		NodeImGui.Current_Canvas.Links.push(
 			{
 				from_imgui_id:from_imgui_id,
 				from_pin:from_pin,
 				to_pin:to_pin,
-				to_imgui_id:NodeImGui.Current_NodeImGuiId
+				to_imgui_id:NodeImGui.Current_Canvas.Current_NodeImGuiId
 			}
 		);
 	},
 	EndNode : function()
 	{
-		NodeImGui.Current_Node = null;
+		NodeImGui.Current_Canvas.Current_Node = null;
 	},
 	Internal_DrawNode : function(node)
 	{
@@ -129,8 +138,9 @@ var NodeImGui = {
 	},
 	Internal_DrawLink : function(link)
 	{
-		var from_node = NodeImGui.Nodes[link.from_imgui_id];
-		var to_node = NodeImGui.Nodes[link.to_imgui_id];
+		var canvas = NodeImGui.Current_Canvas;
+		var from_node = canvas.Nodes[link.from_imgui_id];
+		var to_node = canvas.Nodes[link.to_imgui_id];
 
 		var out_pin = null;
 		for(var i=0; i<from_node.output_pins.length; ++i)
@@ -173,34 +183,40 @@ var NodeImGui = {
 	},
 	EndCanvas : function()
 	{
+		var canvas = NodeImGui.Current_Canvas;
 		var dl = ImGui.GetWindowDrawList();
+		var canvas_sz = ImGui.GetContentRegionAvail();
+		var canvas_p0 = ImGui.GetCursorScreenPos();
+
+		//Draw BG
+		dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
 
 		//Draw BG Grid
 		var GRID_STEP = 64.0;
-		var canvas_sz = ImGui.GetContentRegionAvail();
-		var canvas_p0 = ImGui.GetCursorScreenPos();
 		const canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
-		for (var x = fmodf(NodeImGui.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+		for (var x = fmodf(canvas.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
 		{
 			dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
 		}
 
-		for (let y = fmodf(NodeImGui.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
+		for (let y = fmodf(canvas.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 		{
 			dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
 		}
 	
 		//Draw Nodes
-		for([node_id, node] of Object.entries(NodeImGui.Nodes))
+		for([node_id, node] of Object.entries(canvas.Nodes))
         {
 			NodeImGui.Internal_DrawNode(node);
 		}
 
 		//Draw Links
-		for(var i=0; i<NodeImGui.Links.length; ++i)
+		for(var i=0; i<canvas.Links.length; ++i)
 		{
-			NodeImGui.Internal_DrawLink(NodeImGui.Links[i]);
+			NodeImGui.Internal_DrawLink(canvas.Links[i]);
 		}
+
+		NodeImGui.Current_Canvas = null;
 	}
 };
 
