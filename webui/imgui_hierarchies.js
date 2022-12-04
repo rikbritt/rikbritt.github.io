@@ -283,6 +283,8 @@ function UpdateSelectedNodeInfo(selected_node, hierarchy_editor_instance)
 	ImGui.PopID();
 }
 
+var c_x = 0;
+var c_y = 0;
 function UpdateHierarchyEditor()
 {
 	if(gShowHierarchyEditor)
@@ -335,8 +337,8 @@ function UpdateHierarchyEditor()
 				bg.CreateGenerationHierarchyLink(node_a, node_a_output_name, node_b, node_b_input_name);
 			}
 
-			ImGui.SliderInt("Canvas X", (_ = NodeImGui.Scrolling.x) => NodeImGui.Scrolling.x = _, 0, 1000);
-			ImGui.SliderInt("Canvas Y", (_ = NodeImGui.Scrolling.y) => NodeImGui.Scrolling.y = _, 0, 1000);
+			ImGui.SliderInt("Canvas X", (_ = c_x) => c_x = _, 0, 1000);
+			ImGui.SliderInt("Canvas Y", (_ = c_y) => c_y = _, 0, 1000);
 			ImGui.EndChild();
 
 			ImGui.SameLine();
@@ -345,6 +347,8 @@ function UpdateHierarchyEditor()
 			var dw = ImGui.GetWindowDrawList();
 
 			NodeImGui.BeginCanvas();
+			NodeImGui.Current_Canvas.Scrolling.x = c_x;
+			NodeImGui.Current_Canvas.Scrolling.y = c_y;
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
 			{
 				var node = hierarchy_instance.hierarchyNodes[i];
