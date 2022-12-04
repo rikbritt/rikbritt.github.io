@@ -173,8 +173,9 @@ var NodeImGui = {
 	},
 	EndCanvas : function()
 	{
+		var dl = ImGui.GetWindowDrawList();
+
 		//Draw BG Grid
-	
 		var GRID_STEP = 64.0;
 		var canvas_p0 = ImGui.GetCursorScreenPos();
 		var canvas_sz = ImGui.GetContentRegionAvail();
