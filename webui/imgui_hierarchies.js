@@ -82,8 +82,8 @@ var NodeImGui = {
 		var max_pins = num_inputs > num_outputs ? num_inputs : num_outputs;
 		var line_space = 20;
 
-		var x = ImGui.GetWindowPos().x;
-		var y = ImGui.GetWindowPos().y;
+		var x = ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Scrolling.x;
+		var y = ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Scrolling.y;
 		node_x += x;
 		node_y += y;
 		var node_w = 170;
