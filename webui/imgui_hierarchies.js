@@ -187,13 +187,13 @@ var NodeImGui = {
 		var dl = ImGui.GetWindowDrawList();
 		var canvas_sz = ImGui.GetContentRegionAvail();
 		var canvas_p0 = ImGui.GetCursorScreenPos();
+		var canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 
 		//Draw BG
 		dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
 
 		//Draw BG Grid
 		var GRID_STEP = 64.0;
-		const canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 		for (var x = fmodf(canvas.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
 		{
 			dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
