@@ -176,12 +176,12 @@ var NodeImGui = {
 		var GRID_STEP = 64.0;
 		var canvas_p0 = ImGui.GetCursorScreenPos();
 		var canvas_sz = ImGui.GetContentRegionAvail();
-		for (var x = fmodf(NodeImGui.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+		for (var x = Math.fmod(NodeImGui.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
 		{
 			dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
 		}
 
-		for (let y = fmodf(NodeImGui.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
+		for (let y = Math.fmod(NodeImGui.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 		{
 			dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
 		}
