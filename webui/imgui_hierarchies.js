@@ -346,7 +346,7 @@ function UpdateHierarchyEditor()
 
 			var dw = ImGui.GetWindowDrawList();
 
-			NodeImGui.BeginCanvas();
+			NodeImGui.BeginCanvas("canvas");
 			NodeImGui.Current_Canvas.Scrolling.x = c_x;
 			NodeImGui.Current_Canvas.Scrolling.y = c_y;
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
