@@ -124,11 +124,10 @@ function UpdateHierarchyEditor()
 			ImGui.EndChild();
 
 			ImGui.SameLine();
-			ImGui.BeginChild("Canvas", new ImGui.Vec2(win_width - gens_width, win_height))
 
 			var dw = ImGui.GetWindowDrawList();
 
-			NodeImGui.BeginCanvas("canvas");
+			NodeImGui.BeginCanvas("canvas",  new ImGui.Vec2(win_width - gens_width, win_height));
 			NodeImGui.Current_Canvas.Scrolling.x = c_x;
 			NodeImGui.Current_Canvas.Scrolling.y = c_y;
 			for(var i=0; i<hierarchy_instance.hierarchyNodes.length; ++i)
@@ -164,7 +163,6 @@ function UpdateHierarchyEditor()
 
 				NodeImGui.EndNode();
 			}
-			NodeImGui.EndCanvas();
 
 			if (ImGui.BeginPopupContextWindow())
 			{
@@ -185,7 +183,7 @@ function UpdateHierarchyEditor()
 				ImGui.EndPopup();
 			}
 
-			ImGui.EndChild();
+			NodeImGui.EndCanvas();
 		}
 		ImGui.End();
 	}

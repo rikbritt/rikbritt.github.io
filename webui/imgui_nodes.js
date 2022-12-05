@@ -3,8 +3,9 @@ function fmodf(a, b) { return a - (Math.floor(a / b) * b); }
 
 var NodeImGui = {
 	Canvases:{},
-	BeginCanvas : function(id)
+	BeginCanvas : function(id, size)
 	{
+        ImGui.BeginChild(id, size);
 		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
 		NodeImGui.Current_Canvas = NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId];
 		if(NodeImGui.Current_Canvas == null)
@@ -215,5 +216,6 @@ var NodeImGui = {
 		}
 
 		NodeImGui.Current_Canvas = null;
+        ImGui.EndChild();
 	}
 };

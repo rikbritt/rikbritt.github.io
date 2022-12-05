@@ -36,6 +36,11 @@ function UpdateImgui(dt, timestamp)
 			UpdateGeneratorHierarchiesList();
 			ImGui.EndMenu();
 		}
+		if(ImGui.BeginMenu("Tests"))
+		{
+			UpdateTestsMenu();
+			ImGui.EndMenu();
+		}
 		if(ImGui.BeginMenu("Notes"))
 		{
 			UpdateNotesMenu();
@@ -48,6 +53,7 @@ function UpdateImgui(dt, timestamp)
 	UpdateHierarchyEditor();
 	UpdateGeneratorInstances();
 	UpdateNotesWindow();
+	UpdateNodeTestWindow();
 
 	ImGui.EndFrame();
 }
@@ -67,6 +73,26 @@ function UpdateViewOptions()
 	ImGui.Checkbox("Construction Info", (value = gRenderOptions.showConstructionInfo) => gRenderOptions.showConstructionInfo = value);
 }
 
+var gShowNodeTestWindow = false;
+function UpdateNodeTestWindow()
+{
+	if(gShowNodeTestWindow)
+	{
+        if(ImGui.Begin("Node Test",  (_ = gShowNodeTestWindow) => gShowNodeTestWindow = _))
+        {
+			
+		}
+        ImGui.End();
+	}
+}
+
+function UpdateTestsMenu()
+{
+	if(ImGui.MenuItem("Nodes Test"))
+	{
+		gShowNodeTestWindow = true;
+	}
+}
 
 function UpdateObjectImGui(object, name)
 {
