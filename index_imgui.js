@@ -19,7 +19,15 @@ function UpdateImgui(dt, timestamp)
 	{
 		if (ImGui.BeginMenu("Project (" + (gCurrentProject==null ? "None" : gCurrentProject.name) + ")"))
 		{
-			UpdateProjectsList();
+			if(ImGui.MenuItem("New Project"))
+			{
+				gCurrentProject = bg.CreateProject("new", "New Project");
+			}
+			if(ImGui.BeginMenu("Open Project..."))
+			{
+				UpdateProjectsList();
+				ImGui.EndMenu();
+			}
 			if(ImGui.MenuItem("Save Project... (TODO)"))
 			{
 
@@ -66,7 +74,7 @@ function UpdateImgui(dt, timestamp)
 	UpdateHierarchyEditor();
 	UpdateGeneratorInstances();
 	UpdateNotesWindow();
-	UpdateNodeTestWindow();
+	UpdateTestWindows();
 
 	ImGui.EndFrame();
 }
@@ -84,56 +92,6 @@ function UpdateViewOptions()
 	ImGui.Checkbox("Ground", (value = gRenderOptions.showGround) => gRenderOptions.showGround = value);
 	ImGui.Checkbox("Wireframe", (value = gRenderOptions.showWireframe) => gRenderOptions.showWireframe = value);
 	ImGui.Checkbox("Construction Info", (value = gRenderOptions.showConstructionInfo) => gRenderOptions.showConstructionInfo = value);
-}
-
-var gShowNodeTestWindow = false;
-function UpdateNodeTestWindow()
-{
-	if(gShowNodeTestWindow)
-	{
-        if(ImGui.Begin("Node Test",  (_ = gShowNodeTestWindow) => gShowNodeTestWindow = _))
-        {
-			NodeImGui.BeginCanvas("test_canvas",  new ImGui.Vec2(-1,-1) );
-
-			NodeImGui.BeginNode(
-				"Bob",
-				"Bobs Node",
-				50,
-				50
-			);
-			NodeImGui.InputPin("Input");
-			NodeImGui.OutputPin("Output");
-			NodeImGui.EndNode();
-
-			
-			NodeImGui.BeginNode(
-				"Frank",
-				"Franks Node",
-				450,
-				50
-			);
-			NodeImGui.InputPin("Input");
-			NodeImGui.OutputPin("Output");
-
-			NodeImGui.LinkNode(
-				"Bob",
-				"Output",
-				"Input"
-			);
-			NodeImGui.EndNode();
-
-			NodeImGui.EndCanvas();
-		}
-        ImGui.End();
-	}
-}
-
-function UpdateTestsMenu()
-{
-	if(ImGui.MenuItem("Nodes Test"))
-	{
-		gShowNodeTestWindow = true;
-	}
 }
 
 function UpdateObjectImGui(object, name)
