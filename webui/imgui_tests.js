@@ -48,6 +48,21 @@ function UpdateZipTestWindow()
 	{
         if(ImGui.Begin("Zip Test",  (_ = gShowZipTestWindow) => gShowZipTestWindow = _))
         {
+            if(ImGui.Button("Load"))
+            {
+                var new_zip = new JSZip();
+                // more files !
+                JSZipUtils.getBinaryContent('projects/test.zip', function(err, data) {
+                    if(err) {
+                        throw err; // or handle err
+                    }
+                
+                    JSZip.loadAsync(data).then(function () {
+                        // ...
+                        console.log("hi");
+                    });
+                });
+            }
         }
     }
 }

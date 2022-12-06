@@ -6,6 +6,7 @@ bg.CreateProject = function(id, name)
 	if(bg.projectsById[id] != null)
 	{
 		console.error("Already have a project registered with id " + id);
+		return null;
 	}
 
     var project = {
@@ -15,4 +16,6 @@ bg.CreateProject = function(id, name)
 
 	bg.projects.push(project);
 	bg.projectsById[id] = project;
+
+	return project;
 }
