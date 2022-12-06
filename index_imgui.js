@@ -17,6 +17,11 @@ function UpdateImgui(dt, timestamp)
 
 	if (ImGui.BeginMainMenuBar())
 	{
+		if (ImGui.BeginMenu("Project"))
+		{
+			UpdateProjectsList();
+			ImGui.EndMenu();
+		}
 		if (ImGui.BeginMenu("Generators"))
 		{
 			UpdateGeneratorsList();
@@ -224,6 +229,8 @@ function OnPageLoaded()
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
         ImGui_Impl.Init(canvas);
+
+		bg.CreateProject("test", "Test Project");
 			
 		var clock = new THREE.Clock();
 
