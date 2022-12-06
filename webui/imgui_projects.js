@@ -1,3 +1,4 @@
+var gCurrentProject = null;
 
 function UpdateProjectsList()
 {
@@ -7,7 +8,9 @@ function UpdateProjectsList()
         {
             if(ImGui.MenuItem(bg.projects[i].name))
             {
+                gCurrentProject = bg.projects[i];
             }
         }
+        ImGui.EndMenu();
     }
 }

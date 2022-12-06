@@ -17,7 +17,7 @@ function UpdateImgui(dt, timestamp)
 
 	if (ImGui.BeginMainMenuBar())
 	{
-		if (ImGui.BeginMenu("Project"))
+		if (ImGui.BeginMenu("Project (" + (gCurrentProject==null ? "None" : gCurrentProject.name) + ")"))
 		{
 			UpdateProjectsList();
 			ImGui.EndMenu();
