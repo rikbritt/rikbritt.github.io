@@ -57,10 +57,13 @@ function UpdateZipTestWindow()
                         throw err; // or handle err
                     }
                 
-                    JSZip.loadAsync(data).then(function () {
-                        // ...
-                        console.log("hi");
-                    });
+                    JSZip.loadAsync(data).then(
+                        function (zip) 
+                        {
+                            // ...
+                            console.log("hi");
+                        }
+                    );
                 });
             }
         }
