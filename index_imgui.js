@@ -20,6 +20,14 @@ function UpdateImgui(dt, timestamp)
 		if (ImGui.BeginMenu("Project (" + (gCurrentProject==null ? "None" : gCurrentProject.name) + ")"))
 		{
 			UpdateProjectsList();
+			if(ImGui.MenuItem("Save Project... (TODO)"))
+			{
+
+			}
+			if(ImGui.MenuItem("Project Properties (TODO)"))
+			{
+
+			}
 			ImGui.EndMenu();
 		}
 		if (ImGui.BeginMenu("Generators"))
