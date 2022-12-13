@@ -30,7 +30,17 @@ function UpdateImgui(dt, timestamp)
 			}
 			if(ImGui.MenuItem("Save Project... (TODO)"))
 			{
-
+				var project_files = bg.SaveProjectAsJSONFiles( gCurrentProject );
+				var zip = new JSZip();
+				for(var i=0; i<project_files.files.length; ++i)
+				{
+					var file = project_files.files[i];
+					zip.file(file.name, file.content);
+				}
+				zip.generateAsync({type:"blob"})
+				.then(function (blob) {
+					saveAs(blob, "project.zip");
+				});
 			}
 			if(ImGui.MenuItem("Project Properties (TODO)"))
 			{
