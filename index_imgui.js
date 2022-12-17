@@ -36,12 +36,21 @@ function UpdateImgui(dt, timestamp)
 						if(this.files.length > 0)
 						{
 							JSZip.loadAsync(this.files[0]) // 1) read the Blob
-								.then(function(zip) {
-									zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-										console.log(zipEntry.name);
-									});
-								}, function (e) {
-								});
+								.then(
+									function(zip) 
+									{
+										zip.file("project.json").async("string").then(
+											function (data) 
+											{
+												// data is "Hello World\n"
+												console.log(data);
+										  	}
+										);
+									},
+									function (e) 
+									{
+									}
+								);
 						}
 					};
 					input.click();
