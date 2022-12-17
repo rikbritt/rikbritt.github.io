@@ -20,6 +20,11 @@ bg.CreateProject = function(id, name)
 	return project;
 }
 
+bg.GetProjectById = function(id)
+{
+	return bg.projectsById[id];
+}
+
 //Returns a structure of JSON text for each file in folders
 bg.SaveProjectAsJSONFiles = function(project)
 {

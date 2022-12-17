@@ -35,22 +35,7 @@ function UpdateImgui(dt, timestamp)
 					{
 						if(this.files.length > 0)
 						{
-							JSZip.loadAsync(this.files[0]) // 1) read the Blob
-								.then(
-									function(zip) 
-									{
-										zip.file("project.json").async("string").then(
-											function (data) 
-											{
-												// data is "Hello World\n"
-												console.log(data);
-										  	}
-										);
-									},
-									function (e) 
-									{
-									}
-								);
+							LoadProjectFromZip(this.files[0]);
 						}
 					};
 					input.click();
@@ -60,17 +45,7 @@ function UpdateImgui(dt, timestamp)
 			}
 			if(ImGui.MenuItem("Save Project To Zip"))
 			{
-				var project_files = bg.SaveProjectAsJSONFiles( gCurrentProject );
-				var zip = new JSZip();
-				for(var i=0; i<project_files.files.length; ++i)
-				{
-					var file = project_files.files[i];
-					zip.file(file.name, file.content);
-				}
-				zip.generateAsync({type:"blob"})
-				.then(function (blob) {
-					saveAs(blob, "project.zip");
-				});
+				SaveProjectToZip(gCurrentProject);
 			}
 			if(ImGui.MenuItem("Project Properties (TODO)"))
 			{

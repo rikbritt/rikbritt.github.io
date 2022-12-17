@@ -10,3 +10,49 @@ function UpdateProjectsList()
         }
     }
 }
+
+function LoadProjectFromZip(file_blob)
+{
+    JSZip.loadAsync(file_blob) // 1) read the Blob
+    .then(
+        function(zip) 
+        {
+            zip.file("project.json").async("string").then(
+                function (data) 
+                {
+                    var loaded_data = JSON.parse(data);
+                    var existing_project = bg.GetProjectById(loaded_data.id);
+                    if(existing_project == null)
+                    {
+                        gCurrentProject = bg.CreateProject(loaded_data.id, loaded_data.name);
+                    }
+                    else
+                    {
+                        existing_project.name = loaded_data.name;
+                    }
+                  }
+            );
+        },
+        function (e) 
+        {
+        }
+    );
+}
+
+function SaveProjectToZip( project )
+{
+    var project_files = bg.SaveProjectAsJSONFiles( project );
+    var zip = new JSZip();
+    for(var i=0; i<project_files.files.length; ++i)
+    {
+        var file = project_files.files[i];
+        zip.file(file.name, file.content);
+    }
+    zip.generateAsync({type:"blob"})
+        .then(
+            function (blob) 
+            {
+                saveAs(blob, "project.zip");
+            }
+        );
+}
