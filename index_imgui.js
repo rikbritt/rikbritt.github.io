@@ -25,6 +25,18 @@ function UpdateImgui(dt, timestamp)
 			}
 			if(ImGui.BeginMenu("Open Project..."))
 			{
+				if(ImGui.MenuItem("From File..."))
+				{
+					var input = document.createElement("input");
+					input.type = "file";
+					input.setAttribute("false", true);
+					input.setAttribute("accept", "zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed");
+					input.onchange = function (event) {
+						//
+						console.log(this.files);
+					};
+					input.click();
+				}
 				UpdateProjectsList();
 				ImGui.EndMenu();
 			}
