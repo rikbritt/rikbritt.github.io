@@ -31,16 +31,25 @@ function UpdateImgui(dt, timestamp)
 					input.type = "file";
 					input.setAttribute("false", true);
 					input.setAttribute("accept", "zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed");
-					input.onchange = function (event) {
-						//
-						console.log(this.files);
+					input.onchange = function (event)
+					{
+						if(this.files.length > 0)
+						{
+							JSZip.loadAsync(this.files[0]) // 1) read the Blob
+								.then(function(zip) {
+									zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+										console.log(zipEntry.name);
+									});
+								}, function (e) {
+								});
+						}
 					};
 					input.click();
 				}
 				UpdateProjectsList();
 				ImGui.EndMenu();
 			}
-			if(ImGui.MenuItem("Save Project... (TODO)"))
+			if(ImGui.MenuItem("Save Project To Zip"))
 			{
 				var project_files = bg.SaveProjectAsJSONFiles( gCurrentProject );
 				var zip = new JSZip();
