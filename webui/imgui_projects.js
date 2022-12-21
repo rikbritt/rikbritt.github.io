@@ -76,3 +76,43 @@ function UpdateProjectPropertiesWindow( project )
         ImGui.End();
     }
 }
+
+function UpdateProjectsMenu()
+{
+    if (ImGui.BeginMenu("Project (" + (gCurrentProject==null ? "None" : gCurrentProject.name) + ")"))
+    {
+        if(ImGui.MenuItem("New Project"))
+        {
+            gCurrentProject = bg.CreateProject("new", "New Project");
+        }
+        if(ImGui.BeginMenu("Open Project..."))
+        {
+            if(ImGui.MenuItem("From File..."))
+            {
+                var input = document.createElement("input");
+                input.type = "file";
+                input.setAttribute("false", true);
+                input.setAttribute("accept", "zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed");
+                input.onchange = function (event)
+                {
+                    if(this.files.length > 0)
+                    {
+                        LoadProjectFromZip(this.files[0]);
+                    }
+                };
+                input.click();
+            }
+            UpdateProjectsList();
+            ImGui.EndMenu();
+        }
+        if(ImGui.MenuItem("Save Project To Zip"))
+        {
+            SaveProjectToZip(gCurrentProject);
+        }
+        if(ImGui.MenuItem("Project Properties"))
+        {
+            gProjectPropertiesOpen = true;
+        }
+        ImGui.EndMenu();
+    }
+}
