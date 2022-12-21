@@ -105,11 +105,11 @@ function UpdateProjectsMenu()
             UpdateProjectsList();
             ImGui.EndMenu();
         }
-        if(ImGui.MenuItem("Save Project To Zip"))
+        if(gCurrentProject && ImGui.MenuItem("Save Project To Zip"))
         {
             SaveProjectToZip(gCurrentProject);
         }
-        if(ImGui.MenuItem("Project Properties"))
+        if(gCurrentProject && ImGui.MenuItem("Project Properties"))
         {
             gProjectPropertiesOpen = true;
         }
