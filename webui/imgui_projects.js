@@ -68,7 +68,7 @@ function UpdateProjectPropertiesWindow( project )
 {
     if(gProjectPropertiesOpen)
     {
-        if(ImGui.Begin("Project Properties",  (_ = gProjectPropertiesOpen) => gProjectPropertiesOpen = _) ))
+        if(ImGui.Begin("Project Properties",  (_ = gProjectPropertiesOpen) => gProjectPropertiesOpen = _) )
         {
             ImGui.InputText("Id", (_ = project.id) => project.id = _, 256);
             ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
