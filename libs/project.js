@@ -1,3 +1,4 @@
+//Might make sense to only have one project loaded at a time?
 bg.projects = [];
 bg.projectsById = {};
 
@@ -23,6 +24,19 @@ bg.CreateProject = function(id, name)
 bg.GetProjectById = function(id)
 {
 	return bg.projectsById[id];
+}
+
+bg.UnloadProject = function(id)
+{
+	delete bg.projectsById[id];
+	for(var i=0; i<bg.projects.length; ++i)
+	{
+		if(bg.projects.id == id)
+		{
+			bg.projects.splice(i, 1);
+			break;
+		}
+	}
 }
 
 //Returns a structure of JSON text for each file in folders

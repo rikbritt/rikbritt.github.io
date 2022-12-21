@@ -11,6 +11,11 @@ function UpdateProjectsList()
     }
 }
 
+function AddProjectToListFromURL(project_folder_url)
+{
+
+}
+
 function LoadProjectFromZip(file_blob)
 {
     JSZip.loadAsync(file_blob) // 1) read the Blob
@@ -55,4 +60,19 @@ function SaveProjectToZip( project )
                 saveAs(blob, "project.zip");
             }
         );
+}
+
+
+var gProjectPropertiesOpen = false;
+function UpdateProjectPropertiesWindow( project )
+{
+    if(gProjectPropertiesOpen)
+    {
+        if(ImGui.Begin("Project Properties",  (_ = gProjectPropertiesOpen) => gProjectPropertiesOpen = _) ))
+        {
+            ImGui.InputText("Id", (_ = project.id) => project.id = _, 256);
+            ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
+        }
+        ImGui.End();
+    }
 }
