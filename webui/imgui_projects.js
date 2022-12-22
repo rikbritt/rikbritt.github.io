@@ -31,7 +31,7 @@ function AddProjectToListFromURL(project_folder_url)
 
 function LoadProjectFromURL(project_json_url)
 {
-    fetch(project_json_url)
+    fetch(project_json_url + "/project.json")
     .then(response => response.text())
     .then((data) => {
       console.log(data)
