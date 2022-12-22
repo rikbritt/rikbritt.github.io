@@ -5,9 +5,9 @@ function UpdateProjectsList()
 {
     for(var i=0; i<gAvailableProjects.length; ++i)
     {
-        if(ImGui.MenuItem(gAvailableProjects.url))
+        if(ImGui.MenuItem(gAvailableProjects[i].url))
         {
-            LoadProjectFromURL(gAvailableProjects.url);
+            LoadProjectFromURL(gAvailableProjects[i].url);
         }
     }
 
