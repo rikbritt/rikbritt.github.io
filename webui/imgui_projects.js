@@ -1,7 +1,16 @@
 var gCurrentProject = null;
+var gAvailableProjects = [];
 
 function UpdateProjectsList()
 {
+    for(var i=0; i<gAvailableProjects.length; ++i)
+    {
+        if(ImGui.MenuItem(gAvailableProjects.url))
+        {
+            LoadProjectFromURL(gAvailableProjects.url);
+        }
+    }
+
     for(var i=0; i<bg.projects.length; ++i)
     {
         if(ImGui.MenuItem(bg.projects[i].name))
@@ -13,7 +22,20 @@ function UpdateProjectsList()
 
 function AddProjectToListFromURL(project_folder_url)
 {
+    gAvailableProjects.push(
+        {
+            url:project_folder_url
+        }
+    );
+}
 
+function LoadProjectFromURL(project_json_url)
+{
+    fetch(project_json_url)
+    .then(response => response.text())
+    .then((data) => {
+      console.log(data)
+    });
 }
 
 function LoadProjectFromZip(file_blob)
@@ -76,11 +98,19 @@ function UpdateProjectPropertiesWindow( close_func, project )
         if(ImGui.CollapsingHeader("Hierarchies"))
         {
             ImGui.Indent();
+            if(ImGui.Button("New Hierarchy... (NOT IMPL)"))
+            {
+                
+            }
             ImGui.Unindent();
         }
         if(ImGui.CollapsingHeader("Generators"))
         {
             ImGui.Indent();
+            if(ImGui.Button("New Generator... (NOT IMPL)"))
+            {
+
+            }
             ImGui.Unindent();
         }
     }
