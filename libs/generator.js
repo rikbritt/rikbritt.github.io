@@ -197,10 +197,9 @@ bg.RunGenerator = function(generator, seed, inputs)
 	return { builtInputs:builtInputs, outputs:outputs };
 }
 
-bg.generatorHierarchies = [];
-bg.RegisterGeneratorHierarchy = function(hierarchy)
+bg.RegisterGeneratorHierarchy = function(project, hierarchy)
 {
-	bg.generatorHierarchies.push(hierarchy);
+	project.generatorHierarchies.push(hierarchy);
 }
 
 bg.CreateGenerationHierarchy = function(hierarchyName)

@@ -12,7 +12,9 @@ bg.CreateProject = function(id, name)
 
     var project = {
         id:id,
-        name:name
+        name:name,
+		generatorHierarchies:[],
+		generators:[]
     };
 
 	bg.projects.push(project);
@@ -42,14 +44,28 @@ bg.UnloadProject = function(id)
 //Returns a structure of JSON text for each file in folders
 bg.SaveProjectAsJSONFiles = function(project)
 {
+	var project_json_data = {
+		id:project.id,
+		name:project.name,
+		version:1,
+		files:[]
+	};
+
 	var project_data_files =
 	{
 		files:[
 			{
 				name:"project.json",
-				content:JSON.stringify(project, null, 4)
+				content:JSON.stringify(project_json_data, null, 4)
 			}
 		]
 	};
+	
+	for(var i=0; i<project.generatorHierarchies.length; ++i)
+	{
+		//add file entry to project_json_data.files
+		//add output file entry and content;
+	}
+
 	return project_data_files;
 }

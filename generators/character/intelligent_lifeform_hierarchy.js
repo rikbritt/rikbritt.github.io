@@ -1,6 +1,6 @@
 
 var intLifeformHierarchy = bg.CreateGenerationHierarchy("Intelligent Lifeform");
-bg.RegisterGeneratorHierarchy(intLifeformHierarchy);
+//bg.RegisterGeneratorHierarchy(intLifeformHierarchy);
 
 intLifeformHierarchy.speciesNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, speciesGenerator);
 intLifeformHierarchy.cultureNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, cultureGenerator);

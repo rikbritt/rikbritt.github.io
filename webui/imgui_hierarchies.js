@@ -191,11 +191,14 @@ function UpdateHierarchyEditor()
 
 function UpdateGeneratorHierarchiesList() 
 {
-	for(var i=0; i<bg.generatorHierarchies.length; ++i)
+	if(gCurrentProject)
 	{
-		if(ImGui.MenuItem(bg.generatorHierarchies[i].name))
+		for(var i=0; i<gCurrentProject.generatorHierarchies.length; ++i)
 		{
-			//gChosenGenerator = bg.generators[i];
+			if(ImGui.MenuItem(gCurrentProject.generatorHierarchies[i].name))
+			{
+				//gChosenGenerator = bg.generators[i];
+			}
 		}
 	}
 }

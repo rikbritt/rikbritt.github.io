@@ -1,6 +1,6 @@
 
 var testHierarchy = bg.CreateGenerationHierarchy("Test Hierarchy");
-bg.RegisterGeneratorHierarchy(testHierarchy);
+//bg.RegisterGeneratorHierarchy(testHierarchy);
 
 var speciesNode = bg.CreateGenerationHierarchyNode(testHierarchy, speciesGenerator);
 var nameNode = bg.CreateGenerationHierarchyNode(testHierarchy, nameV1Generator);

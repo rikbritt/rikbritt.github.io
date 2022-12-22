@@ -6,6 +6,7 @@ function UpdateNotesMenu()
     if(ImGui.MenuItem("Notes"))
     {
         gShowNotes = true;
+        OpenWindow("Notes", UpdateNotesWindow);
     }
 }
 

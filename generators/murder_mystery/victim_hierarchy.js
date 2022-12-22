@@ -1,6 +1,6 @@
 
 var mm_victimHierarchy = bg.CreateGenerationHierarchy("Murder Mystery Victim");
-bg.RegisterGeneratorHierarchy(mm_victimHierarchy);
+//bg.RegisterGeneratorHierarchy(mm_victimHierarchy);
 
 mm_victimHierarchy.victimCauseOfDeathNode = bg.CreateGenerationHierarchyNode(mm_victimHierarchy, mm_causeOfDeathGenerator);
 mm_victimHierarchy.victimPersonNode = bg.CreateGenerationHierarchyNode(mm_victimHierarchy, mm_personGenerator);

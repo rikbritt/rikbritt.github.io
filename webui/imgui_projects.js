@@ -72,6 +72,16 @@ function UpdateProjectPropertiesWindow( project )
         {
             ImGui.InputText("Id", (_ = project.id) => project.id = _, 256);
             ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
+            if(ImGui.CollapsingHeader("Hierarchies"))
+            {
+                ImGui.Indent();
+                ImGui.Unindent();
+            }
+            if(ImGui.CollapsingHeader("Generators"))
+            {
+                ImGui.Indent();
+                ImGui.Unindent();
+            }
         }
         ImGui.End();
     }

@@ -56,6 +56,7 @@ function UpdateImgui(dt, timestamp)
 	UpdateNotesWindow();
 	UpdateTestWindows();
 	UpdateProjectPropertiesWindow(gCurrentProject);
+	UpdateWindows();
 
 	ImGui.EndFrame();
 }
