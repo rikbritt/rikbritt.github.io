@@ -53,7 +53,6 @@ function UpdateImgui(dt, timestamp)
 
 	UpdateHierarchyEditor();
 	UpdateGeneratorInstances();
-	UpdateNotesWindow();
 	UpdateTestWindows();
 	UpdateProjectPropertiesWindow(gCurrentProject);
 	UpdateWindows();
