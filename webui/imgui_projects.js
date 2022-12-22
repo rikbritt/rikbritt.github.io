@@ -62,30 +62,31 @@ function SaveProjectToZip( project )
         );
 }
 
-
-var gProjectPropertiesOpen = false;
-function UpdateProjectPropertiesWindow( project )
+function UpdateProjectPropertiesWindow( close_func, project )
 {
-    if(gProjectPropertiesOpen)
+    if(project == null)
     {
-        if(ImGui.Begin("Project Properties",  (_ = gProjectPropertiesOpen) => gProjectPropertiesOpen = _) )
-        {
-            ImGui.InputText("Id", (_ = project.id) => project.id = _, 256);
-            ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
-            if(ImGui.CollapsingHeader("Hierarchies"))
-            {
-                ImGui.Indent();
-                ImGui.Unindent();
-            }
-            if(ImGui.CollapsingHeader("Generators"))
-            {
-                ImGui.Indent();
-                ImGui.Unindent();
-            }
-        }
-        ImGui.End();
+        project = gCurrentProject;
     }
+
+    if(ImGui.Begin("Project Properties", close_func ))
+    {
+        ImGui.InputText("Id", (_ = project.id) => project.id = _, 256);
+        ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
+        if(ImGui.CollapsingHeader("Hierarchies"))
+        {
+            ImGui.Indent();
+            ImGui.Unindent();
+        }
+        if(ImGui.CollapsingHeader("Generators"))
+        {
+            ImGui.Indent();
+            ImGui.Unindent();
+        }
+    }
+    ImGui.End();
 }
+
 
 function UpdateProjectsMenu()
 {
@@ -121,7 +122,7 @@ function UpdateProjectsMenu()
         }
         if(gCurrentProject && ImGui.MenuItem("Project Properties"))
         {
-            gProjectPropertiesOpen = true;
+            OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
         }
         ImGui.EndMenu();
     }

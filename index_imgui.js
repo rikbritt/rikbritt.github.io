@@ -54,7 +54,6 @@ function UpdateImgui(dt, timestamp)
 	UpdateHierarchyEditor();
 	UpdateGeneratorInstances();
 	UpdateTestWindows();
-	UpdateProjectPropertiesWindow(gCurrentProject);
 	UpdateWindows();
 
 	ImGui.EndFrame();
