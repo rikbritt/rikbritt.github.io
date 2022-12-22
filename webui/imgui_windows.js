@@ -24,6 +24,13 @@ function UpdateWindows()
 {
     for(var i=0; i<gWindows.length; ++i)
     {
-        gWindows[i].Update();
+        var win_open = true;
+        gWindows[i].Update((_ = win_open) => win_open = _);
+
+        if(win_open == false)
+        {
+            gWindows.splice(i,1);
+            --i;
+        }
     }
 }

@@ -15,25 +15,22 @@ function AddNotes(category, notes)
     gNotes[category] = {text:notes};
 }
 
-function UpdateNotesWindow()
+function UpdateNotesWindow(close_func)
 {
-    if(gShowNotes)
+    if(ImGui.Begin("Notes", close_func))
     {
-        if(ImGui.Begin("Notes",  (_ = gShowNotes) => gShowNotes = _))
+        if(ImGui.BeginTabBar("Notes_Tab"))
         {
-            if(ImGui.BeginTabBar("Notes_Tab"))
+            for([paramKey, paramData] of Object.entries(gNotes))
             {
-                for([paramKey, paramData] of Object.entries(gNotes))
-	            {
-                    if(ImGui.BeginTabItem(paramKey))
-                    {
-                        ImGui.Text(paramData.text);
-                        ImGui.EndTabItem();
-                    }
+                if(ImGui.BeginTabItem(paramKey))
+                {
+                    ImGui.Text(paramData.text);
+                    ImGui.EndTabItem();
                 }
-                ImGui.EndTabBar();
             }
+            ImGui.EndTabBar();
         }
-        ImGui.End();
     }
+    ImGui.End();
 }
