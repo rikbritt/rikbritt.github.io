@@ -69,3 +69,26 @@ bg.SaveProjectAsJSONFiles = function(project)
 
 	return project_data_files;
 }
+
+bg.LoadProjectFromJSONFiles = function(project_data_files)
+{
+	//get project.json
+	for(var i=0; i<project_data_files.files.length; ++i)
+	{
+		if(project_data_files.files[i].name == "project.json")
+		{
+			var loaded_data = JSON.parse(project_data_files.files[i].content);
+			var existing_project = bg.GetProjectById(loaded_data.id);
+			if(existing_project == null)
+			{
+				return bg.CreateProject(loaded_data.id, loaded_data.name);
+			}
+			else
+			{
+				existing_project.name = loaded_data.name;
+			}
+			return existing_project;
+		}
+	}
+	return null;
+}

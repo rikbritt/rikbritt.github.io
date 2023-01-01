@@ -34,7 +34,17 @@ function LoadProjectFromURL(project_json_url)
     fetch(project_json_url + "/project.json")
     .then(response => response.text())
     .then((data) => {
-      console.log(data)
+        //TODO: Load other files referenced in here.
+        var project_data_files =
+        {
+            files:[
+                {
+                    name:"project.json",
+                    content:data
+                }
+            ]
+        };
+        bg.LoadProjectFromJSONFiles(project_data_files);
     });
 }
 
@@ -47,17 +57,18 @@ function LoadProjectFromZip(file_blob)
             zip.file("project.json").async("string").then(
                 function (data) 
                 {
-                    var loaded_data = JSON.parse(data);
-                    var existing_project = bg.GetProjectById(loaded_data.id);
-                    if(existing_project == null)
+                    //TODO: Load other files referenced in here.
+                    var project_data_files =
                     {
-                        gCurrentProject = bg.CreateProject(loaded_data.id, loaded_data.name);
-                    }
-                    else
-                    {
-                        existing_project.name = loaded_data.name;
-                    }
-                  }
+                        files:[
+                            {
+                                name:"project.json",
+                                content:data
+                            }
+                        ]
+                    };
+                    gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
+                }
             );
         },
         function (e) 
