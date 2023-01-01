@@ -383,7 +383,7 @@ function UpdateGeneratorsList( selected_func )
 
 function UpdateGeneratorWindow(close_func, generatorInstance)
 {
-	if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`, close_func))
+	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generatorInstance.generator)}`, close_func))
 	{
 		if(generatorInstance.generator.description != undefined)
 		{
