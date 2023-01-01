@@ -381,9 +381,29 @@ function UpdateGeneratorsList( selected_func )
 	}
 }
 
-function UpdateGeneratorWindow(close_func, generatorInstance)
+function UpdateGeneratorWindow(close_func, generator)
 {
-	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generatorInstance.generator)}`, close_func))
+	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generator)}`, close_func))
+	{
+		if(generator.description != undefined)
+		{
+			ImGui.Text(generator.description);
+		}
+
+		if(ImGui.CollapsingHeader("Inputs"))
+		{
+			//UpdateGeneratorInputsImGuiV2(generator.inputs);
+		}
+		if(ImGui.CollapsingHeader("Outputs"))
+		{
+		}
+	}
+	ImGui.End();
+}
+
+function UpdateGeneratorInstanceWindow(close_func, generatorInstance)
+{
+	if(ImGui.Begin(`Generator Instance - ${bg.GetGeneratorFullName(generatorInstance.generator)}`, close_func))
 	{
 		if(generatorInstance.generator.description != undefined)
 		{
@@ -465,7 +485,7 @@ function UpdateGeneratorInstances()
 	{
 		var generatorInstance = gGeneratorInstances[i];
 		var close_func = (_ = generatorInstance.open) => generatorInstance.open = _;
-		UpdateGeneratorWindow(close_func, generatorInstance);
+		UpdateGeneratorInstanceWindow(close_func, generatorInstance);
 	}
 
 	//Remove all closed windows
