@@ -80,7 +80,7 @@ bg.ChangeGeneratorId = function(generator, new_id)
 
 	var old_id = generator.id;
 	delete bg.generatorsById[old_id];
-	bg.generatorsById[id] = new_id;
+	bg.generatorsById[new_id] = generator;
 	generator.id = new_id;
 
 	//and update links?
