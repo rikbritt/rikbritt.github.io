@@ -391,6 +391,7 @@ function UpdateGeneratorWindow(close_func, generator)
 				{
 					bg.ChangeGeneratorId(generator,  _);
 				}
+				return _;
 			}, 256
 		);
 		ImGui.InputText("Name", (_ = generator.name) => generator.name = _, 256);
