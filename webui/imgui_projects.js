@@ -45,6 +45,7 @@ function LoadProjectFromURL(project_json_url)
             ]
         };
         gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
+        OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
     });
 }
 
@@ -68,6 +69,7 @@ function LoadProjectFromZip(file_blob)
                         ]
                     };
                     gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
+                    OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
                 }
             );
         },
@@ -130,7 +132,7 @@ function UpdateProjectPropertiesWindow( close_func, project )
                 ImGui.SameLine();
                 if(ImGui.Button("Edit Generator"))
                 {
-                    OpenWindow(gen.id, gen);
+                    OpenWindow(gen.id, UpdateGeneratorWindow, gen);
                 }
                 ImGui.PopID();
             }
