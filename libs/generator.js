@@ -70,6 +70,22 @@ bg.GetGeneratorById = function(id)
 	return bg.generatorsById[id];
 }
 
+bg.ChangeGeneratorId = function(generator, new_id)
+{
+	if(bg.generatorsById[new_id] != null)
+	{
+		console.error("New id is taken");
+		return false;
+	}
+
+	var old_id = generator.id;
+	delete bg.generatorsById[old_id];
+	bg.generatorsById[id] = new_id;
+	generator.id = new_id;
+
+	//and update links?
+}
+
 bg.CreateWeightingDataDef = function(dataDefIn)
 {
 	var weightDataDefOut = {

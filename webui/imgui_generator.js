@@ -177,7 +177,7 @@ function UpdateParamEditorV2(paramData, getFunc, setFunc, paramKey)
 	}
 }
 
-function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
+function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs)
 {
 	for([paramKey, paramData] of Object.entries(generatorInputs))
 	{
@@ -200,7 +200,7 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 			{
 				if(ImGui.TreeNode(paramKey))
 				{
-					UpdateGeneratorInputsImGuiV2_Recurse(paramData.dataType.fields, setInputs[paramKey]);
+					UpdateGeneratorInstanceInputsImGuiV2_Recurse(paramData.dataType.fields, setInputs[paramKey]);
 					ImGui.TreePop();
 				}
 			}
@@ -315,7 +315,7 @@ function UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs)
 	}
 }
 
-function UpdateGeneratorInputsImGuiV2(generatorInputs, setInputs)
+function UpdateGeneratorInstanceInputsImGuiV2(generatorInputs, setInputs)
 {
 	ImGui.BeginTable("Parameter_Table", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg);
 
@@ -324,7 +324,7 @@ function UpdateGeneratorInputsImGuiV2(generatorInputs, setInputs)
 	ImGui.TableSetupColumn("Value");
 	ImGui.TableHeadersRow();
 
-	UpdateGeneratorInputsImGuiV2_Recurse(generatorInputs, setInputs);
+	UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs);
 
 	ImGui.EndTable();
 }
@@ -385,10 +385,13 @@ function UpdateGeneratorWindow(close_func, generator)
 {
 	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generator)}`, close_func))
 	{
-		if(generator.description != undefined)
+		ImGui.InputText("Id", (_ = generator.id) => bg.ChangeGeneratorId(generator,  _), 256);
+		ImGui.InputText("Name", (_ = generator.name) => generator.name = _, 256);
+		if(generator.description == undefined)
 		{
-			ImGui.Text(generator.description);
+			generator.description = "";
 		}
+		ImGui.InputText("Description", (_ = generator.description) => generator.description = _, 256);
 
 		if(ImGui.CollapsingHeader("Inputs"))
 		{
@@ -425,7 +428,7 @@ function UpdateGeneratorInstanceWindow(close_func, generatorInstance)
 
 		if(ImGui.CollapsingHeader("Inputs"))
 		{
-			UpdateGeneratorInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
+			UpdateGeneratorInstanceInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
 		}
 
 		if(ImGui.Button("Generate"))
