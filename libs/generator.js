@@ -33,7 +33,7 @@ bg.RegisterGenerator = function(generator)
 	return true;
 }
 
-bg.CreateEmptyProjectGenerator = function(id)
+bg.CreateEmptyGenerator = function(id)
 {
 	var generator = {
 		id:id,
