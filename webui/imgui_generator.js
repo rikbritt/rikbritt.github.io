@@ -383,7 +383,7 @@ function UpdateGeneratorsList( selected_func )
 
 function UpdateGeneratorWindow(close_func, generator)
 {
-	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generator)}`, close_func))
+	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generator)}###${generator.id}`, close_func))
 	{
 		ImGui.InputText("Id", 
 			(_ = generator.id) => {

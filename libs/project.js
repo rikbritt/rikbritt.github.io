@@ -85,7 +85,7 @@ bg.SaveProjectAsJSONFiles = function(project)
 
 	for(var i=0; i<project.generators.length; ++i)
 	{
-		var generator_json = SaveGeneratorToJSON(project.generators[i]);
+		var generator_json = bg.SaveGeneratorToJSON(project.generators[i]);
 		project_data_files.files.push({
 			name:project.generators[i].id + ".json",
 			content:generator_json
