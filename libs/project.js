@@ -28,6 +28,14 @@ bg.GetProjectById = function(id)
 	return bg.projectsById[id];
 }
 
+bg.RegisterProjectGenerator = function(project, generator)
+{
+	if(bg.RegisterGenerator(generator))
+	{
+		project.generators.push(generator);
+	}
+}
+
 bg.UnloadProject = function(id)
 {
 	delete bg.projectsById[id];
@@ -48,8 +56,15 @@ bg.SaveProjectAsJSONFiles = function(project)
 		id:project.id,
 		name:project.name,
 		version:1,
-		files:[]
+		files:[],
+		generators:[]
 	};
+
+	for(var i=0; i<project.generators.length; ++i)
+	{
+		project_json_data.generators.push(project.generators[i].id);
+		//todo add generator file to save
+	}
 
 	var project_data_files =
 	{
@@ -60,6 +75,15 @@ bg.SaveProjectAsJSONFiles = function(project)
 			}
 		]
 	};
+
+	for(var i=0; i<project.generators.length; ++i)
+	{
+		var generator_json = SaveGeneratorToJSON(project.generators[i]);
+		project_data_files.files.push({
+			name:project.generators[i].id + ".json",
+			content:generator_json
+		});
+	}
 	
 	for(var i=0; i<project.generatorHierarchies.length; ++i)
 	{

@@ -9,6 +9,7 @@ bg.RegisterGenerator = function(generator)
 		if(generator.name == null)
 		{
 			console.error("Failed to register generator without a name");
+			return false;
 		}
 		var id = generator.name;
 	}
@@ -17,16 +18,19 @@ bg.RegisterGenerator = function(generator)
 		if(generator.id == null)
 		{
 			console.error("Failed to register generator without an id");
+			return false;
 		}
 	}
 
 	if(bg.generatorsById[id] != null)
 	{
 		console.error("Already have a generator registered with id " + id);
+		return false;
 	}
 
 	bg.generators.push(generator);
 	bg.generatorsById[id] = generator;
+	return true;
 }
 
 bg.GetGeneratorFullName = function(generator)
@@ -280,4 +284,20 @@ bg.GenerateHierarchyNode = function(targetNode, seed, nodeInputDataDef)
 bg.SetIfNotOverriden = function(overidden, override_val, generated_val)
 {
 	return overidden ? override_val : generated_val;
+}
+
+bg.SaveGeneratorToJSON = function(generator)
+{
+	var data = {
+		id:generator.id,
+		version:generator.version,
+		name:generator.name,
+		category:generator.category,
+		inputs:generator.inputs,
+		outputs:generator.outputs,
+		//script - TODO
+	}
+
+	var data_json = JSON.stringify(data, null, 4);
+	return data_json;
 }
