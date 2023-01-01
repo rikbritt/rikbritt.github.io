@@ -44,7 +44,7 @@ function LoadProjectFromURL(project_json_url)
                 }
             ]
         };
-        bg.LoadProjectFromJSONFiles(project_data_files);
+        gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
     });
 }
 
