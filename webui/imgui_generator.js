@@ -381,85 +381,91 @@ function UpdateGeneratorsList( selected_func )
 	}
 }
 
-function UpdateGeneratorInstances()
+function UpdateGeneratorWindow(close_func, generatorInstance)
 {
-	for(var i=0; i<gGeneratorInstances.length; ++i)
+	if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`, close_func))
 	{
-		var generatorInstance = gGeneratorInstances[i];
-		if(ImGui.Begin(`Generator ${i} - ${bg.GetGeneratorFullName(generatorInstance.generator)}`, (_ = generatorInstance.open) => generatorInstance.open = _))
+		if(generatorInstance.generator.description != undefined)
 		{
-			if(generatorInstance.generator.description != undefined)
-			{
-				ImGui.Text(generatorInstance.generator.description);
-			}
-			if(ImGui.Button("Randomise"))
-			{
-				generatorInstance.seed = Math.floor( Math.random() * 2000 );
-			}
-			ImGui.SameLine();
-			ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
+			ImGui.Text(generatorInstance.generator.description);
+		}
+		if(ImGui.Button("Randomise"))
+		{
+			generatorInstance.seed = Math.floor( Math.random() * 2000 );
+		}
+		ImGui.SameLine();
+		ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
 
-			//TODO: Delete when sure V2 is ok
-			//if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
-			//{	
-			//	UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
-			//	ImGui.TreePop();
-			//}
+		//TODO: Delete when sure V2 is ok
+		//if(ImGui.TreeNodeEx("Inputs", ImGui.TreeNodeFlags.DefaultOpen))
+		//{	
+		//	UpdateGeneratorInputsImGui(generatorInstance.generator.inputs, generatorInstance.setInputs);
+		//	ImGui.TreePop();
+		//}
 
-			if(ImGui.CollapsingHeader("Inputs"))
-			{
-				UpdateGeneratorInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
-			}
+		if(ImGui.CollapsingHeader("Inputs"))
+		{
+			UpdateGeneratorInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
+		}
 
-			if(ImGui.Button("Generate"))
-			{
-				RunGeneratorInstance(generatorInstance);
-			}
+		if(ImGui.Button("Generate"))
+		{
+			RunGeneratorInstance(generatorInstance);
+		}
 
-			ImGui.SameLine();
-			if(ImGui.Button("Randomise Seed & Generate"))
+		ImGui.SameLine();
+		if(ImGui.Button("Randomise Seed & Generate"))
+		{
+			generatorInstance.seed = Math.floor( Math.random() * 2000 );
+			RunGeneratorInstance(generatorInstance);
+		}
+		
+		
+		ImGui.Text("Generator Output");
+		{
+			if(generatorInstance.output.outputs)
 			{
-				generatorInstance.seed = Math.floor( Math.random() * 2000 );
-				RunGeneratorInstance(generatorInstance);
-			}
-			
-			
-			ImGui.Text("Generator Output");
-			{
-				if(generatorInstance.output.outputs)
+				if(generatorInstance.output.outputs.model == null)
 				{
-					if(generatorInstance.output.outputs.model == null)
+					UpdateObjectImGui(generatorInstance.output.outputs, "output");
+				}
+				else
+				{
+					var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
+					//get win width
+					var avail_width = ImGui.GetContentRegionAvail().x;
+					var image_width = avail_width - 8;
+					if(image_width > 2)
 					{
-						UpdateObjectImGui(generatorInstance.output.outputs, "output");
-					}
-					else
-					{
-						var renderTargetProperties = gRenderer.properties.get(generatorInstance.renderTarget.texture);
-						//get win width
-						var avail_width = ImGui.GetContentRegionAvail().x;
-						var image_width = avail_width - 8;
-						if(image_width > 2)
+						var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
+						ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new ImGui.Vec2(0,1), new ImGui.Vec2(1,0));
+						if(ImGui.IsItemHovered())
 						{
-							var image_height = image_width * (gGeneratorRenderTargetHeight / gGeneratorRenderTargetWidth);
-							ImGui.ImageButton(renderTargetProperties.__webglTexture, new ImGui.Vec2(image_width, image_height), new ImGui.Vec2(0,1), new ImGui.Vec2(1,0));
-							if(ImGui.IsItemHovered())
-							{
-								generatorInstance.sendInputToScene = true;
-							}
-							else
-							{
-								generatorInstance.sendInputToScene = false;
-							}
-							if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
-							{
-								ImGui.EndDragDropSource();
-							}
+							generatorInstance.sendInputToScene = true;
+						}
+						else
+						{
+							generatorInstance.sendInputToScene = false;
+						}
+						if (ImGui.BeginDragDropSource(ImGui.DragDropFlags.None))
+						{
+							ImGui.EndDragDropSource();
 						}
 					}
 				}
 			}
 		}
-		ImGui.End();
+	}
+	ImGui.End();
+}
+
+function UpdateGeneratorInstances()
+{
+	for(var i=0; i<gGeneratorInstances.length; ++i)
+	{
+		var generatorInstance = gGeneratorInstances[i];
+		var close_func = (_ = generatorInstance.open) => generatorInstance.open = _;
+		UpdateGeneratorWindow(close_func, generatorInstance);
 	}
 
 	//Remove all closed windows

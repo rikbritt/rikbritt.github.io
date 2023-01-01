@@ -1,6 +1,6 @@
 var gWindows = [];
 
-function OpenWindow(win_id, update_func)
+function OpenWindow(win_id, update_func, data)
 {
     for(var i=0; i<gWindows.length; ++i)
     {
@@ -13,6 +13,7 @@ function OpenWindow(win_id, update_func)
     var win_data = 
     {
         id:win_id,
+        data:data,
         Update:update_func
     };
 
@@ -25,7 +26,7 @@ function UpdateWindows()
     for(var i=0; i<gWindows.length; ++i)
     {
         var win_open = true;
-        gWindows[i].Update((_ = win_open) => win_open = _);
+        gWindows[i].Update((_ = win_open) => win_open = _, gWindows[i].data);
 
         if(win_open == false)
         {

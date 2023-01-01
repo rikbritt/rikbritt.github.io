@@ -36,6 +36,13 @@ bg.RegisterProjectGenerator = function(project, generator)
 	}
 }
 
+bg.CreateEmptyProjectGenerator = function(project)
+{
+	var generator = bg.CreateEmptyProjectGenerator("new_generator");
+	project.generators.push(generator);
+	return generator;
+}
+
 bg.UnloadProject = function(id)
 {
 	delete bg.projectsById[id];

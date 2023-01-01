@@ -33,6 +33,27 @@ bg.RegisterGenerator = function(generator)
 	return true;
 }
 
+bg.CreateEmptyProjectGenerator = function(id)
+{
+	var generator = {
+		id:id,
+		name:"",
+		version:1,
+		category:[],
+		inputs:{
+			//system:{		type:"data",		dataType:galaxyDataDef	}
+		},
+		outputs:{
+			//data:{ type:"data", dataType:galaxyDataDef }
+		},
+		script:function(inputs, outputs){
+			outputs.data = inputs;
+		}
+	};
+	bg.RegisterGenerator(generator);
+	return generator;
+}
+
 bg.GetGeneratorFullName = function(generator)
 {
 	var name = generator.name;

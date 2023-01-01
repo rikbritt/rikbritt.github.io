@@ -118,9 +118,21 @@ function UpdateProjectPropertiesWindow( close_func, project )
         if(ImGui.CollapsingHeader("Generators"))
         {
             ImGui.Indent();
-            if(ImGui.Button("New Generator... (NOT IMPL)"))
+            if(ImGui.Button("New Generator... (WIP)"))
             {
-
+                bg.CreateEmptyProjectGenerator(gCurrentProject);
+            }
+            for(var i=0; i<project.generators.length; ++i)
+            {
+                var gen = project.generators[i];
+                ImGui.PushID(gen.id);
+                ImGui.Text(gen.id);
+                ImGui.SameLine();
+                if(ImGui.Button("Edit Generator"))
+                {
+                    OpenWindow(gen.id, gen);
+                }
+                ImGui.PopID();
             }
             ImGui.Unindent();
         }
