@@ -63,7 +63,7 @@ function LoadProjectFromURL(project_json_url)
             loading_tasks.push(load_task);
         }
 
-        Promise.all(loading_tasks);
+        await Promise.all(loading_tasks);
 
         gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
         OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
