@@ -51,12 +51,14 @@ function LoadProjectFromURL(project_json_url)
         {
             var load_task = fetch(project_json_url + "/" + project_data.files[i])
                 .then(response => response.text())
-                .then((data2) => project_data_files.files.push(
-                    {
-                        name:project_json_url + "/" + project_data.files[i],
-                        content:data2
-                    })
-            );
+                .then((data2) => 
+                    project_data_files.files.push(
+                        {
+                            name:project_json_url + "/" + project_data.files[i],
+                            content:data2
+                        }
+                    )
+                );
 
             loading_tasks.push(load_task);
         }
