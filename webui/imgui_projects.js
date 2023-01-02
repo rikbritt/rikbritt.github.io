@@ -49,12 +49,13 @@ function LoadProjectFromURL(project_json_url)
         var loading_tasks = [];
         for(var i=0; i<project_data.files.length; ++i)
         {
-            var load_task = fetch(project_json_url + "/" + project_data.files[i])
+            var file_name = project_json_url + "/" + project_data.files[i];
+            var load_task = fetch(file_name)
                 .then(response => response.text())
                 .then((data2) => 
                     project_data_files.files.push(
                         {
-                            name:project_json_url + "/" + project_data.files[i],
+                            name:file_name,
                             content:data2
                         }
                     )
