@@ -1,4 +1,7 @@
 {
     "id":"murder_mystery",
-    "name":"Murder Mystery Project"
+    "name":"Murder Mystery Project",
+    "files":[
+        "generator/example.json"
+    ]
 }
