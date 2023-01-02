@@ -75,28 +75,36 @@ bg.SaveProjectAsJSONFiles = function(project)
 
 	var project_data_files =
 	{
-		files:[
-			{
-				name:"project.json",
-				content:JSON.stringify(project_json_data, null, 4)
-			}
-		]
+		files:[]
 	};
 
 	for(var i=0; i<project.generators.length; ++i)
 	{
 		var generator_json = bg.SaveGeneratorToJSON(project.generators[i]);
 		project_data_files.files.push({
-			name:project.generators[i].id + ".json",
+			name:"generator/" + project.generators[i].id + ".json",
 			content:generator_json
 		});
+		project_json_data.files.push("generator/" + project.generators[i].id + ".json");
 	}
 	
 	for(var i=0; i<project.generatorHierarchies.length; ++i)
 	{
 		//add file entry to project_json_data.files
 		//add output file entry and content;
+		var hierarchy_json = bg.SaveHierarchyToJSON(project.generatorHierarchies[i]);
+		project_data_files.files.push({
+			name:"hierarchy/" + project.generatorHierarchies[i].id + ".json",
+			content:hierarchy_json
+		});
+		project_json_data.files.push("generator/" + project.generators[i].id + ".json");
+
 	}
+
+	project_data_files.files.push({
+		name:"project.json",
+		content:JSON.stringify(project_json_data, null, 4)
+	});
 
 	return project_data_files;
 }
@@ -118,6 +126,9 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 			{
 				existing_project.name = loaded_data.name;
 			}
+
+			
+
 			return existing_project;
 		}
 	}

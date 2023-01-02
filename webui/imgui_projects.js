@@ -34,7 +34,6 @@ function LoadProjectFromURL(project_json_url)
     fetch(project_json_url + "/project.json")
     .then(response => response.text())
     .then((data) => {
-        //TODO: Load other files referenced in here.
         var project_data_files =
         {
             files:[
@@ -44,6 +43,26 @@ function LoadProjectFromURL(project_json_url)
                 }
             ]
         };
+
+        var project_data = JSON.parse(data);
+        //Async load other files referenced in here.
+        var loading_tasks = [];
+        for(var i=0; i<project_data.files.length; ++i)
+        {
+            var load_task = fetch(project_json_url + "/ " + project_data.files[i])
+                .then(response => response.text())
+                .then((data) => project_data_files.files.push(
+                    {
+                        name:project_json_url + "/ " + project_data.files[i],
+                        content:data
+                    })
+            );
+
+            loading_tasks.push(load_task);
+        }
+
+        Promise.all(loading_tasks);
+
         gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
         OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
     });
