@@ -11,7 +11,11 @@ bg.RegisterGenerator = function(generator)
 			console.error("Failed to register generator without a name");
 			return false;
 		}
-		var id = generator.name;
+		id = bg.GUIDFromStr(generator.name);
+	}
+	else if(generator.version == 2)
+	{
+		id = bg.GUIDFromStr(generator.id);
 	}
 	else
 	{
@@ -28,6 +32,7 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
+	generator.id = id;
 	bg.generators.push(generator);
 	bg.generatorsById[id] = generator;
 	return true;
