@@ -89,10 +89,10 @@ function UpdateGraphEditor()
 
 			if(ImGui.Button("Create Test Setup"))
 			{
-				var person_node = bg.CreateGenerationGraphNode(gGraphInstances[0].instance, bg.GetGeneratorById("mm_person"));
+				var person_node = bg.CreateGenerationGraphNode(gGraphInstances[0].instance, mm_personGenerator);
 				gGraphInstances[0].node_positions.push({x:0,y:10});
 
-				var suspect_node = bg.CreateGenerationGraphNode(gGraphInstances[0].instance, bg.GetGeneratorById("mm_suspect"));
+				var suspect_node = bg.CreateGenerationGraphNode(gGraphInstances[0].instance, mm_personGenerator);
 				gGraphInstances[0].node_positions.push({x:300,y:10});
 
 				bg.CreateGenerationGraphLink(person_node, "data", suspect_node, "suspect");
