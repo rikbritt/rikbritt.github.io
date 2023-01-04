@@ -8,7 +8,7 @@ A seed framework for random generation that allows generators to be changes with
 AddNotes("Glossary", 
 `
 -- Project
-A collection of Generators and Generator Hierarchies
+A collection of Generators and Generator Graphs
 
 -- Generator
 Defines a generator. Declares inputs, outputs and a generation script.
@@ -20,7 +20,7 @@ A instance of a generator. May have overriden input values.
 A structure of values. Can be used as a generator input.
 A value within can be another param type.
 
--- Generator Hieratchy
+-- Generator Graph
 A graph of generator instances. Inputs and outputs of these can be linked together.
 
 `);

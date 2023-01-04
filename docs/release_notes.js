@@ -1,5 +1,9 @@
 AddNotes("Release Notes",
 `
+04/01/2023
+Start using GUIDs for all ids.
+Rename Hierarchies to Graphs.
+
 02/01/2023
 Over Christmas did some project loading/saving. Still WIP
 

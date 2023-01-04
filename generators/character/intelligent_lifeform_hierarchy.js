@@ -1,12 +1,12 @@
 
-var intLifeformHierarchy = bg.CreateGenerationHierarchy("Intelligent Lifeform");
-//bg.RegisterGeneratorHierarchy(intLifeformHierarchy);
+var intLifeformGraph = bg.CreateGenerationGraph("Intelligent Lifeform");
+//bg.RegisterGeneratorGraph(intLifeformGraph);
 
-intLifeformHierarchy.speciesNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, speciesGenerator);
-intLifeformHierarchy.cultureNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, cultureGenerator);
-intLifeformHierarchy.nameNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, nameV1Generator);
-intLifeformHierarchy.characterNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, characterGenerator);
+intLifeformGraph.speciesNode = bg.CreateGenerationGraphNode(intLifeformGraph, speciesGenerator);
+intLifeformGraph.cultureNode = bg.CreateGenerationGraphNode(intLifeformGraph, cultureGenerator);
+intLifeformGraph.nameNode = bg.CreateGenerationGraphNode(intLifeformGraph, nameV1Generator);
+intLifeformGraph.characterNode = bg.CreateGenerationGraphNode(intLifeformGraph, characterGenerator);
 
-bg.CreateGenerationHierarchyLink(intLifeformHierarchy.speciesNode, "data", intLifeformHierarchy.characterNode, "species");
-bg.CreateGenerationHierarchyLink(intLifeformHierarchy.cultureNode, "data", intLifeformHierarchy.characterNode, "culture");
-bg.CreateGenerationHierarchyLink(intLifeformHierarchy.nameNode, "data", intLifeformHierarchy.characterNode, "name");
+bg.CreateGenerationGraphLink(intLifeformGraph.speciesNode, "data", intLifeformGraph.characterNode, "species");
+bg.CreateGenerationGraphLink(intLifeformGraph.cultureNode, "data", intLifeformGraph.characterNode, "culture");
+bg.CreateGenerationGraphLink(intLifeformGraph.nameNode, "data", intLifeformGraph.characterNode, "name");

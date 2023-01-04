@@ -1,15 +1,15 @@
 
-var mm_victimHierarchy = bg.CreateGenerationHierarchy("Murder Mystery Victim");
-//bg.RegisterGeneratorHierarchy(mm_victimHierarchy);
+var mm_victimGraph = bg.CreateGenerationGraph("Murder Mystery Victim");
+//bg.RegisterGeneratorGraph(mm_victimGraph);
 
-mm_victimHierarchy.victimCauseOfDeathNode = bg.CreateGenerationHierarchyNode(mm_victimHierarchy, mm_causeOfDeathGenerator);
-mm_victimHierarchy.victimPersonNode = bg.CreateGenerationHierarchyNode(mm_victimHierarchy, mm_personGenerator);
-mm_victimHierarchy.victimNode = bg.CreateGenerationHierarchyNode(mm_victimHierarchy, mm_victimGenerator);
-//mm_victimHierarchy.cultureNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, cultureGenerator);
-//mm_victimHierarchy.nameNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, nameV1Generator);
-//mm_victimHierarchy.characterNode = bg.CreateGenerationHierarchyNode(intLifeformHierarchy, characterGenerator);
+mm_victimGraph.victimCauseOfDeathNode = bg.CreateGenerationGraphNode(mm_victimGraph, mm_causeOfDeathGenerator);
+mm_victimGraph.victimPersonNode = bg.CreateGenerationGraphNode(mm_victimGraph, mm_personGenerator);
+mm_victimGraph.victimNode = bg.CreateGenerationGraphNode(mm_victimGraph, mm_victimGenerator);
+//mm_victimGraph.cultureNode = bg.CreateGenerationGraphNode(intLifeformGraph, cultureGenerator);
+//mm_victimGraph.nameNode = bg.CreateGenerationGraphNode(intLifeformGraph, nameV1Generator);
+//mm_victimGraph.characterNode = bg.CreateGenerationGraphNode(intLifeformGraph, characterGenerator);
 
-bg.CreateGenerationHierarchyLink(mm_victimHierarchy.victimPersonNode, "data", mm_victimHierarchy.victimNode, "person");
-bg.CreateGenerationHierarchyLink(mm_victimHierarchy.victimCauseOfDeathNode, "data", mm_victimHierarchy.victimNode, "causeOfDeath");
-//bg.CreateGenerationHierarchyLink(intLifeformHierarchy.cultureNode, "data", intLifeformHierarchy.characterNode, "culture");
-//bg.CreateGenerationHierarchyLink(intLifeformHierarchy.nameNode, "data", intLifeformHierarchy.characterNode, "name");
+bg.CreateGenerationGraphLink(mm_victimGraph.victimPersonNode, "data", mm_victimGraph.victimNode, "person");
+bg.CreateGenerationGraphLink(mm_victimGraph.victimCauseOfDeathNode, "data", mm_victimGraph.victimNode, "causeOfDeath");
+//bg.CreateGenerationGraphLink(intLifeformGraph.cultureNode, "data", intLifeformGraph.characterNode, "culture");
+//bg.CreateGenerationGraphLink(intLifeformGraph.nameNode, "data", intLifeformGraph.characterNode, "name");

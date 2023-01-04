@@ -28,13 +28,13 @@ function UpdateImgui(dt, timestamp)
 			UpdateViewOptions();
 			ImGui.EndMenu();
 		}
-		if (ImGui.BeginMenu("Hierarchies"))
+		if (ImGui.BeginMenu("Graphs"))
 		{
-			if(ImGui.MenuItem("Hierarchy Editor"))
+			if(ImGui.MenuItem("Graph Editor"))
 			{
-				gShowHierarchyEditor = !gShowHierarchyEditor;
+				gShowGraphEditor = !gShowGraphEditor;
 			}
-			UpdateGeneratorHierarchiesList();
+			UpdateGeneratorGraphsList();
 			ImGui.EndMenu();
 		}
 		if(ImGui.BeginMenu("Tests"))
@@ -51,7 +51,7 @@ function UpdateImgui(dt, timestamp)
 	}
 	ImGui.End();
 
-	UpdateHierarchyEditor();
+	UpdateGraphEditor();
 	UpdateGeneratorInstances();
 	UpdateTestWindows();
 	UpdateWindows();

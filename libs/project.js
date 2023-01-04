@@ -13,7 +13,7 @@ bg.CreateProject = function(id, name)
     var project = {
         id:id,
         name:name,
-		generatorHierarchies:[],
+		generatorGraphs:[],
 		generators:[]
     };
 
@@ -88,14 +88,14 @@ bg.SaveProjectAsJSONFiles = function(project)
 		project_json_data.files.push("generator/" + project.generators[i].id + ".json");
 	}
 	
-	for(var i=0; i<project.generatorHierarchies.length; ++i)
+	for(var i=0; i<project.generatorGraphs.length; ++i)
 	{
 		//add file entry to project_json_data.files
 		//add output file entry and content;
-		var hierarchy_json = bg.SaveHierarchyToJSON(project.generatorHierarchies[i]);
+		var graph_json = bg.SaveGraphToJSON(project.generatorGraphs[i]);
 		project_data_files.files.push({
-			name:"hierarchy/" + project.generatorHierarchies[i].id + ".json",
-			content:hierarchy_json
+			name:"graph/" + project.generatorGraphs[i].id + ".json",
+			content:graph_json
 		});
 		project_json_data.files.push("generator/" + project.generators[i].id + ".json");
 

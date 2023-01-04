@@ -132,10 +132,10 @@ function UpdateProjectPropertiesWindow( close_func, project )
     {
         ImGui.InputText("Id", (_ = project.id) => project.id = _, 256);
         ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
-        if(ImGui.CollapsingHeader("Hierarchies"))
+        if(ImGui.CollapsingHeader("Graphs"))
         {
             ImGui.Indent();
-            if(ImGui.Button("New Hierarchy... (NOT IMPL)"))
+            if(ImGui.Button("New Graph... (NOT IMPL)"))
             {
                 
             }

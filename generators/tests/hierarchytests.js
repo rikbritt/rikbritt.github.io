@@ -1,7 +1,7 @@
 
-var testHierarchyGenerator = {
+var testGraphGenerator = {
 	version:1,
-	name:"Hierarchy",
+	name:"Graph",
 	category:["Test"],
 	inputs:{
 	},
@@ -21,4 +21,4 @@ var testHierarchyGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testHierarchyGenerator);
+bg.RegisterGenerator(testGraphGenerator);

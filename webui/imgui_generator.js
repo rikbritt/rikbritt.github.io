@@ -4,16 +4,16 @@ var gGeneratorRenderTargetHeight = 1080 / 2;
 
 function RunGeneratorInstance(generatorInstance)
 {
-	if(generatorInstance.generatorHierarchy == null)
+	if(generatorInstance.generatorGraph == null)
 	{
-		//Create an empty hierarchy for the selected generator
-		generatorInstance.generatorHierarchy = bg.CreateGenerationHierarchy("Test Harness");
-		generatorInstance.targetHierarchyNode = bg.CreateGenerationHierarchyNode(generatorInstance.generatorHierarchy, generatorInstance.generator);
+		//Create an empty graph for the selected generator
+		generatorInstance.generatorGraph = bg.CreateGenerationGraph("Test Harness");
+		generatorInstance.targetGraphNode = bg.CreateGenerationGraphNode(generatorInstance.generatorGraph, generatorInstance.generator);
 	}
-	//RenderHierarchy();
+	//RenderGraph();
 
-	generatorInstance.output = bg.GenerateHierarchyNode(
-		generatorInstance.targetHierarchyNode, 
+	generatorInstance.output = bg.GenerateGraphNode(
+		generatorInstance.targetGraphNode, 
 		generatorInstance.seed, 
 		generatorInstance.setInputs);
 	
