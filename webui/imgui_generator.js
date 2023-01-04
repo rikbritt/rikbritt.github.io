@@ -420,7 +420,13 @@ function UpdateGeneratorWindow(close_func, generator)
 			generator.description = "";
 		}
 		ImGui.InputText("Description", (_ = generator.description) => generator.description = _, 256);
-
+		
+		var categories = generator.categories.join("/");
+		if(ImGui.InputText("Categories", (_ = categories) => categories = _, 256))
+		{
+			generator.categories = categories.split("/");
+		}
+		
 		if(ImGui.CollapsingHeader("Inputs"))
 		{
 			//UpdateGeneratorInputsImGuiV2(generator.inputs);
