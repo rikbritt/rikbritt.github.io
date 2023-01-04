@@ -407,7 +407,6 @@ function UpdateGeneratorsList( selected_func )
 		);
 		ImGui.EndMenu();
 	}
-	ImGui.EndMenu();
 }
 
 function UpdateGeneratorWindow(close_func, generator)
