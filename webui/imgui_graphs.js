@@ -92,7 +92,7 @@ function UpdateGraphEditor()
 				var person_node = bg.CreateGenerationGraphNode(gGraphInstances[0].instance, mm_personGenerator);
 				gGraphInstances[0].node_positions.push({x:0,y:10});
 
-				var suspect_node = bg.CreateGenerationGraphNode(gGraphInstances[0].instance, mm_personGenerator);
+				var suspect_node = bg.CreateGenerationGraphNode(gGraphInstances[0].instance, mm_suspectGenerator);
 				gGraphInstances[0].node_positions.push({x:300,y:10});
 
 				bg.CreateGenerationGraphLink(person_node, "data", suspect_node, "suspect");
