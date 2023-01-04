@@ -385,15 +385,7 @@ function UpdateGeneratorWindow(close_func, generator)
 {
 	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generator)}###${generator.id}`, close_func))
 	{
-		ImGui.InputText("Id", 
-			(_ = generator.id) => {
-				if(_ != generator.id)
-				{
-					bg.ChangeGeneratorId(generator,  _);
-				}
-				return _;
-			}, 256
-		);
+		ImGui.Text("Id : " + generator.id);
 		ImGui.InputText("Name", (_ = generator.name) => generator.name = _, 256);
 		if(generator.description == undefined)
 		{
