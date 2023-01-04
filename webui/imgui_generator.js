@@ -329,7 +329,7 @@ function UpdateGeneratorInstanceInputsImGuiV2(generatorInputs, setInputs)
 	ImGui.EndTable();
 }
 
-function UpdateGeneratorsList( selected_func ) 
+function UpdateGeneratorsListInternal( generators_list, selected_func )
 {
 	//Default behaviour - add generator to instances list
 	if(selected_func == null)
@@ -348,12 +348,12 @@ function UpdateGeneratorsList( selected_func )
 		};
 	}
 	
-	for(var i=0; i<bg.generators.length; ++i)
+	for(var i=0; i<generators_list.length; ++i)
 	{
 		var numOpen = 0;
-		for(var c=0; c<bg.generators[i].category.length; ++c)
+		for(var c=0; c<generators_list[i].category.length; ++c)
 		{
-			var category = bg.generators[i].category[c];
+			var category = generators_list[i].category[c];
 			if(ImGui.BeginMenu(category))
 			{
 				++numOpen;
@@ -363,15 +363,15 @@ function UpdateGeneratorsList( selected_func )
 				break;
 			}
 		}
-		if(numOpen == bg.generators[i].category.length)
+		if(numOpen == generators_list[i].category.length)
 		{
-			if(ImGui.MenuItem(bg.generators[i].name))
+			if(ImGui.MenuItem(generators_list[i].name))
 			{
-				selected_func(bg.generators[i]);
+				selected_func(generators_list[i]);
 			}
-			if(bg.generators[i].description != undefined && ImGui.IsItemHovered())
+			if(generators_list[i].description != undefined && ImGui.IsItemHovered())
 			{
-				ImGui.SetTooltip(bg.generators[i].description);
+				ImGui.SetTooltip(generators_list[i].description);
 			}
 		}
 		for(var c=0; c<numOpen; ++c)
@@ -379,6 +379,35 @@ function UpdateGeneratorsList( selected_func )
 			ImGui.EndMenu();
 		}
 	}
+}
+
+function UpdateGeneratorsList( selected_func ) 
+{
+	if(ImGui.BeginMenu("Global Generators"))
+	{
+		UpdateGeneratorsListInternal(
+			bg.generators,
+			function(generator)
+			{
+				bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
+				gGraphInstances[0].node_positions.push({x:0,y:0});
+			}
+		);
+		ImGui.EndMenu();
+	}
+	if(gCurrentProject && ImGui.BeginMenu("Project Generators"))
+	{
+		UpdateGeneratorsListInternal(
+			gCurrentProject.generators,
+			function(generator)
+			{
+				bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
+				gGraphInstances[0].node_positions.push({x:0,y:0});
+			}
+		);
+		ImGui.EndMenu();
+	}
+	ImGui.EndMenu();
 }
 
 function UpdateGeneratorWindow(close_func, generator)

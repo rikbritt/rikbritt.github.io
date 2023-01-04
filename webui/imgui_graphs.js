@@ -168,11 +168,13 @@ function UpdateGraphEditor()
 			{
 				if(ImGui.BeginMenu("Add Generator..."))
 				{
-					UpdateGeneratorsList(function(generator)
-					{
-						bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
-						gGraphInstances[0].node_positions.push({x:0,y:0});
-					});
+					UpdateGeneratorsList(
+						function(generator)
+						{
+							bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
+							gGraphInstances[0].node_positions.push({x:0,y:0});
+						}
+					);
 					ImGui.EndMenu();
 				}
 
