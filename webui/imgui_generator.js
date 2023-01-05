@@ -434,6 +434,17 @@ function UpdateGeneratorWindow(close_func, generator)
 		if(ImGui.CollapsingHeader("Outputs"))
 		{
 		}
+		if(ImGui.CollapsingHeader("Script"))
+		{
+			if(generator.script_str == null)
+			{
+				ImGui.InputText("Script", (_ = generator.script.toString()) => _, 1024 * 64);
+			}
+			else
+			{
+				ImGui.InputText("Script", (_ = generator.script_str) => generator.script_str = _, 1024 * 64);
+			}
+		}
 	}
 	ImGui.End();
 }
