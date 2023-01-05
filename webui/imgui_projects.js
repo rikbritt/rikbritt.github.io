@@ -146,7 +146,8 @@ function UpdateProjectPropertiesWindow( close_func, project )
             ImGui.Indent();
             if(ImGui.Button("New Generator... (WIP)"))
             {
-                bg.CreateEmptyProjectGenerator(gCurrentProject);
+                var new_generator = bg.CreateEmptyProjectGenerator(gCurrentProject);
+                new_generator.name = "New Generator";
             }
             for(var i=0; i<project.generators.length; ++i)
             {
