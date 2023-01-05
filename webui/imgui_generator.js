@@ -429,7 +429,14 @@ function UpdateGeneratorWindow(close_func, generator)
 		if(ImGui.CollapsingHeader("Script"))
 		{
 			ImGui.SetNextItemWidth(-1);
-			ImGui.InputTextMultiline("##Script", (_ = generator.script.toString()) => _, 1024 * 32);
+			if(generator.script_str = null)
+			{
+				generator.script_str = generator.script.toString();
+			}
+			if(ImGui.InputTextMultiline("##Script", (_ = generator.script_str) => generator.script_str = _, 1024 * 32))
+			{
+				generator.script = Function('return ' + generator.script_str)(); 
+			}
 		}
 	}
 	ImGui.End();
