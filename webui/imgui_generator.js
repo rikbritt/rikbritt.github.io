@@ -387,11 +387,7 @@ function UpdateGeneratorsList( selected_func )
 	{
 		UpdateGeneratorsListInternal(
 			bg.generators,
-			function(generator)
-			{
-				bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
-				gGraphInstances[0].node_positions.push({x:0,y:0});
-			}
+			selected_func
 		);
 		ImGui.EndMenu();
 	}
@@ -399,11 +395,7 @@ function UpdateGeneratorsList( selected_func )
 	{
 		UpdateGeneratorsListInternal(
 			gCurrentProject.generators,
-			function(generator)
-			{
-				bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
-				gGraphInstances[0].node_positions.push({x:0,y:0});
-			}
+			selected_func
 		);
 		ImGui.EndMenu();
 	}
