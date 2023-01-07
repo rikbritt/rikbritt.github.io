@@ -446,8 +446,10 @@ function UpdateGeneratorWindow(close_func, generator)
 					gLastScriptErrors[generator.id] = error.toString();
 				}
 			}
+			ImGui.Text("Script Compile:");
 			if(gLastScriptErrors[generator.id] != null)
 			{
+				ImGui.SetNextItemWidth(-1);
 				ImGui.InputTextMultiline("##ScriptError", (_ = gLastScriptErrors[generator.id]) => _, 1024 * 1);
 			}
 			else
