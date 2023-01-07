@@ -401,6 +401,7 @@ function UpdateGeneratorsList( selected_func )
 	}
 }
 
+var gLastScriptErrors = {};
 function UpdateGeneratorWindow(close_func, generator)
 {
 	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generator)}###${generator.id}`, close_func))
@@ -435,8 +436,26 @@ function UpdateGeneratorWindow(close_func, generator)
 			}
 			if(ImGui.InputTextMultiline("##Script", (_ = generator.script_str) => generator.script_str = _, 1024 * 32))
 			{
+				//Just assign possibly invalid script function?
 				generator.script = Function('return ' + generator.script_str)(); 
+
+				//Then also validate it
+				try 
+				{
+					generator.script = Function('return ' + generator.script_str)(); 
+				} 
+				catch (error) 
+				{
+					console.error(error);
+					// expected output: ReferenceError: nonExistentFunction is not defined
+					// (Note: the exact output may be browser-dependent)
+				}
 			}
+			if(gLastScriptErrors[generator.id] != null)
+			{
+				ImGui.InputTextMultiline("##ScriptError", (_ = gLastScriptErrors[generator.id]) => _, 1024 * 1))
+			}
+			
 		}
 	}
 	ImGui.End();
