@@ -453,7 +453,7 @@ function UpdateGeneratorWindow(close_func, generator)
 			}
 			if(gLastScriptErrors[generator.id] != null)
 			{
-				ImGui.InputTextMultiline("##ScriptError", (_ = gLastScriptErrors[generator.id]) => _, 1024 * 1))
+				ImGui.InputTextMultiline("##ScriptError", (_ = gLastScriptErrors[generator.id]) => _, 1024 * 1);
 			}
 			
 		}
