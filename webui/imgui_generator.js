@@ -439,6 +439,7 @@ function UpdateGeneratorWindow(close_func, generator)
 				try 
 				{
 					generator.script = Function('return ' + generator.script_str)(); 
+					gLastScriptErrors[generator.id] = null;
 				} 
 				catch (error) 
 				{
@@ -448,6 +449,10 @@ function UpdateGeneratorWindow(close_func, generator)
 			if(gLastScriptErrors[generator.id] != null)
 			{
 				ImGui.InputTextMultiline("##ScriptError", (_ = gLastScriptErrors[generator.id]) => _, 1024 * 1);
+			}
+			else
+			{
+				ImGui.Text("No Script Errors Found");
 			}
 			
 		}
