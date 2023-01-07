@@ -436,10 +436,6 @@ function UpdateGeneratorWindow(close_func, generator)
 			}
 			if(ImGui.InputTextMultiline("##Script", (_ = generator.script_str) => generator.script_str = _, 1024 * 32))
 			{
-				//Just assign possibly invalid script function?
-				generator.script = Function('return ' + generator.script_str)(); 
-
-				//Then also validate it
 				try 
 				{
 					generator.script = Function('return ' + generator.script_str)(); 
