@@ -429,7 +429,7 @@ function UpdateGeneratorWindow(close_func, generator)
 		if(ImGui.CollapsingHeader("Script"))
 		{
 			ImGui.SetNextItemWidth(-1);
-			if(generator.script_str = null)
+			if(generator.script_str == null)
 			{
 				generator.script_str = generator.script.toString();
 			}
