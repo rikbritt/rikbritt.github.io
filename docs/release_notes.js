@@ -1,5 +1,9 @@
 AddNotes("Release Notes",
 `
+05/01/2023
+Start of a working script editor via imgui text input.
+can convert a function to text and back which is really cool. not sure how debuggable that is yet though, but at least it gives parsing errors.
+
 04/01/2023
 Start using GUIDs for all ids.
 Rename Hierarchies to Graphs.
