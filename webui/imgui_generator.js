@@ -458,6 +458,11 @@ function UpdateGeneratorWindow(close_func, generator)
 			}
 			
 		}
+
+		if(ImGui.Button("Create Temporary Test Instance (TODO)"))
+		{
+			
+		}
 	}
 	ImGui.End();
 }
