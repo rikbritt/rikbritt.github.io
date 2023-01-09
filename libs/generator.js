@@ -43,6 +43,7 @@ bg.CreateEmptyGenerator = function(id)
 	var generator = {
 		id:id,
 		name:"",
+		description:"",
 		version:1,
 		category:[],
 		inputs:{
