@@ -2,8 +2,14 @@
 bg.projects = [];
 bg.projectsById = {};
 
-bg.CreateProject = function(id, name)
+//leave id null to generate a guid
+bg.CreateProject = function(name, id)
 {
+	if(id == null)
+	{
+		id = bg.CreateGUID();
+	}
+
 	if(bg.projectsById[id] != null)
 	{
 		console.error("Already have a project registered with id " + id);
@@ -126,7 +132,7 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 			var loaded_project = bg.GetProjectById(loaded_data.id);
 			if(loaded_project == null)
 			{
-				loaded_project = bg.CreateProject(loaded_data.id, loaded_data.name);
+				loaded_project = bg.CreateProject(loaded_data.name, loaded_data.id);
 			}
 			else
 			{

@@ -130,7 +130,7 @@ function UpdateProjectPropertiesWindow( close_func, project )
 
     if(ImGui.Begin("Project Properties", close_func ))
     {
-        ImGui.InputText("Id", (_ = project.id) => project.id = _, 256);
+		ImGui.Text("Id : " + project.id);
         ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
         if(ImGui.CollapsingHeader("Graphs"))
         {
@@ -144,10 +144,10 @@ function UpdateProjectPropertiesWindow( close_func, project )
         if(ImGui.CollapsingHeader("Generators"))
         {
             ImGui.Indent();
-            if(ImGui.Button("New Generator... (WIP)"))
+            if(ImGui.Button("New Generator..."))
             {
                 var new_generator = bg.CreateEmptyProjectGenerator(gCurrentProject);
-                new_generator.name = "New Generator";
+                new_generator.name = "Create New Generator";
             }
                         
             var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
@@ -190,7 +190,7 @@ function UpdateProjectsMenu()
     {
         if(ImGui.MenuItem("New Project"))
         {
-            gCurrentProject = bg.CreateProject("new", "New Project");
+            gCurrentProject = bg.CreateProject("New Project");
         }
         if(ImGui.BeginMenu("Open Project..."))
         {

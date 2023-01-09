@@ -176,7 +176,7 @@ function OnPageLoaded()
 
         ImGui_Impl.Init(canvas);
 
-		bg.CreateProject("test", "Test Project");
+		bg.CreateProject("Test Project");
 			
 		var clock = new THREE.Clock();
 
