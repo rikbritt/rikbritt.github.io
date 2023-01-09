@@ -154,15 +154,10 @@ function UpdateProjectPropertiesWindow( close_func, project )
                     
             if (ImGui.BeginTable("generator_table", 3, flags))
             {
-                // Display headers so we can inspect their interaction with borders.
-                // (Headers are not the main purpose of this section of the demo, so we are not elaborating on them too much. See other sections for details)
-                //if (display_headers.value)
-                {
-                    ImGui.TableSetupColumn("Name");
-                    ImGui.TableSetupColumn("Description");
-                    ImGui.TableSetupColumn("Category");
-                    ImGui.TableHeadersRow();
-                }
+                ImGui.TableSetupColumn("Name");
+                ImGui.TableSetupColumn("Description");
+                ImGui.TableSetupColumn("Category");
+                ImGui.TableHeadersRow();
 
                 for (var row = 0; row < project.generators.length; row++)
                 {
