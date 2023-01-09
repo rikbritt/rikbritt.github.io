@@ -38,13 +38,18 @@ bg.RegisterGenerator = function(generator)
 	return true;
 }
 
+//id should normally be null so it makes a new one
 bg.CreateEmptyGenerator = function(id)
 {
+	if(id == null)
+	{
+		id = bg.CreateGUID();
+	}
 	var generator = {
 		id:id,
 		name:"",
 		description:"",
-		version:1,
+		version:3,
 		category:[],
 		inputs:{
 			//system:{		type:"data",		dataType:galaxyDataDef	}

@@ -169,7 +169,6 @@ function UpdateProjectPropertiesWindow( close_func, project )
                     {
                         OpenWindow(gen.id, UpdateGeneratorWindow, gen);
                     }
-                    ImGui.TextUnformatted(gen.name);
                     ImGui.TableSetColumnIndex(1);
                     ImGui.TextUnformatted(gen.description);
                     ImGui.TableSetColumnIndex(2);
