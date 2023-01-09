@@ -149,17 +149,39 @@ function UpdateProjectPropertiesWindow( close_func, project )
                 var new_generator = bg.CreateEmptyProjectGenerator(gCurrentProject);
                 new_generator.name = "New Generator";
             }
-            for(var i=0; i<project.generators.length; ++i)
+                        
+            var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+                    
+            if (ImGui.BeginTable("generator_table", 3, flags))
             {
-                var gen = project.generators[i];
-                ImGui.PushID(gen.id);
-                ImGui.Text(gen.id);
-                ImGui.SameLine();
-                if(ImGui.Button("Edit Generator"))
+                // Display headers so we can inspect their interaction with borders.
+                // (Headers are not the main purpose of this section of the demo, so we are not elaborating on them too much. See other sections for details)
+                //if (display_headers.value)
                 {
-                    OpenWindow(gen.id, UpdateGeneratorWindow, gen);
+                    ImGui.TableSetupColumn("Name");
+                    ImGui.TableSetupColumn("Description");
+                    ImGui.TableSetupColumn("Category");
+                    ImGui.TableHeadersRow();
                 }
-                ImGui.PopID();
+
+                for (var row = 0; row < project.generators.length; row++)
+                {
+                    var gen = project.generators[row];
+                    ImGui.PushID(gen.id);
+                    ImGui.TableNextRow();
+                    ImGui.TableSetColumnIndex(0);
+                    if(ImGui.Button(gen.name))
+                    {
+                        OpenWindow(gen.id, UpdateGeneratorWindow, gen);
+                    }
+                    ImGui.TextUnformatted(gen.name);
+                    ImGui.TableSetColumnIndex(1);
+                    ImGui.TextUnformatted(gen.description);
+                    ImGui.TableSetColumnIndex(2);
+                    ImGui.TextUnformatted(gen.category.join("/"));
+                    ImGui.PopID();
+                }
+                ImGui.EndTable();
             }
             ImGui.Unindent();
         }
