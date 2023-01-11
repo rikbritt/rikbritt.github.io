@@ -23,11 +23,6 @@ function UpdateImgui(dt, timestamp)
 			UpdateGeneratorsList();
 			ImGui.EndMenu();
 		}
-		if (ImGui.BeginMenu("View Options"))
-		{
-			UpdateViewOptions();
-			ImGui.EndMenu();
-		}
 		if (ImGui.BeginMenu("Graphs"))
 		{
 			if(ImGui.MenuItem("Graph Editor"))
@@ -37,9 +32,18 @@ function UpdateImgui(dt, timestamp)
 			UpdateGeneratorGraphsList();
 			ImGui.EndMenu();
 		}
+		if (ImGui.BeginMenu("Data Defs"))
+		{
+			UpdateDataDefsList();
+		}
 		if(ImGui.BeginMenu("Tests"))
 		{
 			UpdateTestsMenu();
+			ImGui.EndMenu();
+		}
+		if (ImGui.BeginMenu("View Options"))
+		{
+			UpdateViewOptions();
 			ImGui.EndMenu();
 		}
 		if(ImGui.BeginMenu("Notes"))

@@ -7,3 +7,5 @@ var woodWorkingDataDef = {
 		plankWidth:{ 			type:"distance", units:"m", min:0.05, max:0.4 }
 	}
 }
+
+bg.RegisterDataDef(woodWorkingDataDef);

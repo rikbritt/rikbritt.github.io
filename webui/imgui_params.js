@@ -107,3 +107,52 @@ function UpdateParamEditor(paramData, getFunc, setFunc, paramKey)
 		ImGui.Text(`Unknown param type '${paramData.type}' for '${paramKey}'`);
 	}
 }
+
+function UpdateDataDefsListInternal( defs_list, selected_func )
+{
+	//Default behaviour - add generator to instances list
+	// if(selected_func == null)
+	// {
+	// 	selected_func = function(selected_generator)
+	// 	{
+	// 		gGeneratorInstances.push(
+	// 			{
+	// 				open:true,
+	// 				seed:0,
+	// 				generator:selected_generator,
+	// 				setInputs:{},
+	// 				output:{}
+	// 			}
+	// 		);
+	// 	};
+	// }
+	
+	for(var i=0; i<defs_list.length; ++i)
+	{
+		if(ImGui.MenuItem(defs_list[i].name))
+		{
+			//selected_func(defs_list[i]);
+		}
+	}
+}
+
+function UpdateDataDefsList()
+{
+	
+	if(ImGui.BeginMenu("Global Data Defs"))
+	{
+		UpdateDataDefsListInternal(
+			bg.dataDefs,
+			selected_func
+		);
+		ImGui.EndMenu();
+	}
+	// if(gCurrentProject && ImGui.BeginMenu("Project Param Types"))
+	// {
+	// 	UpdateDataDefsListInternal(
+	// 		gCurrentProject.generators,
+	// 		selected_func
+	// 	);
+	// 	ImGui.EndMenu();
+	// }
+}

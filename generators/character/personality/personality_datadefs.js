@@ -33,6 +33,7 @@ var personalityCoreDataDef = {
 		//the quality of knowing and doing what is morally right.
 	}
 }
+bg.RegisterDataDef(personalityCoreDataDef);
 
 var personalityCoreWeightDataDef = bg.CreateWeightingDataDef(personalityCoreDataDef);
 
@@ -241,5 +242,6 @@ var personalityDataDef = {
 		controlling:{			type:"norm",	min:0, max:1 }		
 	}
 }
+bg.RegisterDataDef(personalityDataDef);
 
 var personalityWeightDataDef = bg.CreateWeightingDataDef(personalityDataDef);

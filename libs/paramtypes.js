@@ -137,3 +137,17 @@ bg.CreateFieldType(
 		return "Hello World";
 	}
 );
+
+bg.dataDefs = {};
+//Take a func to make an instance - or just a template to copy?
+bg.RegisterDataDef = function(dataDef)
+{
+	if(dataDef.name == null)
+	{
+		console.error("Failed to register data def without a name");
+		return false;
+	}
+	//todo : more checks
+	bg.dataDefs[dataDef.name] = dataDef;
+	return true;
+}

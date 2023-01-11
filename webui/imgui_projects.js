@@ -141,6 +141,15 @@ function UpdateProjectPropertiesWindow( close_func, project )
             }
             ImGui.Unindent();
         }
+        if(ImGui.CollapsingHeader("Data Defs"))
+        {
+            ImGui.Indent();
+            if(ImGui.Button("New Data Def Type... (NOT IMPL)"))
+            {
+                
+            }
+            ImGui.Unindent();
+        }
         if(ImGui.CollapsingHeader("Generators"))
         {
             ImGui.Indent();
