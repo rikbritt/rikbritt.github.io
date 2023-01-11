@@ -142,8 +142,8 @@ function UpdateDataDefsList()
 	if(ImGui.BeginMenu("Global Data Defs"))
 	{
 		UpdateDataDefsListInternal(
-			bg.dataDefs,
-			selected_func
+			bg.dataDefs
+			//selected_func
 		);
 		ImGui.EndMenu();
 	}
