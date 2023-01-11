@@ -127,9 +127,10 @@ function UpdateDataDefsListInternal( defs_list, selected_func )
 	// 	};
 	// }
 	
-	for(var i=0; i<defs_list.length; ++i)
+	//for(var i=0; i<defs_list.length; ++i)
+	for([key, data] of Object.entries(defs_list))
 	{
-		if(ImGui.MenuItem(defs_list[i].name))
+		if(ImGui.MenuItem(key))
 		{
 			//selected_func(defs_list[i]);
 		}
