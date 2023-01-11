@@ -35,6 +35,7 @@ function UpdateImgui(dt, timestamp)
 		if (ImGui.BeginMenu("Data Defs"))
 		{
 			UpdateDataDefsList();
+			ImGui.EndMenu();
 		}
 		if(ImGui.BeginMenu("Tests"))
 		{
