@@ -1,3 +1,10 @@
+AddNotes("Next",
+`
+Inputs / Outputs for graphs
+
+Prob good to add some kind of 'info' struct that wraps name, category and id? Graphs, data defs and generators could all share code then.
+`);
+
 AddNotes("Release Notes",
 `
 05/01/2023
