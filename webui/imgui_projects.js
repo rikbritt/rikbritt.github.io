@@ -180,7 +180,7 @@ function UpdateProjectPropertiesWindow( close_func, project )
 
 function OpenProjectWindow(project)
 {
-    OpenWindow(project.id + "_properties", UpdateProjectPropertiesWindow );
+    OpenWindow(project.id + "_properties", UpdateProjectPropertiesWindow, project );
 }
 
 function UpdateProjectsMenu()
