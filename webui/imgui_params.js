@@ -139,8 +139,17 @@ function UpdateDataDefsListInternal( defs_list, selected_func )
 
 function UpdateDataDefsList()
 {
-	
-	if(ImGui.BeginMenu("Global Data Defs"))
+	for(var i=0; i<bg.projects.length; ++i)
+	{
+		var project = bg.projects[i];
+		
+		if(ImGui.BeginMenu("Project Data Defs (todo)"))
+		{
+			ImGui.EndMenu();
+		}
+	}
+
+	if(ImGui.BeginMenu("Global Data Defs (to remove)"))
 	{
 		UpdateDataDefsListInternal(
 			bg.dataDefs

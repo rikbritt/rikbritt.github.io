@@ -1,5 +1,4 @@
-var gCurrentProject = null;
-var gAvailableProjects = [];
+var gAvailableProjects = []; //List of projects that can be loaded, e.g. from URL
 
 function UpdateProjectsList()
 {
@@ -8,14 +7,6 @@ function UpdateProjectsList()
         if(ImGui.MenuItem(gAvailableProjects[i].url))
         {
             LoadProjectFromURL(gAvailableProjects[i].url);
-        }
-    }
-
-    for(var i=0; i<bg.projects.length; ++i)
-    {
-        if(ImGui.MenuItem(bg.projects[i].name))
-        {
-            gCurrentProject = bg.projects[i];
         }
     }
 }
@@ -66,8 +57,8 @@ function LoadProjectFromURL(project_json_url)
 
         Promise.all(loading_tasks).then( () => 
             {
-              gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
-                OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
+                var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+                OpenProjectWindow(loaded_project);
             }
         );
     });
@@ -92,8 +83,8 @@ function LoadProjectFromZip(file_blob)
                             }
                         ]
                     };
-                    gCurrentProject = bg.LoadProjectFromJSONFiles(project_data_files);
-                    OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
+                    var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+                    OpenProjectWindow(loaded_project);
                 }
             );
         },
@@ -123,11 +114,6 @@ function SaveProjectToZip( project )
 
 function UpdateProjectPropertiesWindow( close_func, project )
 {
-    if(project == null)
-    {
-        project = gCurrentProject;
-    }
-
     if(ImGui.Begin("Project Properties", close_func ))
     {
 		ImGui.Text("Id : " + project.id);
@@ -155,7 +141,7 @@ function UpdateProjectPropertiesWindow( close_func, project )
             ImGui.Indent();
             if(ImGui.Button("New Generator..."))
             {
-                var new_generator = bg.CreateEmptyProjectGenerator(gCurrentProject);
+                var new_generator = bg.CreateEmptyProjectGenerator(project);
                 new_generator.name = "Create New Generator";
             }
                         
@@ -192,14 +178,19 @@ function UpdateProjectPropertiesWindow( close_func, project )
     ImGui.End();
 }
 
+function OpenProjectWindow(project)
+{
+    OpenWindow(project.id + "_properties", UpdateProjectPropertiesWindow );
+}
 
 function UpdateProjectsMenu()
 {
-    if (ImGui.BeginMenu("Project (" + (gCurrentProject==null ? "None" : gCurrentProject.name) + ")"))
+    if (ImGui.BeginMenu("Projects"))
     {
         if(ImGui.MenuItem("New Project"))
         {
-            gCurrentProject = bg.CreateProject("New Project");
+            var created_project = bg.CreateProject("New Project");
+            OpenProjectWindow(created_project);
         }
         if(ImGui.BeginMenu("Open Project..."))
         {
@@ -221,13 +212,23 @@ function UpdateProjectsMenu()
             UpdateProjectsList();
             ImGui.EndMenu();
         }
-        if(gCurrentProject && ImGui.MenuItem("Save Project To Zip"))
+        for(var i=0; i<bg.projects.length; ++i)
         {
-            SaveProjectToZip(gCurrentProject);
-        }
-        if(gCurrentProject && ImGui.MenuItem("Project Properties"))
-        {
-            OpenWindow(gCurrentProject.id + "_properties", UpdateProjectPropertiesWindow );
+            var project = bg.projects[i];
+            if(ImGui.BeginMenu(project.name))
+            {
+                if(ImGui.MenuItem("Save Project To Zip"))
+                {
+                    SaveProjectToZip(project);
+                }
+
+                if(ImGui.MenuItem("Project Properties"))
+                {
+                    OpenProjectWindow(project);
+                }
+
+                ImGui.EndMenu();
+            }
         }
         ImGui.EndMenu();
     }
