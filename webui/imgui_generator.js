@@ -383,18 +383,24 @@ function UpdateGeneratorsListInternal( generators_list, selected_func )
 
 function UpdateGeneratorsList( selected_func ) 
 {
-	if(ImGui.BeginMenu("Global Generators"))
+	for(var i=0; i<bg.projects.length; ++i)
+	{
+		var project = bg.projects[i];
+		
+		if(ImGui.BeginMenu(project.name + " Generators"))
+		{
+			UpdateGeneratorsListInternal(
+				project.generators,
+				selected_func
+			);
+			ImGui.EndMenu();
+		}
+	}
+
+	if(ImGui.BeginMenu("Global Generators (to del from here)"))
 	{
 		UpdateGeneratorsListInternal(
 			bg.generators,
-			selected_func
-		);
-		ImGui.EndMenu();
-	}
-	if(gCurrentProject && ImGui.BeginMenu("Project Generators"))
-	{
-		UpdateGeneratorsListInternal(
-			gCurrentProject.generators,
 			selected_func
 		);
 		ImGui.EndMenu();
