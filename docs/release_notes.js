@@ -7,6 +7,12 @@ Prob good to add some kind of 'info' struct that wraps name, category and id? Gr
 
 AddNotes("Release Notes",
 `
+12/01/2023
+I think I'll move all 'built in' generators to belong to a 'global' project, and allow projects to reference others.
+To support that I'll allow multiple projects to be loaded, and update the UI to reflect that.
+
+Perhaps Projects should be renamed to 'collections' or 'namespaces' or something. Hmmm
+
 05/01/2023
 Start of a working script editor via imgui text input.
 can convert a function to text and back which is really cool. not sure how debuggable that is yet though, but at least it gives parsing errors.
