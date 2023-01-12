@@ -199,11 +199,11 @@ function UpdateGeneratorGraphsList()
 		
 		if(ImGui.BeginMenu(project.name + " Graphs"))
 		{
-			for(var i=0; i<project.generatorGraphs.length; ++i)
+			for(var j=0; j<project.generatorGraphs.length; ++j)
 			{
-				if(ImGui.MenuItem(project.generatorGraphs[i].name))
+				if(ImGui.MenuItem(project.generatorGraphs[j].name))
 				{
-					//gChosenGenerator = bg.generators[i];
+					//gChosenGenerator = bg.generators[j];
 				}
 			}
 			ImGui.EndMenu();
