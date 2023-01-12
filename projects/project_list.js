@@ -1,2 +1,3 @@
-AddProjectToListFromURL("projects/Tests");
+AddProjectToListFromURL("projects/global");
 AddProjectToListFromURL("projects/murder_mystery");
+AddProjectToListFromURL("projects/Tests");

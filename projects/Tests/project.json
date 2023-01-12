@@ -1,4 +1,13 @@
 {
     "id":"6e86e800-5b1e-4811-9e5f-eacbeb339349",
-    "name":"Tests Project"
+    "name":"Tests Project",
+    "files":[
+        "generator/debugtexttest.json",
+        "generator/geomintersectiontests.json",
+        "generator/hierarchytests.json",
+        "generator/objectlogictest.json",
+        "generator/rotationtests.json",
+        "generator/timelinetests.json",
+        "generator/voxeltests.json"
+    ]
 }
