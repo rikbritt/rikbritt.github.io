@@ -193,13 +193,18 @@ function UpdateGraphEditor()
 
 function UpdateGeneratorGraphsList() 
 {
-	if(gCurrentProject)
+	for(var i=0; i<bg.projects.length; ++i)
 	{
-		for(var i=0; i<gCurrentProject.generatorGraphs.length; ++i)
+		var project = bg.projects[i];
+		
+		if(ImGui.BeginMenu(project.name + " Graphs"))
 		{
-			if(ImGui.MenuItem(gCurrentProject.generatorGraphs[i].name))
+			for(var i=0; i<project.generatorGraphs.length; ++i)
 			{
-				//gChosenGenerator = bg.generators[i];
+				if(ImGui.MenuItem(project.generatorGraphs[i].name))
+				{
+					//gChosenGenerator = bg.generators[i];
+				}
 			}
 		}
 	}
