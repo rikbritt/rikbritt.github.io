@@ -206,6 +206,7 @@ function UpdateGeneratorGraphsList()
 					//gChosenGenerator = bg.generators[i];
 				}
 			}
+			ImGui.EndMenu();
 		}
 	}
 }
