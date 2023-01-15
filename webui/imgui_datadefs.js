@@ -25,7 +25,7 @@ function UpdateDataDefsListInternal( defs_list, selected_func )
 		{
             if(selected_func)
             {
-			    selected_func(defs_list[i]);
+			    selected_func(data);
             }
 		}
 	}
