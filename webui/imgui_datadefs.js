@@ -69,16 +69,20 @@ function UpdateDataDefField(field_name, field_data)
 {
     ImGui.InputText("Name", (_ = field_name) => field_name, 128);
     ImGui.TableNextColumn();
-    
+    ImGui.Text(field_data.type);
+    ImGui.TableNextColumn();
+
 	if(field_data.type == "float" 
 	|| field_data.type == "distance"
 	|| field_data.type == "time")
 	{
-		ImGui.SliderFloat(field_name, (_ = getFunc()) => setFunc(_), field_data.min, field_data.max);		
+		ImGui.SliderFloat(field_name, (_ = field_data.min) => field_data.min = _, 0, 1000);
+		ImGui.SliderFloat(field_name, (_ = field_data.max) => field_data.max = _, 0, 1000);		
 	}
 	else if(field_data.type == "int")
 	{
-		ImGui.SliderInt(field_name, (_ = getFunc()) => setFunc(_), field_data.min, field_data.max);
+		ImGui.SliderInt(field_name, (_ = field_data.min) => field_data.min = _, 0, 1000);
+		ImGui.SliderInt(field_name, (_ = field_data.max) => field_data.max = _, 0, 1000);
 	}
 	else if(field_data.type == "data")
 	{
@@ -91,11 +95,11 @@ function UpdateDataDefField(field_name, field_data)
 	}
 	else if(field_data.type == "bool")
 	{
-		ImGui.Checkbox(field_name, (_ = getFunc()) => setFunc(_));
+		//ImGui.Checkbox(field_name, (_ = getFunc()) => setFunc(_));
 	}
 	else if(field_data.type == "text")
 	{
-		ImGui.InputText(field_name, (_ = getFunc()) => setFunc(_), 256);
+		//ImGui.InputText(field_name, (_ = getFunc()) => setFunc(_), 256);
 	}
 	else if(field_data.type == "list")
 	{
