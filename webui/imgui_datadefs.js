@@ -49,7 +49,7 @@ function UpdateDataDefsList()
 			bg.dataDefs,
             function(data_def)
             {
-                OpenWindow(gen.id, UpdateDataDefWindow, data_def);
+                OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
             }
 			//selected_func
 		);
@@ -67,7 +67,7 @@ function UpdateDataDefsList()
 
 function UpdateDataDefWindow(close_func, data_def)
 {
-	if(ImGui.Begin(`Data Def - ${data_def.name}`, close_func))
+	if(ImGui.Begin(`Data Def - ${data_def.name}###${data_def.id}`, close_func))
 	{
 		ImGui.Text("Id : " + data_def.id);
 		ImGui.InputText("Name", (_ = data_def.name) => data_def.name = _, 256);
