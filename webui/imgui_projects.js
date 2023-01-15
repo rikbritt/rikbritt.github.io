@@ -142,7 +142,7 @@ function UpdateProjectPropertiesWindow( close_func, project )
             if(ImGui.Button("New Generator..."))
             {
                 var new_generator = bg.CreateEmptyProjectGenerator(project);
-                new_generator.name = "Create New Generator";
+                new_generator.name = "New Generator";
             }
                         
             var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;

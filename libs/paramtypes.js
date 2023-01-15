@@ -147,6 +147,10 @@ bg.RegisterDataDef = function(dataDef)
 		console.error("Failed to register data def without a name");
 		return false;
 	}
+	if(dataDef.id == null)
+	{
+		dataDef.id = bg.GUIDFromStr(dataDef.name);
+	}
 	//todo : more checks
 	bg.dataDefs[dataDef.name] = dataDef;
 	return true;
