@@ -164,6 +164,7 @@ function UpdateDataDefFields(fields)
 	for([key, data] of Object.entries(fields))
 	{
         ImGui.TableNextRow();
+        ImGui.TableSetColumnIndex(0);
         UpdateDataDefField(key, data);
     }
 
