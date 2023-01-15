@@ -67,6 +67,9 @@ function UpdateDataDefsList()
 
 function UpdateDataDefField(field_name, field_data)
 {
+    ImGui.InputText("Name", (_ = field_name) => field_name, 128);
+    ImGui.TableNextColumn();
+    
 	if(field_data.type == "float" 
 	|| field_data.type == "distance"
 	|| field_data.type == "time")
@@ -147,13 +150,23 @@ function UpdateDataDefField(field_name, field_data)
 
 function UpdateDataDefFields(fields)
 {
+	ImGui.BeginTable("DataDefFields", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg);
+
+	ImGui.TableSetupColumn("Field");
+	ImGui.TableSetupColumn("Type");
+	ImGui.TableSetupColumn("-");
+	ImGui.TableHeadersRow();
+
 	for([key, data] of Object.entries(fields))
 	{
+        ImGui.TableNextRow();
         UpdateDataDefField(key, data);
-        if(ImGui.Button("Add Field (TODO"))
-        {
-            
-        }
+    }
+
+	ImGui.EndTable();
+    if(ImGui.Button("Add Field (TODO"))
+    {
+
     }
 }
 
