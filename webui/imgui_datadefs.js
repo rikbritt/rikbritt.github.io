@@ -72,7 +72,13 @@ function UpdateDataDefField(field_name, field_data)
     ImGui.Text(field_data.type);
     ImGui.TableNextColumn();
 
-	if(field_data.type == "float" 
+	
+    var field_imgui = gFieldTypesImGui[field_data.type];
+	if(field_imgui != null)
+	{
+		field_imgui.edit_field_imgui(field_name, field_data);
+	}
+	else if(field_data.type == "float" //todo: remove all else's
 	|| field_data.type == "distance"
 	|| field_data.type == "time")
 	{
