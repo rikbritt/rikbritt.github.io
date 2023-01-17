@@ -30,6 +30,7 @@ function GetParamDefault(paramData)
 	}
 }
 
+//TODO: Del? Only V2 one being used?
 function UpdateParamEditor(paramData, getFunc, setFunc, paramKey)
 {
     var field_imgui = gFieldTypesImGui[paramData.type];
