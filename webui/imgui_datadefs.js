@@ -79,7 +79,7 @@ function UpdateDataDefField(field_name, field_data)
 	}
 	if(ImGui.Combo("Field Type (TODO)", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, Object.keys(bg.dataTypes).length))
 	{
-		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[Object.keys(data)[selected]].dataTypeId);
+		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[Object.keys(bg.dataTypes)[selected]].dataTypeId);
 
 		//Remove existing keys
 		var curr_keys = Object.keys(field_data);
