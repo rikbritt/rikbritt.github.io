@@ -4,12 +4,13 @@
 
 
 bg.dataTypes = {};
-bg.CreateFieldType = function(dataTypeId, generateValueFunc)
+bg.CreateFieldType = function(dataTypeId, generateValueFunc, defaultData)
 {
 	var dataType = 
 	{
 		dataTypeId:dataTypeId,
-		generateValueFunc:generateValueFunc
+		generateValueFunc:generateValueFunc,
+		defaultData:defaultData
 	};
 	
 	bg.dataTypes[dataTypeId] = dataType;
@@ -32,7 +33,8 @@ bg.CreateFieldType(
 	"bool",
 	function(fieldDef, seed) {
 		return bg.GetRandomBool(seed);
-	}
+	},
+	{}
 );
 
 bg.GenerateFloatBasedDataValue = function(fieldDef, seed) {
@@ -42,43 +44,70 @@ bg.GenerateFloatBasedDataValue = function(fieldDef, seed) {
 
 bg.CreateFieldType(
 	"float",
-	bg.GenerateFloatBasedDataValue
+	bg.GenerateFloatBasedDataValue,
+	{
+		min:0,
+		max:100
+	}
 );
 
 bg.CreateFieldType(
 	"norm", //normalised
-	bg.GenerateFloatBasedDataValue
+	function(fieldDef, seed) {
+		return bg.GetRandomBellFloatFromSeed(seed, 0, 1);
+	},
+	{}
 );
 
 //"earths"	- How many Planet Earth's of mass.
 bg.CreateFieldType(
 	"mass",
-	bg.GenerateFloatBasedDataValue
+	bg.GenerateFloatBasedDataValue,
+	{
+		min:0,
+		max:100
+	}
 );
 
 bg.CreateFieldType(
 	"weight", //NOT how heavy something is. That would be 'mass'. This is for weighting values. -1 to +1
-	bg.GenerateFloatBasedDataValue
+	bg.GenerateFloatBasedDataValue,
+	{
+		min:0,
+		max:100
+	}
 );
 
 //"m"		- Metres
 //"km"		- Kilometers
 bg.CreateFieldType(
 	"distance",
-	bg.GenerateFloatBasedDataValue
+	bg.GenerateFloatBasedDataValue,
+	{
+		min:0,
+		max:100
+	}
 );
 
 //"years"	- Years
 //"my"		- Million Years
 bg.CreateFieldType(
 	"time",
-	bg.GenerateFloatBasedDataValue
+	bg.GenerateFloatBasedDataValue,
+	{
+		min:0,
+		max:100
+	}
 );
 
 //"m/s"		- Metres Per Second
 bg.CreateFieldType(
 	"accel",
-	bg.GenerateFloatBasedDataValue
+	bg.GenerateFloatBasedDataValue,
+	{
+		min:0,
+		max:100
+	}
 );
 
 bg.GenerateIntBasedDataValue = function(fieldDef, seed) {
@@ -87,14 +116,19 @@ bg.GenerateIntBasedDataValue = function(fieldDef, seed) {
 
 bg.CreateFieldType(
 	"int",
-	bg.GenerateIntBasedDataValue
+	bg.GenerateIntBasedDataValue,
+	{
+		min:0,
+		max:100
+	}
 );
 
 bg.CreateFieldType(
 	"colour",
 	function(seed, fieldDef) {
-		return "Red";
-	}
+		return "Red"; //todo
+	},
+	{}
 );
 
 bg.CreateFieldType(
@@ -106,6 +140,9 @@ bg.CreateFieldType(
 		}
 
 		return bg.BuildDataFields(dataDefIn, seed, null, fieldDef.autoGenerate);
+	},
+	{
+		dataType:{} //todo
 	}
 );
 
@@ -128,6 +165,11 @@ bg.CreateFieldType(
 		}
 
 		return list;
+	},
+	{
+		elementType:"?", //todo
+		min:0,
+		max:10
 	}
 )
 
@@ -135,8 +177,15 @@ bg.CreateFieldType(
 	"text",
 	function(seed, fieldDef) {
 		return "Hello World";
-	}
+	},
+	{}
 );
+
+bg.CreateFieldTypeDefInstance = function(dataTypeId)
+{
+	var copied_default = Object.assign({}, bg.dataDefs[dataTypeId].defaultData);
+	return copied_default;
+}
 
 bg.dataDefs = {};
 //Take a func to make an instance - or just a template to copy?

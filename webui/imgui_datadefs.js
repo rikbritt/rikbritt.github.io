@@ -77,7 +77,24 @@ function UpdateDataDefField(field_name, field_data)
 		out_str[0] = data[Object.keys(data)[i]].dataTypeId;
 		return true;
 	}
-	ImGui.Combo("Field Type (TODO)", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, Object.keys(bg.dataTypes).length);
+	if(ImGui.Combo("Field Type (TODO)", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, Object.keys(bg.dataTypes).length))
+	{
+		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[Object.keys(data)[selected]].dataTypeId);
+
+		//Remove existing keys
+		var curr_keys = Object.keys(field_data);
+		for(var i=0; i<curr_keys.length; ++i)
+		{
+			delete field_data[curr_keys[i]];
+		}
+
+		//Copy new ones
+		var new_keys = Object.keys(default_vals_for_type);
+		for(var i=0; i<new_keys.length; ++i)
+		{
+			field_data[new_keys[i]] = default_vals_for_type[new_keys[i]];
+		}
+	}
     ImGui.TableNextColumn();
 
 	
