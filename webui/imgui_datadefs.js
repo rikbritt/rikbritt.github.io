@@ -103,9 +103,11 @@ function UpdateDataDefFields(fields)
 
 	for([key, data] of Object.entries(fields))
 	{
+		ImGui.PushID(key);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
         UpdateDataDefField(key, data);
+		ImGui.PopID();
     }
 
 	ImGui.EndTable();
