@@ -75,6 +75,7 @@ function UpdateDataDefField(field_name, field_data)
 	function GetFieldTypeName(data, i, out_str)
 	{
 		out_str[0] = data[Object.keys(data)[i]].dataTypeId;
+		return true;
 	}
 	ImGui.Combo("Field Type (TODO)", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, Object.keys(bg.dataTypes).length);
     ImGui.TableNextColumn();
