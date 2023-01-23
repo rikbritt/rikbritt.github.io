@@ -183,7 +183,7 @@ bg.CreateFieldType(
 
 bg.CreateFieldTypeDefInstance = function(dataTypeId)
 {
-	var copied_default = Object.assign({}, bg.dataDefs[dataTypeId].defaultData);
+	var copied_default = Object.assign({}, bg.dataTypes[dataTypeId].defaultData);
 	return copied_default;
 }
 
