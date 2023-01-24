@@ -58,55 +58,27 @@ SetupFieldTypeImGui("text",
     }
 );
 
+SetupFieldTypeImGui("color", 
+    function() { },
+    function(field_name, field_data, get_func, set_func)
+    {
+		ImGui.Text("TODO");
+    }
+);
+
 SetupFieldTypeImGui("float", Field_FloatMinMaxEdit, FieldVal_FloatEdit);
 SetupFieldTypeImGui("distance", Field_FloatMinMaxEdit, FieldVal_FloatEdit);
+SetupFieldTypeImGui("weight", Field_FloatMinMaxEdit, FieldVal_FloatEdit);
+SetupFieldTypeImGui("mass", Field_FloatMinMaxEdit, FieldVal_FloatEdit);
+SetupFieldTypeImGui("accel", Field_FloatMinMaxEdit, FieldVal_FloatEdit);
 SetupFieldTypeImGui("time", Field_FloatMinMaxEdit, FieldVal_FloatEdit);
 SetupFieldTypeImGui("int", Field_IntMinMaxEdit, FieldVal_IntEdit);
 SetupFieldTypeImGui("list", 
     function(field_name, field_data) 
     {
-        ImGui.Text("TODO - list");
-        // var list = getFunc();
-        // if(Array.isArray(list) == false)
-        // {
-        // 	ImGui.Text(`${field_name} is not a JS Array!`);
-        // }
-        // else
-        // {
-        // 	if(ImGui.TreeNodeEx(`${field_name} ${list.length} / ${field_data.max}`, ImGui.TreeNodeFlags.DefaultOpen))
-        // 	{
-        // 		for(var i=0; i<list.length; ++i)
-        // 		{
-        // 			ImGui.PushID(i);
-        // 			if(ImGui.Button("Del"))
-        // 			{
-        // 				list.splice(i, 1);
-        // 				--i;
-        // 			}
-        // 			else
-        // 			{
-        // 				ImGui.SameLine();
-        // 				ImGui.Text(`${i} :`);
-        // 				UpdateParamEditor(
-        // 					field_data.elementType,
-        // 					function() { var l = list; var idx = i; return function () { 
-        // 						return l[idx];
-        // 					 } }(),
-        // 					function() { var l = list; var idx = i; return function (val) {
-        // 						l[idx] = val;
-        // 						return val;
-        // 					} }(),
-        // 					`${i}`
-        // 				);
-        // 			}
-        // 			ImGui.PopID();
-        // 		}
-        // 		if(list.length < field_data.max && ImGui.Button("Add Element"))
-        // 		{
-        // 			list.push(GetParamDefault(field_data.elementType));
-        // 		}
-        // 	}
-        // }
+        ImGui.SliderInt(`Min##${field_name}`, (_ = field_data.min) => field_data.min = _, 0, 1000);
+        ImGui.SliderInt(`Max##${field_name}`, (_ = field_data.max) => field_data.max = _, 0, 1000);	
+        ImGui.Text("TODO - Element Type. Add a combo box here? TextInput?");
     },
     function(field_name, field_data, get_func, set_func)
     {
