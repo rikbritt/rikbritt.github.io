@@ -158,7 +158,7 @@ function UpdateDataDefFields(fields)
 		ImGui.PushID(key);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
-        UpdateDataDefField(fields, key, data, to_del);
+        UpdateDataDefField(fields, key, data);
 		ImGui.PopID();
     }
 
