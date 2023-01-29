@@ -72,10 +72,10 @@ function UpdateDataDefField(field_name, field_data)
 	{
 		keep_field_alive = false;
 	}
+	ImGui.SameLine();
 	ImGui.SetNextItemWidth(-1);
     ImGui.InputText("##Name", (_ = field_name) => field_name, 128);
     ImGui.TableNextColumn();
-    //ImGui.Text(field_data.type);
 	
 	var dataTypesList = Object.keys(bg.dataTypes);
 	var selected = -1;
@@ -156,7 +156,7 @@ function UpdateDataDefFields(fields)
 
 	for(var i=0; i<to_del.length;++i)
 	{
-		delete fields[to_del];
+		delete fields[to_del[i]];
 	}
 
 	ImGui.EndTable();
