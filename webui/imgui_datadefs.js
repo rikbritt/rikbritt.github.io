@@ -67,6 +67,11 @@ function UpdateDataDefsList()
 
 function UpdateDataDefField(field_name, field_data)
 {
+	var keep_field_alive = true;
+	if(ImGui.SmallButton("X"))
+	{
+		keep_field_alive = false;
+	}
 	ImGui.SetNextItemWidth(-1);
     ImGui.InputText("##Name", (_ = field_name) => field_name, 128);
     ImGui.TableNextColumn();
@@ -123,6 +128,8 @@ function UpdateDataDefField(field_name, field_data)
 	{
 		ImGui.Text(`Unknown field type '${field_data.type}' for '${field_name}'`);
 	}
+
+	return keep_field_alive;
 }
 
 function UpdateDataDefFields(fields)
@@ -134,14 +141,23 @@ function UpdateDataDefFields(fields)
 	ImGui.TableSetupColumn("-");
 	ImGui.TableHeadersRow();
 
+	var to_del = [];
 	for([key, data] of Object.entries(fields))
 	{
 		ImGui.PushID(key);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
-        UpdateDataDefField(key, data);
+        if(UpdateDataDefField(key, data) == false)
+		{
+			to_del.push(key);
+		}
 		ImGui.PopID();
     }
+
+	for(var i=0; i<to_del.length;++i)
+	{
+		delete fields[to_del];
+	}
 
 	ImGui.EndTable();
     if(ImGui.Button("Add Field (TODO"))
