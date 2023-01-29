@@ -92,7 +92,8 @@ function UpdateDataDefField(field_name, field_data)
 		out_str[0] = data[Object.keys(data)[i]].dataTypeId;
 		return true;
 	}
-	if(ImGui.Combo("Field Type (TODO)", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length))
+	ImGui.SetNextItemWidth(-1);
+	if(ImGui.Combo("##Field Type", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length))
 	{
 		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[dataTypesList[selected]].dataTypeId);
 
