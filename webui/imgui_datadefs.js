@@ -67,7 +67,8 @@ function UpdateDataDefsList()
 
 function UpdateDataDefField(field_name, field_data)
 {
-    ImGui.InputText("Name", (_ = field_name) => field_name, 128);
+	ImGui.SetNextItemWidth(-1);
+    ImGui.InputText("##Name", (_ = field_name) => field_name, 128);
     ImGui.TableNextColumn();
     ImGui.Text(field_data.type);
 	
