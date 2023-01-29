@@ -22,8 +22,11 @@ function SetupFieldTypeImGui(field_type, imgui_edit_field_func, imgui_edit_val_f
 
 function Field_FloatMinMaxEdit(field_name, field_data)
 {
+    var width = ImGui.CalcItemWidth()/2;
+    ImGui.SetNextItemWidth(width);
 	ImGui.SliderFloat(`Min##${field_name}`, (_ = field_data.min) => field_data.min = _, 0, 1000);
     ImGui.SameLine();
+    ImGui.SetNextItemWidth(width);
 	ImGui.SliderFloat(`Max##${field_name}`, (_ = field_data.max) => field_data.max = _, 0, 1000);		
 }
 
@@ -34,8 +37,11 @@ function FieldVal_FloatEdit(field_name, field_data, get_func, set_func)
 
 function Field_IntMinMaxEdit(field_name, field_data)
 {
+    var width = ImGui.CalcItemWidth()/2;
+    ImGui.SetNextItemWidth(width);
 	ImGui.SliderInt(`Min##${field_name}`, (_ = field_data.min) => field_data.min = _, 0, 1000);
     ImGui.SameLine();
+    ImGui.SetNextItemWidth(width);
 	ImGui.SliderInt(`Max##${field_name}`, (_ = field_data.max) => field_data.max = _, 0, 1000);		
 }
 function FieldVal_IntEdit(field_name, field_data, get_func, set_func)
