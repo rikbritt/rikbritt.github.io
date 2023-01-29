@@ -127,7 +127,7 @@ function UpdateDataDefField(field_name, field_data)
 
 function UpdateDataDefFields(fields)
 {
-	ImGui.BeginTable("DataDefFields", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg);
+	ImGui.BeginTable("DataDefFields", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
 
 	ImGui.TableSetupColumn("Field");
 	ImGui.TableSetupColumn("Type");
