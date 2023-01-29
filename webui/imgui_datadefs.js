@@ -70,17 +70,31 @@ function UpdateDataDefField(field_name, field_data)
 	ImGui.SetNextItemWidth(-1);
     ImGui.InputText("##Name", (_ = field_name) => field_name, 128);
     ImGui.TableNextColumn();
-    ImGui.Text(field_data.type);
+    //ImGui.Text(field_data.type);
 	
-	var selected = 0;
+	var dataTypesList = Object.keys(bg.dataTypes);
+	var selected = -1;
+	for(var i=0; i<dataTypesList.length;++i)
+	{
+		if(bg.dataTypes[dataTypesList[i]].dataTypeId == field_data.type)
+		{
+			selected = i;
+			break;
+		}
+	}
+	if(selected == -1)
+	{
+		ImGui.Text("Unknown : " + field_data.type);
+		selected = 0;
+	}
 	function GetFieldTypeName(data, i, out_str)
 	{
 		out_str[0] = data[Object.keys(data)[i]].dataTypeId;
 		return true;
 	}
-	if(ImGui.Combo("Field Type (TODO)", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, Object.keys(bg.dataTypes).length))
+	if(ImGui.Combo("Field Type (TODO)", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length))
 	{
-		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[Object.keys(bg.dataTypes)[selected]].dataTypeId);
+		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[dataTypesList[selected]].dataTypeId);
 
 		//Remove existing keys
 		var curr_keys = Object.keys(field_data);
