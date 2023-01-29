@@ -75,7 +75,7 @@ function UpdateDataDefField(fields, field_name, field_data)
 	ImGui.SameLine();
 	ImGui.SetNextItemWidth(-1);
 	var new_name = field_name;
-    if(ImGui.InputText("##Name", (_ = field_name) => new_name = _, 128)
+    if(ImGui.InputText("##Name", (_ = field_name) => new_name = _, 128))
 	{
 		if(fields[new_name] == null)
 		{
