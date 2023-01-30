@@ -58,7 +58,7 @@ function LoadProjectFromURL(project_json_url)
         Promise.all(loading_tasks).then( () => 
             {
                 var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
-                OpenProjectWindow(loaded_project);
+                //OpenProjectWindow(loaded_project);
             }
         );
     });
@@ -84,7 +84,7 @@ function LoadProjectFromZip(file_blob)
                         ]
                     };
                     var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
-                    OpenProjectWindow(loaded_project);
+                    //OpenProjectWindow(loaded_project);
                 }
             );
         },
@@ -112,76 +112,71 @@ function SaveProjectToZip( project )
         );
 }
 
-function UpdateProjectPropertiesWindow( close_func, project )
+//Add project info to a window
+function UpdateProjectProperties( project )
 {
-    if(ImGui.Begin("Project Properties", close_func ))
+    ImGui.PushID(project.id);
+    ImGui.Text("Id : " + project.id);
+    ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
+    if(ImGui.CollapsingHeader("Graphs"))
     {
-		ImGui.Text("Id : " + project.id);
-        ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
-        if(ImGui.CollapsingHeader("Graphs"))
+        ImGui.Indent();
+        if(ImGui.Button("New Graph... (NOT IMPL)"))
         {
-            ImGui.Indent();
-            if(ImGui.Button("New Graph... (NOT IMPL)"))
-            {
-                
-            }
-            ImGui.Unindent();
+            
         }
-        if(ImGui.CollapsingHeader("Data Defs"))
-        {
-            ImGui.Indent();
-            if(ImGui.Button("New Data Def Type... (NOT IMPL)"))
-            {
-                
-            }
-            ImGui.Unindent();
-        }
-        if(ImGui.CollapsingHeader("Generators"))
-        {
-            ImGui.Indent();
-            if(ImGui.Button("New Generator..."))
-            {
-                var new_generator = bg.CreateEmptyProjectGenerator(project);
-                new_generator.name = "New Generator";
-            }
-                        
-            var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
-                    
-            if (ImGui.BeginTable("generator_table", 3, flags))
-            {
-                ImGui.TableSetupColumn("Name");
-                ImGui.TableSetupColumn("Description");
-                ImGui.TableSetupColumn("Category");
-                ImGui.TableHeadersRow();
-
-                for (var row = 0; row < project.generators.length; row++)
-                {
-                    var gen = project.generators[row];
-                    ImGui.PushID(gen.id);
-                    ImGui.TableNextRow();
-                    ImGui.TableSetColumnIndex(0);
-                    if(ImGui.Button(gen.name))
-                    {
-                        OpenWindow(gen.id, UpdateGeneratorWindow, gen);
-                    }
-                    ImGui.TableSetColumnIndex(1);
-                    ImGui.TextUnformatted(gen.description);
-                    ImGui.TableSetColumnIndex(2);
-                    ImGui.TextUnformatted(gen.category.join("/"));
-                    ImGui.PopID();
-                }
-                ImGui.EndTable();
-            }
-            ImGui.Unindent();
-        }
+        ImGui.Unindent();
     }
-    ImGui.End();
+    if(ImGui.CollapsingHeader("Data Defs"))
+    {
+        ImGui.Indent();
+        if(ImGui.Button("New Data Def Type... (NOT IMPL)"))
+        {
+            
+        }
+        ImGui.Unindent();
+    }
+    if(ImGui.CollapsingHeader("Generators"))
+    {
+        ImGui.Indent();
+        if(ImGui.Button("New Generator..."))
+        {
+            var new_generator = bg.CreateEmptyProjectGenerator(project);
+            new_generator.name = "New Generator";
+        }
+                    
+        var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+                
+        if (ImGui.BeginTable("generator_table", 3, flags))
+        {
+            ImGui.TableSetupColumn("Name");
+            ImGui.TableSetupColumn("Description");
+            ImGui.TableSetupColumn("Category");
+            ImGui.TableHeadersRow();
+
+            for (var row = 0; row < project.generators.length; row++)
+            {
+                var gen = project.generators[row];
+                ImGui.PushID(gen.id);
+                ImGui.TableNextRow();
+                ImGui.TableSetColumnIndex(0);
+                if(ImGui.Button(gen.name))
+                {
+                    OpenWindow(gen.id, UpdateGeneratorWindow, gen);
+                }
+                ImGui.TableSetColumnIndex(1);
+                ImGui.TextUnformatted(gen.description);
+                ImGui.TableSetColumnIndex(2);
+                ImGui.TextUnformatted(gen.category.join("/"));
+                ImGui.PopID();
+            }
+            ImGui.EndTable();
+        }
+        ImGui.Unindent();
+    }
+    ImGui.PopID();
 }
 
-function OpenProjectWindow(project)
-{
-    OpenWindow(project.id + "_properties", UpdateProjectPropertiesWindow, project );
-}
 
 function UpdateProjectsMenu()
 {
@@ -190,7 +185,7 @@ function UpdateProjectsMenu()
         if(ImGui.MenuItem("New Project"))
         {
             var created_project = bg.CreateProject("New Project");
-            OpenProjectWindow(created_project);
+            //OpenProjectWindow(created_project);
         }
         if(ImGui.BeginMenu("Open Project..."))
         {
@@ -220,11 +215,6 @@ function UpdateProjectsMenu()
                 if(ImGui.MenuItem("Save Project To Zip"))
                 {
                     SaveProjectToZip(project);
-                }
-
-                if(ImGui.MenuItem("Project Properties"))
-                {
-                    OpenProjectWindow(project);
                 }
 
                 ImGui.EndMenu();
