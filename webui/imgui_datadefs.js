@@ -158,7 +158,7 @@ function UpdateDataDefFields(fields)
 	{
 		var key = sorted_fields[i];
 		var data = fields[key];
-		ImGui.PushID(key);
+		ImGui.PushID(i);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
         UpdateDataDefField(fields, key, data);
