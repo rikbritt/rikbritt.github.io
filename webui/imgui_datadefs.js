@@ -153,8 +153,11 @@ function UpdateDataDefFields(fields)
 	ImGui.TableSetupColumn("-");
 	ImGui.TableHeadersRow();
 
-	for([key, data] of Object.entries(fields))
+	var sorted_fields = GetSortedObjectKeys(fields);
+	for(var i=0; i<sorted_fields.length; ++i)
 	{
+		var key = sorted_fields[i];
+		var data = fields[key];
 		ImGui.PushID(key);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
