@@ -1,6 +1,6 @@
 function GetSortedObjectKeys(obj)
 {
     var entries = Object.keys(obj);
-    var sorted = entries.sort(([,a],[,b]) => a-b);
+    var sorted = entries.sort();
     return sorted;
 }
