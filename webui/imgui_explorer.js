@@ -12,7 +12,7 @@ function UpdateExplorerWindow( close_func, data )
         for(var i=0; i<bg.projects.length; ++i)
         {
             var project = bg.projects[i];
-            ImGui.Seperator();
+            ImGui.Separator();
             ImGui.Text("Project - " + project.name);
             if(ImGui.Button("Save Project (TODO"))
             {
