@@ -20,7 +20,8 @@ bg.CreateProject = function(name, id)
         id:id,
         name:name,
 		generatorGraphs:[],
-		generators:[]
+		generators:[],
+		dataDefs:[]
     };
 
 	bg.projects.push(project);
@@ -28,6 +29,9 @@ bg.CreateProject = function(name, id)
 
 	return project;
 }
+
+//Create global hardcoded project 
+bg.global_project = bg.CreateProject("global", "e1763683-2d73-48ff-b886-513d71dc8b76");
 
 bg.GetProjectById = function(id)
 {

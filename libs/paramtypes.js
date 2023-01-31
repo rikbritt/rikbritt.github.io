@@ -190,7 +190,7 @@ bg.CreateFieldTypeDefInstance = function(dataTypeId)
 
 bg.dataDefs = {};
 //Take a func to make an instance - or just a template to copy?
-bg.RegisterDataDef = function(dataDef)
+bg.RegisterDataDef = function(dataDef, project)
 {
 	if(dataDef.name == null)
 	{
@@ -201,7 +201,12 @@ bg.RegisterDataDef = function(dataDef)
 	{
 		dataDef.id = bg.GUIDFromStr(dataDef.name);
 	}
-	//todo : more checks
+	if(project == null)
+	{
+		project = bg.global_project;
+	}
+	//todo : more checks. make global list use a data def if instead of name.
 	bg.dataDefs[dataDef.name] = dataDef;
+	project.dataDefs[dataDef.id] = dataDef;
 	return true;
 }
