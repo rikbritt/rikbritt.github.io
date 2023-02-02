@@ -135,12 +135,7 @@ function UpdateProjectProperties( project )
             
         }
 
-        var sorted_def_ids = GetSortedObjectKeys(project.dataDefs);
-        for(var i=0; i<sorted_def_ids.length; ++i)
-        {
-            var data_def_id = sorted_def_ids[i];
-            ImGui.Text(project.dataDefs[data_def_id].name);
-        }
+        UpdateDataDefsTreeForProject(project);
         ImGui.Unindent();
     }
     if(ImGui.CollapsingHeader("Generators"))

@@ -65,6 +65,18 @@ function UpdateDataDefsList()
 	// }
 }
 
+function UpdateDataDefsTreeForProject(project)
+{
+	//TODO: Add categories to the data defs and display those in the tree
+	var sorted_def_ids = GetSortedObjectKeys(project.dataDefs);
+	var leaf_node_flags = ImGui.TreeNodeFlags.Leaf | ImGui.TreeNodeFlags.NoTreePushOnOpen | ImGui.TreeNodeFlags.SpanAvailWidth;
+	for(var i=0; i<sorted_def_ids.length; ++i)
+	{
+		var data_def_id = sorted_def_ids[i];
+		ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[data_def_id].name);
+	}
+}
+
 function UpdateDataDefField(fields, field_name, field_data)
 {
 	var delete_field = false;
