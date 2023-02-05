@@ -3,8 +3,8 @@ var woodWorkingDataDef = {
 	version:1,
 	name:"Wood Working",
 	fields:[
-		{ name:standardLumberSizes, 	type:"distance", units:"m", min:0.5, max:20	}, //would be nice to make this tend toward whole units
-		{ name:plankWidth,			type:"distance", units:"m", min:0.05, max:0.4 }
+		{ name:"standardLumberSizes", 	type:"distance", units:"m", min:0.5, max:20	}, //would be nice to make this tend toward whole units
+		{ name:"plankWidth",			type:"distance", units:"m", min:0.05, max:0.4 }
 	]
 }
 
