@@ -73,7 +73,8 @@ function UpdateDataDefsTreeForProject(project, selected_func)
 	for(var i=0; i<sorted_def_ids.length; ++i)
 	{
 		var data_def_id = sorted_def_ids[i];
-		if(ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[data_def_id].name))
+		ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[data_def_id].name);
+		if(ImGui.IsItemClicked())
 		{
 			selected_func(project.dataDefs[data_def_id]);
 		}
