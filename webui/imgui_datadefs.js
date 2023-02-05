@@ -81,6 +81,12 @@ function UpdateDataDefsTreeForProject(project, selected_func)
 	}
 }
 
+function GetFieldTypeName(data, i, out_str)
+{
+	out_str[0] = data[Object.keys(data)[i]].dataTypeId;
+	return true;
+}
+
 function UpdateDataDefField(fields, field_name, field_data)
 {
 	var delete_field = false;
@@ -116,11 +122,6 @@ function UpdateDataDefField(fields, field_name, field_data)
 	{
 		ImGui.Text("Unknown : " + field_data.type);
 		selected = 0;
-	}
-	function GetFieldTypeName(data, i, out_str)
-	{
-		out_str[0] = data[Object.keys(data)[i]].dataTypeId;
-		return true;
 	}
 	ImGui.SetNextItemWidth(-1);
 	if(ImGui.Combo("##Field Type", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length))
@@ -160,6 +161,8 @@ function UpdateDataDefField(fields, field_name, field_data)
 	}
 }
 
+
+var g_new_field_type = 0;
 function UpdateDataDefFields(fields)
 {
 	ImGui.BeginTable("DataDefFields", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
@@ -169,11 +172,10 @@ function UpdateDataDefFields(fields)
 	ImGui.TableSetupColumn("-");
 	ImGui.TableHeadersRow();
 
-	var sorted_fields = GetSortedObjectKeys(fields);
-	for(var i=0; i<sorted_fields.length; ++i)
+	for(var i=0; i<fields.length; ++i)
 	{
-		var key = sorted_fields[i];
-		var data = fields[key];
+		var key = fields[i].name;
+		var data = fields[i];
 		ImGui.PushID(i);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
@@ -182,7 +184,11 @@ function UpdateDataDefFields(fields)
     }
 
 	ImGui.EndTable();
-    if(ImGui.Button("Add Field (TODO"))
+
+	var dataTypesList = Object.keys(bg.dataTypes);
+	ImGui.Combo("##Field Type To Make", (_ = g_new_field_type) => g_new_field_type = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length);
+	
+    if(ImGui.Button("Add Field (TODO)"))
     {
 
     }

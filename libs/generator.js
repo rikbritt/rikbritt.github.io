@@ -86,18 +86,23 @@ bg.CreateWeightingDataDef = function(dataDefIn)
 	var weightDataDefOut = {
 		version:1,
 		name:dataDefIn.name + " Weight",
-		fields:{}
+		fields:[]
 	};
 	
-	for([fieldName, fieldDef] of Object.entries(dataDefIn.fields)) {
+	for(var i=0; i<dataDefIn.fields.length; ++i)
+	{
+		var fieldDef = dataDefIn.fields[i];
 		//currently ignore everything other than a normalised value.
 		if(fieldDef.type == "norm")
 		{
-			weightDataDefOut.fields[fieldName] = {
-				type:"weight",
-				min:-1,
-				max:1
-			};
+			weightDataDefOut.fields.push(
+				{
+					name:fieldDef.name,
+					type:"weight",
+					min:-1,
+					max:1
+				}
+			);
 		}
 	}
 	return weightDataDefOut;
@@ -105,8 +110,10 @@ bg.CreateWeightingDataDef = function(dataDefIn)
 
 bg.CreateEmptyOveriddenTables = function(fields, overidden)
 {
-	for([fieldName, fieldDef] of Object.entries(fields))
+	for(var i=0; i<fields.length; ++i)
 	{
+		var fieldDef = fields[i];
+		var fieldName = fieldDef.name;
 		if(fieldDef.type == "data")
 		{
 			overidden[fieldName] = this.CreateEmptyOveriddenTables(fieldDef.dataType.fields, {} );
@@ -140,8 +147,10 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 	}
 	//builtData._def = fieldsIn;
 	
-	for([fieldName, fieldDef] of Object.entries(fieldsIn))
+	for(var i=0; i<fieldsIn.length; ++i)
 	{
+		var fieldDef = fieldsIn[i];
+		var fieldName = fieldDef.name;
 		var fieldValue = null;
 		
 		if(fieldDef.value != undefined)

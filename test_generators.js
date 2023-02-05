@@ -3,8 +3,7 @@
 var wheelStyling = {
 	version:1,
 	name:"WheelStyling",
-	fields:{
-	}
+	fields:[]
 }
 
 
@@ -28,9 +27,9 @@ var wheelGenerator = {
 var carStyling = {
 	version:1,
 	name:"CarStyling",
-	fields:{
-		paintColour:{	type:"colour"	}
-	}
+	fields:[
+		{ name:"paintColour", type:"colour"	}
+	]
 }
 
 var carGenerator = {
@@ -62,9 +61,9 @@ var carGenerator = {
 var woodWorking = {
 	version:1,
 	name:"Wood Working",
-	fields:{
-		standardLumberSizes:{	type:"distance", units:"m", min:0.5, max:20	} //would be nice to make this tend toward whole units
-	}
+	fields:[
+		{ name:"standardLumberSizes",	type:"distance", units:"m", min:0.5, max:20	} //would be nice to make this tend toward whole units
+	]
 }
 
 var woodCrateGenerator = {

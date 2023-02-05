@@ -3,8 +3,7 @@
 var wheelStyling = {
 	version:1,
 	name:"WheelStyling",
-	fields:{
-	}
+	fields:[]
 }
 
 
@@ -28,9 +27,9 @@ var wheelGenerator = {
 var carStyling = {
 	version:1,
 	name:"CarStyling",
-	fields:{
-		paintColour:{	type:"colour"	}
-	}
+	fields:[
+		{ name:"paintColour",	type:"colour"	}
+	]
 }
 
 var carGenerator = {

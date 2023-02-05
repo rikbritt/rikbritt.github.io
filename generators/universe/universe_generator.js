@@ -2,9 +2,9 @@
 var universeDataDef = {
 	version:1,
 	name:"Universe",
-	fields:{
+	fields:[
 		//list of intelligent species
-	}
+	]
 }
 
 

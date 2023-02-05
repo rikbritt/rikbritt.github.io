@@ -1,11 +1,11 @@
 var mm_nameDataDef = {
 	version:1,
 	name:"Name",
-	fields:{
-		forename:{		type:"text" },
-		surname:{		type:"text"	},
-		maidenName:{	type:"text"	}
-	}
+	fields:[
+		{ name:"forename",		type:"text" },
+		{ name:"surname",		type:"text"	},
+		{ name:"maidenName",	type:"text"	}
+	]
 }
 
 var mm_nameGenerator = {

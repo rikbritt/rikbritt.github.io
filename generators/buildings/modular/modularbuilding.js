@@ -1,10 +1,10 @@
 var modularRoomDataDef = {
 	version:1,
 	name:"Modular Room",
-	fields:{
-		tileWidth:{	type:"distance",	units:"m",	min:2.0, max:8 },
-		height:{	type:"distance",	units:"m",	min:1.0, max:3 }
-	}
+	fields:[
+		{ name:"tileWidth",	type:"distance",	units:"m",	min:2.0, max:8 },
+		{ name:"height",	type:"distance",	units:"m",	min:1.0, max:3 }
+	]
 }
 
 var modularRoomGenerator = {

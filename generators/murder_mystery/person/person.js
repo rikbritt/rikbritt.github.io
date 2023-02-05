@@ -1,15 +1,15 @@
 var mm_personDataDef = {
 	version:1,
 	name:"Person",
-	fields:{
-		age:{			type:"time",	units:"years", min:5, max:80 },
-		male:{			type:"bool" },
-		name:{			type:"text" },
-		forename:{		type:"text" },
-		surname:{		type:"text"	},
-		maidenName:{	type:"text"	},
-		gay:{			type:"bool" }
-	}
+	fields:[
+		{ name:"age",			type:"time",	units:"years", min:5, max:80 },
+		{ name:"male",			type:"bool" },
+		{ name:"name",			type:"text" },
+		{ name:"forename",		type:"text" },
+		{ name:"surname",		type:"text"	},
+		{ name:"maidenName",	type:"text"	},
+		{ name:"gay",			type:"bool" }
+	]
 }
 
 var mm_personGenerator = {

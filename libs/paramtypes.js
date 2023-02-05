@@ -217,8 +217,7 @@ bg.CreateEmptyDataDef = function(project)
 		version:1,
 		id:bg.CreateGUID(),
 		name:"New Data Def",
-		fields:{
-		}
+		fields:[]
 	};
 
 	if(project)

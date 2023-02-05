@@ -1,50 +1,50 @@
 var mm_relationshipDataDef = {
 	version:1,
 	name:"Relationship",
-	fields:{
-		tags:{			type:"list", 	elementType:{ type:"text" } },
-		friendship:{	type:"norm",	min:0,	max:1 },
-		respect:{		type:"norm",	min:0,	max:1 },
-		attraction:{	type:"norm",	min:0,	max:1 }
-	}
+	fields:[
+		{ name:"tags",			type:"list", 	elementType:{ type:"text" } },
+		{ name:"friendship",	type:"norm",	min:0,	max:1 },
+		{ name:"respect",		type:"norm",	min:0,	max:1 },
+		{ name:"attraction",	type:"norm",	min:0,	max:1 }
+	]
 }
 
 //High level, like 'work', 'family', 'friend'
 var mm_relationshipTypeDataDef = {
 	version:1,
 	name:"RelationshipType",
-	fields:{
-		types:{			type:"list", 	min:1,	max:3,	elementType:{ type:"text" } }
-	}
+	fields:[
+		{ name:"types",			type:"list", 	min:1,	max:3,	elementType:{ type:"text" } }
+	]
 }
 
 var mm_relationshipLinkDataDef = {
 	version:1,
 	name:"Relationship Link",
-	fields:{
-		aToBRelationship:{			type:"data",	dataType:mm_relationshipDataDef },
-		bToARelationship:{			type:"data",	dataType:mm_relationshipDataDef },
-		aName:{		type:"text" },
-		bName:{		type:"text" },
-	}
+	fields:[
+		{ name:"aToBRelationship",			type:"data",	dataType:mm_relationshipDataDef },
+		{ name:"bToARelationship",			type:"data",	dataType:mm_relationshipDataDef },
+		{ name:"aName",		type:"text" },
+		{ name:"bName",		type:"text" },
+	]
 }
 
 var mm_GraphEdgeDataDef = {
 	version:1,
 	name:"GraphEdge",
-	fields:{
-		a:{			type:"int", 	min:0,	max:100 },
-		b:{			type:"int", 	min:0,	max:100 },
-	}
+	fields:[
+		{ name:"a",			type:"int", 	min:0,	max:100 },
+		{ name:"b",			type:"int", 	min:0,	max:100 },
+	]
 }
 
 var mm_GraphDataDef = {
 	version:1,
 	name:"Graph",
-	fields:{
-		nodes:{			type:"list", 	min:0,	max:100,	elementType:{ type:"text" } }, //node names
-		edges:{			type:"list", 	min:0,	max:100,	elementType:{ type:"data", dataType:mm_GraphEdgeDataDef } }
-	}
+	fields:[
+		{ name:"nodes",			type:"list", 	min:0,	max:100,	elementType:{ type:"text" } }, //node names
+		{ name:"edges",			type:"list", 	min:0,	max:100,	elementType:{ type:"data", dataType:mm_GraphEdgeDataDef } }
+	]
 }
 
 function MM_GraphToUML(graph)

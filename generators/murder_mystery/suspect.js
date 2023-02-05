@@ -2,9 +2,9 @@
 var mm_suspectDataDef = {
 	version:1,
 	name:"Suspect",
-	fields:{
-		person:{			type:"data",		dataType:mm_personDataDef	}
-	}
+	fields:[
+		{ name:"person",			type:"data",		dataType:mm_personDataDef	}
+	]
 }
 
 var mm_suspectGenerator = {
