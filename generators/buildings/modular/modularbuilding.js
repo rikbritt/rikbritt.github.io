@@ -11,9 +11,9 @@ var modularRoomGenerator = {
 	version:1,
 	name:"Modular Room Generator",
 	category:["Buildings", "Modular"],
-	inputs:{
-		modularDataDef:{		type:"data",		dataType:modularRoomDataDef	}
-	},
+	inputs:[
+		{ name:"modularDataDef",		type:"data",		dataType:modularRoomDataDef	}
+	],
 	outputs:{
 		model:{			type:"model"	}
 	},
