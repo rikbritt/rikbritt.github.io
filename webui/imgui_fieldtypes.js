@@ -66,7 +66,7 @@ SetupFieldTypeImGui("text",
     }
 );
 
-SetupFieldTypeImGui("color", 
+SetupFieldTypeImGui("colour", 
     function() { },
     function(field_name, field_data, get_func, set_func)
     {
