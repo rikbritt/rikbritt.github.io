@@ -210,3 +210,21 @@ bg.RegisterDataDef = function(dataDef, project)
 	project.dataDefs[dataDef.id] = dataDef;
 	return true;
 }
+
+bg.CreateEmptyDataDef = function(project)
+{
+	var data_def = {
+		version:1,
+		id:bg.CreateGUID(),
+		name:"New Data Def",
+		fields:{
+		}
+	};
+
+	if(project)
+	{
+		project.dataDefs[data_def.id] = data_def;
+	}
+
+	return data_def;
+}

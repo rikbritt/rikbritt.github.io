@@ -130,9 +130,9 @@ function UpdateProjectProperties( project )
     if(ImGui.CollapsingHeader("Data Defs"))
     {
         ImGui.Indent();
-        if(ImGui.Button("New Data Def Type... (NOT IMPL)"))
+        if(ImGui.Button("New Data Def Type.."))
         {
-            
+            bg.CreateEmptyDataDef(project);
         }
 
         UpdateDataDefsTreeForProject(
