@@ -87,8 +87,9 @@ function GetFieldTypeName(data, i, out_str)
 	return true;
 }
 
-function UpdateDataDefField(fields, field_name, field_data)
+function UpdateDataDefField(fields, field_data)
 {
+	var field_name = field_data.name;
 	var delete_field = false;
 	if(ImGui.SmallButton("X"))
 	{
@@ -96,15 +97,8 @@ function UpdateDataDefField(fields, field_name, field_data)
 	}
 	ImGui.SameLine();
 	ImGui.SetNextItemWidth(-1);
-	var new_name = field_name;
-    if(ImGui.InputText("##Name", (_ = field_name) => new_name = _, 128))
+    if(ImGui.InputText("##Name", (_ = field_data.name) => field_data.name = _, 128))
 	{
-		if(fields[new_name] == null)
-		{
-			fields[new_name] = field_data;
-			delete fields[field_name];
-			field_name = new_name;
-		}
 	}
     ImGui.TableNextColumn();
 	
@@ -174,12 +168,11 @@ function UpdateDataDefFields(fields)
 
 	for(var i=0; i<fields.length; ++i)
 	{
-		var key = fields[i].name;
-		var data = fields[i];
+		var field = fields[i];
 		ImGui.PushID(i);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
-        UpdateDataDefField(fields, key, data);
+        UpdateDataDefField(fields, field);
 		ImGui.PopID();
     }
 
