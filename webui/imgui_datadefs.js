@@ -65,7 +65,7 @@ function UpdateDataDefsList()
 	// }
 }
 
-function UpdateDataDefsTreeForProject(project)
+function UpdateDataDefsTreeForProject(project, selected_func)
 {
 	//TODO: Add categories to the data defs and display those in the tree
 	var sorted_def_ids = GetSortedObjectKeys(project.dataDefs);
@@ -73,7 +73,10 @@ function UpdateDataDefsTreeForProject(project)
 	for(var i=0; i<sorted_def_ids.length; ++i)
 	{
 		var data_def_id = sorted_def_ids[i];
-		ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[data_def_id].name);
+		if(ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[data_def_id].name))
+		{
+			selected_func(project.dataDefs[data_def_id]);
+		}
 	}
 }
 

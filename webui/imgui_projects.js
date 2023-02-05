@@ -135,7 +135,13 @@ function UpdateProjectProperties( project )
             
         }
 
-        UpdateDataDefsTreeForProject(project);
+        UpdateDataDefsTreeForProject(
+            project,
+            function(data_def)
+            {
+                OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+            }
+        );
         ImGui.Unindent();
     }
     if(ImGui.CollapsingHeader("Generators"))
