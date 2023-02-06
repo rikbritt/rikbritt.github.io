@@ -160,8 +160,9 @@ SetupFieldTypeImGui("data",
     {
 		if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
 		{
+            ImGui.Text("TODO - data");
             //Use v2?
-			UpdateGeneratorInputsImGui(field_data.dataType.fields, get_func());
+			//UpdateGeneratorInputsImGui(field_data.dataType.fields, get_func());
 			ImGui.TreePop();
 		}
     }

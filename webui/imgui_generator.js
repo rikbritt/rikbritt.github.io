@@ -98,84 +98,94 @@ function RunGeneratorInstanceWithRandomSeed(generatorInstance)
 	RunGeneratorInstance(generatorInstance);
 }
 
-function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
-{
-	for([paramKey, paramData] of Object.entries(generatorInputs))
-	{
-		ImGui.PushID(paramKey);
-		var addclearButton = false;
+// function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
+// {
+// 	for([paramKey, paramData] of Object.entries(generatorInputs))
+// 	{
+// 		ImGui.PushID(paramKey);
+// 		var addclearButton = false;
 		
-		if(setInputs[paramKey] == null)
-		{
-			if(ImGui.Button("Override " + paramKey))
-			{
-				setInputs[paramKey] = GetParamDefault(paramData);
-			}
-		}
-		else
-		{
-			if(ImGui.Button("Clear " + paramKey))
-			{
-				delete setInputs[paramKey];
-			}
-			else
-			{
-				ImGui.SameLine();
-				UpdateParamEditor(
-					paramData,
-					function() { var inputs = setInputs; var key = paramKey; return function () { 
-						return inputs[key];
-					 } }(),
-					function() { var inputs = setInputs; var key = paramKey; return function (val) {
-						inputs[key] = val;
-						return val;
-					} }(),
-					paramKey
-				);
-			}
-		}
+// 		if(setInputs[paramKey] == null)
+// 		{
+// 			if(ImGui.Button("Override " + paramKey))
+// 			{
+// 				setInputs[paramKey] = GetParamDefault(paramData);
+// 			}
+// 		}
+// 		else
+// 		{
+// 			if(ImGui.Button("Clear " + paramKey))
+// 			{
+// 				delete setInputs[paramKey];
+// 			}
+// 			else
+// 			{
+// 				ImGui.SameLine();
+// 				UpdateParamEditor(
+// 					paramData,
+// 					function() { var inputs = setInputs; var key = paramKey; return function () { 
+// 						return inputs[key];
+// 					 } }(),
+// 					function() { var inputs = setInputs; var key = paramKey; return function (val) {
+// 						inputs[key] = val;
+// 						return val;
+// 					} }(),
+// 					paramKey
+// 				);
+// 			}
+// 		}
 		
-		if(paramData.description != null)
-		{
-			ImGui.Text(paramData.description);
-		}
-		ImGui.PopID();
-	}
-}
+// 		if(paramData.description != null)
+// 		{
+// 			ImGui.Text(paramData.description);
+// 		}
+// 		ImGui.PopID();
+// 	}
+// }
 
 //TODO - Delete in favour of per field registered editors
 function UpdateParamEditorV2(field, getFunc, setFunc)
 {
-	if(field.type == "float" 
-	|| field.type == "distance"
-	|| field.type == "time")
+    var field_imgui = gFieldTypesImGui[field.type];
+	if(field_imgui != null)
 	{
-		ImGui.SliderFloat(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);		
-	}
-	else if(field.type == "int")
-	{
-		ImGui.SliderInt(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);
-	}
-	else if(field.type == "data")
-	{
-		//Not done here
-	}
-	else if(field.type == "bool")
-	{
-		ImGui.Checkbox(field.name, (_ = getFunc()) => setFunc(_));
-	}
-	else if(field.type == "text")
-	{
-		ImGui.InputText(field.name, (_ = getFunc()) => setFunc(_), 256);
-	}
-	else if(field.type == "list")
-	{
-		//Not done here
+		field_imgui.edit_value_imgui(field.name, field, getFunc, setFunc);
 	}
 	else
 	{
 		ImGui.Text(`Unknown param type '${field.type}' for '${field.name}'`);
 	}
+
+	// if(field.type == "float" 
+	// || field.type == "distance"
+	// || field.type == "time")
+	// {
+	// 	ImGui.SliderFloat(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);		
+	// }
+	// else if(field.type == "int")
+	// {
+	// 	ImGui.SliderInt(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);
+	// }
+	// else if(field.type == "data")
+	// {
+	// 	//Not done here
+	// }
+	// else if(field.type == "bool")
+	// {
+	// 	ImGui.Checkbox(field.name, (_ = getFunc()) => setFunc(_));
+	// }
+	// else if(field.type == "text")
+	// {
+	// 	ImGui.InputText(field.name, (_ = getFunc()) => setFunc(_), 256);
+	// }
+	// else if(field.type == "list")
+	// {
+	// 	//Not done here
+	// }
+	// else
+	// {
+	// 	ImGui.Text(`Unknown param type '${field.type}' for '${field.name}'`);
+	// }
 }
 
 function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs)
