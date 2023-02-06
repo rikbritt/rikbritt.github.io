@@ -143,37 +143,38 @@ function UpdateGeneratorInputsImGui(generatorInputs, setInputs)
 	}
 }
 
-function UpdateParamEditorV2(paramData, getFunc, setFunc, paramKey)
+//TODO - Delete in favour of per field registered editors
+function UpdateParamEditorV2(field, getFunc, setFunc)
 {
-	if(paramData.type == "float" 
-	|| paramData.type == "distance"
-	|| paramData.type == "time")
+	if(field.type == "float" 
+	|| field.type == "distance"
+	|| field.type == "time")
 	{
-		ImGui.SliderFloat(paramKey, (_ = getFunc()) => setFunc(_), paramData.min, paramData.max);		
+		ImGui.SliderFloat(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);		
 	}
-	else if(paramData.type == "int")
+	else if(field.type == "int")
 	{
-		ImGui.SliderInt(paramKey, (_ = getFunc()) => setFunc(_), paramData.min, paramData.max);
+		ImGui.SliderInt(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);
 	}
-	else if(paramData.type == "data")
+	else if(field.type == "data")
 	{
 		//Not done here
 	}
-	else if(paramData.type == "bool")
+	else if(field.type == "bool")
 	{
-		ImGui.Checkbox(paramKey, (_ = getFunc()) => setFunc(_));
+		ImGui.Checkbox(field.name, (_ = getFunc()) => setFunc(_));
 	}
-	else if(paramData.type == "text")
+	else if(field.type == "text")
 	{
-		ImGui.InputText(paramKey, (_ = getFunc()) => setFunc(_), 256);
+		ImGui.InputText(field.name, (_ = getFunc()) => setFunc(_), 256);
 	}
-	else if(paramData.type == "list")
+	else if(field.type == "list")
 	{
 		//Not done here
 	}
 	else
 	{
-		ImGui.Text(`Unknown param type '${paramData.type}' for '${paramKey}'`);
+		ImGui.Text(`Unknown param type '${field.type}' for '${field.name}'`);
 	}
 }
 
@@ -246,15 +247,14 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 							{
 								ImGui.TableNextColumn();
 								UpdateParamEditorV2(
-									paramData.elementType,
+									field.elementType,
 									function() { var l = list; var idx = j; return function () { 
 										return l[idx];
 										} }(),
 									function() { var l = list; var idx = j; return function (val) {
 										l[idx] = val;
 										return val;
-									} }(),
-									`${j}`
+									} }()
 								);
 							}
 							ImGui.PopID();
@@ -303,8 +303,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 						function() { var inputs = setInputs; var key = i; return function (val) {
 							inputs[key] = val;
 							return val;
-						} }(),
-						paramKey
+						} }()
 					);
 				}
 			}
