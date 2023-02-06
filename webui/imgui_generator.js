@@ -296,7 +296,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 				{
 					ImGui.TableNextColumn();
 					UpdateParamEditorV2(
-						paramData,
+						field,
 						function() { var inputs = setInputs; var key = i; return function () { 
 							return inputs[key];
 						} }(),
