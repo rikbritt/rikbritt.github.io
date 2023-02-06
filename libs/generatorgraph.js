@@ -39,7 +39,7 @@ bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, to
 		" because '" + toNodeInputName + "' doesn't exist on the 'to' node."		
 		);
 	}
-	else if(bg.GetGeneratorInputByName(fromNode.generator, fromNodeOutputName) == null)
+	else if(bg.GetGeneratorOutputByName(fromNode.generator, fromNodeOutputName) == null)
 	{
 		console.error("Failed to make graph link " + 
 		"'" + bg.GetGeneratorFullName(fromNode.generator) + "':'" + fromNodeOutputName +"'" +

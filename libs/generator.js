@@ -117,10 +117,23 @@ bg.GetGeneratorInputByName = function(generator, name)
 {
 	for(var i=0; i<generator.inputs.length; ++i)
 	{
-		var input_field = generator.inputs[i];
-		if(input_field.name == name)
+		var field = generator.inputs[i];
+		if(field.name == name)
 		{
-			return input_field;
+			return field;
+		}
+	}
+	return null;
+}
+
+bg.GetGeneratorOutputByName = function(generator, name)
+{
+	for(var i=0; i<generator.outputs.length; ++i)
+	{
+		var field = generator.outputs[i];
+		if(field.name == name)
+		{
+			return field;
 		}
 	}
 	return null;
