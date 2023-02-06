@@ -26,9 +26,9 @@ var planetGenerator = {
 	version:1,
 	name:"Planet",
 	category:["Universe"],
-	inputs:{
-		planet:{		type:"data",		dataType:planetDataDef, autoGenerate:true	}
-	},
+	inputs:[
+		{ name:"planet",		type:"data",		dataType:planetDataDef, autoGenerate:true	}
+	],
 	outputs:{
 		data:{ 			type:"data", 		dataType:planetDataDef }
 	},

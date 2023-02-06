@@ -3,8 +3,7 @@ var testFixedTimelineGenerator = {
 	version:1,
 	name:"Fixed Timeline",
 	category:["Test"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		data:{		type:"timeline"	}
 	},
@@ -38,9 +37,9 @@ var testTimelineGenerator = {
 	version:1,
 	name:"Random Timeline",
 	category:["Test"],
-	inputs:{
-		num_streams:{			type:"int", 	min:0,	max:100 },
-	},
+	inputs:[
+		{ name:"num_streams",			type:"int", 	min:0,	max:100 },
+	],
 	outputs:{
 		data:{		type:"timeline"	}
 	},

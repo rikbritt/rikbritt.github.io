@@ -13,8 +13,7 @@ var universeGenerator = {
 	name:"Universe",
 	description:"WIP - possibly clashes with reality generator. Or this hosts physical info, like galaxies info etc",
 	category:["Universe"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		//model:{			type:"model"	}
 	},

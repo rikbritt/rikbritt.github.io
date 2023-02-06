@@ -3,11 +3,11 @@ var testVoxelsGenerator = {
 	version:1,
 	name:"Voxels",
 	category:["Test"],
-	inputs:{
-		width:{	type:"distance",	units:"m",	min:1.0, max:5 },
-		depth:{	type:"distance",	units:"m",	min:1.0, max:5 },
-		height:{	type:"distance",	units:"m",	min:1.0, max:5 }
-	},
+	inputs:[
+		{ name:"width",		type:"distance",	units:"m",	min:1.0, max:5 },
+		{ name:"depth",		type:"distance",	units:"m",	min:1.0, max:5 },
+		{ name:"height",	type:"distance",	units:"m",	min:1.0, max:5 }
+	],
 	outputs:{
 		model:{			type:"model"	}
 	},

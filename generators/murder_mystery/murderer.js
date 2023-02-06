@@ -3,11 +3,11 @@ var mm_murdererGenerator = {
 	version:1,
 	name:"Murderer",
 	category:["Murder Mystery"],
-	inputs:{
-		suspect:{			type:"data",		dataType:mm_suspectDataDef	}
+	inputs:[
+		{ name:"suspect",			type:"data",		dataType:mm_suspectDataDef	}
 		
 		//todo: character traits
-	},
+	],
 	outputs:{
 		//model:{			type:"model"	}
 	},

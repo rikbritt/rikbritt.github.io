@@ -11,9 +11,9 @@ var dutyFulfillerGenerator = {
 	version:1,
 	name:"Duty Fulfiller",
 	category:["Character", "Personality"],
-	inputs:{
-		personalityCore:{		type:"data",		dataType:personalityCoreDataDef	}
-	},
+	inputs:[
+		{ name:"personalityCore",		type:"data",		dataType:personalityCoreDataDef	}
+	],
 	outputs:{
 		data:{		type:"data",		dataType:personalityDataDef	}
 	},

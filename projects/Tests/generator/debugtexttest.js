@@ -4,8 +4,7 @@ var testDebugTextGenerator = {
 	name:"Debug Text",
 	description:"Broken - should be a test of CreateDebugTextNode",
 	category:["Test"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		model:{			type:"model"	}
 	},

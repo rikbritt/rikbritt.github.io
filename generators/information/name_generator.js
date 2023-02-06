@@ -3,8 +3,7 @@ var nameV2Generator = {
 	name:"Name V2",
 	description:"Does nothing, just generates an empty string right now",
 	category:["Information"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		data:{		type:"text"	}
 	},
@@ -19,8 +18,7 @@ var nameV1Generator = {
 	name:"Name V1",
 	description:"Builds a 'name' from random consonants and vowels",
 	category:["Information"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		data:{		type:"text"	}
 	},

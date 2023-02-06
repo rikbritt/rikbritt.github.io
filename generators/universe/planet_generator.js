@@ -10,9 +10,9 @@ var planetGenerator = {
 	version:1,
 	name:"Planet",
 	category:["Universe"],
-	inputs:{
+	inputs:[
 		//system:{		type:"data",		dataType:planetDataDef	}
-	},
+	],
 	outputs:{
 		//data:{ type:"data", dataType:planetDataDef }
 	},

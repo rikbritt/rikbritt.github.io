@@ -2,12 +2,12 @@ var mm_biologicalRelationshipGenerator = {
 	version:1,
 	name:"Biological",
 	category:["Murder Mystery","Person","Relationship"],
-	inputs:{
-		person1:{				type:"data",		dataType:mm_personDataDef },
-		person2:{				type:"data",		dataType:mm_personDataDef },
-		relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
-		relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
-	},
+	inputs:[
+		{ name:"person1",				type:"data",		dataType:mm_personDataDef },
+		{ name:"person2",				type:"data",		dataType:mm_personDataDef },
+		{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
+		{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
+	],
 	outputs:{
 		relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
 		relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}

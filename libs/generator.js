@@ -32,6 +32,21 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
+	if(Array.isArray(generator.inputs) == false )
+	{
+		console.error("Generator " + generator.name + " inputs are not an array");
+		return false;
+	}
+
+	for(var i=0; i<generator.inputs.length; ++i)
+	{
+		var input_field = generator.inputs[i];
+		if(input_field.id == null)
+		{
+			input_field.id = bg.GUIDFromStr(input_field.name);
+		}
+	}
+
 	generator.id = id;
 	bg.generators.push(generator);
 	bg.generatorsById[id] = generator;
@@ -51,9 +66,9 @@ bg.CreateEmptyGenerator = function(id)
 		description:"",
 		version:3,
 		category:[],
-		inputs:{
+		inputs:[
 			//system:{		type:"data",		dataType:galaxyDataDef	}
-		},
+		],
 		outputs:{
 			//data:{ type:"data", dataType:galaxyDataDef }
 		},

@@ -3,8 +3,7 @@ var testGeomSubtractGenerator = {
 	version:1,
 	name:"Subtract",
 	category:["Test","Geometry"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		model:{			type:"model"	}
 	},

@@ -3,10 +3,10 @@ var geodesicSphereGenerator = {
 	version:1,
 	name:"Geodesic Sphere",
 	category:["Geometry"],
-	inputs:{
-		radius:{	type:"distance",	units:"m",	min:1.0, 	max:50 },
-		subDivisions:{	type:"int",					min:0,		max:4}
-	},
+	inputs:[
+		{ name:"radius",		type:"distance",	units:"m",	min:1.0, 	max:50 },
+		{ name:"subDivisions",	type:"int",					min:0,		max:4}
+	],
 	outputs:{
 		model:{			type:"model"	}
 	},

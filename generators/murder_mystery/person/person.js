@@ -17,9 +17,9 @@ var mm_personGenerator = {
 	name:"Person",
 	id:"mm_person",
 	category:["Murder Mystery"],
-	inputs:{
-		person:{	type:"data",		dataType:mm_personDataDef	}
-	},
+	inputs:[
+		{ name:"person",	type:"data",		dataType:mm_personDataDef	}
+	],
 	outputs:{
 		data:{		type:"data",		dataType:mm_personDataDef	}
 	},

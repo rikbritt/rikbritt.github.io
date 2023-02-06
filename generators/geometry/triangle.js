@@ -3,10 +3,10 @@ var subDividedTriangleGenerator = {
 	version:1,
 	name:"Subdivided Triangle",
 	category:["Geometry"],
-	inputs:{
-		//edgeLength:{	type:"distance", units:"m",	min:0.01,	max:4},
-		subDivisions:{	type:"int",					min:0,		max:10}
-	},
+	inputs:[
+		//{ name:"edgeLength",	type:"distance", units:"m",	min:0.01,	max:4},
+		{ name:"subDivisions",	type:"int",					min:0,		max:10}
+	],
 	outputs:{
 		model:{			type:"model"	}
 	},

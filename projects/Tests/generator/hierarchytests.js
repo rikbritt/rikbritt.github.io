@@ -3,8 +3,7 @@ var testGraphGenerator = {
 	version:1,
 	name:"Graph",
 	category:["Test"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		model:{			type:"model"	}
 	},

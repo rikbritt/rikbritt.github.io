@@ -3,11 +3,11 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 	name:"Bio Relationships Graph 2",
 	description:"Given abstract people graph, adds biological relationships.",
 	category:["Murder Mystery","Person"],
-	inputs:{
+	inputs:[
 		//How close they are?
-		graph:{ 				type:"data",		dataType:mm_GraphDataDef },
-		taken_nodes:{			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
-	},
+		{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
+		{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
+	],
 	outputs:{
 		//info on links
 	},
@@ -90,11 +90,11 @@ var mm_relationshipBioRelationshipsGenerator = {
 	name:"Bio Relationships Graph",
 	description:"Given a relationship graph, adds biological relationships.",
 	category:["Murder Mystery","Person"],
-	inputs:{
+	inputs:[
 		//How close they are?
-		graph:{ 				type:"data",		dataType:mm_GraphDataDef },
-		taken_nodes:{			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
-	},
+		{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
+		{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
+	],
 	outputs:{
 		//info on links
 	},
@@ -158,10 +158,10 @@ var mm_relationshipsGenerator = {
 	name:"Relationships",
 	description:"Given a list of people, makes a relationships graph.",
 	category:["Murder Mystery","Person"],
-	inputs:{
+	inputs:[
 		//How close they are?
-		people:{ 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
-	},
+		{ name:"people", 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
+	],
 	outputs:{
 		//relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
 		//relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
@@ -228,10 +228,10 @@ var mm_relationshipGenerator1 = {
 	name:"Relationship 1",
 	description:"For 2 fully defined people",
 	category:["Murder Mystery","Person"],
-	inputs:{
-		person1:{	type:"data",		dataType:mm_personDataDef },
-		person2:{	type:"data",		dataType:mm_personDataDef }
-	},
+	inputs:[
+		{ name:"person1",	type:"data",		dataType:mm_personDataDef },
+		{ name:"person2",	type:"data",		dataType:mm_personDataDef }
+	],
 	outputs:{
 		relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
 		relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}

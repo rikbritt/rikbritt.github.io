@@ -9,8 +9,7 @@ var mm_causeOfDeathGenerator = {
 	version:1,
 	name:"Cause Of Death",
 	category:["Murder Mystery"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		data:{		type:"text"	}
 	},

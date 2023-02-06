@@ -3,10 +3,10 @@ var tetrahedronGenerator = {
 	version:1,
 	name:"Tetrahedron",
 	category:["Geometry"],
-	inputs:{
-		edgeLength:{	type:"distance", units:"m",	min:0.01,	max:4},
-		subDivisions:{	type:"int",					min:0,		max:4}
-	},
+	inputs:[
+		{ name:"edgeLength",	type:"distance", units:"m",	min:0.01,	max:4},
+		{ name:"subDivisions",	type:"int",					min:0,		max:4}
+	],
 	outputs:{
 		model:{			type:"model"	}
 	},

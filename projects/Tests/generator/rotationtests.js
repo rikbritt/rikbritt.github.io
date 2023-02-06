@@ -3,8 +3,7 @@ var testRotationGenerator = {
 	version:1,
 	name:"Rotation",
 	category:["Test"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		model:{			type:"model"	}
 	},
@@ -31,8 +30,7 @@ var testLookAtGenerator = {
 	version:1,
 	name:"Look At",
 	category:["Test","Rotation"],
-	inputs:{
-	},
+	inputs:[],
 	outputs:{
 		model:{			type:"model"	}
 	},

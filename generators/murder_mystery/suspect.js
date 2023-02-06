@@ -12,11 +12,11 @@ var mm_suspectGenerator = {
 	name:"Suspect",
 	id:"mm_suspect",
 	category:["Murder Mystery"],
-	inputs:{
-		suspect:{			type:"data",		dataType:mm_suspectDataDef	}
+	inputs:[
+		{ name:"suspect",			type:"data",		dataType:mm_suspectDataDef	}
 		
 		//todo: character traits
-	},
+	],
 	outputs:{
 		//model:{			type:"model"	}
 	},

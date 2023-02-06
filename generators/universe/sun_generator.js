@@ -10,9 +10,9 @@ var sunGenerator = {
 	version:1,
 	name:"Sun",
 	category:["Universe"],
-	inputs:{
+	inputs:[
 		//system:{		type:"data",		dataType:planetDataDef	}
-	},
+	],
 	outputs:{
 		//data:{ type:"data", dataType:planetDataDef }
 	},

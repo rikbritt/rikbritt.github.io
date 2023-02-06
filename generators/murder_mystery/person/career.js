@@ -3,9 +3,9 @@ var mm_careerGenerator = {
 	version:1,
 	name:"Career",
 	category:["Murder Mystery","Person"],
-	inputs:{
-		success:{	type:"norm",	min:0, max:1 }
-	},
+	inputs:[
+		{ name:"success",	type:"norm",	min:0, max:1 }
+	],
 	outputs:{
 		data:{		type:"text"	}
 	},

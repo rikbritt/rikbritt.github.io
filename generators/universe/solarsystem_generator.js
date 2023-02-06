@@ -10,9 +10,9 @@ var solarSystemGenerator = {
 	version:1,
 	name:"Solar System",
 	category:["Universe"],
-	inputs:{
-		system:{		type:"data",		dataType:solarSystemDataDef	}
-	},
+	inputs:[
+		{ name:"system",		type:"data",		dataType:solarSystemDataDef	}
+	],
 	outputs:{
 		data:{ type:"data", dataType:solarSystemDataDef }
 	},

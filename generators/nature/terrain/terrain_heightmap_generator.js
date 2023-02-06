@@ -3,10 +3,10 @@ var terrainHeightMapGenerator = {
 	version:1,
 	name:"Terrain Heightmap",
 	category:["Nature","Terrain"],
-	inputs:{
-		width:{	type:"distance",	units:"m",	min:1.0, max:50 },
-		depth:{	type:"distance",	units:"m",	min:1.0, max:50 }
-	},
+	inputs:[
+		{ name:"width",	type:"distance",	units:"m",	min:1.0, max:50 },
+		{ name:"depth",	type:"distance",	units:"m",	min:1.0, max:50 }
+	],
 	outputs:{
 		model:{			type:"model"	}
 	},

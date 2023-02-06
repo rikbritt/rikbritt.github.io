@@ -22,9 +22,9 @@ var speciesGenerator = {
 	version:1,
 	name:"Species",
 	category:["Character"],
-	inputs:{
-		species:{		type:"data",		dataType:speciesDataDef	}
-	},
+	inputs:[
+		{ name:"species",		type:"data",		dataType:speciesDataDef	}
+	],
 	outputs:{
 		data:{		type:"data",		dataType:speciesDataDef	}
 	},

@@ -3,10 +3,10 @@ var personalityGenerator = {
 	version:1,
 	name:"Personality",
 	category:["Character"],
-	inputs:{
-		personalityCoreWeight:{		type:"data",		dataType:personalityCoreWeightDataDef	},
-		personalityWeightDataDef:{	type:"data",		dataType:personalityWeightDataDef	}
-	},
+	inputs:[
+		{ name:"personalityCoreWeight",		type:"data",		dataType:personalityCoreWeightDataDef	},
+		{ name:"personalityWeightDataDef",	type:"data",		dataType:personalityWeightDataDef	}
+	],
 	outputs:{
 		data:{		type:"data",		dataType:personalityDataDef	}
 	},

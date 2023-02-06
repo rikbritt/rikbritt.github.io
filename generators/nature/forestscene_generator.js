@@ -2,9 +2,7 @@
 var forestSceneGenerator = {
 	version:1,
 	name:"Forest Scene",
-	inputs:{
-
-	},
+	inputs:[],
 	outputs:{
 		model:{			type:"model"	}
 	},

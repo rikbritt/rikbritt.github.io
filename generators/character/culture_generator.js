@@ -19,9 +19,9 @@ var cultureGenerator = {
 	version:1,
 	name:"Culture",
 	category:["Character"],
-	inputs:{
-		culture:{		type:"data",		dataType:cultureDataDef	}
-	},
+	inputs:[
+		{ name:"culture",		type:"data",		dataType:cultureDataDef	}
+	],
 	outputs:{
 		data:{		type:"data",		dataType:cultureDataDef	}
 	},
