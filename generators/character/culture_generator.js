@@ -22,9 +22,9 @@ var cultureGenerator = {
 	inputs:[
 		{ name:"culture",		type:"data",		dataType:cultureDataDef	}
 	],
-	outputs:{
-		data:{		type:"data",		dataType:cultureDataDef	}
-	},
+	outputs:[
+		{ name:"data",		type:"data",		dataType:cultureDataDef	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs.culture;
 	}

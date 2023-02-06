@@ -25,9 +25,9 @@ var speciesGenerator = {
 	inputs:[
 		{ name:"species",		type:"data",		dataType:speciesDataDef	}
 	],
-	outputs:{
-		data:{		type:"data",		dataType:speciesDataDef	}
-	},
+	outputs:[
+		{ name:"data",			type:"data",		dataType:speciesDataDef	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs.species;
 	}

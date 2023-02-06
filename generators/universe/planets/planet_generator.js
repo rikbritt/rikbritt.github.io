@@ -29,9 +29,9 @@ var planetGenerator = {
 	inputs:[
 		{ name:"planet",		type:"data",		dataType:planetDataDef, autoGenerate:true	}
 	],
-	outputs:{
-		data:{ 			type:"data", 		dataType:planetDataDef }
-	},
+	outputs:[
+		{ name:"data", 			type:"data", 		dataType:planetDataDef }
+	],
 	script:function(inputs, outputs){
 		
 		//If values are present in the input then just use them.

@@ -4,9 +4,9 @@ var nameV2Generator = {
 	description:"Does nothing, just generates an empty string right now",
 	category:["Information"],
 	inputs:[],
-	outputs:{
-		data:{		type:"text"	}
-	},
+	outputs:[
+		{ name:"data",		type:"text"	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = "";
 	}
@@ -19,9 +19,9 @@ var nameV1Generator = {
 	description:"Builds a 'name' from random consonants and vowels",
 	category:["Information"],
 	inputs:[],
-	outputs:{
-		data:{		type:"text"	}
-	},
+	outputs:[
+		{ name:"data",		type:"text"	}
+	],
 	data:{
 		vowels:["a","e","o","u","i"],
 		//consonant pairs

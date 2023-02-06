@@ -14,9 +14,9 @@ var dutyFulfillerGenerator = {
 	inputs:[
 		{ name:"personalityCore",		type:"data",		dataType:personalityCoreDataDef	}
 	],
-	outputs:{
-		data:{		type:"data",		dataType:personalityDataDef	}
-	},
+	outputs:[
+		{ name:"data",					type:"data",		dataType:personalityDataDef	}
+	],
 	script:function(inputs, outputs){
 		var personalityCoreWeighting = { }
 		var personalityWeighting = {

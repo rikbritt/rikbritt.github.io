@@ -13,9 +13,9 @@ var sunGenerator = {
 	inputs:[
 		//system:{		type:"data",		dataType:planetDataDef	}
 	],
-	outputs:{
-		//data:{ type:"data", dataType:planetDataDef }
-	},
+	outputs:[
+		//{ name:"data",		type:"text"	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}

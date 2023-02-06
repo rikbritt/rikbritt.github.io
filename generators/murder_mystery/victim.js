@@ -9,9 +9,9 @@ var mm_victimGenerator = {
 		
 		//todo: character traits
 	],
-	outputs:{
-		//model:{			type:"model"	}
-	},
+	outputs:[
+		//{ name:"data",		type:"text"	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 		

@@ -4,9 +4,9 @@ var testFixedTimelineGenerator = {
 	name:"Fixed Timeline",
 	category:["Test"],
 	inputs:[],
-	outputs:{
-		data:{		type:"timeline"	}
-	},
+	outputs:[
+		{ name:"data",		type:"timeline"	}
+	],
 	script:function(inputs, outputs)
     {
         var timeline = bg.TimelineCreate("Test Timeline");
@@ -40,9 +40,9 @@ var testTimelineGenerator = {
 	inputs:[
 		{ name:"num_streams",			type:"int", 	min:0,	max:100 },
 	],
-	outputs:{
-		data:{		type:"timeline"	}
-	},
+	outputs:[
+		{ name:"data",		type:"timeline"	}
+	],
 	script:function(inputs, outputs)
     {
         var timeline = bg.TimelineCreate("Test Timeline");

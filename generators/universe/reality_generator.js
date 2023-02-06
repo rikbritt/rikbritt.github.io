@@ -73,9 +73,9 @@ var realityGenerator = {
 	inputs:[
 		{ name:"reality",		type:"data",		dataType:realityDataDef	}
 	],
-	outputs:{
-		//model:{			type:"model"	}
-	},
+	outputs:[
+		//{ name:"data",		type:"text"	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}

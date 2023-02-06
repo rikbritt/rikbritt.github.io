@@ -14,9 +14,9 @@ var wheelGenerator = {
 		{ name:"wheelDiameter",		type:"distance", units:"m", default:0.5}, //No min/max given, an explicit value is required. A default is provided
 		{ name:"wheelStyling", 		type:"data",		paramName:"WheelStyling"		}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = {};
 	}
@@ -42,9 +42,9 @@ var carGenerator = {
 		{ name:"height" },
 		{ name:"length" }
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 	
 		//Setup wheel styling and generate a wheel model

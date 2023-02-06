@@ -8,9 +8,9 @@ var mm_scenarioGenerator3 = {
 		{ name:"numPlayers",					type:"int", min:3, max:20			},
 		{ name:"numPeoplePlayerCanPick",		type:"int", min:1, max:8, default:4	}
 	],
-	outputs:{
-		data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
-	},
+	outputs:[
+		{ name:"data",							type:"data",		dataType:mm_personDataDef	} /*fix type*/
+	],
 	script:function(inputs, outputs)
 	{
 		outputs.data = inputs;
@@ -112,9 +112,9 @@ var mm_scenarioGenerator = {
 	inputs:[
 		{ name:"numPeople",		type:"int", min:3, max:20	}
 	],
-	outputs:{
-		data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
-	},
+	outputs:[
+		{ name:"data",			type:"data",		dataType:mm_personDataDef	} /*fix type*/
+	],
 	script:function(inputs, outputs)
 	{
 		outputs.data = inputs;

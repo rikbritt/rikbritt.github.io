@@ -17,9 +17,9 @@ var mm_suspectGenerator = {
 		
 		//todo: character traits
 	],
-	outputs:{
-		//model:{			type:"model"	}
-	},
+	outputs:[
+		//{ name:"data",		type:"text"	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 		outputs.data.career = bg.RunGenerator(mm_careerGenerator, inputs.seed, {}).outputs.data;
