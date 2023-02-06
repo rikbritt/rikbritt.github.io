@@ -8,9 +8,9 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 		{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
 		{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
 	],
-	outputs:{
+	outputs:[
 		//info on links
-	},
+	],
 	script:function(inputs, outputs)
 	{
 		outputs.bio_graph = bg.CreateGraph();
@@ -95,9 +95,9 @@ var mm_relationshipBioRelationshipsGenerator = {
 		{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
 		{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
 	],
-	outputs:{
+	outputs:[
 		//info on links
-	},
+	],
 	script:function(inputs, outputs)
 	{
 		outputs.bio_graph = bg.CreateGraph();
@@ -162,10 +162,10 @@ var mm_relationshipsGenerator = {
 		//How close they are?
 		{ name:"people", 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
 	],
-	outputs:{
+	outputs:[
 		//relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
 		//relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
-	},
+	],
 	script:function(inputs, outputs)
 	{
 		//Build Relationships Graph
@@ -229,13 +229,13 @@ var mm_relationshipGenerator1 = {
 	description:"For 2 fully defined people",
 	category:["Murder Mystery","Person"],
 	inputs:[
-		{ name:"person1",	type:"data",		dataType:mm_personDataDef },
-		{ name:"person2",	type:"data",		dataType:mm_personDataDef }
+		{ name:"person1",				type:"data",		dataType:mm_personDataDef },
+		{ name:"person2",				type:"data",		dataType:mm_personDataDef }
 	],
-	outputs:{
-		relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
-		relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
-	},
+	outputs:[
+		{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
+		{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
+	],
 	script:function(inputs, outputs){
 		
 		var relationshipType = "";

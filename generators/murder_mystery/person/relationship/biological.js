@@ -8,10 +8,10 @@ var mm_biologicalRelationshipGenerator = {
 		{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
 		{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
 	],
-	outputs:{
-		relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
-		relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
-	},
+	outputs:[
+		{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
+		{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
+	],
 	script:function(inputs, outputs){
 		outputs.relationship1To2 = inputs.relationship1To2;
 		outputs.relationship2To1 = inputs.relationship2To1;

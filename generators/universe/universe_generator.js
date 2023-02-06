@@ -14,9 +14,9 @@ var universeGenerator = {
 	description:"WIP - possibly clashes with reality generator. Or this hosts physical info, like galaxies info etc",
 	category:["Universe"],
 	inputs:[],
-	outputs:{
+	outputs:[
 		//model:{			type:"model"	}
-	},
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}

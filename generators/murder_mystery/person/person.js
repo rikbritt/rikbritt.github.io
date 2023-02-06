@@ -20,9 +20,9 @@ var mm_personGenerator = {
 	inputs:[
 		{ name:"person",	type:"data",		dataType:mm_personDataDef	}
 	],
-	outputs:{
-		data:{		type:"data",		dataType:mm_personDataDef	}
-	},
+	outputs:[
+		{ name:"data",		type:"data",		dataType:mm_personDataDef	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs.person;
 		

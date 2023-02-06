@@ -13,9 +13,9 @@ var planetGenerator = {
 	inputs:[
 		//system:{		type:"data",		dataType:planetDataDef	}
 	],
-	outputs:{
+	outputs:[
 		//data:{ type:"data", dataType:planetDataDef }
-	},
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}

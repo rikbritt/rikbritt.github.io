@@ -15,9 +15,9 @@ var mm_nameGenerator = {
 	inputs:[
 		{ name:"male",		type:"bool" }
 	],
-	outputs:{
-		data:{		type:"data",		dataType:mm_nameDataDef	}
-	},
+	outputs:[
+		{ name:"data",		type:"data",		dataType:mm_nameDataDef	}
+	],
 	script:function(inputs, outputs)
 	{		
 		var namePool = null;

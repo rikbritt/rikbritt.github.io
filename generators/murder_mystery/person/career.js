@@ -6,9 +6,9 @@ var mm_careerGenerator = {
 	inputs:[
 		{ name:"success",	type:"norm",	min:0, max:1 }
 	],
-	outputs:{
-		data:{		type:"text"	}
-	},
+	outputs:[
+		{ name:"data",		type:"text"	}
+	],
 	script:function(inputs, outputs){
 		
 		var career = bg.GetRandomArrayEntry(inputs.seed, mm_data_careers);

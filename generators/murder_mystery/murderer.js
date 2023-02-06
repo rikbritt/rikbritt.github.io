@@ -8,9 +8,9 @@ var mm_murdererGenerator = {
 		
 		//todo: character traits
 	],
-	outputs:{
+	outputs:[
 		//model:{			type:"model"	}
-	},
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 		

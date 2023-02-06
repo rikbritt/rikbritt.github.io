@@ -13,9 +13,9 @@ var solarSystemGenerator = {
 	inputs:[
 		{ name:"system",		type:"data",		dataType:solarSystemDataDef	}
 	],
-	outputs:{
-		data:{ type:"data", dataType:solarSystemDataDef }
-	},
+	outputs:[
+		{ name:"data", 			type:"data", dataType:solarSystemDataDef }
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs.system;
 	}
