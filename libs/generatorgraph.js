@@ -66,7 +66,7 @@ bg.GenerateGraphNode = function(targetNode, seed, nodeInputDataDef)
 {
 	if(nodeInputDataDef == null)
 	{
-		nodeInputDataDef = {};
+		nodeInputDataDef = Array(targetNode.generator.inputs.length).fill(null);
 	}
 
 	//Gather the input nodes data that is required.
