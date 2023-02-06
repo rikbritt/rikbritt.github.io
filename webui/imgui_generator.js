@@ -190,6 +190,11 @@ function UpdateParamEditorV2(field, getFunc, setFunc)
 
 function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs)
 {
+	if(gGeneratorInstances.length != setInputs.length)
+	{
+		console.error("fix me! Input length mismatch");
+	}
+
 	for(var i=0; i<generatorInputs.length; ++i)
 	{
 		var field = generatorInputs[i];
@@ -353,7 +358,7 @@ function UpdateGeneratorsListInternal( generators_list, selected_func )
 					open:true,
 					seed:0,
 					generator:selected_generator,
-					setInputs:[],
+					setInputs:Array(selected_generator.inputs.length).fill(null),
 					output:{}
 				}
 			);

@@ -218,9 +218,9 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 		}
 		else if(autoGenerate)
 		{
-			if(inputs != undefined && inputs[fieldName] != undefined)
+			if(inputs != undefined && inputs[i] != undefined)
 			{
-				fieldValue = inputs[fieldName];
+				fieldValue = inputs[i];
 				if(fieldDef.type == "data")
 				{
 					var paramSeed = bg.SeedFromString(fieldName) + seed;
@@ -263,7 +263,7 @@ bg.RunGenerator = function(generator, seed, inputs)
 {
 	if(generator.version != 1)
 	{
-		//Unknown generator version
+		console.error("Unknown generator version" + generator.version);
 		return;
 	}
 	
