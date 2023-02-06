@@ -190,7 +190,7 @@ function UpdateParamEditorV2(field, getFunc, setFunc)
 
 function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs)
 {
-	if(gGeneratorInstances.length != setInputs.length)
+	if(generatorInputs.length != setInputs.length)
 	{
 		console.error("fix me! Input length mismatch");
 	}
