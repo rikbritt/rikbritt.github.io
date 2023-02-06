@@ -179,80 +179,82 @@ function UpdateParamEditorV2(paramData, getFunc, setFunc, paramKey)
 
 function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs)
 {
-	for([paramKey, paramData] of Object.entries(generatorInputs))
+	for(var i=0; i<generatorInputs.length; ++i)
 	{
+		var field = generatorInputs[i];
+
         ImGui.TableNextRow();
         ImGui.TableNextColumn();
 		
-		ImGui.PushID(paramKey);
-		if(paramData.type == "data")
+		ImGui.PushID(i);
+		if(field.type == "data")
 		{
-			if(setInputs[paramKey] == null)
+			if(setInputs[i] == null)
 			{
-				ImGui.Text(paramKey);
+				ImGui.Text(field.name);
 				ImGui.TableNextColumn();
-				if(ImGui.Button("Override Data " + paramKey))
+				if(ImGui.Button("Override Data " + field.name))
 				{
-					setInputs[paramKey] = GetParamDefault(paramData);
+					setInputs[i] = GetParamDefault(field);
 				}
 			}
 			else
 			{
-				if(ImGui.TreeNode(paramKey))
+				if(ImGui.TreeNode(field.name))
 				{
-					UpdateGeneratorInstanceInputsImGuiV2_Recurse(paramData.dataType.fields, setInputs[paramKey]);
+					UpdateGeneratorInstanceInputsImGuiV2_Recurse(field.dataType.fields, setInputs[i]);
 					ImGui.TreePop();
 				}
 			}
 		}
-		else if(paramData.type == "list")
+		else if(field.type == "list")
 		{
-			if(setInputs[paramKey] == null)
+			if(setInputs[i] == null)
 			{
-				ImGui.Text(paramKey);
+				ImGui.Text(field.name);
 				ImGui.TableNextColumn();
-				if(ImGui.Button("Override List " + paramKey))
+				if(ImGui.Button("Override List " + field.name))
 				{
-					setInputs[paramKey] = GetParamDefault(paramData);
+					setInputs[i] = GetParamDefault(field);
 				}
 			}
 			else
 			{
-				var list = setInputs[paramKey];
+				var list = setInputs[i];
 				if(Array.isArray(list) == false)
 				{
-					ImGui.Text(`${paramKey} is not a JS Array!`);
+					ImGui.Text(`${field.name} is not a JS Array!`);
 				}
 				else
 				{
-					if(ImGui.TreeNodeEx(`${paramKey} ${list.length} / ${paramData.max}`, ImGui.TreeNodeFlags.DefaultOpen))
+					if(ImGui.TreeNodeEx(`${field.name} ${list.length} / ${field.max}`, ImGui.TreeNodeFlags.DefaultOpen))
 					{
-						for(var i=0; i<list.length; ++i)
+						for(var j=0; j<list.length; ++j)
 						{
-							ImGui.PushID(i);
+							ImGui.PushID(j);
 							ImGui.TableNextRow();
 							ImGui.TableNextColumn();
-							ImGui.Text(`${i} :`);
+							ImGui.Text(`${j} :`);
 
 							ImGui.TableNextColumn();
 							if(ImGui.Button("Del"))
 							{
-								list.splice(i, 1);
-								--i;
+								list.splice(j, 1);
+								--j;
 							}
 							else
 							{
 								ImGui.TableNextColumn();
 								UpdateParamEditorV2(
 									paramData.elementType,
-									function() { var l = list; var idx = i; return function () { 
+									function() { var l = list; var idx = j; return function () { 
 										return l[idx];
 										} }(),
-									function() { var l = list; var idx = i; return function (val) {
+									function() { var l = list; var idx = j; return function (val) {
 										l[idx] = val;
 										return val;
 									} }(),
-									`${i}`
+									`${j}`
 								);
 							}
 							ImGui.PopID();
@@ -272,32 +274,32 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 		}
 		else
 		{
-			ImGui.Text(paramKey);
+			ImGui.Text(field.name);
 			var addclearButton = false;
 			
 			ImGui.TableNextColumn();
-			if(setInputs[paramKey] == null)
+			if(setInputs[i] == null)
 			{
-				if(ImGui.Button("Override " + paramKey))
+				if(ImGui.Button("Override " + field.name))
 				{
-					setInputs[paramKey] = GetParamDefault(paramData);
+					setInputs[i] = GetParamDefault(field);
 				}
 			}
 			else
 			{
-				if(ImGui.Button("Clear " + paramKey))
+				if(ImGui.Button("Clear " + field.name))
 				{
-					delete setInputs[paramKey];
+					delete setInputs[i];
 				}
 				else
 				{
 					ImGui.TableNextColumn();
 					UpdateParamEditorV2(
 						paramData,
-						function() { var inputs = setInputs; var key = paramKey; return function () { 
+						function() { var inputs = setInputs; var key = i; return function () { 
 							return inputs[key];
 						} }(),
-						function() { var inputs = setInputs; var key = paramKey; return function (val) {
+						function() { var inputs = setInputs; var key = i; return function (val) {
 							inputs[key] = val;
 							return val;
 						} }(),
