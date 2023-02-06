@@ -30,7 +30,7 @@ bg.CreateGenerationGraphNode = function(graph, generator)
 bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, toNodeInputName)
 {
 	//Sanity check the link
-	if(toNode.generator.inputs[toNodeInputName] == null)
+	if(bg.GetGeneratorInputByName(toNode.generator, toNodeInputName) == null)
 	{
 		//Error
 		console.error("Failed to make graph link " + 
@@ -39,7 +39,7 @@ bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, to
 		" because '" + toNodeInputName + "' doesn't exist on the 'to' node."		
 		);
 	}
-	else if(fromNode.generator.outputs[fromNodeOutputName] == null)
+	else if(bg.GetGeneratorInputByName(fromNode.generator, fromNodeOutputName) == null)
 	{
 		console.error("Failed to make graph link " + 
 		"'" + bg.GetGeneratorFullName(fromNode.generator) + "':'" + fromNodeOutputName +"'" +

@@ -96,6 +96,19 @@ bg.GetGeneratorById = function(id)
 	return bg.generatorsById[id];
 }
 
+bg.GetGeneratorInputByName = function(generator, name)
+{
+	for(var i=0; i<generator.inputs.length; ++i)
+	{
+		var input_field = generator.inputs[i];
+		if(input_field.name == name)
+		{
+			return input_field;
+		}
+	}
+	return null;
+}
+
 bg.CreateWeightingDataDef = function(dataDefIn)
 {
 	var weightDataDefOut = {
