@@ -160,6 +160,7 @@ SetupFieldTypeImGui("data",
     {
 		if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
 		{
+            //Use v2?
 			UpdateGeneratorInputsImGui(field_data.dataType.fields, get_func());
 			ImGui.TreePop();
 		}

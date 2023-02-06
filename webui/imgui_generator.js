@@ -289,6 +289,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 			{
 				if(ImGui.Button("Clear " + field.name))
 				{
+					//todo - splice array?
 					delete setInputs[i];
 				}
 				else
@@ -343,7 +344,7 @@ function UpdateGeneratorsListInternal( generators_list, selected_func )
 					open:true,
 					seed:0,
 					generator:selected_generator,
-					setInputs:{},
+					setInputs:[],
 					output:{}
 				}
 			);
