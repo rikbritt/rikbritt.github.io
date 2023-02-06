@@ -38,12 +38,29 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
+	if(Array.isArray(generator.outputs) == false )
+	{
+		console.error("Generator " + generator.name + " outputs are not an array");
+		return false;
+	}
+
+	//Set missing input ids
 	for(var i=0; i<generator.inputs.length; ++i)
 	{
-		var input_field = generator.inputs[i];
-		if(input_field.id == null)
+		var field = generator.inputs[i];
+		if(field.id == null)
 		{
-			input_field.id = bg.GUIDFromStr(input_field.name);
+			field.id = bg.GUIDFromStr(field.name);
+		}
+	}
+
+	//Set missing output ids
+	for(var i=0; i<generator.outputs.length; ++i)
+	{
+		var field = generator.outputs[i];
+		if(field.id == null)
+		{
+			field.id = bg.GUIDFromStr(field.name);
 		}
 	}
 
