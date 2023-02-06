@@ -18,9 +18,9 @@ var characterGenerator = {
 		
 		//todo: character traits
 	],
-	outputs:{
-		//model:{			type:"model"	}
-	},
+	outputs:[
+		//{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}

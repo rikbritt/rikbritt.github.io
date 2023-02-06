@@ -4,9 +4,9 @@ var testGraphGenerator = {
 	name:"Graph",
 	category:["Test"],
 	inputs:[],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

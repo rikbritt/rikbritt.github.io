@@ -7,9 +7,9 @@ var stoneWallStoneGenerator = {
 		{ name:"depth",			type:"distance", 	units:"m", min:0.1, max:1	},
 		{ name:"heigh]", 		type:"distance", 	units:"m", min:0.1, max:1	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		var stone = bg.CreateBoxModel(outputs.model, inputs.width, inputs.height, inputs.depth);
@@ -31,9 +31,9 @@ var stoneWallV1Generator = {
 			}	
 		}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		
@@ -73,9 +73,9 @@ var stoneWallGenerator = {
 	inputs:[
 		{ name:"path",		type:"path", script:function(){ return bg.CreatePath([bg.CreateTranslation(-1, 0, 0), bg.CreateTranslation(0, 0, 0), bg.CreateTranslation(0, 0, 1)/*, bg.CreateTranslation(1, 0, 2)*/]);  }	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

@@ -5,9 +5,9 @@ var testDebugTextGenerator = {
 	description:"Broken - should be a test of CreateDebugTextNode",
 	category:["Test"],
 	inputs:[],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		var helloWorld = bg.CreateDebugTextNode(outputs.model, "Hello World!");

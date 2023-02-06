@@ -7,9 +7,9 @@ var subDividedTriangleGenerator = {
 		//{ name:"edgeLength",	type:"distance", units:"m",	min:0.01,	max:4},
 		{ name:"subDivisions",	type:"int",					min:0,		max:10}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

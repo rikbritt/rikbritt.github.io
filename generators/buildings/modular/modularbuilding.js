@@ -14,9 +14,9 @@ var modularRoomGenerator = {
 	inputs:[
 		{ name:"modularDataDef",		type:"data",		dataType:modularRoomDataDef	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

@@ -4,9 +4,9 @@ var testGeomSubtractGenerator = {
 	name:"Subtract",
 	category:["Test","Geometry"],
 	inputs:[],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

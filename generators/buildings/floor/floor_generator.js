@@ -7,9 +7,9 @@ var floorGenerator = {
 		{ name:"width",	type:"distance",	units:"m",	min:1.0, max:10 },
 		{ name:"depth",	type:"distance",	units:"m",	min:1.0, max:10 }
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

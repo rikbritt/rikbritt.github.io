@@ -7,9 +7,9 @@ var geodesicSphereGenerator = {
 		{ name:"radius",		type:"distance",	units:"m",	min:1.0, 	max:50 },
 		{ name:"subDivisions",	type:"int",					min:0,		max:4}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

@@ -8,9 +8,9 @@ var testVoxelsGenerator = {
 		{ name:"depth",		type:"distance",	units:"m",	min:1.0, max:5 },
 		{ name:"height",	type:"distance",	units:"m",	min:1.0, max:5 }
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

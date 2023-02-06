@@ -10,9 +10,9 @@ var woodCrateGenerator = {
 		{ name:"depth", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		bg.CreateBoxModel(outputs.model, inputs.width, inputs.height, inputs.depth);

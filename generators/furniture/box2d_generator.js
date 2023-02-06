@@ -7,9 +7,9 @@ var woodPanelsGenerator = {
 		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		
@@ -31,9 +31,9 @@ var woodFrameGenerator = {
 		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		
@@ -60,9 +60,9 @@ var woodSupportDiagonalGenerator = {
 		{ name:"width",  		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 		{ name:"height",  		type:"distance", 	units:"m", min:0.5, max:10	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		var supportShape = bg.CreateShape(outputs.model, "Support", "wood");
@@ -90,9 +90,9 @@ var woodSupportStraightGenerator = {
 		{ name:"width",  		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 		{ name:"height",  		type:"distance", 	units:"m", min:0.5, max:10	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		var supportShape = bg.CreateShape(outputs.model, "Support", "wood");
@@ -112,9 +112,9 @@ var woodSupportGenerator = {
 		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		
 		var supportGenerators = [
@@ -143,9 +143,9 @@ var woodCrate2DGenerator = {
 		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		var plankWidth = inputs.woodWorking.plankWidth;

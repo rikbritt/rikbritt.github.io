@@ -7,9 +7,9 @@ var tree2DV2Generator = {
 		{ name:"height", 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?
 		{ name:"age",				type:"time",		units:"years",	min:0.1, max:100 }
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		
@@ -88,9 +88,9 @@ var tree2DV1Generator = {
 		{ name:"height", 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?
 		{ name:"age",				type:"time",		units:"years",	min:0.1, max:100 }
 	],
-	outputs:{
-		model:{			type:"model"	}
-	},
+	outputs:[
+		{ name:"model",			type:"model"	}
+	],
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		
