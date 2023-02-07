@@ -32,7 +32,8 @@ function Field_FloatMinMaxEdit(field_name, field_data)
 
 function FieldVal_FloatEdit(field_name, field_data, get_func, set_func)
 {
-    ImGui.SliderFloat(field_name, (_ = get_func()) => set_func(_), field_data.min, field_data.max);		
+    ImGui.SetNextItemWidth(-1);
+    ImGui.SliderFloat(`##${field_name}`, (_ = get_func()) => set_func(_), field_data.min, field_data.max);		
 }
 
 function Field_IntMinMaxEdit(field_name, field_data)
@@ -46,7 +47,8 @@ function Field_IntMinMaxEdit(field_name, field_data)
 }
 function FieldVal_IntEdit(field_name, field_data, get_func, set_func)
 {
-    ImGui.SliderInt(field_name, (_ = get_func()) => set_func(_), field_data.min, field_data.max);
+    ImGui.SetNextItemWidth(-1);
+    ImGui.SliderInt(`##${field_name}`, (_ = get_func()) => set_func(_), field_data.min, field_data.max);
 }
 
 SetupFieldTypeImGui("norm", function() { });
