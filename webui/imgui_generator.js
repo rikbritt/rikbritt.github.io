@@ -277,9 +277,9 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 						
 						ImGui.TableNextRow();
 						ImGui.TableNextColumn();
-						if(list.length < paramData.max && ImGui.Button("Add Element"))
+						if(list.length < field.max && ImGui.Button("Add Element"))
 						{
-							list.push(GetParamDefault(paramData.elementType));
+							list.push(GetParamDefault(field.elementType));
 						}
 
 						ImGui.TreePop();
