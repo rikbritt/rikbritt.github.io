@@ -227,8 +227,8 @@ bg.CreateFieldTypeDefInstance = function(dataTypeId)
 
 bg.CreateFieldTypeInstance = function(field_type_def)
 {
-	var copied_instance = bg.dataTypes[field_type_def.type].defaultInstanceDataFunc(field_type_def);
-	return defaultInstanceData;
+	var instance_data = bg.dataTypes[field_type_def.type].defaultInstanceDataFunc(field_type_def);
+	return instance_data;
 }
 
 bg.dataDefs = {};
