@@ -213,7 +213,7 @@ bg.CreateFieldType(
 	},
 	function(field_def) {
 		return "Hi";
-	}.
+	},
 	{}
 );
 
