@@ -89,7 +89,6 @@ function GetFieldTypeName(data, i, out_str)
 
 function UpdateDataDefField(fields, field_data)
 {
-	var field_name = field_data.name;
 	var delete_field = false;
 	if(ImGui.SmallButton("X"))
 	{
@@ -121,7 +120,7 @@ function UpdateDataDefField(fields, field_data)
 	if(ImGui.Combo("##Field Type", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length))
 	{
 		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[dataTypesList[selected]].dataTypeId);
-		default_vals_for_type.name = dataTypesList[selected].name;
+		default_vals_for_type.name = field_data.name;
 
 		//Remove existing keys
 		var curr_keys = Object.keys(field_data);
@@ -143,16 +142,16 @@ function UpdateDataDefField(fields, field_data)
     var field_imgui = gFieldTypesImGui[field_data.type];
 	if(field_imgui != null)
 	{
-		field_imgui.edit_field_imgui(field_name, field_data);
+		field_imgui.edit_field_imgui(field_data.name, field_data);
 	}
 	else
 	{
-		ImGui.Text(`Unknown field type '${field_data.type}' for '${field_name}'`);
+		ImGui.Text(`Unknown field type '${field_data.type}' for '${field_data.name}'`);
 	}
 
 	if(delete_field)
 	{
-		delete fields[field_name];
+		delete fields[field_data.name];
 	}
 }
 
