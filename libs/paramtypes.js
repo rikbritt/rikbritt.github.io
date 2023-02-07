@@ -4,47 +4,57 @@
 
 
 bg.dataTypes = {};
-bg.CreateFieldType = function(dataTypeId, generateValueFunc, defaultData)
+bg.CreateFieldType = function(field_type_id, generate_value_func, default_instance_data_func, default_def_data)
 {
-	var dataType = 
+	var data_type = 
 	{
-		dataTypeId:dataTypeId,
-		generateValueFunc:generateValueFunc,
-		defaultData:defaultData
+		dataTypeId:field_type_id,
+		generateValueFunc:generate_value_func,
+		defaultInstanceDataFunc:default_instance_data_func,
+		defaultDefData:default_def_data
 	};
 	
-	bg.dataTypes[dataTypeId] = dataType;
+	bg.dataTypes[field_type_id] = data_type;
 	
-	return dataType;
+	return data_type;
 }
 
-bg.GenerateFieldValue = function(fieldDef, seed)
+bg.GenerateFieldValue = function(field_def, seed)
 {
-	var dataType = bg.dataTypes[fieldDef.type];
+	var dataType = bg.dataTypes[field_def.type];
 	if(dataType != null)
 	{
-		return dataType.generateValueFunc(fieldDef, seed);
+		return dataType.generateValueFunc(field_def, seed);
 	}
 	
-	return "UNKNOWN FIELD TYPE '" + fieldDef.type + "'";
+	return "UNKNOWN FIELD TYPE '" + field_def.type + "'";
 }
 
 bg.CreateFieldType(
 	"bool",
-	function(fieldDef, seed) {
+	function(field_def, seed) {
 		return bg.GetRandomBool(seed);
+	},
+	function(field_def) {
+		return false;
 	},
 	{}
 );
 
-bg.GenerateFloatBasedDataValue = function(fieldDef, seed) {
-	return bg.GetRandomBellFloatFromSeed(seed, fieldDef.min, fieldDef.max);
+bg.GenerateFloatBasedDataValue = function(field_def, seed) 
+{
+	return bg.GetRandomBellFloatFromSeed(seed, field_def.min, field_def.max);
 };
 
+bg.GenerateFloatBasedDefaultInstance = function(field_def)
+{
+	return field_def.min;
+}
 
 bg.CreateFieldType(
 	"float",
 	bg.GenerateFloatBasedDataValue,
+	bg.GenerateFloatBasedDefaultInstance,
 	{
 		min:0,
 		max:100
@@ -53,8 +63,11 @@ bg.CreateFieldType(
 
 bg.CreateFieldType(
 	"norm", //normalised
-	function(fieldDef, seed) {
+	function(field_def, seed) {
 		return bg.GetRandomBellFloatFromSeed(seed, 0, 1);
+	},
+	function(field_def) {
+		return 0;
 	},
 	{}
 );
@@ -63,6 +76,7 @@ bg.CreateFieldType(
 bg.CreateFieldType(
 	"mass",
 	bg.GenerateFloatBasedDataValue,
+	bg.GenerateFloatBasedDefaultInstance,
 	{
 		min:0,
 		max:100
@@ -72,6 +86,7 @@ bg.CreateFieldType(
 bg.CreateFieldType(
 	"weight", //NOT how heavy something is. That would be 'mass'. This is for weighting values. -1 to +1
 	bg.GenerateFloatBasedDataValue,
+	bg.GenerateFloatBasedDefaultInstance,
 	{
 		min:0,
 		max:100
@@ -83,6 +98,7 @@ bg.CreateFieldType(
 bg.CreateFieldType(
 	"distance",
 	bg.GenerateFloatBasedDataValue,
+	bg.GenerateFloatBasedDefaultInstance,
 	{
 		min:0,
 		max:100
@@ -94,6 +110,7 @@ bg.CreateFieldType(
 bg.CreateFieldType(
 	"time",
 	bg.GenerateFloatBasedDataValue,
+	bg.GenerateFloatBasedDefaultInstance,
 	{
 		min:0,
 		max:100
@@ -104,19 +121,26 @@ bg.CreateFieldType(
 bg.CreateFieldType(
 	"accel",
 	bg.GenerateFloatBasedDataValue,
+	bg.GenerateFloatBasedDefaultInstance,
 	{
 		min:0,
 		max:100
 	}
 );
 
-bg.GenerateIntBasedDataValue = function(fieldDef, seed) {
-	return bg.GetRandomIntFromSeed(seed, fieldDef.min, fieldDef.max);
+bg.GenerateIntBasedDataValue = function(field_def, seed) {
+	return bg.GetRandomIntFromSeed(seed, field_def.min, field_def.max);
 };
+
+bg.GenerateIntBasedDefaultInstance = function(field_def)
+{
+	return field_def.min;
+}
 
 bg.CreateFieldType(
 	"int",
 	bg.GenerateIntBasedDataValue,
+	bg.GenerateIntBasedDefaultInstance,
 	{
 		min:0,
 		max:100
@@ -125,7 +149,10 @@ bg.CreateFieldType(
 
 bg.CreateFieldType(
 	"colour",
-	function(seed, fieldDef) {
+	function(seed, field_def) {
+		return "Red"; //todo
+	},
+	function(field_def) {
 		return "Red"; //todo
 	},
 	{}
@@ -133,13 +160,16 @@ bg.CreateFieldType(
 
 bg.CreateFieldType(
 	"data",
-	function(fieldDef, seed) {
-		var dataDefIn = fieldDef.value;
+	function(field_def, seed) {
+		var dataDefIn = field_def.value;
 		if(dataDefIn == undefined){
-			dataDefIn = fieldDef.dataType.fields;
+			dataDefIn = field_def.dataType.fields;
 		}
 
-		return bg.BuildDataFields(dataDefIn, seed, null, fieldDef.autoGenerate);
+		return bg.BuildDataFields(dataDefIn, seed, null, field_def.autoGenerate);
+	},
+	function(field_def) {
+		return Array(field_def.dataType.fields.length).fill(null);
 	},
 	{
 		dataType:{} //todo
@@ -148,23 +178,26 @@ bg.CreateFieldType(
 
 bg.CreateFieldType(
 	"list",
-	function(fieldDef, seed) {
-		if(fieldDef.min == undefined)
+	function(field_def, seed) {
+		if(field_def.min == undefined)
 		{
-			fieldDef.min = 0;
+			field_def.min = 0;
 		}
-		if(fieldDef.max == undefined)
+		if(field_def.max == undefined)
 		{
-			fieldDef.max = 100;
+			field_def.max = 100;
 		}
-		var numItems = bg.GetRandomIntFromSeed(seed, fieldDef.min, fieldDef.max);
+		var numItems = bg.GetRandomIntFromSeed(seed, field_def.min, field_def.max);
 		var list = [];
 		for(var i=0; i<numItems; ++i)
 		{
-			list.push( bg.GenerateFieldValue( fieldDef.elementType, seed+i));
+			list.push( bg.GenerateFieldValue( field_def.elementType, seed+i));
 		}
 
 		return list;
+	},
+	function(field_def) {
+		return [];
 	},
 	{
 		elementType:"?", //todo
@@ -175,9 +208,12 @@ bg.CreateFieldType(
 
 bg.CreateFieldType(
 	"text",
-	function(seed, fieldDef) {
+	function(field_def, seed) {
 		return "Hello World";
 	},
+	function(field_def) {
+		return "Hi";
+	}.
 	{}
 );
 
@@ -187,6 +223,12 @@ bg.CreateFieldTypeDefInstance = function(dataTypeId)
 	copied_default.type = dataTypeId;
 	copied_default.name = "?";
 	return copied_default;
+}
+
+bg.CreateFieldTypeInstance = function(field_type_def)
+{
+	var copied_instance = bg.dataTypes[field_type_def.type].defaultInstanceDataFunc(field_type_def);
+	return defaultInstanceData;
 }
 
 bg.dataDefs = {};

@@ -221,7 +221,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 				ImGui.TableNextColumn();
 				if(ImGui.Button("Override Data " + field.name))
 				{
-					setInputs[i] = GetParamDefault(field);
+					setInputs[i] = bg.CreateFieldTypeInstance(field);
 				}
 			}
 			else
@@ -243,7 +243,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 				ImGui.TableNextColumn();
 				if(ImGui.Button("Override List " + field.name))
 				{
-					setInputs[i] = GetParamDefault(field);
+					setInputs[i] = bg.CreateFieldTypeInstance(field);
 				}
 			}
 			else
@@ -291,7 +291,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 						ImGui.TableNextColumn();
 						if(list.length < field.max && ImGui.Button("Add Element"))
 						{
-							list.push(GetParamDefault(field.elementType));
+							list.push(bg.CreateFieldTypeInstance(field.elementType));
 						}
 
 						ImGui.TreePop();
@@ -311,7 +311,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 			{
 				if(ImGui.Button("Override " + field.name))
 				{
-					setInputs[i] = GetParamDefault(field);
+					setInputs[i] = bg.CreateFieldTypeInstance(field);
 				}
 			}
 			else

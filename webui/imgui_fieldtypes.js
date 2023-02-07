@@ -142,7 +142,7 @@ SetupFieldTypeImGui("list",
 				}
 				if(list.length < field_data.max && ImGui.Button("Add Element"))
 				{
-					list.push(GetParamDefault(field_data.elementType));
+					list.push(bg.CreateFieldTypeInstance(field_data.elementType));
 				}
 			}
 		}
