@@ -188,6 +188,14 @@ function UpdateParamEditorV2(field, getFunc, setFunc)
 	// }
 }
 
+function UpdateFieldNameTooltip(field)
+{
+	if(ImGui.IsItemHovered())
+	{
+		ImGui.SetTooltip("Id:" + field.id);
+	}
+}
+
 function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs)
 {
 	if(generatorInputs.length != setInputs.length)
@@ -208,6 +216,8 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 			if(setInputs[i] == null)
 			{
 				ImGui.Text(field.name);
+				UpdateFieldNameTooltip(field);
+
 				ImGui.TableNextColumn();
 				if(ImGui.Button("Override Data " + field.name))
 				{
@@ -228,6 +238,8 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 			if(setInputs[i] == null)
 			{
 				ImGui.Text(field.name);
+				UpdateFieldNameTooltip(field);
+
 				ImGui.TableNextColumn();
 				if(ImGui.Button("Override List " + field.name))
 				{
@@ -290,6 +302,8 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 		else
 		{
 			ImGui.Text(field.name);
+			UpdateFieldNameTooltip(field);
+			
 			var addclearButton = false;
 			
 			ImGui.TableNextColumn();
