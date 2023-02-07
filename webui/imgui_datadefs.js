@@ -121,6 +121,7 @@ function UpdateDataDefField(fields, field_data)
 	if(ImGui.Combo("##Field Type", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length))
 	{
 		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[dataTypesList[selected]].dataTypeId);
+		default_vals_for_type.name = dataTypesList[selected].name;
 
 		//Remove existing keys
 		var curr_keys = Object.keys(field_data);
