@@ -3,6 +3,15 @@ AddNotes("Next",
 Inputs / Outputs for graphs
 
 Prob good to add some kind of 'info' struct that wraps name, category and id? Graphs, data defs and generators could all share code then.
+
+
+** Rename **
+Field Type - bool,float,weight,distance etc
+Field Def - a field type with data for min/max etc. Has a name and guid
+Field Value - a value for a Field Def - within its bounds etc.
+Field Def List - A list of field def's. Used as structures for generator template inputs/outputs/etc. Used as standalone structures for building and sharing data. Also contains meta data, like name, version etc
+Field Value List - A list of field values. Link to its Field Def List
+Field Value Map - A hashmap of field values, keyed by field name. Used by the generator scripts.
 `);
 
 AddNotes("Release Notes",
