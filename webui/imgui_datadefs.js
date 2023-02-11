@@ -101,11 +101,11 @@ function UpdateDataDefField(fields, field_data)
 	}
     ImGui.TableNextColumn();
 	
-	var dataTypesList = Object.keys(bg.dataTypes);
+	var field_types_list = Object.keys(bg.fieldTypes);
 	var selected = -1;
-	for(var i=0; i<dataTypesList.length;++i)
+	for(var i=0; i<field_types_list.length;++i)
 	{
-		if(bg.dataTypes[dataTypesList[i]].dataTypeId == field_data.type)
+		if(bg.fieldTypes[field_types_list[i]].dataTypeId == field_data.type)
 		{
 			selected = i;
 			break;
@@ -117,9 +117,9 @@ function UpdateDataDefField(fields, field_data)
 		selected = 0;
 	}
 	ImGui.SetNextItemWidth(-1);
-	if(ImGui.Combo("##Field Type", (_ = selected) => selected = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length))
+	if(ImGui.Combo("##Field Type", (_ = selected) => selected = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length))
 	{
-		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.dataTypes[dataTypesList[selected]].dataTypeId);
+		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.fieldTypes[field_types_list[selected]].dataTypeId);
 		default_vals_for_type.name = field_data.name;
 
 		//Remove existing keys
@@ -178,8 +178,8 @@ function UpdateDataDefFields(fields)
 
 	ImGui.EndTable();
 
-	var dataTypesList = Object.keys(bg.dataTypes);
-	ImGui.Combo("##Field Type To Make", (_ = g_new_field_type) => g_new_field_type = _, GetFieldTypeName, bg.dataTypes, dataTypesList.length);
+	var field_types_list = Object.keys(bg.fieldTypes);
+	ImGui.Combo("##Field Type To Make", (_ = g_new_field_type) => g_new_field_type = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length);
 	
     if(ImGui.Button("Add Field (TODO)"))
     {

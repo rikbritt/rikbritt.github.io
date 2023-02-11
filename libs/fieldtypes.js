@@ -1,12 +1,16 @@
 
-//Param Types are registered here.
+//Field Types are registered here.
 //Allows the system to be extended with new types in one place.
 
+//A Field Type is a data type like float, int, weight, distance, time, etc.
+//A Field Def is a definition of a field type, and holds name, min/max info etc.
+//A Field value is a value for a field def.
 
-bg.dataTypes = {};
+
+bg.fieldTypes = {};
 bg.CreateFieldType = function(field_type_id, generate_value_func, default_instance_data_func, default_def_data)
 {
-	var data_type = 
+	var field_type = 
 	{
 		dataTypeId:field_type_id,
 		generateValueFunc:generate_value_func,
@@ -14,17 +18,17 @@ bg.CreateFieldType = function(field_type_id, generate_value_func, default_instan
 		defaultDefData:default_def_data
 	};
 	
-	bg.dataTypes[field_type_id] = data_type;
+	bg.fieldTypes[field_type_id] = field_type;
 	
-	return data_type;
+	return field_type;
 }
 
 bg.GenerateFieldValue = function(field_def, seed)
 {
-	var dataType = bg.dataTypes[field_def.type];
-	if(dataType != null)
+	var field_type = bg.fieldTypes[field_def.type];
+	if(field_type != null)
 	{
-		return dataType.generateValueFunc(field_def, seed);
+		return field_type.generateValueFunc(field_def, seed);
 	}
 	
 	return "UNKNOWN FIELD TYPE '" + field_def.type + "'";
@@ -217,17 +221,17 @@ bg.CreateFieldType(
 	{}
 );
 
-bg.CreateFieldTypeDefInstance = function(dataTypeId)
+bg.CreateFieldTypeDefInstance = function(field_type_id)
 {
-	var copied_default = Object.assign({}, bg.dataTypes[dataTypeId].defaultData);
-	copied_default.type = dataTypeId;
+	var copied_default = Object.assign({}, bg.fieldTypes[field_type_id].defaultData);
+	copied_default.type = field_type_id;
 	copied_default.name = "?";
 	return copied_default;
 }
 
 bg.CreateFieldTypeInstance = function(field_type_def)
 {
-	var instance_data = bg.dataTypes[field_type_def.type].defaultInstanceDataFunc(field_type_def);
+	var instance_data = bg.fieldTypes[field_type_def.type].defaultInstanceDataFunc(field_type_def);
 	return instance_data;
 }
 

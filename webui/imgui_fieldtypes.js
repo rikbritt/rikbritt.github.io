@@ -5,7 +5,7 @@ gFieldTypesImGui = {};
 //imgui_edit_val_func = add imgui contrlols to edit a value of an instance of the field
 function SetupFieldTypeImGui(field_type, imgui_edit_field_func, imgui_edit_val_func)
 {
-    if(bg.dataTypes[field_type] == null)
+    if(bg.fieldTypes[field_type] == null)
     {
 		console.error(`Couldn't find field type '${field_type}`);
         return false;
