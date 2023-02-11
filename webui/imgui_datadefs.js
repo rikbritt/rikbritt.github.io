@@ -83,7 +83,7 @@ function UpdateDataDefsTreeForProject(project, selected_func)
 
 function GetFieldTypeName(data, i, out_str)
 {
-	out_str[0] = data[Object.keys(data)[i]].dataTypeId;
+	out_str[0] = data[Object.keys(data)[i]].fieldTypeId;
 	return true;
 }
 
@@ -105,7 +105,7 @@ function UpdateDataDefField(fields, field_data)
 	var selected = -1;
 	for(var i=0; i<field_types_list.length;++i)
 	{
-		if(bg.fieldTypes[field_types_list[i]].dataTypeId == field_data.type)
+		if(bg.fieldTypes[field_types_list[i]].fieldTypeId == field_data.type)
 		{
 			selected = i;
 			break;
@@ -119,7 +119,7 @@ function UpdateDataDefField(fields, field_data)
 	ImGui.SetNextItemWidth(-1);
 	if(ImGui.Combo("##Field Type", (_ = selected) => selected = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length))
 	{
-		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.fieldTypes[field_types_list[selected]].dataTypeId);
+		var default_vals_for_type = bg.CreateFieldTypeDefInstance(bg.fieldTypes[field_types_list[selected]].fieldTypeId);
 		default_vals_for_type.name = field_data.name;
 
 		//Remove existing keys

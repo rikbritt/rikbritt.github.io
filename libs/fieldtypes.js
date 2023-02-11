@@ -12,7 +12,7 @@ bg.CreateFieldType = function(field_type_id, generate_value_func, default_instan
 {
 	var field_type = 
 	{
-		dataTypeId:field_type_id,
+		fieldTypeId:field_type_id,
 		generateValueFunc:generate_value_func,
 		defaultInstanceDataFunc:default_instance_data_func,
 		defaultDefData:default_def_data
