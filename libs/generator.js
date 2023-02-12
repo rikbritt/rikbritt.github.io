@@ -38,9 +38,21 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
+	if(bg.IsValidDataDef(generator.inputs) == false)
+	{
+		console.error("Generator " + generator.name + " inputs are not a data def");
+		return false;
+	}
+
 	if(Array.isArray(generator.outputs) == false )
 	{
 		console.error("Generator " + generator.name + " outputs are not an array");
+		return false;
+	}
+
+	if(bg.IsValidDataDef(generator.outputs) == false)
+	{
+		console.error("Generator " + generator.name + " outputs are not a data def");
 		return false;
 	}
 
