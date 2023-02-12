@@ -2,14 +2,23 @@ var stoneWallStoneGenerator = {
 	version:1,
 	name:"Stone Wall Stone Generator",
 	category:["Buildings","Wall"],
-	inputs:[
-		{ name:"width", 		type:"distance", 	units:"m", min:0.1, max:1	},
-		{ name:"depth",			type:"distance", 	units:"m", min:0.1, max:1	},
-		{ name:"heigh]", 		type:"distance", 	units:"m", min:0.1, max:1	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:
+	{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"width", 		type:"distance", 	units:"m", min:0.1, max:1	},
+			{ name:"depth",			type:"distance", 	units:"m", min:0.1, max:1	},
+			{ name:"heigh]", 		type:"distance", 	units:"m", min:0.1, max:1	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		var stone = bg.CreateBoxModel(outputs.model, inputs.width, inputs.height, inputs.depth);
@@ -24,16 +33,24 @@ var stoneWallV1Generator = {
 	version:1,
 	name:"Stone Wall Generator V1",
 	category:["Buildings","Wall"],
-	inputs:[
-		{ name:"path",	type:"path", 
-			script:function() { 
-				return bg.CreatePath([bg.CreateTranslation(-1, 0, 0), bg.CreateTranslation(0, 0, 0), bg.CreateTranslation(0, 0, 1)]); 
-			}	
-		}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"path",	type:"path", 
+				script:function() { 
+					return bg.CreatePath([bg.CreateTranslation(-1, 0, 0), bg.CreateTranslation(0, 0, 0), bg.CreateTranslation(0, 0, 1)]); 
+				}	
+			}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		
@@ -70,12 +87,20 @@ var stoneWallGenerator = {
 	version:1,
 	name:"Stone Wall Generator",
 	category:["Buildings","Wall"],
-	inputs:[
-		{ name:"path",		type:"path", script:function(){ return bg.CreatePath([bg.CreateTranslation(-1, 0, 0), bg.CreateTranslation(0, 0, 0), bg.CreateTranslation(0, 0, 1)/*, bg.CreateTranslation(1, 0, 2)*/]);  }	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"path",		type:"path", script:function(){ return bg.CreatePath([bg.CreateTranslation(-1, 0, 0), bg.CreateTranslation(0, 0, 0), bg.CreateTranslation(0, 0, 1)/*, bg.CreateTranslation(1, 0, 2)*/]);  }	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

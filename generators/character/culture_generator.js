@@ -19,12 +19,20 @@ var cultureGenerator = {
 	version:1,
 	name:"Culture",
 	category:["Character"],
-	inputs:[
-		{ name:"culture",		type:"data",		dataType:cultureDataDef	}
-	],
-	outputs:[
-		{ name:"data",		type:"data",		dataType:cultureDataDef	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"culture",		type:"data",		dataType:cultureDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",		type:"data",		dataType:cultureDataDef	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.data = inputs.culture;
 	}

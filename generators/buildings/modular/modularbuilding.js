@@ -11,12 +11,20 @@ var modularRoomGenerator = {
 	version:1,
 	name:"Modular Room Generator",
 	category:["Buildings", "Modular"],
-	inputs:[
-		{ name:"modularDataDef",		type:"data",		dataType:modularRoomDataDef	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"modularDataDef",		type:"data",		dataType:modularRoomDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

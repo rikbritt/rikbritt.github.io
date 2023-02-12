@@ -22,12 +22,20 @@ var speciesGenerator = {
 	version:1,
 	name:"Species",
 	category:["Character"],
-	inputs:[
-		{ name:"species",		type:"data",		dataType:speciesDataDef	}
-	],
-	outputs:[
-		{ name:"data",			type:"data",		dataType:speciesDataDef	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"species",		type:"data",		dataType:speciesDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",			type:"data",		dataType:speciesDataDef	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.data = inputs.species;
 	}
