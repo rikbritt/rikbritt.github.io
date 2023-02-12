@@ -65,5 +65,11 @@ bg.IsValidDataDef = function(data_def)
 		console.error("Missing fields");
 		return false;
 	}
+
+	if(Array.isArray(data_def.fields) == false )
+	{
+		console.error("data def field are not an array");
+		return false;
+	}
 	return true;
 }

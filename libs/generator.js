@@ -32,21 +32,9 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
-	if(Array.isArray(generator.inputs) == false )
-	{
-		console.error("Generator " + generator.name + " inputs are not an array");
-		return false;
-	}
-
 	if(bg.IsValidDataDef(generator.inputs) == false)
 	{
 		console.error("Generator " + generator.name + " inputs are not a data def");
-		return false;
-	}
-
-	if(Array.isArray(generator.outputs) == false )
-	{
-		console.error("Generator " + generator.name + " outputs are not an array");
 		return false;
 	}
 
@@ -57,9 +45,9 @@ bg.RegisterGenerator = function(generator)
 	}
 
 	//Set missing input ids
-	for(var i=0; i<generator.inputs.length; ++i)
+	for(var i=0; i<generator.inputs.fields.length; ++i)
 	{
-		var field = generator.inputs[i];
+		var field = generator.inputs.fields[i];
 		if(field.id == null)
 		{
 			field.id = bg.GUIDFromStr(field.name);
@@ -67,9 +55,9 @@ bg.RegisterGenerator = function(generator)
 	}
 
 	//Set missing output ids
-	for(var i=0; i<generator.outputs.length; ++i)
+	for(var i=0; i<generator.outputs.fields.length; ++i)
 	{
-		var field = generator.outputs[i];
+		var field = generator.outputs.fields[i];
 		if(field.id == null)
 		{
 			field.id = bg.GUIDFromStr(field.name);

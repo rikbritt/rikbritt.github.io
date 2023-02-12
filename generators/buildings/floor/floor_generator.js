@@ -3,13 +3,21 @@ var floorGenerator = {
 	version:1,
 	name:"Floor Generator",
 	category:["Buildings","Floor"],
-	inputs:[
-		{ name:"width",	type:"distance",	units:"m",	min:1.0, max:10 },
-		{ name:"depth",	type:"distance",	units:"m",	min:1.0, max:10 }
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		version:1,
+		name:"inputs",
+		fields:[
+			{ name:"width",	type:"distance",	units:"m",	min:1.0, max:10 },
+			{ name:"depth",	type:"distance",	units:"m",	min:1.0, max:10 }
+		]
+	},
+	outputs:{
+		version:1,
+		name:"outputs",
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

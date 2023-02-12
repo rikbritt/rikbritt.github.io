@@ -4,15 +4,23 @@ var woodCrateGenerator = {
 	name:"Wood Crate",
 	description:"Basically just a box :)",
 	category:["Furniture"],
-	inputs:[
-		{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
-		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"depth", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
+			{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"depth", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		bg.CreateBoxModel(outputs.model, inputs.width, inputs.height, inputs.depth);
