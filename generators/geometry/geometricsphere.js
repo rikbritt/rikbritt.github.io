@@ -3,13 +3,21 @@ var geodesicSphereGenerator = {
 	version:1,
 	name:"Geodesic Sphere",
 	category:["Geometry"],
-	inputs:[
-		{ name:"radius",		type:"distance",	units:"m",	min:1.0, 	max:50 },
-		{ name:"subDivisions",	type:"int",					min:0,		max:4}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"radius",		type:"distance",	units:"m",	min:1.0, 	max:50 },
+			{ name:"subDivisions",	type:"int",					min:0,		max:4}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

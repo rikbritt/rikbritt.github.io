@@ -3,13 +3,21 @@ var tetrahedronGenerator = {
 	version:1,
 	name:"Tetrahedron",
 	category:["Geometry"],
-	inputs:[
-		{ name:"edgeLength",	type:"distance", units:"m",	min:0.01,	max:4},
-		{ name:"subDivisions",	type:"int",					min:0,		max:4}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"edgeLength",	type:"distance", units:"m",	min:0.01,	max:4},
+			{ name:"subDivisions",	type:"int",					min:0,		max:4}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

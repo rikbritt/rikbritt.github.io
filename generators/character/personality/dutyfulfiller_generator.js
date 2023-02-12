@@ -11,12 +11,20 @@ var dutyFulfillerGenerator = {
 	version:1,
 	name:"Duty Fulfiller",
 	category:["Character", "Personality"],
-	inputs:[
-		{ name:"personalityCore",		type:"data",		dataType:personalityCoreDataDef	}
-	],
-	outputs:[
-		{ name:"data",					type:"data",		dataType:personalityDataDef	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"personalityCore",		type:"data",		dataType:personalityCoreDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",					type:"data",		dataType:personalityDataDef	}
+		],
+	},
 	script:function(inputs, outputs){
 		var personalityCoreWeighting = { }
 		var personalityWeighting = {

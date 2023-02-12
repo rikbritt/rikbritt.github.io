@@ -2,14 +2,22 @@
 var woodPanelsGenerator = {
 	version:1,
 	name:"Wood Panels 2D",
-	inputs:[
-		{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
-		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
+			{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		
@@ -26,14 +34,22 @@ bg.RegisterGenerator(woodPanelsGenerator);
 var woodFrameGenerator = {
 	version:1,
 	name:"Wood Frame 2D",
-	inputs:[
-		{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
-		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
+			{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		
@@ -55,14 +71,22 @@ bg.RegisterGenerator(woodFrameGenerator);
 var woodSupportDiagonalGenerator = {
 	version:1,
 	name:"Diagonal Wood Support 2D",
-	inputs:[
-		{ name:"woodWorking", 	type:"data",		dataType:woodWorkingDataDef	},
-		{ name:"width",  		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"height",  		type:"distance", 	units:"m", min:0.5, max:10	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"woodWorking", 	type:"data",		dataType:woodWorkingDataDef	},
+			{ name:"width",  		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"height",  		type:"distance", 	units:"m", min:0.5, max:10	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		var supportShape = bg.CreateShape(outputs.model, "Support", "wood");
@@ -85,14 +109,22 @@ bg.RegisterGenerator(woodSupportDiagonalGenerator);
 var woodSupportStraightGenerator = {
 	version:1,
 	name:"Straight Wood Support 2D",
-	inputs:[
-		{ name:"woodWorking", 	type:"data",		dataType:woodWorkingDataDef	},
-		{ name:"width",  		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"height",  		type:"distance", 	units:"m", min:0.5, max:10	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"woodWorking", 	type:"data",		dataType:woodWorkingDataDef	},
+			{ name:"width",  		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"height",  		type:"distance", 	units:"m", min:0.5, max:10	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		var supportShape = bg.CreateShape(outputs.model, "Support", "wood");
@@ -107,14 +139,22 @@ bg.RegisterGenerator(woodSupportStraightGenerator);
 var woodSupportGenerator = {
 	version:1,
 	name:"Wood Support 2D",
-	inputs:[
-		{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
-		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
+			{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		
 		var supportGenerators = [
@@ -138,14 +178,22 @@ bg.RegisterGenerator(woodSupportGenerator);
 var woodCrate2DGenerator = {
 	version:1,
 	name:"Wood Crate 2D",
-	inputs:[
-		{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
-		{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
-		{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"woodWorking",	type:"data",		dataType:woodWorkingDataDef	},
+			{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
+			{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		var plankWidth = inputs.woodWorking.plankWidth;
