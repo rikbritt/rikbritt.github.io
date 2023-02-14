@@ -12,14 +12,22 @@ var mm_suspectGenerator = {
 	name:"Suspect",
 	id:"mm_suspect",
 	category:["Murder Mystery"],
-	inputs:[
-		{ name:"suspect",			type:"data",		dataType:mm_suspectDataDef	}
-		
-		//todo: character traits
-	],
-	outputs:[
-		//{ name:"data",		type:"text"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"suspect",			type:"data",		dataType:mm_suspectDataDef	}
+			
+			//todo: character traits
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//{ name:"data",		type:"text"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 		outputs.data.career = bg.RunGenerator(mm_careerGenerator, inputs.seed, {}).outputs.data;

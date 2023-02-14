@@ -4,13 +4,21 @@ var mm_scenarioGenerator3 = {
 	name:"Scenario V3",
 	description:"Abstract People, Then Bio Relationships, Then people",
 	category:["Murder Mystery"],
-	inputs:[
-		{ name:"numPlayers",					type:"int", min:3, max:20			},
-		{ name:"numPeoplePlayerCanPick",		type:"int", min:1, max:8, default:4	}
-	],
-	outputs:[
-		{ name:"data",							type:"data",		dataType:mm_personDataDef	} /*fix type*/
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"numPlayers",					type:"int", min:3, max:20			},
+			{ name:"numPeoplePlayerCanPick",		type:"int", min:1, max:8, default:4	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",							type:"data",		dataType:mm_personDataDef	} /*fix type*/
+		],
+	},
 	script:function(inputs, outputs)
 	{
 		outputs.data = inputs;
@@ -70,12 +78,20 @@ var mm_scenarioGenerator2 = {
 	name:"Scenario V2",
 	description:"Relationships First, Then People",
 	category:["Murder Mystery"],
-	inputs:[
-		{ name:"numPeople",		type:"int", min:3, max:20	}
-	],
-	outputs:[
-		//data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"numPeople",		type:"int", min:3, max:20	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
+		],
+	},
 	script:function(inputs, outputs)
 	{
 		//outputs.data = inputs;
@@ -109,12 +125,20 @@ var mm_scenarioGenerator = {
 	name:"Scenario V1",
 	description:"People First, Then Relationships",
 	category:["Murder Mystery"],
-	inputs:[
-		{ name:"numPeople",		type:"int", min:3, max:20	}
-	],
-	outputs:[
-		{ name:"data",			type:"data",		dataType:mm_personDataDef	} /*fix type*/
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"numPeople",		type:"int", min:3, max:20	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",			type:"data",		dataType:mm_personDataDef	} /*fix type*/
+		],
+	},
 	script:function(inputs, outputs)
 	{
 		outputs.data = inputs;
