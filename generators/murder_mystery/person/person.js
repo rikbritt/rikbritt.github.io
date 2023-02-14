@@ -17,12 +17,20 @@ var mm_personGenerator = {
 	name:"Person",
 	id:"mm_person",
 	category:["Murder Mystery"],
-	inputs:[
-		{ name:"person",	type:"data",		dataType:mm_personDataDef	}
-	],
-	outputs:[
-		{ name:"data",		type:"data",		dataType:mm_personDataDef	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"person",	type:"data",		dataType:mm_personDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",		type:"data",		dataType:mm_personDataDef	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.data = inputs.person;
 		

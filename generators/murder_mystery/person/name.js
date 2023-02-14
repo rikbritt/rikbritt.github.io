@@ -12,12 +12,20 @@ var mm_nameGenerator = {
 	version:1,
 	name:"Name",
 	category:["Murder Mystery","Person"],
-	inputs:[
-		{ name:"male",		type:"bool" }
-	],
-	outputs:[
-		{ name:"data",		type:"data",		dataType:mm_nameDataDef	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"male",		type:"bool" }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",		type:"data",		dataType:mm_nameDataDef	}
+		],
+	},
 	script:function(inputs, outputs)
 	{		
 		var namePool = null;

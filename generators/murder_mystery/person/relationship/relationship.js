@@ -3,14 +3,22 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 	name:"Bio Relationships Graph 2",
 	description:"Given abstract people graph, adds biological relationships.",
 	category:["Murder Mystery","Person"],
-	inputs:[
-		//How close they are?
-		{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
-		{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
-	],
-	outputs:[
-		//info on links
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			//How close they are?
+			{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
+			{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//info on links
+		],
+	},
 	script:function(inputs, outputs)
 	{
 		outputs.bio_graph = bg.CreateGraph();
@@ -90,14 +98,22 @@ var mm_relationshipBioRelationshipsGenerator = {
 	name:"Bio Relationships Graph",
 	description:"Given a relationship graph, adds biological relationships.",
 	category:["Murder Mystery","Person"],
-	inputs:[
-		//How close they are?
-		{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
-		{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
-	],
-	outputs:[
-		//info on links
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			//How close they are?
+			{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
+			{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//info on links
+		],
+	},
 	script:function(inputs, outputs)
 	{
 		outputs.bio_graph = bg.CreateGraph();
@@ -158,14 +174,22 @@ var mm_relationshipsGenerator = {
 	name:"Relationships",
 	description:"Given a list of people, makes a relationships graph.",
 	category:["Murder Mystery","Person"],
-	inputs:[
-		//How close they are?
-		{ name:"people", 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
-	],
-	outputs:[
-		//relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
-		//relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			//How close they are?
+			{ name:"people", 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
+			//relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
+		],
+	},
 	script:function(inputs, outputs)
 	{
 		//Build Relationships Graph
@@ -228,14 +252,22 @@ var mm_relationshipGenerator1 = {
 	name:"Relationship 1",
 	description:"For 2 fully defined people",
 	category:["Murder Mystery","Person"],
-	inputs:[
-		{ name:"person1",				type:"data",		dataType:mm_personDataDef },
-		{ name:"person2",				type:"data",		dataType:mm_personDataDef }
-	],
-	outputs:[
-		{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
-		{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"person1",				type:"data",		dataType:mm_personDataDef },
+			{ name:"person2",				type:"data",		dataType:mm_personDataDef }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
+			{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
+		],
+	},
 	script:function(inputs, outputs){
 		
 		var relationshipType = "";

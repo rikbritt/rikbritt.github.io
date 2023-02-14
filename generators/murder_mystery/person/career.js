@@ -3,12 +3,20 @@ var mm_careerGenerator = {
 	version:1,
 	name:"Career",
 	category:["Murder Mystery","Person"],
-	inputs:[
-		{ name:"success",	type:"norm",	min:0, max:1 }
-	],
-	outputs:[
-		{ name:"data",		type:"text"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"success",	type:"norm",	min:0, max:1 }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",		type:"text"	}
+		],
+	},
 	script:function(inputs, outputs){
 		
 		var career = bg.GetRandomArrayEntry(inputs.seed, mm_data_careers);
