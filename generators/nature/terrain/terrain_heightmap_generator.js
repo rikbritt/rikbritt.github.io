@@ -3,13 +3,21 @@ var terrainHeightMapGenerator = {
 	version:1,
 	name:"Terrain Heightmap",
 	category:["Nature","Terrain"],
-	inputs:[
-		{ name:"width",	type:"distance",	units:"m",	min:1.0, max:50 },
-		{ name:"depth",	type:"distance",	units:"m",	min:1.0, max:50 }
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"width",	type:"distance",	units:"m",	min:1.0, max:50 },
+			{ name:"depth",	type:"distance",	units:"m",	min:1.0, max:50 }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

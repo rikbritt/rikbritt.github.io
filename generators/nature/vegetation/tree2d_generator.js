@@ -2,14 +2,22 @@
 var tree2DV2Generator = {
 	version:1,
 	name:"Tree 2D V2",
-	inputs:[
-		{ name:"treeType",			type:"data",		dataType:treeTypeDataDef	},
-		{ name:"height", 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?
-		{ name:"age",				type:"time",		units:"years",	min:0.1, max:100 }
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"treeType",			type:"data",		dataType:treeTypeDataDef	},
+			{ name:"height", 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?
+			{ name:"age",				type:"time",		units:"years",	min:0.1, max:100 }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		
@@ -83,14 +91,22 @@ bg.RegisterGenerator(tree2DV2Generator);
 var tree2DV1Generator = {
 	version:1,
 	name:"Tree 2D V1",
-	inputs:[
-		{ name:"treeType",			type:"data",		dataType:treeTypeDataDef	},
-		{ name:"height", 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?
-		{ name:"age",				type:"time",		units:"years",	min:0.1, max:100 }
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"treeType",			type:"data",		dataType:treeTypeDataDef	},
+			{ name:"height", 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?
+			{ name:"age",				type:"time",		units:"years",	min:0.1, max:100 }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 		

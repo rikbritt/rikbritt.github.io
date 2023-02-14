@@ -2,10 +2,18 @@
 var forestSceneGenerator = {
 	version:1,
 	name:"Forest Scene",
-	inputs:[],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.Create2DModel();
 	
