@@ -34,23 +34,23 @@ bg.RegisterGenerator = function(generator)
 
 	if(generator.inputs.name != "inputs")
 	{
-		console.error("Generator " + generator.name + " inputs have name " + generator.inputs.name + " instead of 'inputs'");
+		console.error("Generator '" + generator.name + "' inputs have name '" + generator.inputs.name + "' instead of 'inputs'");
 	}
 	generator.inputs.id = bg.GUIDFromStr(id + "inputs");
 	if(bg.IsValidDataDef(generator.inputs) == false)
 	{
-		console.error("Generator " + generator.name + " inputs are not a data def");
+		console.error("Generator '" + generator.name + "' inputs are not a data def");
 		return false;
 	}
 
 	if(generator.outputs.name != "outputs")
 	{
-		console.error("Generator " + generator.name + " outputs have name " + generator.outputs.name + " instead of 'outputs'");
+		console.error("Generator '" + generator.name + "' outputs have name '" + generator.outputs.name + "' instead of 'outputs'");
 	}
 	generator.outputs.id = bg.GUIDFromStr(id + "outputs");
 	if(bg.IsValidDataDef(generator.outputs) == false)
 	{
-		console.error("Generator " + generator.name + " outputs are not a data def");
+		console.error("Generator '" + generator.name + "' outputs are not a data def");
 		return false;
 	}
 
