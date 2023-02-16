@@ -193,7 +193,7 @@ bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 		var fieldName = fieldDef.name;
 		if(fieldDef.type == "data")
 		{
-			overidden[fieldName] = this.CreateEmptyOveriddenTables(fieldDef.dataType.fields, {} );
+			overidden[fieldName] = this.CreateEmptyOveriddenTables(fieldDef.dataType, {} );
 		}
 	}
 	return overidden;
