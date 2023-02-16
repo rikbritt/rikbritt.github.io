@@ -10,12 +10,20 @@ var planetGenerator = {
 	version:1,
 	name:"Planet",
 	category:["Universe"],
-	inputs:[
-		//system:{		type:"data",		dataType:planetDataDef	}
-	],
-	outputs:[
-		//data:{ type:"data", dataType:planetDataDef }
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			//system:{		type:"data",		dataType:planetDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//data:{ type:"data", dataType:planetDataDef }
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}

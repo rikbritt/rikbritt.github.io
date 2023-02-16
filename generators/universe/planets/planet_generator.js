@@ -26,12 +26,20 @@ var planetGenerator = {
 	version:1,
 	name:"Planet",
 	category:["Universe"],
-	inputs:[
-		{ name:"planet",		type:"data",		dataType:planetDataDef, autoGenerate:true	}
-	],
-	outputs:[
-		{ name:"data", 			type:"data", 		dataType:planetDataDef }
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"planet",		type:"data",		dataType:planetDataDef, autoGenerate:true	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data", 			type:"data", 		dataType:planetDataDef }
+		],
+	},
 	script:function(inputs, outputs){
 		
 		//If values are present in the input then just use them.

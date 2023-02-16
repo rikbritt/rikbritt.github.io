@@ -70,12 +70,20 @@ var realityGenerator = {
 	name:"Reality",
 	description:"WIP - idea is that it generates all the key information for a 'reality'\nLike whether magic exists, psychic powers, if there's an afterlife etc",
 	category:["Universe"],
-	inputs:[
-		{ name:"reality",		type:"data",		dataType:realityDataDef	}
-	],
-	outputs:[
-		//{ name:"data",		type:"text"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"reality",		type:"data",		dataType:realityDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//{ name:"data",		type:"text"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}

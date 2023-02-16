@@ -10,12 +10,20 @@ var sunGenerator = {
 	version:1,
 	name:"Sun",
 	category:["Universe"],
-	inputs:[
-		//system:{		type:"data",		dataType:planetDataDef	}
-	],
-	outputs:[
-		//{ name:"data",		type:"text"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			//system:{		type:"data",		dataType:planetDataDef	}
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			//{ name:"data",		type:"text"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.data = inputs;
 	}
