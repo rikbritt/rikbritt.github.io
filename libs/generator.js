@@ -43,7 +43,7 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
-	if(generator.outputs.name != "inputs")
+	if(generator.outputs.name != "outputs")
 	{
 		console.error("Generator " + generator.name + " outputs have name " + generator.outputs.name + " instead of 'outputs'");
 	}
