@@ -32,14 +32,14 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
-	bg.inputs.id = bg.GUIDFromStr(id + "inputs");
+	generator.inputs.id = bg.GUIDFromStr(id + "inputs");
 	if(bg.IsValidDataDef(generator.inputs) == false)
 	{
 		console.error("Generator " + generator.name + " inputs are not a data def");
 		return false;
 	}
 
-	bg.inputs.id = bg.GUIDFromStr(id + "outputs");
+	generator.inputs.id = bg.GUIDFromStr(id + "outputs");
 	if(bg.IsValidDataDef(generator.outputs) == false)
 	{
 		console.error("Generator " + generator.name + " outputs are not a data def");
