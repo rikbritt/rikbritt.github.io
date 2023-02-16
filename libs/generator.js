@@ -32,6 +32,10 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
+	if(generator.inputs.name != "inputs")
+	{
+		console.error("Generator " + generator.name + " inputs have name " + generator.inputs.name + " instead of 'inputs'");
+	}
 	generator.inputs.id = bg.GUIDFromStr(id + "inputs");
 	if(bg.IsValidDataDef(generator.inputs) == false)
 	{
@@ -39,6 +43,10 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
+	if(generator.outputs.name != "inputs")
+	{
+		console.error("Generator " + generator.name + " outputs have name " + generator.outputs.name + " instead of 'outputs'");
+	}
 	generator.outputs.id = bg.GUIDFromStr(id + "outputs");
 	if(bg.IsValidDataDef(generator.outputs) == false)
 	{
