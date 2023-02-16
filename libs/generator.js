@@ -39,7 +39,7 @@ bg.RegisterGenerator = function(generator)
 		return false;
 	}
 
-	generator.inputs.id = bg.GUIDFromStr(id + "outputs");
+	generator.outputs.id = bg.GUIDFromStr(id + "outputs");
 	if(bg.IsValidDataDef(generator.outputs) == false)
 	{
 		console.error("Generator " + generator.name + " outputs are not a data def");
