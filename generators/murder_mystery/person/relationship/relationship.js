@@ -223,7 +223,7 @@ var mm_relationshipsGenerator = {
 
 				//Call this generator to make the link, but it'll be random,
 				//so we'll sort it out
-				var link = bg.BuildDataFields(mm_relationshipLinkDataDef.fields, inputs.seed + e, null);
+				var link = bg.BuildDataDefValues(mm_relationshipLinkDataDef.fields, inputs.seed + e, null);
 				link.aName = p1.name;
 				link.bName = p2.name;
 
@@ -280,9 +280,9 @@ var mm_relationshipGenerator1 = {
 		
 		
 		outputs.inputs = inputs;
-		//outputs.relationship1To2 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed, {}, true);
+		//outputs.relationship1To2 = bg.BuildDataDefValues(mm_relationshipDataDef.fields, inputs.seed, {}, true);
 		//outputs.relationship1To2.type = relationshipType;
-		//outputs.relationship2To1 = bg.BuildDataFields(mm_relationshipDataDef.fields, inputs.seed + 1, {}, true);
+		//outputs.relationship2To1 = bg.BuildDataDefValues(mm_relationshipDataDef.fields, inputs.seed + 1, {}, true);
 		//outputs.relationship2To1.type = relationshipType;
 		
 		//Relationship Type:

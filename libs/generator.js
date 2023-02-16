@@ -199,7 +199,7 @@ bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 	return overidden;
 }
 
-bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
+bg.BuildDataDefValues = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 {
 	if(seed == undefined)
 	{
@@ -243,7 +243,7 @@ bg.BuildDataFields = function(fieldsIn, seed, inputs, autoGenerate, overidden)
 				if(fieldDef.type == "data")
 				{
 					var paramSeed = bg.SeedFromString(fieldName) + seed;
-					fieldValue = bg.BuildDataFields(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate, overidden[fieldName]);
+					fieldValue = bg.BuildDataDefValues(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate, overidden[fieldName]);
 				}
 				else
 				{
@@ -294,7 +294,7 @@ bg.RunGenerator = function(generator, seed, inputs)
 	//#TODO: Build a graph
 	
 	//Make values for all inputs
-	var builtInputs = bg.BuildDataFields(generator.inputs, seed, inputs);
+	var builtInputs = bg.BuildDataDefValues(generator.inputs, seed, inputs);
 	
 	console.log("Built '" + generator.name + "' Inputs:");
 	console.log(JSON.stringify(builtInputs, null, '\t'));

@@ -35,7 +35,7 @@ var dutyFulfillerGenerator = {
 			hardWorking:1,
 			playful:-0.5
 		};
-		outputs.data = bg.BuildDataFields(personalityDataDef.fields, 0, {});
+		outputs.data = bg.BuildDataDefValues(personalityDataDef.fields, 0, {});
 	}
 }
 bg.RegisterGenerator(dutyFulfillerGenerator);

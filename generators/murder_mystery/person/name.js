@@ -38,7 +38,7 @@ var mm_nameGenerator = {
 			namePool = mm_data_femaleNames;
 		}
 
-		outputs.data = bg.BuildDataFields(mm_nameDataDef.fields, inputs.seed);
+		outputs.data = bg.BuildDataDefValues(mm_nameDataDef.fields, inputs.seed);
 			
 		outputs.data.forename = bg.GetRandomArrayEntry(inputs.seed, namePool);
 		outputs.data.middleName = bg.GetRandomArrayEntry(inputs.seed + 1, namePool);

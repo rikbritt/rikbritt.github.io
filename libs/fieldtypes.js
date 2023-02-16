@@ -170,7 +170,7 @@ bg.CreateFieldType(
 			dataDefIn = field_def.dataType.fields;
 		}
 
-		return bg.BuildDataFields(dataDefIn, seed, null, field_def.autoGenerate);
+		return bg.BuildDataDefValues(dataDefIn, seed, null, field_def.autoGenerate);
 	},
 	function(field_def) {
 		return Array(field_def.dataType.fields.length).fill(null);
