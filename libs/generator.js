@@ -184,11 +184,12 @@ bg.CreateWeightingDataDef = function(dataDefIn)
 	return weightDataDefOut;
 }
 
-bg.CreateEmptyOveriddenTables = function(fields, overidden)
+//TODO - Write a description for this!
+bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 {
-	for(var i=0; i<fields.length; ++i)
+	for(var i=0; i<data_def.fields.length; ++i)
 	{
-		var fieldDef = fields[i];
+		var fieldDef = data_def.fields[i];
 		var fieldName = fieldDef.name;
 		if(fieldDef.type == "data")
 		{
