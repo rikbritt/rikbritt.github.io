@@ -3,10 +3,18 @@ var testObjectLogicGenerator = {
 	name:"Object Logic",
 	description:"Currently broken, but the idea is you can generate something with an 'update' script for game logic",
 	category:["Test"],
-	inputs:[],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	boxUpdateScript:function(dt, node, temp_renderModel){
 		
 		//TODO: Manipulate the node via physics based functions.

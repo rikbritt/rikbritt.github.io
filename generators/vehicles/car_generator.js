@@ -10,10 +10,14 @@ var wheelStyling = {
 var wheelGenerator = {
 	version:1,
 	name:"Car Wheel Generator",
-	inputs:[
-		{ name:"wheelDiameter",		type:"distance", units:"m", default:0.5}, //No min/max given, an explicit value is required. A default is provided
-		{ name:"wheelStyling", 		type:"data",		paramName:"WheelStyling"		}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"wheelDiameter",		type:"distance", units:"m", default:0.5}, //No min/max given, an explicit value is required. A default is provided
+			{ name:"wheelStyling", 		type:"data",		paramName:"WheelStyling"		}
+		],
+	},
 	outputs:{
 		name:"outputs",
 		version:1,

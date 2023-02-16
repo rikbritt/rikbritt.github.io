@@ -3,10 +3,18 @@ var testRotationGenerator = {
 	version:1,
 	name:"Rotation",
 	category:["Test"],
-	inputs:[],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		
@@ -30,10 +38,18 @@ var testLookAtGenerator = {
 	version:1,
 	name:"Look At",
 	category:["Test","Rotation"],
-	inputs:[],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

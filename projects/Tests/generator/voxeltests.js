@@ -3,14 +3,22 @@ var testVoxelsGenerator = {
 	version:1,
 	name:"Voxels",
 	category:["Test"],
-	inputs:[
-		{ name:"width",		type:"distance",	units:"m",	min:1.0, max:5 },
-		{ name:"depth",		type:"distance",	units:"m",	min:1.0, max:5 },
-		{ name:"height",	type:"distance",	units:"m",	min:1.0, max:5 }
-	],
-	outputs:[
-		{ name:"model",			type:"model"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"width",		type:"distance",	units:"m",	min:1.0, max:5 },
+			{ name:"depth",		type:"distance",	units:"m",	min:1.0, max:5 },
+			{ name:"height",	type:"distance",	units:"m",	min:1.0, max:5 }
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"model",			type:"model"	}
+		],
+	},
 	script:function(inputs, outputs){
 		outputs.model = bg.CreateNode();
 		

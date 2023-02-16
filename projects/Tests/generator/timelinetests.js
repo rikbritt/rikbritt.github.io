@@ -3,10 +3,18 @@ var testFixedTimelineGenerator = {
 	version:1,
 	name:"Fixed Timeline",
 	category:["Test"],
-	inputs:[],
-	outputs:[
-		{ name:"data",		type:"timeline"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",		type:"timeline"	}
+		],
+	},
 	script:function(inputs, outputs)
     {
         var timeline = bg.TimelineCreate("Test Timeline");
@@ -37,12 +45,20 @@ var testTimelineGenerator = {
 	version:1,
 	name:"Random Timeline",
 	category:["Test"],
-	inputs:[
-		{ name:"num_streams",			type:"int", 	min:0,	max:100 },
-	],
-	outputs:[
-		{ name:"data",		type:"timeline"	}
-	],
+	inputs:{
+		name:"inputs",
+		version:1,
+		fields:[
+			{ name:"num_streams",			type:"int", 	min:0,	max:100 },
+		],
+	},
+	outputs:{
+		name:"outputs",
+		version:1,
+		fields:[
+			{ name:"data",		type:"timeline"	}
+		],
+	},
 	script:function(inputs, outputs)
     {
         var timeline = bg.TimelineCreate("Test Timeline");
