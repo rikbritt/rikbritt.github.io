@@ -85,12 +85,20 @@ bg.CreateEmptyGenerator = function(id)
 		description:"",
 		version:3,
 		category:[],
-		inputs:[
-			//system:{		type:"data",		dataType:galaxyDataDef	}
-		],
-		outputs:[
-			//data:{ type:"data", dataType:galaxyDataDef }
-		],
+		inputs:{
+			name:"inputs",
+			version:1,
+			fields:[
+				//system:{		type:"data",		dataType:galaxyDataDef	}
+			],
+		},
+		outputs:{
+			name:"outputs",
+			version:1,
+			fields:[
+				//data:{ type:"data", dataType:galaxyDataDef }
+			],
+		},
 		script:function(inputs, outputs){
 			outputs.data = inputs;
 		}
