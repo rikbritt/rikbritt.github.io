@@ -199,7 +199,7 @@ bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 	return overidden;
 }
 
-bg.BuildDataDefValues = function(fieldsIn, seed, inputs, autoGenerate, overidden)
+bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden)
 {
 	if(seed == undefined)
 	{
@@ -219,14 +219,14 @@ bg.BuildDataDefValues = function(fieldsIn, seed, inputs, autoGenerate, overidden
 	//Keep track of which fields were actually overriden
 	if(overidden == undefined)
 	{
-		overidden = this.CreateEmptyOveriddenTables(fieldsIn, {});
+		overidden = this.CreateEmptyOveriddenTables(data_def, {});
 		builtData._overidden = overidden;
 	}
-	//builtData._def = fieldsIn;
+	//builtData._def = data_def;
 	
-	for(var i=0; i<fieldsIn.length; ++i)
+	for(var i=0; i<data_def.fields.length; ++i)
 	{
-		var fieldDef = fieldsIn[i];
+		var fieldDef = data_def.fields[i];
 		var fieldName = fieldDef.name;
 		var fieldValue = null;
 		
