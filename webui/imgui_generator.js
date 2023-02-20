@@ -196,16 +196,16 @@ function UpdateFieldNameTooltip(field)
 	}
 }
 
-function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs)
+function UpdateOverridableDataDef_Recurse(data_def, setInputs)
 {
-	if(generatorInputs.length != setInputs.length)
+	if(data_def.fields.length != setInputs.length)
 	{
 		console.error("fix me! Input length mismatch");
 	}
 
-	for(var i=0; i<generatorInputs.length; ++i)
+	for(var i=0; i<data_def.fields.length; ++i)
 	{
-		var field = generatorInputs[i];
+		var field = data_def.fields[i];
 
         ImGui.TableNextRow();
         ImGui.TableNextColumn();
@@ -228,7 +228,7 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 			{
 				if(ImGui.TreeNode(field.name))
 				{
-					UpdateGeneratorInstanceInputsImGuiV2_Recurse(field.dataType.fields, setInputs[i]);
+					UpdateOverridableDataDef_Recurse(field.dataType.fields, setInputs[i]);
 					ImGui.TreePop();
 				}
 			}
@@ -346,16 +346,16 @@ function UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs
 	}
 }
 
-function UpdateGeneratorInstanceInputsImGuiV2(generatorInputs, setInputs)
+function UpdateOverridableDataDef(data_def, overridden_values)
 {
-	ImGui.BeginTable("Parameter_Table", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg);
+	ImGui.BeginTable("DataDef_Table", 3, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg);
 
-	ImGui.TableSetupColumn("Param");
+	ImGui.TableSetupColumn("Field");
 	ImGui.TableSetupColumn("Control");
 	ImGui.TableSetupColumn("Value");
 	ImGui.TableHeadersRow();
 
-	UpdateGeneratorInstanceInputsImGuiV2_Recurse(generatorInputs, setInputs);
+	UpdateOverridableDataDef_Recurse(data_def, overridden_values);
 
 	ImGui.EndTable();
 }
@@ -532,7 +532,7 @@ function UpdateGeneratorInstanceWindow(close_func, generatorInstance)
 
 		if(ImGui.CollapsingHeader("Inputs"))
 		{
-			UpdateGeneratorInstanceInputsImGuiV2(generatorInstance.generator.inputs, generatorInstance.setInputs);
+			UpdateOverridableDataDef(generatorInstance.generator.inputs, generatorInstance.setInputs);
 		}
 
 		if(ImGui.Button("Generate"))
