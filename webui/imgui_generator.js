@@ -360,6 +360,20 @@ function UpdateOverridableDataDef(data_def, overridden_values)
 	ImGui.EndTable();
 }
 
+//TODO - Move to bg lib? Everything except the UI part of this.
+function CreateGeneratorInstance( generator )
+{
+	gGeneratorInstances.push(
+		{
+			open:true,
+			seed:0,
+			generator:generator,
+			setInputs:Array(generator.inputs.fields.length).fill(null),
+			output:{}
+		}
+	);
+}
+
 function UpdateGeneratorsListInternal( generators_list, selected_func )
 {
 	//Default behaviour - add generator to instances list
@@ -367,15 +381,7 @@ function UpdateGeneratorsListInternal( generators_list, selected_func )
 	{
 		selected_func = function(selected_generator)
 		{
-			gGeneratorInstances.push(
-				{
-					open:true,
-					seed:0,
-					generator:selected_generator,
-					setInputs:Array(selected_generator.inputs.length).fill(null),
-					output:{}
-				}
-			);
+			CreateGeneratorInstance(selected_generator);
 		};
 	}
 	
