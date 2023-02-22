@@ -228,7 +228,7 @@ function UpdateOverridableDataDef_Recurse(data_def, setInputs)
 			{
 				if(ImGui.TreeNode(field.name))
 				{
-					UpdateOverridableDataDef_Recurse(field.dataType.fields, setInputs[i]);
+					UpdateOverridableDataDef_Recurse(field.dataType, setInputs[i]);
 					ImGui.TreePop();
 				}
 			}
