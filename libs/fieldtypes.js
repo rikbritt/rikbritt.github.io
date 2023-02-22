@@ -165,12 +165,12 @@ bg.CreateFieldType(
 bg.CreateFieldType(
 	"data",
 	function(field_def, seed) {
-		var dataDefIn = field_def.value;
-		if(dataDefIn == undefined){
-			dataDefIn = field_def.dataType.fields;
+		var data_def_in = field_def.value;
+		if(data_def_in == undefined){
+			data_def_in = field_def.dataType;
 		}
 
-		return bg.BuildDataDefValues(dataDefIn, seed, null, field_def.autoGenerate);
+		return bg.BuildDataDefValues(data_def_in, seed, null, field_def.autoGenerate);
 	},
 	function(field_def) {
 		return Array(field_def.dataType.fields.length).fill(null);
