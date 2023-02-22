@@ -73,3 +73,16 @@ bg.IsValidDataDef = function(data_def)
 	}
 	return true;
 }
+
+bg.GetDataDefFieldByName = function(data_def, name)
+{
+	for(var i=0; i<data_def.fields.length; ++i)
+	{
+		var field = data_def.fields[i];
+		if(field.name == name)
+		{
+			return field;
+		}
+	}
+	return null;
+}

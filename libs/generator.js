@@ -133,30 +133,15 @@ bg.GetGeneratorById = function(id)
 
 bg.GetGeneratorInputByName = function(generator, name)
 {
-	for(var i=0; i<generator.inputs.fields.length; ++i)
-	{
-		var field = generator.inputs.fields[i];
-		if(field.name == name)
-		{
-			return field;
-		}
-	}
-	return null;
+	return bg.GetDataDefFieldByName(generator.inputs, name);
 }
 
 bg.GetGeneratorOutputByName = function(generator, name)
 {
-	for(var i=0; i<generator.outputs.fields.length; ++i)
-	{
-		var field = generator.outputs.fields[i];
-		if(field.name == name)
-		{
-			return field;
-		}
-	}
-	return null;
+	return bg.GetDataDefFieldByName(generator.outputs, name);
 }
 
+//TODO - prob needs fixing
 bg.CreateWeightingDataDef = function(dataDefIn)
 {
 	var weightDataDefOut = {
