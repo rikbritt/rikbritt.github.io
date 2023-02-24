@@ -76,6 +76,12 @@ bg.RegisterGenerator = function(generator, add_to_global = true)
 		}
 	}
 
+	//Check for missing description
+	if(generator.description == null)
+	{
+		generator.description = "";
+	}
+
 	generator.id = id;
 	bg.generators.push(generator);
 	bg.generatorsById[id] = generator;
