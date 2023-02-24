@@ -40,7 +40,7 @@ bg.GetProjectById = function(id)
 
 bg.RegisterProjectGenerator = function(project, generator)
 {
-	if(bg.RegisterGenerator(generator))
+	if(bg.RegisterGenerator(generator, false /* don't add to global project*/))
 	{
 		project.generators.push(generator);
 	}

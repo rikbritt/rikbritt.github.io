@@ -1,7 +1,9 @@
 
 bg.generators = [];
 bg.generatorsById = {};
-bg.RegisterGenerator = function(generator)
+
+//Will add to a global list of generators, and by default add to the global project
+bg.RegisterGenerator = function(generator, add_to_global = true)
 {
 	var id = generator.id;
 	if(generator.version==1)
@@ -77,6 +79,12 @@ bg.RegisterGenerator = function(generator)
 	generator.id = id;
 	bg.generators.push(generator);
 	bg.generatorsById[id] = generator;
+
+	if(add_to_global)
+	{
+		bg.global_project.generators.push(generator);
+	}
+
 	return true;
 }
 
