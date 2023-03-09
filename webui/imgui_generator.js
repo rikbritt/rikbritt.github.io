@@ -631,7 +631,7 @@ function BuildGeneratorsByCategory(generators)
 			cat = cat.children[category];
 		}
 		
-		cat.children[category].generators.push(gen);
+		cat.generators.push(gen);
 		
 	}
 }
