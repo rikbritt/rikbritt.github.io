@@ -640,11 +640,12 @@ function BuildGeneratorsByCategory(generators)
 function UpdateGeneratorsTable_AddCatRow(cat, cat_name, is_root)
 {
 	ImGui.PushID(cat_name);
+	var open = true;
 	if(is_root == false)
 	{
 		ImGui.TableNextRow();
 		ImGui.TableSetColumnIndex(0);
-		var open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
+		open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
 		ImGui.TableSetColumnIndex(1);
 		ImGui.TextUnformatted("-");
 	}
