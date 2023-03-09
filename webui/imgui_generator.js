@@ -650,7 +650,7 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
 	{
 		for([key, data] of Object.entries(cat))
 		{
-			
+			UpdateGeneratorsTable_AddCatRow(data, key);
 		}
 		for(gen of cat.generators)
 		{
@@ -663,6 +663,8 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
 			ImGui.TableSetColumnIndex(1);
 			ImGui.TextUnformatted(gen.description);
 		}
+
+		ImGui.TreePop();
 	}
 	ImGui.PopID();
 }
