@@ -645,8 +645,6 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
 	var open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
 	ImGui.TableSetColumnIndex(1);
 	ImGui.TextUnformatted("-");
-	ImGui.TableSetColumnIndex(2);
-	ImGui.TextUnformatted("-");
 
 	if(open)
 	{
