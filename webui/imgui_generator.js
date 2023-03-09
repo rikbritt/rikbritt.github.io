@@ -639,16 +639,32 @@ function BuildGeneratorsByCategory(generators)
 
 function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
 {
+	ImGui.PushID(cat_name);
 	ImGui.TableNextRow();
 	ImGui.TableSetColumnIndex(0);
-	ImGui.PushID(cat_name);
+	var open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
 	ImGui.TableSetColumnIndex(1);
 	ImGui.TextUnformatted("-");
 	ImGui.TableSetColumnIndex(2);
 	ImGui.TextUnformatted("-");
-	var open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
-	for([key, data] of Object.entries(cat))
+
+	if(open)
 	{
+		for([key, data] of Object.entries(cat))
+		{
+			
+		}
+		for(gen of cat.children)
+		{
+			ImGui.TableNextRow();
+			ImGui.TableSetColumnIndex(0);
+			if(ImGui.Button(gen.name))
+			{
+				OpenWindow(gen.id, UpdateGeneratorWindow, gen);
+			}
+			ImGui.TableSetColumnIndex(1);
+			ImGui.TextUnformatted(gen.description);
+		}
 	}
 	ImGui.PopID();
 }
@@ -659,11 +675,10 @@ function UpdateGeneratorsTable(id, generators)
 	var categories = BuildGeneratorsByCategory(generators);
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
-	if (ImGui.BeginTable(id, 3, flags))
+	if (ImGui.BeginTable(id, 2, flags))
 	{
 		ImGui.TableSetupColumn("Name");
 		ImGui.TableSetupColumn("Description");
-		ImGui.TableSetupColumn("Category");
 		ImGui.TableHeadersRow();
 
 		UpdateGeneratorsTable_AddCatRow(categories, "Generators");
