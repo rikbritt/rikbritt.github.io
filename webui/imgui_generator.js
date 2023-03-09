@@ -604,3 +604,69 @@ function UpdateGeneratorInstances()
 	//Remove all closed windows
 	gGeneratorInstances = gGeneratorInstances.filter(item => item.open);
 }
+
+function BuildGeneratorsByCategory(generators)
+{
+	var cat_root = 
+	{
+		children:{},
+		generators:[]
+	};
+
+	for (var i = 0; i < generators.length; i++)
+	{
+		var gen = generators[i];
+		var cat = cat_root;
+		for(var c=0; c<gen.category.length; ++c)
+		{
+			var category = gen.category[c];
+			if(cat.children[category] == null)
+			{
+				cat.children[category] = {
+					children:{},
+					generators:[]
+				};
+			}
+
+			cat = cat.children[category];
+		}
+		
+		cat.children[category].generators.push(gen);
+		
+	}
+}
+
+function UpdateGeneratorsTable_AddCatRow(cat)
+{
+	ImGui.TableNextRow();
+	ImGui.TableSetColumnIndex(0);
+	ImGui.PushID(cat.name);
+	ImGui.TableSetColumnIndex(1);
+	ImGui.TextUnformatted("-");
+	ImGui.TableSetColumnIndex(2);
+	ImGui.TextUnformatted("-");
+	var open = ImGui.TreeNodeEx(cat.name, ImGui.TreeNodeFlags.SpanFullWidth);
+	for([key, data] of Object.entries(cat))
+	{
+	}
+	ImGui.PopID();
+}
+
+function UpdateGeneratorsTable(id, generators)
+{
+	//Mighg be slow as shit
+	var categories = BuildGeneratorsByCategory(generators);
+
+	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+	if (ImGui.BeginTable(id, 3, flags))
+	{
+		ImGui.TableSetupColumn("Name");
+		ImGui.TableSetupColumn("Description");
+		ImGui.TableSetupColumn("Category");
+		ImGui.TableHeadersRow();
+
+		UpdateGeneratorsTable_AddCatRow(categories);
+		
+		ImGui.EndTable();
+	}
+}

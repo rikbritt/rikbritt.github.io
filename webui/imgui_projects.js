@@ -152,7 +152,8 @@ function UpdateProjectProperties( project )
             var new_generator = bg.CreateEmptyProjectGenerator(project);
             new_generator.name = "New Generator";
         }
-                    
+        
+        UpdateGeneratorsTable("generator_table2", project.generators);
         var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
                 
         if (ImGui.BeginTable("generator_table", 3, flags))
