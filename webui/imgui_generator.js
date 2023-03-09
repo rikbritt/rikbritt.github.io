@@ -637,20 +637,22 @@ function BuildGeneratorsByCategory(generators)
 	return cat_root;
 }
 
-function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
+function UpdateGeneratorsTable_AddCatRow(cat, cat_name, is_root)
 {
 	ImGui.PushID(cat_name);
-	ImGui.TableNextRow();
-	ImGui.TableSetColumnIndex(0);
-	var open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
-	ImGui.TableSetColumnIndex(1);
-	ImGui.TextUnformatted("-");
-
+	if(is_root == false)
+	{
+		ImGui.TableNextRow();
+		ImGui.TableSetColumnIndex(0);
+		var open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
+		ImGui.TableSetColumnIndex(1);
+		ImGui.TextUnformatted("-");
+	}
 	if(open)
 	{
 		for([key, data] of Object.entries(cat.children))
 		{
-			UpdateGeneratorsTable_AddCatRow(data, key);
+			UpdateGeneratorsTable_AddCatRow(data, key, false);
 		}
 		for(gen of cat.generators)
 		{
@@ -664,7 +666,10 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
 			ImGui.TextUnformatted(gen.description);
 		}
 
-		ImGui.TreePop();
+		if(is_root == false)
+		{
+			ImGui.TreePop();
+		}
 	}
 	ImGui.PopID();
 }
@@ -681,7 +686,7 @@ function UpdateGeneratorsTable(id, generators)
 		ImGui.TableSetupColumn("Description");
 		ImGui.TableHeadersRow();
 
-		UpdateGeneratorsTable_AddCatRow(categories, "Generators");
+		UpdateGeneratorsTable_AddCatRow(categories, "Generators", true);
 		
 		ImGui.EndTable();
 	}

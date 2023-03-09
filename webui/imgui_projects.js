@@ -153,34 +153,7 @@ function UpdateProjectProperties( project )
             new_generator.name = "New Generator";
         }
         
-        UpdateGeneratorsTable("generator_table2", project.generators);
-        var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
-                
-        if (ImGui.BeginTable("generator_table", 3, flags))
-        {
-            ImGui.TableSetupColumn("Name");
-            ImGui.TableSetupColumn("Description");
-            ImGui.TableSetupColumn("Category");
-            ImGui.TableHeadersRow();
-
-            for (var row = 0; row < project.generators.length; row++)
-            {
-                var gen = project.generators[row];
-                ImGui.PushID(gen.id);
-                ImGui.TableNextRow();
-                ImGui.TableSetColumnIndex(0);
-                if(ImGui.Button(gen.name))
-                {
-                    OpenWindow(gen.id, UpdateGeneratorWindow, gen);
-                }
-                ImGui.TableSetColumnIndex(1);
-                ImGui.TextUnformatted(gen.description);
-                ImGui.TableSetColumnIndex(2);
-                ImGui.TextUnformatted(gen.category.join("/"));
-                ImGui.PopID();
-            }
-            ImGui.EndTable();
-        }
+        UpdateGeneratorsTable("generator_table", project.generators);
         ImGui.Unindent();
     }
     ImGui.PopID();
