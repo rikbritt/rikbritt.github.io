@@ -648,7 +648,7 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
 
 	if(open)
 	{
-		for([key, data] of Object.entries(cat))
+		for([key, data] of Object.entries(cat.children))
 		{
 			UpdateGeneratorsTable_AddCatRow(data, key);
 		}
