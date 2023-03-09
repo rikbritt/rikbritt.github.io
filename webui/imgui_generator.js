@@ -632,8 +632,9 @@ function BuildGeneratorsByCategory(generators)
 		}
 		
 		cat.generators.push(gen);
-		
 	}
+	
+	return cat_root;
 }
 
 function UpdateGeneratorsTable_AddCatRow(cat)
