@@ -652,7 +652,7 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name)
 		{
 			
 		}
-		for(gen of cat.children)
+		for(gen of cat.generators)
 		{
 			ImGui.TableNextRow();
 			ImGui.TableSetColumnIndex(0);
