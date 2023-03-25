@@ -280,9 +280,13 @@ function UpdateDataDefFields(fields)
 	var field_types_list = Object.keys(bg.fieldTypes);
 	ImGui.Combo("##Field Type To Make", (_ = g_new_field_type) => g_new_field_type = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length);
 	
-    if(ImGui.Button("Add Field (TODO)"))
+    if(ImGui.Button("Add Field"))
     {
-
+		var chosen_field = bg.fieldTypes[field_types_list[g_new_field_type]];
+		var field_entry = Object.assign({}, chosen_field.defaultDefData);
+		field_entry.name = "New Field";
+		field_entry.type = field_types_list[g_new_field_type];
+		fields.push(field_entry);
     }
 }
 
