@@ -125,6 +125,15 @@ function UpdateProjectProperties( project )
         {
             bg.CreateEmptyProjectGraph(project);
         }
+
+        UpdateGraphsTable(
+            project.id + "_graphs", 
+            project.generatorGraphs,
+            function(data_def)
+            {
+                //OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+            }
+        );
         ImGui.Unindent();
     }
     if(ImGui.CollapsingHeader("Data Defs"))

@@ -605,38 +605,6 @@ function UpdateGeneratorInstances()
 	gGeneratorInstances = gGeneratorInstances.filter(item => item.open);
 }
 
-function BuildGeneratorsByCategory(generators)
-{
-	var cat_root = 
-	{
-		children:{},
-		generators:[]
-	};
-
-	for (var i = 0; i < generators.length; i++)
-	{
-		var gen = generators[i];
-		var cat = cat_root;
-		for(var c=0; c<gen.category.length; ++c)
-		{
-			var category = gen.category[c];
-			if(cat.children[category] == null)
-			{
-				cat.children[category] = {
-					children:{},
-					generators:[]
-				};
-			}
-
-			cat = cat.children[category];
-		}
-		
-		cat.generators.push(gen);
-	}
-
-	return cat_root;
-}
-
 function UpdateGeneratorsTable_AddCatRow(cat, cat_name, is_root)
 {
 	ImGui.PushID(cat_name);
@@ -655,7 +623,7 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name, is_root)
 		{
 			UpdateGeneratorsTable_AddCatRow(data, key, false);
 		}
-		for(gen of cat.generators)
+		for(gen of cat.objects)
 		{
 			ImGui.TableNextRow();
 			ImGui.TableSetColumnIndex(0);
@@ -678,7 +646,7 @@ function UpdateGeneratorsTable_AddCatRow(cat, cat_name, is_root)
 function UpdateGeneratorsTable(id, generators)
 {
 	//Mighg be slow as shit
-	var categories = BuildGeneratorsByCategory(generators);
+	var categories = BuildGraphOfCategories(generators);
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
 	if (ImGui.BeginTable(id, 2, flags))

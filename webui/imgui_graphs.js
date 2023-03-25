@@ -257,3 +257,67 @@ function RenderGraph()
 	}
 	paper.view.draw();
 }
+
+
+function UpdateGraphsTable_AddCatRow(cat, cat_name, is_root, selected_func)
+{
+	ImGui.PushID(cat_name);
+	var open = true;
+	if(is_root == false)
+	{
+		ImGui.TableNextRow();
+		ImGui.TableSetColumnIndex(0);
+		open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
+		ImGui.TableSetColumnIndex(1);
+		ImGui.TextUnformatted("-");
+	}
+	if(open)
+	{
+		for([key, data] of Object.entries(cat.children))
+		{
+			UpdateGraphsTable_AddCatRow(data, key, false, selected_func);
+		}
+		for(graph of cat.objects)
+		{
+			ImGui.TableNextRow();
+			ImGui.TableSetColumnIndex(0);
+			if(ImGui.Button(graph.name))
+			{
+				selected_func(graph);
+			}
+			ImGui.TableSetColumnIndex(1);
+			if(graph.description != null)
+			{
+				ImGui.TextUnformatted(graph.description);
+			}
+			else
+			{
+				ImGui.TextUnformatted("-");
+			}
+		}
+
+		if(is_root == false)
+		{
+			ImGui.TreePop();
+		}
+	}
+	ImGui.PopID();
+}
+
+function UpdateGraphsTable(id, graphs, selected_func)
+{
+	//Mighg be slow as shit
+	var categories = BuildGraphOfCategories(data_defs);
+
+	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+	if (ImGui.BeginTable(id, 2, flags))
+	{
+		ImGui.TableSetupColumn("Name");
+		ImGui.TableSetupColumn("Description");
+		ImGui.TableHeadersRow();
+
+		UpdateGraphsTable_AddCatRow(categories, "DataDefs", true, selected_func);
+		
+		ImGui.EndTable();
+	}
+}

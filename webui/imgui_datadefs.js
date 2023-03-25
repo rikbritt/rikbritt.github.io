@@ -81,41 +81,6 @@ function UpdateDataDefsTreeForProject(project, selected_func)
 	}
 }
 
-function BuildDataDefsByCategory(data_defs)
-{
-	var cat_root = 
-	{
-		children:{},
-		data_defs:[]
-	};
-
-	for ([key, data_def] of Object.entries(data_defs))
-	{
-		var cat = cat_root;
-		var def_categories = data_def.category;
-		if(def_categories == null)
-		{
-			def_categories = [];
-		}
-		for(var c=0; c<def_categories.length; ++c)
-		{
-			var category = def_categories[c];
-			if(cat.children[category] == null)
-			{
-				cat.children[category] = {
-					children:{},
-					data_defs:[]
-				};
-			}
-
-			cat = cat.children[category];
-		}
-		
-		cat.data_defs.push(data_def);
-	}
-
-	return cat_root;
-}
 
 function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root, selected_func)
 {
@@ -135,7 +100,7 @@ function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root, selected_func)
 		{
 			UpdateDataDefsTable_AddCatRow(data, key, false, selected_func);
 		}
-		for(data_def of cat.data_defs)
+		for(data_def of cat.objects)
 		{
 			ImGui.TableNextRow();
 			ImGui.TableSetColumnIndex(0);
@@ -165,7 +130,7 @@ function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root, selected_func)
 function UpdateDataDefaTable(id, data_defs, selected_func)
 {
 	//Mighg be slow as shit
-	var categories = BuildDataDefsByCategory(data_defs);
+	var categories = BuildGraphOfCategories(data_defs);
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
 	if (ImGui.BeginTable(id, 2, flags))
