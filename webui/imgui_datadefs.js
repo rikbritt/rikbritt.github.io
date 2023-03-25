@@ -111,7 +111,7 @@ function BuildDataDefsByCategory(data_defs)
 			cat = cat.children[category];
 		}
 		
-		cat.data_defs.push(gen);
+		cat.data_defs.push(data_def);
 	}
 
 	return cat_root;
