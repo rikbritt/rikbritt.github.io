@@ -56,6 +56,7 @@ bg.CreateEmptyProjectGenerator = function(project)
 bg.CreateEmptyProjectGraph = function(project)
 {
 	var graph = bg.CreateGraph();
+	graph.name = "New Graph";
 	project.generatorGraphs.push(graph);
 	return graph;
 }
