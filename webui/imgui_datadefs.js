@@ -186,6 +186,7 @@ function GetFieldTypeName(data, i, out_str)
 	return true;
 }
 
+//Return true = delete this entry
 function UpdateDataDefField(fields, field_data)
 {
 	var delete_field = false;
@@ -250,8 +251,9 @@ function UpdateDataDefField(fields, field_data)
 
 	if(delete_field)
 	{
-		delete fields[field_data.name];
+		return true;
 	}
+	return false;
 }
 
 
@@ -271,7 +273,11 @@ function UpdateDataDefFields(fields)
 		ImGui.PushID(i);
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
-        UpdateDataDefField(fields, field);
+        if(UpdateDataDefField(fields, field))
+		{
+			fields.splice(i,1);
+			--i;
+		}
 		ImGui.PopID();
     }
 
