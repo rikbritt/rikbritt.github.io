@@ -307,6 +307,11 @@ function UpdateDataDefWindow(close_func, data_def)
 			data_def.description = "";
 		}
 		ImGui.InputText("Description", (_ = data_def.description) => data_def.description = _, 256);
+
+		if(data_def.category == undefined)
+		{
+			data_def.category = [];
+		}
 		var category_str = data_def.category.join("/");
 		if(ImGui.InputText("Categories", (_ = category_str) => category_str = _, 256))
 		{
