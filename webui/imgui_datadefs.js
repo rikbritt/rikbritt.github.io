@@ -81,6 +81,106 @@ function UpdateDataDefsTreeForProject(project, selected_func)
 	}
 }
 
+function BuildDataDefsByCategory(data_defs)
+{
+	var cat_root = 
+	{
+		children:{},
+		data_defs:[]
+	};
+
+	for (var i = 0; i < data_defs.length; i++)
+	{
+		var data_def = data_defs[i];
+		var cat = cat_root;
+		var def_categories = data_def.category;
+		if(def_categories == null)
+		{
+			def_categories = [];
+		}
+		for(var c=0; c<def_categories.length; ++c)
+		{
+			var category = def_categories[c];
+			if(cat.children[category] == null)
+			{
+				cat.children[category] = {
+					children:{},
+					data_defs:[]
+				};
+			}
+
+			cat = cat.children[category];
+		}
+		
+		cat.data_defs.push(gen);
+	}
+
+	return cat_root;
+}
+
+function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root)
+{
+	ImGui.PushID(cat_name);
+	var open = true;
+	if(is_root == false)
+	{
+		ImGui.TableNextRow();
+		ImGui.TableSetColumnIndex(0);
+		open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
+		ImGui.TableSetColumnIndex(1);
+		ImGui.TextUnformatted("-");
+	}
+	if(open)
+	{
+		for([key, data] of Object.entries(cat.children))
+		{
+			UpdateDataDefsTable_AddCatRow(data, key, false);
+		}
+		for(data_def of cat.data_defs)
+		{
+			ImGui.TableNextRow();
+			ImGui.TableSetColumnIndex(0);
+			if(ImGui.Button(data_def.name))
+			{
+				//OpenWindow(data_def.id, UpdateGeneratorWindow, data_def);
+			}
+			ImGui.TableSetColumnIndex(1);
+			if(data_def.description != null)
+			{
+				ImGui.TextUnformatted(data_def.description);
+			}
+			else
+			{
+				ImGui.TextUnformatted("-");
+			}
+		}
+
+		if(is_root == false)
+		{
+			ImGui.TreePop();
+		}
+	}
+	ImGui.PopID();
+}
+
+function UpdateDataDefaTable(id, data_defs)
+{
+	//Mighg be slow as shit
+	var categories = BuildDataDefsByCategory(data_defs);
+
+	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+	if (ImGui.BeginTable(id, 2, flags))
+	{
+		ImGui.TableSetupColumn("Name");
+		ImGui.TableSetupColumn("Description");
+		ImGui.TableHeadersRow();
+
+		UpdateDataDefsTable_AddCatRow(categories, "DataDefs", true);
+		
+		ImGui.EndTable();
+	}
+}
+
 function GetFieldTypeName(data, i, out_str)
 {
 	out_str[0] = data[Object.keys(data)[i]].fieldTypeId;

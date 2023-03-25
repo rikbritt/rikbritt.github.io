@@ -135,6 +135,10 @@ function UpdateProjectProperties( project )
             bg.CreateEmptyDataDef(project);
         }
 
+        function UpdateDataDefaTable(
+            project.id + "_data_defs", 
+            project.dataDefs
+        );
         UpdateDataDefsTreeForProject(
             project,
             function(data_def)
