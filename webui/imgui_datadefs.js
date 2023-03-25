@@ -117,7 +117,7 @@ function BuildDataDefsByCategory(data_defs)
 	return cat_root;
 }
 
-function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root)
+function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root, selected_func)
 {
 	ImGui.PushID(cat_name);
 	var open = true;
@@ -141,7 +141,7 @@ function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root)
 			ImGui.TableSetColumnIndex(0);
 			if(ImGui.Button(data_def.name))
 			{
-				//OpenWindow(data_def.id, UpdateGeneratorWindow, data_def);
+				selected_func(data_def);
 			}
 			ImGui.TableSetColumnIndex(1);
 			if(data_def.description != null)
@@ -162,7 +162,7 @@ function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root)
 	ImGui.PopID();
 }
 
-function UpdateDataDefaTable(id, data_defs)
+function UpdateDataDefaTable(id, data_defs, selected_func)
 {
 	//Mighg be slow as shit
 	var categories = BuildDataDefsByCategory(data_defs);
@@ -174,7 +174,7 @@ function UpdateDataDefaTable(id, data_defs)
 		ImGui.TableSetupColumn("Description");
 		ImGui.TableHeadersRow();
 
-		UpdateDataDefsTable_AddCatRow(categories, "DataDefs", true);
+		UpdateDataDefsTable_AddCatRow(categories, "DataDefs", true, selected_func);
 		
 		ImGui.EndTable();
 	}

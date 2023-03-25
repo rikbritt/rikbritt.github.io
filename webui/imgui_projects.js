@@ -137,16 +137,13 @@ function UpdateProjectProperties( project )
 
         UpdateDataDefaTable(
             project.id + "_data_defs", 
-            project.dataDefs
-        );
-        
-        UpdateDataDefsTreeForProject(
-            project,
+            project.dataDefs,
             function(data_def)
             {
                 OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
             }
         );
+        
         ImGui.Unindent();
     }
     if(ImGui.CollapsingHeader("Generators"))
