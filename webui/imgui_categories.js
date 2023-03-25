@@ -28,7 +28,7 @@ function BuildGraphOfCategories(objects)
 			cat = cat.children[category];
 		}
 		
-		cat.objects.push(data_def);
+		cat.objects.push(obj);
 	}
 
 	return cat_root;
