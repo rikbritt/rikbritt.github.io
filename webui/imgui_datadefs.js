@@ -133,7 +133,7 @@ function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root, selected_func)
 	{
 		for([key, data] of Object.entries(cat.children))
 		{
-			UpdateDataDefsTable_AddCatRow(data, key, false);
+			UpdateDataDefsTable_AddCatRow(data, key, false, selected_func);
 		}
 		for(data_def of cat.data_defs)
 		{
