@@ -105,7 +105,8 @@ bg.CreateFieldType(
 	bg.GenerateFloatBasedDefaultInstance,
 	{
 		min:0,
-		max:100
+		max:100,
+		units:"m"
 	}
 );
 
