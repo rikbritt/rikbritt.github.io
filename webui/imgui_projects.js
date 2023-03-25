@@ -121,9 +121,9 @@ function UpdateProjectProperties( project )
     if(ImGui.CollapsingHeader("Graphs"))
     {
         ImGui.Indent();
-        if(ImGui.Button("New Graph... (NOT IMPL)"))
+        if(ImGui.Button("New Graph... (WIP)"))
         {
-            
+            bg.CreateEmptyProjectGraph(project);
         }
         ImGui.Unindent();
     }

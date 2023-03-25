@@ -53,6 +53,13 @@ bg.CreateEmptyProjectGenerator = function(project)
 	return generator;
 }
 
+bg.CreateEmptyProjectGraph = function(project)
+{
+	var graph = bg.CreateGraph();
+	project.generatorGraphs.push(graph);
+	return graph;
+}
+
 bg.UnloadProject = function(id)
 {
 	delete bg.projectsById[id];
