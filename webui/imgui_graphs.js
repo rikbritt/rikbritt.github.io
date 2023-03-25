@@ -307,7 +307,7 @@ function UpdateGraphsTable_AddCatRow(cat, cat_name, is_root, selected_func)
 function UpdateGraphsTable(id, graphs, selected_func)
 {
 	//Mighg be slow as shit
-	var categories = BuildGraphOfCategories(data_defs);
+	var categories = BuildGraphOfCategories(graphs);
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
 	if (ImGui.BeginTable(id, 2, flags))
