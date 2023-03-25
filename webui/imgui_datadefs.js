@@ -89,9 +89,8 @@ function BuildDataDefsByCategory(data_defs)
 		data_defs:[]
 	};
 
-	for (var i = 0; i < data_defs.length; i++)
+	for ([key, data_def] of Object.entries(data_defs))
 	{
-		var data_def = data_defs[i];
 		var cat = cat_root;
 		var def_categories = data_def.category;
 		if(def_categories == null)
