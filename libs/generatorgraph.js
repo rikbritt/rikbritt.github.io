@@ -8,7 +8,7 @@ bg.CreateGenerationGraph = function(graphName)
 {
 	var graph = {
 		name:graphName,
-		graphNodes:[]
+		nodes:[]
 	};
 	
 	return graph;
@@ -17,12 +17,12 @@ bg.CreateGenerationGraph = function(graphName)
 bg.CreateGenerationGraphNode = function(graph, generator)
 {
 	var node = {
-		idx:graph.graphNodes.length,
+		idx:graph.nodes.length,
 		generator:generator,
 		inputs:[]
 	};
 	
-	graph.graphNodes.push(node);
+	graph.nodes.push(node);
 	
 	return node;
 }
