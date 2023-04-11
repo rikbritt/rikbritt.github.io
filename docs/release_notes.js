@@ -16,6 +16,10 @@ Data Map - A hashmap of field values, keyed by field name. Used by the generator
 
 AddNotes("Release Notes",
 `
+11/4/2023
+Updated so graph editor is a regular window, not a single bespoke graph editor test window.
+Need to decide if the node x/y layout and other data lives within the graph itself. It probably should.
+
 12/01/2023
 I think I'll move all 'built in' generators to belong to a 'global' project, and allow projects to reference others.
 To support that I'll allow multiple projects to be loaded, and update the UI to reflect that.
