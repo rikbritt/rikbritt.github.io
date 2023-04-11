@@ -202,6 +202,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 			node_positions:[],
 			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
 			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
+			c_x:0,
+			c_y:0
 		};
 	}
 
@@ -234,8 +236,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 		var dw = ImGui.GetWindowDrawList();
 
 		NodeImGui.BeginCanvas("canvas",  new ImGui.Vec2(win_width - gens_width, win_height));
-		NodeImGui.Current_Canvas.Scrolling.x = c_x;
-		NodeImGui.Current_Canvas.Scrolling.y = c_y;
+		NodeImGui.Current_Canvas.Scrolling.x = graph_editor_instance.c_x;
+		NodeImGui.Current_Canvas.Scrolling.y = graph_editor_instance.c_y;
 		for(var i=0; i<graph_instance.nodes.length; ++i)
 		{
 			var node = graph_instance.nodes[i];
