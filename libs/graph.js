@@ -1,6 +1,7 @@
 bg.CreateGraph = function()
 {
     return {
+        id:bg.CreateGUID(),
         nodes:[],
         edges:[]
     };
