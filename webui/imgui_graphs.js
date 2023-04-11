@@ -194,7 +194,7 @@ function UpdateGraphEditor()
 function UpdateGraphWindow(close_func, graph_instance)
 {
 	ImGui.PushID(graph_instance.id);
-	if(ImGui.Begin(`Graph Instance - ${graph_instance.name}`, close_func))
+	if(ImGui.Begin(`Graph Instance - ${graph_instance.name}###${graph_instance.id}`, close_func))
 	{
 		var win_width = ImGui.GetContentRegionAvail().x;
 		var win_height = ImGui.GetContentRegionAvail().y;
