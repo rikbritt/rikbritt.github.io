@@ -203,11 +203,11 @@ function UpdateGraphWindow(close_func, graph_instance)
 		ImGui.BeginChild("GraphProperties", new ImGui.Vec2(gens_width, win_height))
 		ImGui.Text(graph_instance.name);
 
-		ImGui.Text("Num Nodes : " + graph_instance.graphNodes.length);
+		ImGui.Text("Num Nodes : " + graph_instance.nodes.length);
 		ImGui.Indent();
-		for(var i=0; i<graph_instance.graphNodes.length; ++i)
+		for(var i=0; i<graph_instance.nodes.length; ++i)
 		{
-			var node = graph_instance.graphNodes[i];
+			var node = graph_instance.nodes[i];
 			ImGui.Text(node.generator.name);
 		}
 		ImGui.Unindent();
