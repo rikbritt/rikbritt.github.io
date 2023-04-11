@@ -281,8 +281,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 				UpdateGeneratorsList(
 					function(generator)
 					{
-						//bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
-						//gGraphInstances[0].node_positions.push({x:0,y:0});
+						bg.CreateGenerationGraphNode(graph_instance, generator);
+						graph_editor_instance.node_positions.push({x:0,y:0});
 					}
 				);
 				ImGui.EndMenu();
