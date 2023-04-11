@@ -207,7 +207,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 	}
 
 	graph_editor_instance = gGraphEditorData[graph_instance.id];
-	
+
 	ImGui.PushID(graph_instance.id);
 	if(ImGui.Begin(`Graph Instance - ${graph_instance.name}###${graph_instance.id}`, close_func))
 	{
@@ -270,6 +270,28 @@ function UpdateGraphWindow(close_func, graph_instance)
 
 			NodeImGui.EndNode();
 		}
+		
+		if (ImGui.BeginPopupContextWindow())
+		{
+			if(ImGui.BeginMenu("Add Generator..."))
+			{
+				UpdateGeneratorsList(
+					function(generator)
+					{
+						//bg.CreateGenerationGraphNode(gGraphInstances[0].instance, generator);
+						//gGraphInstances[0].node_positions.push({x:0,y:0});
+					}
+				);
+				ImGui.EndMenu();
+			}
+
+			if(ImGui.MenuItem("Add Note / Comment"))
+			{
+			}
+
+			ImGui.EndPopup();
+		}
+		NodeImGui.EndCanvas();
 	}
 	ImGui.End();
 	ImGui.PopID();
