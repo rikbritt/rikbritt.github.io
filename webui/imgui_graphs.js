@@ -191,8 +191,23 @@ function UpdateGraphEditor()
 	}
 }
 
+var gGraphEditorData = {}; //Serialise this? Make part of Graph instances?
+
 function UpdateGraphWindow(close_func, graph_instance)
 {
+	if(gGraphEditorData[graph_instance.id] == null)
+	{
+		gGraphEditorData[graph_instance.id] =
+		{
+			instance:graph_instance,
+			node_positions:[],
+			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
+			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
+		};
+	}
+
+	graph_editor_instance = gGraphEditorData[graph_instance.id];
+	
 	ImGui.PushID(graph_instance.id);
 	if(ImGui.Begin(`Graph Instance - ${graph_instance.name}###${graph_instance.id}`, close_func))
 	{
@@ -214,6 +229,47 @@ function UpdateGraphWindow(close_func, graph_instance)
 		ImGui.Unindent();
 
 		ImGui.EndChild();
+
+		ImGui.SameLine();
+
+		var dw = ImGui.GetWindowDrawList();
+
+		NodeImGui.BeginCanvas("canvas",  new ImGui.Vec2(win_width - gens_width, win_height));
+		NodeImGui.Current_Canvas.Scrolling.x = c_x;
+		NodeImGui.Current_Canvas.Scrolling.y = c_y;
+		for(var i=0; i<graph_instance.nodes.length; ++i)
+		{
+			var node = graph_instance.nodes[i];
+			NodeImGui.BeginNode(
+				node.idx,
+				node.generator.name,
+				graph_editor_instance.node_positions[i].x,
+				graph_editor_instance.node_positions[i].y
+			);
+
+			for([paramKey, paramData] of Object.entries(node.generator.inputs))
+			{
+				NodeImGui.InputPin(paramKey);
+			}
+
+			for([paramKey, paramData] of Object.entries(node.generator.outputs))
+			{
+				NodeImGui.OutputPin(paramKey);
+			}
+
+			//Input Links
+			for(var j=0; j<node.inputs.length; ++j)
+			{
+				var link = node.inputs[j];
+				NodeImGui.LinkNode(
+					link.fromNodeIdx,
+					link.fromNodeOutputName,
+					link.toNodeInputName
+				);
+			}
+
+			NodeImGui.EndNode();
+		}
 	}
 	ImGui.End();
 	ImGui.PopID();
