@@ -229,6 +229,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 		}
 		ImGui.Unindent();
 
+		ImGui.SliderInt("Canvas X", (_ = graph_editor_instance.c_x) => graph_editor_instance.c_x = _, 0, 1000);
+		ImGui.SliderInt("Canvas Y", (_ = graph_editor_instance.c_y) => graph_editor_instance.c_y = _, 0, 1000);
 		ImGui.EndChild();
 
 		ImGui.SameLine();
