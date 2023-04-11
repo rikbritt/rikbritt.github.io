@@ -25,10 +25,6 @@ function UpdateImgui(dt, timestamp)
 		}
 		if (ImGui.BeginMenu("Graphs"))
 		{
-			if(ImGui.MenuItem("Graph Editor"))
-			{
-				gShowGraphEditor = !gShowGraphEditor;
-			}
 			UpdateGeneratorGraphsList();
 			ImGui.EndMenu();
 		}
@@ -56,7 +52,6 @@ function UpdateImgui(dt, timestamp)
 	}
 	ImGui.End();
 
-	UpdateGraphEditor();
 	UpdateGeneratorInstances();
 	UpdateTestWindows();
 	UpdateWindows();
