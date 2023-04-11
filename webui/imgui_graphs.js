@@ -201,7 +201,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 		var gens_width = Math.min(200, win_width * 0.5);
 
 		ImGui.BeginChild("GraphProperties", new ImGui.Vec2(gens_width, win_height))
-		ImGui.Text(graph_instance.name);
+		ImGui.Text(graph_instance.id);
+		ImGui.InputText("Name", (_ = graph_instance.name) => graph_instance.name = _, 256);
 
 		ImGui.Text("Num Nodes : " + graph_instance.nodes.length);
 		ImGui.Indent();
