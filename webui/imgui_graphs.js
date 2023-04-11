@@ -19,10 +19,10 @@ function UpdateSelectedNodeInfo(selected_node, graph_editor_instance)
 	ImGui.PushID(selected_node.name);
 	ImGui.Separator();
 	ImGui.Text(selected_node.name);
-	ImGui.SliderInt("Selected Node " + selected_node.name, (_ = selected_node.idx) => selected_node.idx = _, 0, graph_instance.graphNodes.length-1);
-	if(selected_node.idx >= 0 && selected_node.idx < graph_instance.graphNodes.length)
+	ImGui.SliderInt("Selected Node " + selected_node.name, (_ = selected_node.idx) => selected_node.idx = _, 0, graph_instance.nodes.length-1);
+	if(selected_node.idx >= 0 && selected_node.idx < graph_instance.nodes.length)
 	{
-		var selected_graph_node = graph_instance.graphNodes[selected_node.idx];
+		var selected_graph_node = graph_instance.nodes[selected_node.idx];
 		var selected_node_pos = graph_editor_instance.node_positions[selected_node.idx];
 		ImGui.Text("Name : " + selected_graph_node.generator.name);
 		ImGui.SliderInt("X", (_ = selected_node_pos.x) => selected_node_pos.x = _, -100, 500);
@@ -97,11 +97,11 @@ function UpdateSelectedNodeInfo(selected_node, graph_editor_instance)
 //				bg.CreateGenerationGraphLink(person_node, "data", suspect_node, "suspect");
 //			}
 //
-//			ImGui.Text("Num Nodes : " + graph_instance.graphNodes.length);
+//			ImGui.Text("Num Nodes : " + graph_instance.nodes.length);
 //			ImGui.Indent();
-//			for(var i=0; i<graph_instance.graphNodes.length; ++i)
+//			for(var i=0; i<graph_instance.nodes.length; ++i)
 //			{
-//				var node = graph_instance.graphNodes[i];
+//				var node = graph_instance.nodes[i];
 //				ImGui.Text(node.generator.name);
 //			}
 //			ImGui.Unindent();
@@ -111,9 +111,9 @@ function UpdateSelectedNodeInfo(selected_node, graph_editor_instance)
 //
 //			if(ImGui.Button("Add A:Output To B:Input Link"))
 //			{
-//				var node_a = graph_instance.graphNodes[graph_editor_instance.selected_node_a.idx];
+//				var node_a = graph_instance.nodes[graph_editor_instance.selected_node_a.idx];
 //				var node_a_output_name = Object.entries(node_a.generator.outputs)[graph_editor_instance.selected_node_a.output_pin][0];
-//				var node_b = graph_instance.graphNodes[graph_editor_instance.selected_node_b.idx];
+//				var node_b = graph_instance.nodes[graph_editor_instance.selected_node_b.idx];
 //				var node_b_input_name = Object.entries(node_b.generator.inputs)[graph_editor_instance.selected_node_b.input_pin][0];
 //				bg.CreateGenerationGraphLink(node_a, node_a_output_name, node_b, node_b_input_name);
 //			}
@@ -129,9 +129,9 @@ function UpdateSelectedNodeInfo(selected_node, graph_editor_instance)
 //			NodeImGui.BeginCanvas("canvas",  new ImGui.Vec2(win_width - gens_width, win_height));
 //			NodeImGui.Current_Canvas.Scrolling.x = c_x;
 //			NodeImGui.Current_Canvas.Scrolling.y = c_y;
-//			for(var i=0; i<graph_instance.graphNodes.length; ++i)
+//			for(var i=0; i<graph_instance.nodes.length; ++i)
 //			{
-//				var node = graph_instance.graphNodes[i];
+//				var node = graph_instance.nodes[i];
 //				NodeImGui.BeginNode(
 //					node.idx,
 //					node.generator.name,
@@ -228,7 +228,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 			ImGui.Text(node.generator.name);
 		}
 		ImGui.Unindent();
-		
+
 		UpdateSelectedNodeInfo(graph_editor_instance.selected_node_a, graph_editor_instance);
 		UpdateSelectedNodeInfo(graph_editor_instance.selected_node_b, graph_editor_instance);
 
@@ -365,7 +365,7 @@ function RenderGraph()
 			}
 		};
 		
-		RenderGraphLevel(gGeneratorGraph.graphNodes, 0);
+		RenderGraphLevel(gGeneratorGraph.nodes, 0);
 	}
 	paper.view.draw();
 }
