@@ -129,9 +129,9 @@ function UpdateProjectProperties( project )
         UpdateGraphsTable(
             project.id + "_graphs", 
             project.generatorGraphs,
-            function(data_def)
+            function(graph)
             {
-                //OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+                OpenWindow(graph.id, UpdateGraphWindow, graph);
             }
         );
         ImGui.Unindent();

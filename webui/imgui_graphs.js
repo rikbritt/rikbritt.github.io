@@ -191,6 +191,33 @@ function UpdateGraphEditor()
 	}
 }
 
+function UpdateGraphWindow(close_func, graph_instance)
+{
+	ImGui.PushID(graph_instance.id);
+	if(ImGui.Begin(`Graph Instance - ${graph_instance.name}`, close_func))
+	{
+		var win_width = ImGui.GetContentRegionAvail().x;
+		var win_height = ImGui.GetContentRegionAvail().y;
+		var gens_width = Math.min(200, win_width * 0.5);
+
+		ImGui.BeginChild("GraphProperties", new ImGui.Vec2(gens_width, win_height))
+		ImGui.Text(graph_instance.name);
+
+		ImGui.Text("Num Nodes : " + graph_instance.graphNodes.length);
+		ImGui.Indent();
+		for(var i=0; i<graph_instance.graphNodes.length; ++i)
+		{
+			var node = graph_instance.graphNodes[i];
+			ImGui.Text(node.generator.name);
+		}
+		ImGui.Unindent();
+
+		ImGui.EndChild();
+	}
+	ImGui.End();
+	ImGui.PopID();
+}
+
 function UpdateGeneratorGraphsList() 
 {
 	for(var i=0; i<bg.projects.length; ++i)
