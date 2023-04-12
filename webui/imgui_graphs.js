@@ -294,7 +294,12 @@ function UpdateGraphWindow(close_func, graph_instance)
 
 			if(ImGui.BeginMenu("Add Data Def..."))
 			{
-				UpdateDataDefsList();
+				UpdateDataDefsList(
+					function(data_def)
+					{
+						
+					}
+				);
 				ImGui.EndMenu();
 			}
 

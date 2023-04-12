@@ -31,8 +31,15 @@ function UpdateDataDefsListInternal( defs_list, selected_func )
 	}
 }
 
-function UpdateDataDefsList()
+function UpdateDataDefsList(selected_func)
 {
+	if(selected_func == null)
+	{
+		selected_func = function(data_def)
+		{
+			OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+		};
+	}
 	for(var i=0; i<bg.projects.length; ++i)
 	{
 		var project = bg.projects[i];
@@ -47,11 +54,7 @@ function UpdateDataDefsList()
 	{
 		UpdateDataDefsListInternal(
 			bg.dataDefs,
-            function(data_def)
-            {
-                OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
-            }
-			//selected_func
+			selected_func
 		);
 		ImGui.EndMenu();
 	}
