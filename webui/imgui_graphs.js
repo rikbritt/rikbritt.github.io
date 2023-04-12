@@ -24,7 +24,7 @@ function UpdateSelectedNodeInfo(selected_node, graph_editor_instance)
 	{
 		var selected_graph_node = graph_instance.nodes[selected_node.idx];
 		var selected_node_pos = graph_editor_instance.node_positions[selected_node.idx];
-		ImGui.Text("Name : " + selected_graph_node.generator.name);
+		ImGui.Text("Name : " + bg.GetGenerationGraphNodeName(selected_graph_node));
 		ImGui.SliderInt("X", (_ = selected_node_pos.x) => selected_node_pos.x = _, -100, 500);
 		ImGui.SliderInt("Y", (_ = selected_node_pos.y) => selected_node_pos.y = _, -100, 500);
 		ImGui.Text("Inputs : ");
@@ -226,7 +226,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 		for(var i=0; i<graph_instance.nodes.length; ++i)
 		{
 			var node = graph_instance.nodes[i];
-			ImGui.Text(node.generator.name);
+			ImGui.Text(bg.GetGenerationGraphNodeName(node));
 		}
 		ImGui.Unindent();
 
@@ -249,7 +249,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 			var node = graph_instance.nodes[i];
 			NodeImGui.BeginNode(
 				node.idx,
-				node.generator.name,
+				bg.GetGenerationGraphNodeName(node),
 				graph_editor_instance.node_positions[i].x,
 				graph_editor_instance.node_positions[i].y
 			);
@@ -362,7 +362,7 @@ function RenderGraph()
 				path.fillColor = '#e9e9ff';
 				
 				var txt = new paper.PointText(nodeCenter);
-				txt.content = graphNode.generator.name;
+				txt.content = bg.GetGenerationGraphNodeName(graphNode);
 				txt.justification = 'center';
 				//path.selected = true;
 				

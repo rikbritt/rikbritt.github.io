@@ -26,6 +26,19 @@ bg.CreateGenerationGraphNode = function(graph)
 	return node;
 }
 
+bg.GetGenerationGraphNodeName = function(node)
+{
+	if(node.type == "generator")
+	{
+		return node.generator.name;
+	}
+	else if(node.type == "data_def")
+	{
+		return node.data_def.name;
+	}
+	return "?";
+}
+
 bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
 {
 	var node = bg.CreateGenerationGraphNode(graph);
