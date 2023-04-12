@@ -29,33 +29,37 @@ function UpdateSelectedNodeInfo(selected_node, graph_editor_instance)
 		ImGui.SliderInt("Y", (_ = selected_node_pos.y) => selected_node_pos.y = _, -100, 500);
 		ImGui.Text("Inputs : ");
 		ImGui.Indent();
-		var generator_inputs = selected_graph_node.generator.inputs;
-		for([paramKey, paramData] of Object.entries(generator_inputs))
-		{
-			ImGui.Text(paramKey + " : " + paramData.type);
-		}
-		ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, Object.entries(generator_inputs).length-1);
-		ImGui.Unindent();
 
-		ImGui.Text("Outputs : ");
-		ImGui.Indent();
-		var generator_outputs = selected_graph_node.generator.outputs;
-		for([paramKey, paramData] of Object.entries(generator_outputs))
+		if(selected_graph_node.type == "generator")
 		{
-			ImGui.Text(paramKey + " : " + paramData.type);
-		}
-		ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, Object.entries(generator_outputs).length-1);
-		ImGui.Unindent();
+			var generator_inputs = selected_graph_node.generator.inputs;
+			for([paramKey, paramData] of Object.entries(generator_inputs))
+			{
+				ImGui.Text(paramKey + " : " + paramData.type);
+			}
+			ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, Object.entries(generator_inputs).length-1);
+			ImGui.Unindent();
 
-		ImGui.Text("Links : ");
-		ImGui.Indent();
-		var links = selected_graph_node.inputs;
-		for(var i=0; i<links.length; ++i)
-		{
-			var link = links[i];
-			ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
+			ImGui.Text("Outputs : ");
+			ImGui.Indent();
+			var generator_outputs = selected_graph_node.generator.outputs;
+			for([paramKey, paramData] of Object.entries(generator_outputs))
+			{
+				ImGui.Text(paramKey + " : " + paramData.type);
+			}
+			ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, Object.entries(generator_outputs).length-1);
+			ImGui.Unindent();
+
+			ImGui.Text("Links : ");
+			ImGui.Indent();
+			var links = selected_graph_node.inputs;
+			for(var i=0; i<links.length; ++i)
+			{
+				var link = links[i];
+				ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
+			}
+			ImGui.Unindent();
 		}
-		ImGui.Unindent();
 	}
 	else
 	{
