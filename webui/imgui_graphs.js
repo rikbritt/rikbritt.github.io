@@ -281,6 +281,13 @@ function UpdateGraphWindow(close_func, graph_instance)
 					);
 				}
 			}
+			else if(node.type == "data_def")
+			{
+				for(var j=0; j<node.data_def.fields.length; ++j)
+				{
+					NodeImGui.InputPin(node.data_def.fields[j].name);
+				}
+			}
 
 			NodeImGui.EndNode();
 		}
