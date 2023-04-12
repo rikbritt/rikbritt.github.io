@@ -258,25 +258,28 @@ function UpdateGraphWindow(close_func, graph_instance)
 				graph_editor_instance.node_positions[i].y
 			);
 
-			for([paramKey, paramData] of Object.entries(node.generator.inputs))
+			if(node.type == "generator")
 			{
-				NodeImGui.InputPin(paramKey);
-			}
+				for([paramKey, paramData] of Object.entries(node.generator.inputs))
+				{
+					NodeImGui.InputPin(paramKey);
+				}
 
-			for([paramKey, paramData] of Object.entries(node.generator.outputs))
-			{
-				NodeImGui.OutputPin(paramKey);
-			}
+				for([paramKey, paramData] of Object.entries(node.generator.outputs))
+				{
+					NodeImGui.OutputPin(paramKey);
+				}
 
-			//Input Links
-			for(var j=0; j<node.inputs.length; ++j)
-			{
-				var link = node.inputs[j];
-				NodeImGui.LinkNode(
-					link.fromNodeIdx,
-					link.fromNodeOutputName,
-					link.toNodeInputName
-				);
+				//Input Links
+				for(var j=0; j<node.inputs.length; ++j)
+				{
+					var link = node.inputs[j];
+					NodeImGui.LinkNode(
+						link.fromNodeIdx,
+						link.fromNodeOutputName,
+						link.toNodeInputName
+					);
+				}
 			}
 
 			NodeImGui.EndNode();
