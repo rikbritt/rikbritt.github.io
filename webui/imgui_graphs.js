@@ -219,6 +219,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 		ImGui.BeginChild("GraphProperties", new ImGui.Vec2(gens_width, win_height))
 		ImGui.Text(graph_instance.id);
 		ImGui.InputText("Name", (_ = graph_instance.name) => graph_instance.name = _, 256);
+		ImGui.InputText("Description", (_ = graph_instance.description) => graph_instance.description = _, 256);
 
 		ImGui.Text("Num Nodes : " + graph_instance.nodes.length);
 		ImGui.Indent();
@@ -288,6 +289,12 @@ function UpdateGraphWindow(close_func, graph_instance)
 						graph_editor_instance.node_positions.push({x:0,y:0});
 					}
 				);
+				ImGui.EndMenu();
+			}
+
+			if(ImGui.BeginMenu("Add Data Def..."))
+			{
+				UpdateDataDefsList();
 				ImGui.EndMenu();
 			}
 
