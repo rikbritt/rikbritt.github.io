@@ -8,7 +8,7 @@ function RunGeneratorInstance(generatorInstance)
 	{
 		//Create an empty graph for the selected generator
 		generatorInstance.generatorGraph = bg.CreateGenerationGraph("Test Harness");
-		generatorInstance.targetGraphNode = bg.CreateGenerationGraphNode(generatorInstance.generatorGraph, generatorInstance.generator);
+		generatorInstance.targetGraphNode = bg.CreateGenerationGraph_GeneratorNode(generatorInstance.generatorGraph, generatorInstance.generator);
 	}
 	//RenderGraph();
 

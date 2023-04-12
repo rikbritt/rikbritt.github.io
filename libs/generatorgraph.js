@@ -14,11 +14,10 @@ bg.CreateGenerationGraph = function(graphName)
 	return graph;
 }
 
-bg.CreateGenerationGraphNode = function(graph, generator)
+bg.CreateGenerationGraphNode = function(graph)
 {
 	var node = {
 		idx:graph.nodes.length,
-		generator:generator,
 		inputs:[]
 	};
 	
@@ -26,6 +25,23 @@ bg.CreateGenerationGraphNode = function(graph, generator)
 	
 	return node;
 }
+
+bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
+{
+	var node = bg.CreateGenerationGraphNode(graph);
+	node.generator = generator;
+	node.type="generator";
+	return node;
+}
+
+bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
+{
+	var node = bg.CreateGenerationGraphNode(graph);
+	node.data_def = data_def;
+	node.type="data_def";
+	return node;
+}
+
 
 bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, toNodeInputName)
 {
