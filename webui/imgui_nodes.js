@@ -36,6 +36,14 @@ var NodeImGui = {
 		canvas.Current_Node.y = node_y;
 		canvas.Current_Node.input_pins = [];
 		canvas.Current_Node.output_pins = [];
+
+		//Check if mouse is over the title bar area
+		var node_screen_pos = Internal_GetNodeScreenPos(canvas.Current_Node);
+		var node_title_size = Internal_GetNodeTitleSize(node);
+
+		canvas.Current_Node.title_hovered = ImGui.IsMouseHoveringRect(node_screen_pos, node_title_size);
+		//var mouse_screen_pos = ImGui.GetCursorPos();
+
 	},
 	InputPin : function(pin_id)
 	{
@@ -69,6 +77,25 @@ var NodeImGui = {
 	{
 		NodeImGui.Current_Canvas.Current_Node = null;
 	},
+	Internal_GetNodeScreenPos : function(node)
+	{
+		return {
+			x : node.x + ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Scrolling.x,
+			y : node.y + ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Scrolling.y,
+		};
+	},
+	Internal_GetNodeWidth : function(node)
+	{
+		return 170;
+	},
+	Internal_GetNodeTitleSize : function(node)
+	{
+		var title_height = 25;
+		return {
+			x:Internal_GetNodeWidth(node),
+			y:title_height
+		};
+	},
 	Internal_DrawNode : function(node)
 	{
 		var node_x = node.x;
@@ -85,17 +112,19 @@ var NodeImGui = {
 		var y = ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Scrolling.y;
 		node_x += x;
 		node_y += y;
-		var node_w = 170;
 		var node_border = 5;
+		var node_title_size = Internal_GetNodeTitleSize(node);
+		var node_w = node_title_size.x;
+		var title_height = node_title_size.y;
 		var pin_diam = 8;
 		var node_inner_x = node_x + node_border;
-		var title_height = 25;
 		var node_inner_y = node_y + title_height + node_border;
 		var node_h = (max_pins * line_space) + title_height + (node_border * 1);
 
 		var bg_col = new ImGui.ImColor(0.15, 0.15, 0.25, 1.00);
 		var title_bg_col = new ImGui.ImColor(0.3, 0.3, 0.4, 1.00);
 		var title_txt_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
+		var title_hovered_txt_col = new ImGui.ImColor(1.0, 0.5, 0.5, 1.00);
 		var pin_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 		var pin_inner_col = new ImGui.ImColor(0.0, 0.0, 0.0, 1.00);
 
@@ -103,7 +132,7 @@ var NodeImGui = {
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
 		//title bar
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
-		dl.AddText({x:node_inner_x, y:node_y+node_border}, title_txt_col.toImU32(), node.name);
+		dl.AddText({x:node_inner_x, y:node_y+node_border}, node.title_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
 
 
 		for(var i=0; i<num_inputs;++i)
