@@ -39,7 +39,7 @@ var NodeImGui = {
 
 		//Check if mouse is over the title bar area
 		var node_screen_pos = this.Internal_GetNodeScreenPos(canvas.Current_Node);
-		var node_title_size = this.Internal_GetNodeTitleSize(node);
+		var node_title_size = this.Internal_GetNodeTitleSize(canvas.Current_Node);
 
 		canvas.Current_Node.title_hovered = ImGui.IsMouseHoveringRect(node_screen_pos, node_title_size);
 		//var mouse_screen_pos = ImGui.GetCursorPos();
