@@ -92,7 +92,7 @@ var NodeImGui = {
 	{
 		var title_height = 25;
 		return {
-			x:Internal_GetNodeWidth(node),
+			x:this.Internal_GetNodeWidth(node),
 			y:title_height
 		};
 	},
