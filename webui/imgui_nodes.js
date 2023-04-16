@@ -41,7 +41,7 @@ var NodeImGui = {
 		var node_screen_pos = this.Internal_GetNodeScreenPos(canvas.Current_Node);
 		var node_title_size = this.Internal_GetNodeTitleSize(canvas.Current_Node);
 
-		canvas.Current_Node.title_hovered = ImGui.IsMouseHoveringRect(node_screen_pos, node_title_size);
+		canvas.Current_Node.title_hovered = ImGui.IsMouseHoveringRect(node_screen_pos, {x:node_screen_pos.x + node_title_size.x, y:node_screen_pos.y + node_title_size.y});
 		//var mouse_screen_pos = ImGui.GetCursorPos();
 
 	},
