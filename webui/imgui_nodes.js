@@ -10,7 +10,10 @@ var NodeImGui = {
 		NodeImGui.Current_Canvas = NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId];
 		if(NodeImGui.Current_Canvas == null)
 		{
-			NodeImGui.Current_Canvas = {};
+			NodeImGui.Current_Canvas =
+			{
+				Dragging_Node:null
+			};
 			NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId] = NodeImGui.Current_Canvas;
 		}
 
@@ -18,6 +21,7 @@ var NodeImGui = {
 		NodeImGui.Current_Canvas.Links = [];
 		NodeImGui.Current_Canvas.Current_NodeImGuiId = 0;
 		NodeImGui.Current_Canvas.Current_Node = null;
+		NodeImGui.Current_Canvas.Hovered_Node = null;
 		NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 
 		var cusor_pos = ImGui.GetCursorScreenPos();
@@ -46,7 +50,10 @@ var NodeImGui = {
 		var node_screen_pos = this.Internal_GetNodeScreenPos(canvas.Current_Node);
 		var node_title_size = this.Internal_GetNodeTitleSize(canvas.Current_Node);
 
-		canvas.Current_Node.title_hovered = ImGui.IsMouseHoveringRect(node_screen_pos, {x:node_screen_pos.x + node_title_size.x, y:node_screen_pos.y + node_title_size.y});
+		if(NodeImGui.Current_Canvas.Hovered && ImGui.IsMouseHoveringRect(node_screen_pos, {x:node_screen_pos.x + node_title_size.x, y:node_screen_pos.y + node_title_size.y}))
+		{
+			NodeImGui.Current_Canvas.Hovered_Node = canvas.Current_Node;
+		}
 		//var mouse_screen_pos = ImGui.GetCursorPos();
 
 	},
@@ -126,7 +133,7 @@ var NodeImGui = {
 		var node_inner_y = node_y + title_height + node_border;
 		var node_h = (max_pins * line_space) + title_height + (node_border * 1);
 
-		var bg_col = new ImGui.ImColor(NodeImGui.Current_Canvas.Hovered ? 0.5 : 0.15, 0.15, 0.25, 1.00);
+		var bg_col = new ImGui.ImColor(0.15, 0.15, 0.25, 1.00);
 		var title_bg_col = new ImGui.ImColor(0.3, 0.3, 0.4, 1.00);
 		var title_txt_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 		var title_hovered_txt_col = new ImGui.ImColor(1.0, 0.5, 0.5, 1.00);
@@ -137,7 +144,7 @@ var NodeImGui = {
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
 		//title bar
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
-		dl.AddText({x:node_inner_x, y:node_y+node_border}, node.title_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
+		dl.AddText({x:node_inner_x, y:node_y+node_border}, NodeImGui.Current_Canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
 
 
 		for(var i=0; i<num_inputs;++i)
