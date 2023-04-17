@@ -20,8 +20,10 @@ var NodeImGui = {
 		NodeImGui.Current_Canvas.Current_Node = null;
 		NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 
+		var cusor_pos = ImGui.GetCursorScreenPos();
 		ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
 		NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
+		ImGui.SetCursorScreenPos(cusor_pos);
 	},
 	BeginNode : function(id, name, node_x, node_y)
 	{
