@@ -18,6 +18,7 @@ var NodeImGui = {
 		}
 
 		NodeImGui.Current_Canvas.Nodes = {};
+		NodeImGui.Current_Canvas.NodesDrawOrder = [];
 		NodeImGui.Current_Canvas.Links = [];
 		NodeImGui.Current_Canvas.Current_NodeImGuiId = 0;
 		NodeImGui.Current_Canvas.Current_Node = null;
@@ -39,6 +40,7 @@ var NodeImGui = {
 			canvas.Current_Node = {};
 			canvas.Nodes[canvas.Current_NodeImGuiId] = canvas.Current_Node;
 		}
+		canvas.NodesDrawOrder.push(canvas.Current_Node);
 		canvas.Current_Node.id = id;
 		canvas.Current_Node.name = name;
 		canvas.Current_Node.x = node_x;
@@ -245,8 +247,9 @@ var NodeImGui = {
 		}
 	
 		//Draw Nodes
-		for([node_id, node] of Object.entries(canvas.Nodes))
+		for(var i=0; i<canvas.NodesDrawOrder.length; ++i)
         {
+			var node = canvas.NodesDrawOrder[i];
 			NodeImGui.Internal_DrawNode(node);
 		}
 
