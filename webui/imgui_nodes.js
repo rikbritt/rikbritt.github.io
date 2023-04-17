@@ -19,6 +19,9 @@ var NodeImGui = {
 		NodeImGui.Current_Canvas.Current_NodeImGuiId = 0;
 		NodeImGui.Current_Canvas.Current_Node = null;
 		NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
+
+		ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
+		NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
 	},
 	BeginNode : function(id, name, node_x, node_y)
 	{
@@ -121,7 +124,7 @@ var NodeImGui = {
 		var node_inner_y = node_y + title_height + node_border;
 		var node_h = (max_pins * line_space) + title_height + (node_border * 1);
 
-		var bg_col = new ImGui.ImColor(0.15, 0.15, 0.25, 1.00);
+		var bg_col = new ImGui.ImColor(NodeImGui.Current_Canvas.Hovered ? 0.5 : 0.15, 0.15, 0.25, 1.00);
 		var title_bg_col = new ImGui.ImColor(0.3, 0.3, 0.4, 1.00);
 		var title_txt_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
 		var title_hovered_txt_col = new ImGui.ImColor(1.0, 0.5, 0.5, 1.00);
