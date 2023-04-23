@@ -22,7 +22,7 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 	if(selected_node.idx >= 0 && selected_node.idx < graph_instance.nodes.length)
 	{
 		var selected_graph_node = graph_instance.nodes[selected_node.idx];
-		var selected_node_layout = bg.FindOrCreateNodeLayout(graph_instance.layout, selected_node.id);
+		var selected_node_layout = bg.FindOrCreateNodeLayout(graph_instance.layout, selected_node.idx);
 		ImGui.Text("Name : " + bg.GetGenerationGraphNodeName(selected_graph_node));
 		ImGui.SliderInt("X", (_ = selected_node_layout.x) => selected_node_layout.x = _, -100, 500);
 		ImGui.SliderInt("Y", (_ = selected_node_layout.y) => selected_node_layout.y = _, -100, 500);
