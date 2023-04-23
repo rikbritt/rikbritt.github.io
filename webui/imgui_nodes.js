@@ -23,8 +23,8 @@ var NodeImGui = {
 	},
 	BeginCanvas : function(id, size, layout)
 	{
-        ImGui.BeginChild(id, size);
 		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
+        ImGui.BeginChild(id, size);
 		NodeImGui.Current_Canvas = this.GetOrCreateCanvas(id);
 
 		NodeImGui.Current_Canvas.Layout = layout;
