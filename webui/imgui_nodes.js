@@ -5,8 +5,7 @@ var NodeImGui = {
 	Canvases:{},
 	GetOrCreateCanvas : function(id)
 	{
-		canvas_id = ImGui.GetID(id);
-		var canvas = NodeImGui.Canvases[canvas_id];
+		var canvas = NodeImGui.Canvases[id];
 		if(canvas == null)
 		{
 			canvas =
@@ -17,7 +16,7 @@ var NodeImGui = {
 				c_x:0,
 				c_y:0
 			};
-			NodeImGui.Canvases[canvas_id] = canvas;
+			NodeImGui.Canvases[id] = canvas;
 		}
 		return canvas;
 	},
