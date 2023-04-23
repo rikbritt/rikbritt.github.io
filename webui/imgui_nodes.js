@@ -3,7 +3,7 @@ function fmodf(a, b) { return a - (Math.floor(a / b) * b); }
 
 var NodeImGui = {
 	Canvases:{},
-	BeginCanvas : function(id, size)
+	BeginCanvas : function(id, size, layout)
 	{
         ImGui.BeginChild(id, size);
 		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
@@ -12,11 +12,16 @@ var NodeImGui = {
 		{
 			NodeImGui.Current_Canvas =
 			{
-				Dragging_Node:null
+				Dragging_Node:null,
+				selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
+				selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
+				c_x:0,
+				c_y:0
 			};
 			NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId] = NodeImGui.Current_Canvas;
 		}
 
+		NodeImGui.Current_Canvas.Layout = layout;
 		NodeImGui.Current_Canvas.Nodes = {};
 		NodeImGui.Current_Canvas.NodesDrawOrder = [];
 		NodeImGui.Current_Canvas.Links = [];
@@ -30,7 +35,7 @@ var NodeImGui = {
 		NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
 		ImGui.SetCursorScreenPos(cusor_pos);
 	},
-	BeginNode : function(id, name, node_x, node_y)
+	BeginNode : function(id, name)
 	{
 		var canvas = NodeImGui.Current_Canvas;
 		canvas.Current_NodeImGuiId = ImGui.GetID(id);
@@ -43,8 +48,10 @@ var NodeImGui = {
 		canvas.NodesDrawOrder.push(canvas.Current_Node);
 		canvas.Current_Node.id = id;
 		canvas.Current_Node.name = name;
-		canvas.Current_Node.x = node_x;
-		canvas.Current_Node.y = node_y;
+
+		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout);
+		canvas.Current_Node.x = node_layout.x;
+		canvas.Current_Node.y = node_layout.y;
 		canvas.Current_Node.input_pins = [];
 		canvas.Current_Node.output_pins = [];
 
