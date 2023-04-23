@@ -3,14 +3,13 @@ function fmodf(a, b) { return a - (Math.floor(a / b) * b); }
 
 var NodeImGui = {
 	Canvases:{},
-	BeginCanvas : function(id, size, layout)
+	GetOrCreateCanvas : function(id)
 	{
-        ImGui.BeginChild(id, size);
-		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
-		NodeImGui.Current_Canvas = NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId];
-		if(NodeImGui.Current_Canvas == null)
+		canvas_id = ImGui.GetID(id);
+		var canvas = NodeImGui.Canvases[canvas_id];
+		if(canvas == null)
 		{
-			NodeImGui.Current_Canvas =
+			canvas =
 			{
 				Dragging_Node:null,
 				selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
@@ -18,8 +17,15 @@ var NodeImGui = {
 				c_x:0,
 				c_y:0
 			};
-			NodeImGui.Canvases[NodeImGui.Current_CanvasImGuiId] = NodeImGui.Current_Canvas;
+			NodeImGui.Canvases[canvas_id] = canvas;
 		}
+		return canvas;
+	},
+	BeginCanvas : function(id, size, layout)
+	{
+        ImGui.BeginChild(id, size);
+		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
+		NodeImGui.Current_Canvas = this.GetOrCreateCanvas(id);
 
 		NodeImGui.Current_Canvas.Layout = layout;
 		NodeImGui.Current_Canvas.Nodes = {};

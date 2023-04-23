@@ -221,11 +221,12 @@ function UpdateGraphWindow(close_func, graph_instance)
 		}
 		ImGui.Unindent();
 
-		UpdateSelectedNodeInfo(NodeImGui.Current_Canvas.selected_node_a, graph_instance);
-		UpdateSelectedNodeInfo(NodeImGui.Current_Canvas.selected_node_b, graph_instance);
+		var current_canvas = NodeImGui.GetOrCreateCanvas(graph_instance.id);
+		UpdateSelectedNodeInfo(current_canvas.selected_node_a, graph_instance);
+		UpdateSelectedNodeInfo(current_canvas.selected_node_b, graph_instance);
 
-		ImGui.SliderInt("Canvas X", (_ = NodeImGui.Current_Canvas.c_x) => NodeImGui.Current_Canvas.c_x = _, 0, 1000);
-		ImGui.SliderInt("Canvas Y", (_ = NodeImGui.Current_Canvas.c_y) => NodeImGui.Current_Canvas.c_y = _, 0, 1000);
+		ImGui.SliderInt("Canvas X", (_ = current_canvas.c_x) => current_canvas.c_x = _, 0, 1000);
+		ImGui.SliderInt("Canvas Y", (_ = current_canvas.c_y) => current_canvas.c_y = _, 0, 1000);
 		ImGui.EndChild();
 
 		ImGui.SameLine();
@@ -233,8 +234,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 		var dw = ImGui.GetWindowDrawList();
 
 		NodeImGui.BeginCanvas(graph_instance.id,  new ImGui.Vec2(win_width - gens_width, win_height), graph_instance.layout);
-		NodeImGui.Current_Canvas.Scrolling.x = NodeImGui.Current_Canvas.c_x;
-		NodeImGui.Current_Canvas.Scrolling.y = NodeImGui.Current_Canvas.c_y;
+		NodeImGui.Current_Canvas.Scrolling.x = current_canvas.c_x;
+		NodeImGui.Current_Canvas.Scrolling.y = current_canvas.c_y;
 		for(var i=0; i<graph_instance.nodes.length; ++i)
 		{
 			var node = graph_instance.nodes[i];
