@@ -24,7 +24,6 @@ var NodeImGui = {
 	BeginCanvas : function(id, size, layout)
 	{
 		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
-        ImGui.BeginChild(id, size);
 		NodeImGui.Current_Canvas = this.GetOrCreateCanvas(id);
 
 		NodeImGui.Current_Canvas.Layout = layout;
@@ -36,6 +35,7 @@ var NodeImGui = {
 		NodeImGui.Current_Canvas.Hovered_Node = null;
 		NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 
+        ImGui.BeginChild(id, size);
 		var cusor_pos = ImGui.GetCursorScreenPos();
 		ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
 		NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
