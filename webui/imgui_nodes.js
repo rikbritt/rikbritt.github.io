@@ -54,7 +54,7 @@ var NodeImGui = {
 		canvas.Current_Node.id = id;
 		canvas.Current_Node.name = name;
 
-		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout);
+		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, id);
 		canvas.Current_Node.x = node_layout.x;
 		canvas.Current_Node.y = node_layout.y;
 		canvas.Current_Node.input_pins = [];
