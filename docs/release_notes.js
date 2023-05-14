@@ -16,6 +16,11 @@ Data Map - A hashmap of field values, keyed by field name. Used by the generator
 
 AddNotes("Release Notes",
 `
+14/5/2023
+Right clicking to add a graph node puts it where you right clicked.
+Think I should get the graph node using a more generic 'graph' framework under the hood.
+Added a debug mode to the NodeImgui graph stuff
+
 11/4/2023
 Updated so graph editor is a regular window, not a single bespoke graph editor test window.
 Need to decide if the node x/y layout and other data lives within the graph itself. It probably should.
