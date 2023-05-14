@@ -251,10 +251,11 @@ var NodeImGui = {
 		var canvas = NodeImGui.Current_Canvas;
 		var mp = NodeImGui.Internal_GetMousePos(); //Capture before popup
 		var open = ImGui.BeginPopupContextWindow();
-		if(canvas.context_menu_open != open)
+		if(open && canvas.context_menu_open != open)
 		{
 			canvas.context_menu_pos = mp;
 		}
+		canvas.context_menu_open = open;
 		return open;
 	},
 	EndPopup : function()
