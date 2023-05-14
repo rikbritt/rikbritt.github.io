@@ -249,10 +249,11 @@ var NodeImGui = {
 	BeginPopupContextWindow : function()
 	{
 		var canvas = NodeImGui.Current_Canvas;
+		var mp = NodeImGui.Internal_GetMousePos(); //Capture before popup
 		var open = ImGui.BeginPopupContextWindow();
 		if(canvas.context_menu_open != open)
 		{
-			canvas.context_menu_pos = NodeImGui.Internal_GetMousePos();
+			canvas.context_menu_pos = mp;
 		}
 		return open;
 	},
