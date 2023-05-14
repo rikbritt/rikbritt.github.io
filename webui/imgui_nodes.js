@@ -69,11 +69,11 @@ var NodeImGui = {
 		//var mouse_screen_pos = ImGui.GetCursorPos();
 
 	},
-	SetNodePosToPopup : function(node)
+	SetNodePosToPopup : function(id)
 	{
 		var canvas = NodeImGui.Current_Canvas;
-		var node = NodeImGui.GetOrCreateNode(node.idx);
-		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, node.idx);
+		var node = NodeImGui.GetOrCreateNode(id);
+		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, id);
 		node_layout.x = canvas.context_menu_pos.x;
 		node_layout.y = canvas.context_menu_pos.y;
 	},
