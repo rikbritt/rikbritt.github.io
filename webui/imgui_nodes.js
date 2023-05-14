@@ -2,6 +2,7 @@
 function fmodf(a, b) { return a - (Math.floor(a / b) * b); }
 
 var NodeImGui = {
+	Debug:true,
 	Canvases:{},
 	GetOrCreateCanvas : function(id)
 	{
@@ -235,6 +236,14 @@ var NodeImGui = {
 		dl.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), link_thickness, curve_segments);
 
 	},
+	Internal_GetMousePos : function()
+	{
+		var mouse_pos = ImGui.GetMousePos();
+		var canvas_p0 = ImGui.GetCursorScreenPos();
+		mouse_pos.x -= canvas_p0.x;
+		mouse_pos.y -= canvas_p0.y;
+		return mouse_pos;
+	},
 	EndCanvas : function()
 	{
 		var canvas = NodeImGui.Current_Canvas;
@@ -269,6 +278,13 @@ var NodeImGui = {
 		for(var i=0; i<canvas.Links.length; ++i)
 		{
 			NodeImGui.Internal_DrawLink(canvas.Links[i]);
+		}
+
+		//Draw Debug
+		if(NodeImGui.Debug)
+		{
+			var mp = NodeImGui.Internal_GetMousePos();
+			dl.AddText(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y);
 		}
 
 		NodeImGui.Current_Canvas = null;
