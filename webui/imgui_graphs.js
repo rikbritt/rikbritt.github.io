@@ -285,7 +285,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 				UpdateGeneratorsList(
 					function(generator)
 					{
-						bg.CreateGenerationGraph_GeneratorNode(graph_instance, generator);
+						var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, generator);
+						NodeImGui.SetNodePosToPopup(node.id);
 					}
 				);
 				ImGui.EndMenu();
@@ -296,7 +297,8 @@ function UpdateGraphWindow(close_func, graph_instance)
 				UpdateDataDefsList(
 					function(data_def)
 					{
-						bg.CreateGenerationGraph_DataDefNode(graph_instance, data_def);
+						var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, data_def);
+						NodeImGui.SetNodePosToPopup(node.id);
 					}
 				);
 				ImGui.EndMenu();

@@ -47,12 +47,7 @@ var NodeImGui = {
 	{
 		var canvas = NodeImGui.Current_Canvas;
 		canvas.Current_NodeImGuiId = ImGui.GetID(id);
-		canvas.Current_Node = canvas.Nodes[canvas.Current_NodeImGuiId];
-		if(canvas.Current_Node == null)
-		{
-			canvas.Current_Node = {};
-			canvas.Nodes[canvas.Current_NodeImGuiId] = canvas.Current_Node;
-		}
+		canvas.Current_Node = NodeImGui.GetOrCreateNode(id);
 		canvas.NodesDrawOrder.push(canvas.Current_Node);
 		canvas.Current_Node.id = id;
 		canvas.Current_Node.name = name;
@@ -73,6 +68,27 @@ var NodeImGui = {
 		}
 		//var mouse_screen_pos = ImGui.GetCursorPos();
 
+	},
+	SetNodePosToPopup : function(id)
+	{
+		var canvas = NodeImGui.Current_Canvas;
+		var node = NodeImGui.GetOrCreateNode(id);
+		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, id);
+		node_layout.x = canvas.context_menu_pos.x;
+		node_layout.y = canvas.context_menu_pos.y;
+	},
+	GetOrCreateNode : function(id)
+	{
+		var canvas = NodeImGui.Current_Canvas;
+		var node_imgui_id = ImGui.GetID(id);
+		var node = canvas.Nodes[node_imgui_id];
+		if(node == null)
+		{
+			node = {};
+			canvas.Nodes[node_imgui_id] = node;
+		}
+		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, id);
+		return node;
 	},
 	InputPin : function(pin_id)
 	{
