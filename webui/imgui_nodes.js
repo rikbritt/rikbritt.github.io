@@ -284,7 +284,7 @@ var NodeImGui = {
 		if(NodeImGui.Debug)
 		{
 			var mp = NodeImGui.Internal_GetMousePos();
-			dl.AddText(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y);
+			dl.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y);
 		}
 
 		NodeImGui.Current_Canvas = null;
