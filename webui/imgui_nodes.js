@@ -258,7 +258,7 @@ var NodeImGui = {
 	},
 	EndPopup : function()
 	{
-
+		ImGui.EndPopup();
 	},
 	EndCanvas : function()
 	{
