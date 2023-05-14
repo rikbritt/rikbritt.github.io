@@ -278,7 +278,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 			NodeImGui.EndNode();
 		}
 		
-		if (ImGui.BeginPopupContextWindow())
+		if (NodeImGui.BeginPopupContextWindow())
 		{
 			if(ImGui.BeginMenu("Add Generator..."))
 			{
@@ -306,7 +306,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 			{
 			}
 
-			ImGui.EndPopup();
+			NodeImGui.EndPopup();
 		}
 		NodeImGui.EndCanvas();
 	}

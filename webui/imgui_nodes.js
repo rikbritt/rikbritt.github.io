@@ -12,6 +12,8 @@ var NodeImGui = {
 			canvas =
 			{
 				Dragging_Node:null,
+				context_menu_open:false,
+				context_menu_pos:{x:0,y:0},
 				selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
 				selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
 				c_x:0,
@@ -244,6 +246,20 @@ var NodeImGui = {
 		mouse_pos.y -= canvas_p0.y;
 		return mouse_pos;
 	},
+	BeginPopupContextWindow : function()
+	{
+		var canvas = NodeImGui.Current_Canvas;
+		var open = ImGui.BeginPopupContextWindow();
+		if(canvas.context_menu_open != open)
+		{
+			canvas.context_menu_pos = NodeImGui.Internal_GetMousePos();
+		}
+		return open;
+	},
+	EndPopup : function()
+	{
+
+	},
 	EndCanvas : function()
 	{
 		var canvas = NodeImGui.Current_Canvas;
@@ -284,7 +300,7 @@ var NodeImGui = {
 		if(NodeImGui.Debug)
 		{
 			var mp = NodeImGui.Internal_GetMousePos();
-			dl.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y);
+			dl.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y + "\n" + canvas.context_menu_pos.x + " " + canvas.context_menu_pos.y);
 		}
 
 		NodeImGui.Current_Canvas = null;
