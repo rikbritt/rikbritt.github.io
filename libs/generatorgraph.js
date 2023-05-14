@@ -17,6 +17,7 @@ bg.CreateGenerationGraph = function(graphName)
 bg.CreateGenerationGraphNode = function(graph)
 {
 	var node = {
+		id:bg.CreateGUID(),
 		idx:graph.nodes.length,
 		inputs:[]
 	};
