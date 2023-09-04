@@ -22,46 +22,57 @@ function AddProjectToListFromURL(project_folder_url)
 
 function LoadProjectFromURL(project_json_url)
 {
-    fetch(project_json_url + "/project.json")
-    .then(response => response.text())
-    .then((data) => {
-        var project_data_files =
+    var loaded_project = bg.LoadProjectFromJSONFileAsync(
+        project_json_url, 
+        function(file_name)
         {
-            files:[
-                {
-                    name:"project.json",
-                    content:data
-                }
-            ]
-        };
-
-        var project_data = JSON.parse(data);
-        //Async load other files referenced in here.
-        var loading_tasks = [];
-        for(var i=0; i<project_data.files.length; ++i)
-        {
-            var file_name = project_json_url + "/" + project_data.files[i];
             var load_task = fetch(file_name)
-                .then(response => response.text())
-                .then((data2) => 
-                    project_data_files.files.push(
-                        {
-                            name:file_name,
-                            content:data2
-                        }
-                    )
-                );
-
-            loading_tasks.push(load_task);
+            .then(response => response.text());
+            return load_task;
         }
+    );
 
-        Promise.all(loading_tasks).then( () => 
-            {
-                var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
-                //OpenProjectWindow(loaded_project);
-            }
-        );
-    });
+
+    // fetch(project_json_url + "/project.json")
+    // .then(response => response.text())
+    // .then((data) => {
+    //     var project_data_files =
+    //     {
+    //         files:[
+    //             {
+    //                 name:"project.json",
+    //                 content:data
+    //             }
+    //         ]
+    //     };
+
+    //     var project_data = JSON.parse(data);
+    //     //Async load other files referenced in here.
+    //     var loading_tasks = [];
+    //     for(var i=0; i<project_data.files.length; ++i)
+    //     {
+    //         var file_name = project_json_url + "/" + project_data.files[i];
+    //         var load_task = fetch(file_name)
+    //             .then(response => response.text())
+    //             .then((data2) => 
+    //                 project_data_files.files.push(
+    //                     {
+    //                         name:file_name,
+    //                         content:data2
+    //                     }
+    //                 )
+    //             );
+
+    //         loading_tasks.push(load_task);
+    //     }
+
+    //     Promise.all(loading_tasks).then( () => 
+    //         {
+    //             var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+    //             //OpenProjectWindow(loaded_project);
+    //         }
+    //     );
+    // });
 }
 
 function LoadProjectFromZip(file_blob)

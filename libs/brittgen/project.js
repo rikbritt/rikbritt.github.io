@@ -160,3 +160,52 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 	}
 	return null;
 }
+
+bg.LoadProjectFromJSONFileAsync = function(project_root, async_load_file_func, finished_func)
+{
+	var json_load = async_load_file_func(project_root + "/project.json")
+		.then((data) => {
+			var project_data_files =
+			{
+				files:[
+					{
+						name:"project.json",
+						content:data
+					}
+				]
+			};
+
+			var project_data = JSON.parse(data);
+			//Async load other files referenced in here.
+			var loading_tasks = [];
+			for(var i=0; i<project_data.files.length; ++i)
+			{
+				var file_name = project_root + "/" + project_data.files[i];
+				var load_task = async_load_file_func(file_name)
+					.then((data2) => 
+						project_data_files.files.push(
+							{
+								name:file_name,
+								content:data2
+							}
+						)
+					);
+
+				loading_tasks.push(load_task);
+			}
+
+			Promise.all(loading_tasks).then( () => 
+				{
+					var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+					finished_func(loaded_project);
+				}
+			);
+		}
+	);
+}
+
+//Load from a project.json file, but provide a function that loads a file to a string
+bg.LoadProjectFromJSONFile = function(project_json_file_name, load_file_func)
+{
+
+}
