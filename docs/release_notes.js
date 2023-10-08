@@ -4,6 +4,10 @@ Inputs / Outputs for graphs
 
 Prob good to add some kind of 'info' struct that wraps name, category and id? Graphs, data defs and generators could all share code then.
 
+* Serialisation *
+Finish this. Graphs are not done at all yet.
+Do a pass on the generator and graph structures, and see if all the data can be setup to just be JSON stringified immediately.
+Would need to possibly do some kind of "_runtime" member or something that skips serialisation and has all the cached object refs in it, and the serialised data just stores ids etc.
 
 ** Rename **
 Field Type - bool,float,weight,distance etc
@@ -16,6 +20,10 @@ Data Map - A hashmap of field values, keyed by field name. Used by the generator
 
 AddNotes("Release Notes",
 `
+8/10/2023
+Did some more loading/saving. Updated the Next notes.
+Have downloaded a copy of britt gen and started to make it a module for murder web. (Spent more of last few months doing Murder Web)
+
 14/5/2023
 Right clicking to add a graph node puts it where you right clicked.
 Think I should get the graph node using a more generic 'graph' framework under the hood.

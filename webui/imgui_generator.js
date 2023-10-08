@@ -463,11 +463,11 @@ function UpdateGeneratorWindow(close_func, generator)
 			generator.category = category_str.split("/");
 		}
 
-		if(ImGui.CollapsingHeader("Inputs"))
+		if(ImGui.CollapsingHeader("Inputs (TODO)"))
 		{
 			//UpdateGeneratorInputsImGuiV2(generator.inputs);
 		}
-		if(ImGui.CollapsingHeader("Outputs"))
+		if(ImGui.CollapsingHeader("Outputs (TODO)"))
 		{
 		}
 		if(ImGui.CollapsingHeader("Script"))
