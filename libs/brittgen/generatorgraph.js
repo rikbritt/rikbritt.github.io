@@ -114,3 +114,8 @@ bg.SaveGraphToJSON = function(graph)
 {
     return "";
 }
+
+bg.LoadGraphFromJSON = function(json_str)
+{
+	return {};
+}

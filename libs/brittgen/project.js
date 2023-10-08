@@ -100,11 +100,12 @@ bg.SaveProjectAsJSONFiles = function(project)
 	for(var i=0; i<project.generators.length; ++i)
 	{
 		var generator_json = bg.SaveGeneratorToJSON(project.generators[i]);
+		var file_name = "generator/" + project.generators[i].id + ".json";
 		project_data_files.files.push({
-			name:"generator/" + project.generators[i].id + ".json",
+			name:file_name,
 			content:generator_json
 		});
-		project_json_data.files.push("generator/" + project.generators[i].id + ".json");
+		project_json_data.files.push(file_name);
 	}
 	
 	for(var i=0; i<project.generatorGraphs.length; ++i)
@@ -112,11 +113,12 @@ bg.SaveProjectAsJSONFiles = function(project)
 		//add file entry to project_json_data.files
 		//add output file entry and content;
 		var graph_json = bg.SaveGraphToJSON(project.generatorGraphs[i]);
+		var file_name = "graph/" + project.generatorGraphs[i].id + ".json";
 		project_data_files.files.push({
-			name:"graph/" + project.generatorGraphs[i].id + ".json",
+			name:file_name,
 			content:graph_json
 		});
-		project_json_data.files.push("generator/" + project.generators[i].id + ".json");
+		project_json_data.files.push(file_name);
 
 	}
 
@@ -130,19 +132,14 @@ bg.SaveProjectAsJSONFiles = function(project)
 
 bg.LoadProjectFromJSONFiles = function(project_data_files)
 {
-	//Local helper
-	var GetFile = function(file_name)
-	{
-		//todo
-		
-	}
-	//get project.json
+	var loaded_project = null;
+	//First scan, find project json file
 	for(var i=0; i<project_data_files.files.length; ++i)
 	{
 		if(project_data_files.files[i].name == "project.json")
 		{
 			var loaded_data = JSON.parse(project_data_files.files[i].content);
-			var loaded_project = bg.GetProjectById(loaded_data.id);
+			loaded_project = bg.GetProjectById(loaded_data.id);
 			if(loaded_project == null)
 			{
 				loaded_project = bg.CreateProject(loaded_data.name, loaded_data.id);
@@ -151,16 +148,33 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 			{
 				loaded_project.name = loaded_data.name;
 			}
-
-			//Restore generators
-
-
-			return loaded_project;
+			break;
 		}
 	}
-	return null;
+
+	if(loaded_project != null)
+	{
+		//Now load all the files
+		//TODO - FOR NOW ASSUMING FIRST LOAD / PROJECT NOT LOADED
+		for(var i=0; i<project_data_files.files.length; ++i)
+		{
+			var file_name = project_data_files.files[i].name;
+			if(file_name.startsWith("generator/"))
+			{
+				var generator = bg.LoadGeneratorFromJSON(project_data_files.files[i].content);
+				loaded_project.generators.push(generator);
+			}
+			else if(file_name.startsWith("graph/"))
+			{
+				var graph = bg.LoadGraphFromJSON(project_data_files.files[i].content);
+				loaded_project.generatorGraphs.push(graph);
+			}
+		}
+	}
+	return loaded_project;
 }
 
+//Asynchronously loads all the project files and adds it to the global projects list
 bg.LoadProjectFromJSONFileAsync = function(project_root, async_load_file_func, finished_func)
 {
 	var json_load = async_load_file_func(project_root + "/project.json")

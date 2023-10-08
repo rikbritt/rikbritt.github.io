@@ -29,6 +29,10 @@ function LoadProjectFromURL(project_json_url)
             var load_task = fetch(file_name)
             .then(response => response.text());
             return load_task;
+        },
+        function(loaded_project)
+        {
+            
         }
     );
 
