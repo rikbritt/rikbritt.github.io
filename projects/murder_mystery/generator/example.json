@@ -1,4 +1,17 @@
 {
-    "id":"example",
-    "name":"Example Generator"
+    "id":"9bdedf3a-106a-4c80-bf74-776ce8588d1d",
+    "name":"Example Generator",
+    "version":3,
+    "category":[],
+    "inputs":{
+        "name":"inputs",
+        "version":1,
+        "fields":[]
+    },
+    "outputs":{
+        "name":"outputs",
+        "version":1,
+        "fields":[]
+    },
+    "script":"function(inputs, outputs){outputs.data = inputs;}"
 }

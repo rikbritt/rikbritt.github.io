@@ -82,6 +82,12 @@ bg.RegisterGenerator = function(generator, add_to_global = true)
 		generator.description = "";
 	}
 
+	//Build string rep for script function
+	if(generator.script_str == null)
+	{
+		generator.script_str = generator.script.toString();
+	}
+
 	generator.id = id;
 	bg.generators.push(generator);
 	bg.generatorsById[id] = generator;
@@ -325,6 +331,8 @@ bg.SetIfNotOverriden = function(overidden, override_val, generated_val)
 
 bg.SaveGeneratorToJSON = function(generator)
 {
+	//TODO: Make this as simple as possible by making sure all the directly
+	//serialisable data can just be converted directly to JSON and back
 	var data = {
 		id:generator.id,
 		version:generator.version,
@@ -332,7 +340,7 @@ bg.SaveGeneratorToJSON = function(generator)
 		category:generator.category,
 		inputs:generator.inputs,
 		outputs:generator.outputs,
-		//script - TODO
+		script:generator.script_str
 	}
 
 	var data_json = JSON.stringify(data, null, 4);
@@ -348,7 +356,7 @@ bg.LoadGeneratorFromJSON = function(json_str)
 	generator.category = loaded_data.category;
 	generator.inputs = loaded_data.inputs;
 	generator.outputs = loaded_data.outputs;
-	//script - TODO
+	generator.script_str = loaded_data.script;
 
 	return generator;
 }
