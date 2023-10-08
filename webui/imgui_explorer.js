@@ -19,9 +19,11 @@ function UpdateExplorerWindow( close_func, data )
 
             }
             ImGui.SameLine();
-            if(ImGui.Button("Close Project (TODO"))
+            if(ImGui.Button("Close Project"))
             {
-                
+                bg.projects.splice(i, 1);
+                i -= 1;
+                continue;
             }
             UpdateProjectProperties(bg.projects[i]);
         }
