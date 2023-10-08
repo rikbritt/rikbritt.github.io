@@ -29,7 +29,7 @@ function UpdateExplorerWindow( close_func, data )
             {
                 UpdateProjectProperties(bg.projects[i]);
             }
-            Imgui.PopID();
+            ImGui.PopID();
         }
     }
 }
