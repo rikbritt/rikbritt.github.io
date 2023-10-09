@@ -82,21 +82,27 @@ bg.SaveProjectAsJSONFiles = function(project)
 		id:project.id,
 		name:project.name,
 		version:1,
-		files:[],
-		generators:[]
+		files:[]
 	};
-
-	for(var i=0; i<project.generators.length; ++i)
-	{
-		project_json_data.generators.push(project.generators[i].id);
-		//todo add generator file to save
-	}
 
 	var project_data_files =
 	{
 		files:[]
 	};
 
+	//Save Data Defs
+	for(var i=0; i<project.dataDefs.length; ++i)
+	{
+		var data_def_json = bg.SaveDataDefToJSON(project.dataDefs[i]);
+		var file_name = "datadef/" + project.dataDefs[i].id + ".json";
+		project_data_files.files.push({
+			name:file_name,
+			content:data_def_json
+		});
+		project_json_data.files.push(file_name);
+	}
+
+	//Save Generators
 	for(var i=0; i<project.generators.length; ++i)
 	{
 		var generator_json = bg.SaveGeneratorToJSON(project.generators[i]);
@@ -108,6 +114,7 @@ bg.SaveProjectAsJSONFiles = function(project)
 		project_json_data.files.push(file_name);
 	}
 	
+	//Save Graphs
 	for(var i=0; i<project.generatorGraphs.length; ++i)
 	{
 		//add file entry to project_json_data.files
@@ -168,6 +175,11 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 			{
 				var graph = bg.LoadGraphFromJSON(project_data_files.files[i].content);
 				loaded_project.generatorGraphs.push(graph);
+			}
+			else if(file_name.startsWith("datadef/"))
+			{
+				var graph = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
+				loaded_project.dataDefs.push(graph);
 			}
 		}
 	}

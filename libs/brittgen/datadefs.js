@@ -86,3 +86,15 @@ bg.GetDataDefFieldByName = function(data_def, name)
 	}
 	return null;
 }
+
+bg.SaveDataDefToJSON = function(data_def)
+{
+	var data_json = JSON.stringify(data_def, null, 4);
+	return data_json;
+}
+
+bg.LoadDataDefFromJSON = function(json_str)
+{
+	var loaded_data = JSON.parse(json_str);
+	return loaded_data;
+}
