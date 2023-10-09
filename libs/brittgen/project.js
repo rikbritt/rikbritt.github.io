@@ -91,10 +91,10 @@ bg.SaveProjectAsJSONFiles = function(project)
 	};
 
 	//Save Data Defs
-	for(var i=0; i<project.dataDefs.length; ++i)
+	for([key, data] of Object.entries(project.dataDefs))
 	{
-		var data_def_json = bg.SaveDataDefToJSON(project.dataDefs[i]);
-		var file_name = "datadef/" + project.dataDefs[i].id + ".json";
+		var data_def_json = bg.SaveDataDefToJSON(data);
+		var file_name = "datadef/" + key + ".json";
 		project_data_files.files.push({
 			name:file_name,
 			content:data_def_json
@@ -179,7 +179,7 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 			else if(file_name.startsWith("datadef/"))
 			{
 				var data_def = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
-				loaded_project.dataDefs.push(data_def);
+				loaded_project.dataDefs[data_def.id] = data_def;
 			}
 		}
 	}
