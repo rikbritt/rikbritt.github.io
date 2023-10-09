@@ -88,7 +88,6 @@ function LoadProjectFromZip(file_blob)
             zip.file("project.json").async("string").then(
                 function (data) 
                 {
-                    //TODO: Load other files referenced in here.
                     var project_data_files =
                     {
                         files:[
@@ -98,8 +97,32 @@ function LoadProjectFromZip(file_blob)
                             }
                         ]
                     };
-                    var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
-                    //OpenProjectWindow(loaded_project);
+
+                    //Load other files referenced in here.
+                    var project_file_data = JSON.parse(data);
+                    var unzip_tasks = [];
+                    for(var i=0; i<project_file_data.files.length; ++i)
+                    {
+                        var unzip_task = zip.file(project_file_data.files[i]).async("string").then(
+                            function(file_data)
+                            {
+                                project_data_files.files.push(
+                                    {
+                                        name:project_file_data.files[i],
+                                        content:file_data
+                                    }
+                                );
+                            }
+                        );
+                        unzip_tasks.push(unzip_task);
+                    }
+                    
+                    Promise.all(unzip_tasks).then( () => 
+                        {
+                            var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+                            //OpenProjectWindow(loaded_project);
+                        }
+                    );
                 }
             );
         },

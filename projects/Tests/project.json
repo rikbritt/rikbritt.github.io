@@ -2,6 +2,7 @@
     "id":"6e86e800-5b1e-4811-9e5f-eacbeb339349",
     "name":"Tests Project",
     "files":[
+        "datadef/18a3b2ee-8934-4816-ab92-a546a7c36cbf.json",
         "generator/debugtexttest.json",
         "generator/geomintersectiontests.json",
         "generator/hierarchytests.json",
