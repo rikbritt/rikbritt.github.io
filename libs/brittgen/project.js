@@ -178,8 +178,8 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 			}
 			else if(file_name.startsWith("datadef/"))
 			{
-				var graph = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
-				loaded_project.dataDefs.push(graph);
+				var data_def = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
+				loaded_project.dataDefs.push(data_def);
 			}
 		}
 	}

@@ -15,9 +15,9 @@ function UpdateExplorerWindow( close_func, data )
             ImGui.PushID(i);
             ImGui.Separator();
             ImGui.Text("Project - " + project.name);
-            if(ImGui.Button("Save Project (TODO"))
+            if(ImGui.Button("Save Project"))
             {
-
+                SaveProjectToZip(project);
             }
             ImGui.SameLine();
             if(ImGui.Button("Close Project"))
