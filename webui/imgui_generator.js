@@ -660,3 +660,37 @@ function UpdateGeneratorsTable(id, generators)
 		ImGui.EndTable();
 	}
 }
+
+function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
+{
+	return {
+		project:node.project,
+		id:cat_name,
+		category:category,
+		GetNodeName:function() { return cat_name; },
+		GetNodeChildren:function() { return []; }
+	};
+}
+
+function CreateExplorerGeneratorsNode(project)
+{
+	return {
+		project:project,
+		id:project.id,
+		GetNodeName:function() { return "Generators"; },
+		GetNodeChildren:function()
+		{
+			var children = [];
+
+			//Might be slow as shit
+			var categories = BuildGraphOfCategories(project.generators);
+
+			for([key, data] of Object.entries(categories.children))
+			{
+				children.push( CreateExplorerGeneratorCategoryNode(project, key, data));
+			}
+
+			return children;
+		}
+	};
+}

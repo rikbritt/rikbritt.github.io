@@ -280,12 +280,7 @@ function CreateExplorerNodeForProject(project)
                     GetNodeName:function() { return "Data Defs"; },
                     GetNodeChildren:function() { return []; }
                 },
-                {
-                    project:project,
-                    id:project.id,
-                    GetNodeName:function() { return "Generators"; },
-                    GetNodeChildren:function() { return []; }
-                }
+                CreateExplorerGeneratorsNode(project)
             ];
             return children;
         }
