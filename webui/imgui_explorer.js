@@ -1,7 +1,9 @@
 var ExplorerNodeType =
 {
     Project:"project",
-    ProjectGraphs:"graphs"
+    ProjectGraphs:"graphs",
+    ProjectDataDefs:"data_defs",
+    ProjectGenerators:"generators"
 }
 
 function ShowExplorerNode(node)
@@ -15,15 +17,24 @@ function ShowExplorerNode(node)
     ImGui.AlignTextToFramePadding();
     var node_name = "";
     var node_has_children = false;
-    if(node.type == ExplorerNodeType.Project)
+    switch(node.type)
     {
-        node_name = `Project : ${node.project.name}`;
-        node_has_children = true;
-    }
-    else if(node.type == ExplorerNodeType.ProjectGraphs)
-    {
-        node_name = "Graphs";
-        node_has_children - true;
+        case ExplorerNodeType.Project:
+            node_name = `Project : ${node.project.name}`;
+            node_has_children = true;
+            break;
+        case ExplorerNodeType.ProjectGraphs:
+            node_name = "Graphs";
+            node_has_children = true;
+            break;
+        case ExplorerNodeType.ProjectDataDefs:
+            node_name = "Data Defs";
+            node_has_children = true;
+            break;
+        case ExplorerNodeType.ProjectGenerators:
+            node_name = "Generators";
+            node_has_children = true;
+            break;
     }
     var node_open = false;
     if(node_has_children)
@@ -41,12 +52,31 @@ function ShowExplorerNode(node)
 
     if (node_open)
     {
-        if(node.type == ExplorerNodeType.Project)
+        switch(node.type)
         {
-            ShowExplorerNode({type:ExplorerNodeType.ProjectGraphs, project:node.project});
-        }
-        else if(node.type == ExplorerNodeType.ProjectGraphs)
-        {
+            case ExplorerNodeType.Project:
+                ShowExplorerNode({
+                    type:ExplorerNodeType.ProjectGraphs,
+                    project:node.project,
+                    id:node.id
+                });
+                ShowExplorerNode({
+                    type:ExplorerNodeType.ProjectDataDefs,
+                    project:node.project,
+                    id:node.id
+                });
+                ShowExplorerNode({
+                    type:ExplorerNodeType.ProjectGenerators,
+                    project:node.project,
+                    id:node.id
+                });
+                break;
+            case ExplorerNodeType.ProjectGraphs:
+                break;
+            case ExplorerNodeType.ProjectDataDefs:
+                break;
+            case ExplorerNodeType.ProjectGenerators:
+                break;
         }
         ImGui.TreePop();
     }
