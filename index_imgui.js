@@ -178,7 +178,8 @@ function OnPageLoaded()
         });*/
       
         ImGui.CreateContext();
-		//await AddFontFromFileTTF("icons.ttf", 16.0);
+		await AddFontFromFileTTF("icons.ttf", 16.0);
+		
         ImGui.StyleColorsDark();
         //ImGui.StyleColorsClassic();
       
