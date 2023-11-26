@@ -684,7 +684,7 @@ function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
 		id:cat_name,
 		category:category,
 		GetNodeName:function() { return cat_name; },
-		GetNodeIcon:function() { return "g"; },
+		GetNodeIcon:function() { return "n"; },
 		GetNodeChildren:function()
 		{ 
 			var children = [];

@@ -32,7 +32,18 @@ function ShowExplorerNode(node)
     {
         ImGui.AlignTextToFramePadding();
         var flags = ImGui.TreeNodeFlags.Leaf | ImGui.TreeNodeFlags.NoTreePushOnOpen | ImGui.TreeNodeFlags.Bullet;
-        ImGui.TreeNodeEx("Field", flags, node_name);
+        if(node_icon != "")
+        {
+            ImGui.PushFont(gIconFont);
+            ImGui.TreeNodeEx("Field", flags, node_icon);
+            ImGui.PopFont();
+            ImGui.SameLine();
+            ImGui.Text(node_name);
+        }
+        else
+        {
+            ImGui.TreeNodeEx("Field", flags, node_name);
+        }
     }
     ImGui.TableSetColumnIndex(1);
     ImGui.Text("Node Val");
