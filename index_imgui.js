@@ -145,6 +145,20 @@ function UpdateObjectImGui(object, name)
 	ImGui.PopID();
 }
 
+
+async function LoadArrayBuffer(url)
+{
+    var response = await fetch(url);
+    return response.arrayBuffer();
+}
+
+async function AddFontFromFileTTF(url, size_pixels, font_cfg = null, glyph_ranges = null)
+{
+    font_cfg = font_cfg || new ImGui.FontConfig();
+    font_cfg.Name = font_cfg.Name || `${url.split(/[\\\/]/).pop()}, ${size_pixels.toFixed(0)}px`;
+    return ImGui.GetIO().Fonts.AddFontFromMemoryTTF(await LoadArrayBuffer(url), size_pixels, font_cfg, glyph_ranges);
+}
+
 function OnPageLoaded() 
 {
 
@@ -164,7 +178,7 @@ function OnPageLoaded()
         });*/
       
         ImGui.CreateContext();
-      
+		await AddFontFromFileTTF("icons.ttf", 16.0);
         ImGui.StyleColorsDark();
         //ImGui.StyleColorsClassic();
       
