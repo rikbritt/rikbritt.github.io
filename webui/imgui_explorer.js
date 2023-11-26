@@ -19,9 +19,9 @@ function ShowExplorerNode(node)
         {
             ImGui.PushFont(gIconFont);
             node_open = ImGui.TreeNode(node_icon);
+            ImGui.PopFont();
             ImGui.SameLine();
             ImGui.Text(node_name);
-            ImGui.PopFont();
         }
         else
         {
