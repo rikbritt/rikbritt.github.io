@@ -255,3 +255,44 @@ function UpdateProjectsMenu()
         ImGui.EndMenu();
     }
 }
+
+function CreateExplorerNodeForProject(project)
+{
+    var node = {
+        type:ExplorerNodeType.Project,
+        project:bg.projects[i],
+        id:project.id,
+        GetNodeName:function()
+        {
+            return this.project.name;
+        },
+        GetNodeChildren:function()
+        {
+            var children = [
+                {
+                    type:ExplorerNodeType.ProjectGraphs,
+                    project:node.project,
+                    id:node.id,
+                    GetNodeName:function() { return "Graphs"; },
+                    GetNodeChildren:function() { return []; }
+                },
+                {
+                    type:ExplorerNodeType.ProjectDataDefs,
+                    project:node.project,
+                    id:node.id,
+                    GetNodeName:function() { return "Data Defs"; },
+                    GetNodeChildren:function() { return []; }
+                },
+                {
+                    type:ExplorerNodeType.ProjectGenerators,
+                    project:node.project,
+                    id:node.id,
+                    GetNodeName:function() { return "Generators"; },
+                    GetNodeChildren:function() { return []; }
+                }
+            ];
+            return children;
+        }
+    }
+    return node;
+}

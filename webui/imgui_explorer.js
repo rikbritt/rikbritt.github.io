@@ -1,13 +1,3 @@
-var ExplorerNodeType =
-{
-    Project:"project",
-    ProjectGraphs:"graphs",
-    ProjectGraphCategory:"graph_cat",
-    ProjectDataDefs:"data_defs",
-    ProjectGenerators:"generators",
-    ProjectGenerator:"generator"
-}
-
 function ShowExplorerNode(node)
 {
         // Use object uid as identifier. Most commonly you could also use the object pointer as a base ID.
@@ -17,35 +7,10 @@ function ShowExplorerNode(node)
     ImGui.TableNextRow();
     ImGui.TableSetColumnIndex(0);
     ImGui.AlignTextToFramePadding();
-    var node_name = "";
-    var node_has_children = false;
-    switch(node.type)
-    {
-        case ExplorerNodeType.Project:
-            node_name = `Project : ${node.project.name}`;
-            node_has_children = true;
-            break;
-        case ExplorerNodeType.ProjectGraphs:
-            node_name = "Graphs";
-            node_has_children = true;
-            break;
-        case ExplorerNodeType.ProjectGraphCategory:
-            node_name = node.id;
-            node_has_children = true;
-            break;
-        case ExplorerNodeType.ProjectDataDefs:
-            node_name = "Data Defs";
-            node_has_children = true;
-            break;
-        case ExplorerNodeType.ProjectGenerators:
-            node_name = "Generators";
-            node_has_children = true;
-            break;
-        case ExplorerNodeType.ProjectGenerator:
-            node_name = node.name;
-            node_has_children = false;
-            break;
-    }
+    var node_name = node.GetNodeName();
+    var node_children = node.GetNodeChildren();
+    var node_has_children = node_children.length > 0;
+    
     var node_open = false;
     if(node_has_children)
     {
@@ -62,63 +27,52 @@ function ShowExplorerNode(node)
 
     if (node_open)
     {
-        switch(node.type)
-        {
-            case ExplorerNodeType.Project:
-                ShowExplorerNode({
-                    type:ExplorerNodeType.ProjectGraphs,
-                    project:node.project,
-                    id:node.id
-                });
-                ShowExplorerNode({
-                    type:ExplorerNodeType.ProjectDataDefs,
-                    project:node.project,
-                    id:node.id
-                });
-                ShowExplorerNode({
-                    type:ExplorerNodeType.ProjectGenerators,
-                    project:node.project,
-                    id:node.id
-                });
-                break;
-            case ExplorerNodeType.ProjectGraphs:
-                break;
-            case ExplorerNodeType.ProjectDataDefs:
-                break;
-            case ExplorerNodeType.ProjectGenerators:
-	            //Might be slow as shit
-	            var categories = BuildGraphOfCategories(node.project.generators);
+        // switch(node.type)
+        // {
+        //     case ExplorerNodeType.Project:
+        //         break;
+        //     case ExplorerNodeType.ProjectGraphs:
+        //         break;
+        //     case ExplorerNodeType.ProjectDataDefs:
+        //         break;
+        //     case ExplorerNodeType.ProjectGenerators:
+	    //         //Might be slow as shit
+	    //         var categories = BuildGraphOfCategories(node.project.generators);
 
-                for([key, data] of Object.entries(categories.children))
-                {
-                    ShowExplorerNode({
-                        type:ExplorerNodeType.ProjectGraphCategory,
-                        project:node.project,
-                        id:key,
-                        category:data
-                    });
-                }
-                break;
-            case ExplorerNodeType.ProjectGraphCategory:
-                for([key, data] of Object.entries(node.category.children))
-                {
-                    ShowExplorerNode({
-                        type:ExplorerNodeType.ProjectGraphCategory,
-                        project:node.project,
-                        id:key,
-                        category:data
-                    });
-                }
-                for(gen of node.category.objects)
-                {
-                    ShowExplorerNode({
-                        type:ExplorerNodeType.ProjectGenerator,
-                        project:node.project,
-                        id:gen.id,
-                        name:gen.name
-                    });
-                }
-                break;
+        //         for([key, data] of Object.entries(categories.children))
+        //         {
+        //             ShowExplorerNode({
+        //                 type:ExplorerNodeType.ProjectGraphCategory,
+        //                 project:node.project,
+        //                 id:key,
+        //                 category:data
+        //             });
+        //         }
+        //         break;
+        //     case ExplorerNodeType.ProjectGraphCategory:
+        //         for([key, data] of Object.entries(node.category.children))
+        //         {
+        //             ShowExplorerNode({
+        //                 type:ExplorerNodeType.ProjectGraphCategory,
+        //                 project:node.project,
+        //                 id:key,
+        //                 category:data
+        //             });
+        //         }
+        //         for(gen of node.category.objects)
+        //         {
+        //             ShowExplorerNode({
+        //                 type:ExplorerNodeType.ProjectGenerator,
+        //                 project:node.project,
+        //                 id:gen.id,
+        //                 name:gen.name
+        //             });
+        //         }
+        //         break;
+        // }
+        for(var child in node_children)
+        {
+            ShowExplorerNode(child);
         }
         ImGui.TreePop();
     }
@@ -170,11 +124,7 @@ function UpdateExplorerWindow( close_func, data )
             
             for(var i=0; i<bg.projects.length; ++i)
             {
-                var node = {
-                    type:ExplorerNodeType.Project,
-                    project:bg.projects[i],
-                    id:project.id
-                }
+                var node = CreateExplorerNodeForProject(bg.projects[i]);
                 ShowExplorerNode(node);
             }
 
