@@ -30,7 +30,7 @@ function ShowExplorerNode(node)
             node_has_children = true;
             break;
         case ExplorerNodeType.ProjectGraphCategory:
-            node_name = node.key;
+            node_name = node.id;
             node_has_children = true;
             break;
         case ExplorerNodeType.ProjectDataDefs:
