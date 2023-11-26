@@ -294,7 +294,7 @@ function CreateExplorerDataDefNode(project, data_def)
 {
 	return {
 		project:project,
-		id:generator.id,
+		id:data_def.id,
 		data_def:data_def,
 		GetNodeName:function() { return "data def"; },
 		GetNodeIcon:function() { return "f"; },
