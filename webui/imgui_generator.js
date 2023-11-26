@@ -691,7 +691,7 @@ function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
 				children.push( CreateExplorerGeneratorCategoryNode(project, key, data));
 			}
 		
-			for(gen of node.category.objects)
+			for(gen of category.objects)
 			{
 				children.push( CreateExplorerGeneratorNode(project, gen) );
 			}
