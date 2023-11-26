@@ -7,6 +7,7 @@ function ShowExplorerNode(node)
     ImGui.TableNextRow();
     ImGui.TableSetColumnIndex(0);
     ImGui.AlignTextToFramePadding();
+    var node_icon = node.GetNodeIcon == nullptr ? "" : node.GetNodeIcon();
     var node_name = node.GetNodeName();
     var node_children = node.GetNodeChildren();
     var node_has_children = node_children.length > 0;
@@ -14,7 +15,16 @@ function ShowExplorerNode(node)
     var node_open = false;
     if(node_has_children)
     {
-        node_open = ImGui.TreeNode(node_name);
+        if(node_icon != "")
+        {
+            ImGui.PushFont(gIconFont);
+            node_open = ImGui.TreeNode(node_icon);
+            ImGui.PopFont();
+        }
+        else
+        {
+            node_open = ImGui.TreeNode(node_name);
+        }
     }
     else
     {

@@ -265,6 +265,10 @@ function CreateExplorerNodeForProject(project)
         {
             return this.project.name;
         },
+        GetNodeIcon:function()
+        {
+            return "";
+        },
         GetNodeChildren:function()
         {
             var children = [
