@@ -492,8 +492,8 @@ function CreateExplorerGraphsNode(project)
 {
 	return {
 		project:project,
-		id:project.id,
-		GetNodeName:function() { return "Gaphs"; },
+		id:"graphs_" + project.id,
+		GetNodeName:function() { return "Graphs"; },
 		GetNodeIcon:function() { return "q"; },
 		GetNodeChildren:function()
 		{

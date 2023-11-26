@@ -706,7 +706,7 @@ function CreateExplorerGeneratorsNode(project)
 {
 	return {
 		project:project,
-		id:project.id,
+		id:"generators_" + project.id,
 		GetNodeName:function() { return "Generators"; },
 		GetNodeIcon:function() { return "w"; },
 		GetNodeChildren:function()

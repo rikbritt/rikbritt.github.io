@@ -335,7 +335,7 @@ function CreateExplorerDataDefsNode(project)
 {
 	return {
 		project:project,
-		id:project.id,
+		id:"datadefs_" + project.id,
 		GetNodeName:function() { return "Data Defs"; },
 		GetNodeIcon:function() { return "q"; },
 		GetNodeChildren:function()
