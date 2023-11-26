@@ -27,49 +27,6 @@ function ShowExplorerNode(node)
 
     if (node_open)
     {
-        // switch(node.type)
-        // {
-        //     case ExplorerNodeType.Project:
-        //         break;
-        //     case ExplorerNodeType.ProjectGraphs:
-        //         break;
-        //     case ExplorerNodeType.ProjectDataDefs:
-        //         break;
-        //     case ExplorerNodeType.ProjectGenerators:
-	    //         //Might be slow as shit
-	    //         var categories = BuildGraphOfCategories(node.project.generators);
-
-        //         for([key, data] of Object.entries(categories.children))
-        //         {
-        //             ShowExplorerNode({
-        //                 type:ExplorerNodeType.ProjectGraphCategory,
-        //                 project:node.project,
-        //                 id:key,
-        //                 category:data
-        //             });
-        //         }
-        //         break;
-        //     case ExplorerNodeType.ProjectGraphCategory:
-        //         for([key, data] of Object.entries(node.category.children))
-        //         {
-        //             ShowExplorerNode({
-        //                 type:ExplorerNodeType.ProjectGraphCategory,
-        //                 project:node.project,
-        //                 id:key,
-        //                 category:data
-        //             });
-        //         }
-        //         for(gen of node.category.objects)
-        //         {
-        //             ShowExplorerNode({
-        //                 type:ExplorerNodeType.ProjectGenerator,
-        //                 project:node.project,
-        //                 id:gen.id,
-        //                 name:gen.name
-        //             });
-        //         }
-        //         break;
-        // }
         for(var child of node_children)
         {
             ShowExplorerNode(child);

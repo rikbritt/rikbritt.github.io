@@ -661,6 +661,21 @@ function UpdateGeneratorsTable(id, generators)
 	}
 }
 
+function CreateExplorerGeneratorNode(project, generator)
+{
+	return {
+		project:project,
+		id:generator.id,
+		generator:generator,
+		GetNodeName:function() { return generator.name; },
+		GetNodeChildren:function()
+		{ 
+			var children = [];
+			return children; 
+		}
+	};
+}
+
 function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
 {
 	return {
@@ -668,7 +683,20 @@ function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
 		id:cat_name,
 		category:category,
 		GetNodeName:function() { return cat_name; },
-		GetNodeChildren:function() { return []; }
+		GetNodeChildren:function()
+		{ 
+			var children = [];
+			for([key, data] of Object.entries(category.children))
+			{
+				children.push( CreateExplorerGeneratorCategoryNode(project, key, data));
+			}
+		
+			for(gen of node.category.objects)
+			{
+				children.push( CreateExplorerGeneratorNode(project, gen) );
+			}
+			return children; 
+		}
 	};
 }
 
@@ -688,6 +716,11 @@ function CreateExplorerGeneratorsNode(project)
 			for([key, data] of Object.entries(categories.children))
 			{
 				children.push( CreateExplorerGeneratorCategoryNode(project, key, data));
+			}
+
+			for(gen of node.category.objects)
+			{
+				children.push( CreateExplorerGeneratorNode(project, gen) );
 			}
 
 			return children;
