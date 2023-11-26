@@ -106,8 +106,7 @@ function ShowExplorerNode(node)
                         type:ExplorerNodeType.ProjectGraphCategory,
                         project:node.project,
                         id:key,
-                        category:key,
-                        children:data
+                        category:data
                     });
                 }
                 for(gen of node.category.objects)
