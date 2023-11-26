@@ -70,7 +70,7 @@ function ShowExplorerNode(node)
         //         }
         //         break;
         // }
-        for(var child in node_children)
+        for(var child of node_children)
         {
             ShowExplorerNode(child);
         }
