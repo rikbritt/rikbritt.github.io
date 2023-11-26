@@ -708,6 +708,7 @@ function CreateExplorerGeneratorsNode(project)
 		project:project,
 		id:project.id,
 		GetNodeName:function() { return "Generators"; },
+		GetNodeIcon:function() { return "w"; },
 		GetNodeChildren:function()
 		{
 			var children = [];
