@@ -664,7 +664,7 @@ function UpdateGeneratorsTable(id, generators)
 function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
 {
 	return {
-		project:node.project,
+		project:project,
 		id:cat_name,
 		category:category,
 		GetNodeName:function() { return cat_name; },
