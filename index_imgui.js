@@ -179,6 +179,7 @@ function OnPageLoaded()
       
         ImGui.CreateContext();
         ImGui.StyleColorsDark();
+		ImGui.GetIO().Fonts.AddFontDefault();
 		await AddFontFromFileTTF("icons.ttf", 16.0);
 		
         //ImGui.StyleColorsClassic();
