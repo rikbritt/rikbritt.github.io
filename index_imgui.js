@@ -181,7 +181,7 @@ function OnPageLoaded()
         ImGui.CreateContext();
         ImGui.StyleColorsDark();
 		ImGui.GetIO().Fonts.AddFontDefault();
-		gIconFont = await AddFontFromFileTTF("icons.ttf", 16.0);
+		gIconFont = await AddFontFromFileTTF("icomoon.ttf", 16.0);
 		
         //ImGui.StyleColorsClassic();
       
