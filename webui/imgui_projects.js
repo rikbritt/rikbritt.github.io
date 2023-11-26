@@ -259,7 +259,7 @@ function UpdateProjectsMenu()
 function CreateExplorerNodeForProject(project)
 {
     var node = {
-        project:bg.projects[i],
+        project:project,
         id:project.id,
         GetNodeName:function()
         {
@@ -269,20 +269,20 @@ function CreateExplorerNodeForProject(project)
         {
             var children = [
                 {
-                    project:node.project,
-                    id:node.id,
+                    project:project,
+                    id:project.id,
                     GetNodeName:function() { return "Graphs"; },
                     GetNodeChildren:function() { return []; }
                 },
                 {
-                    project:node.project,
-                    id:node.id,
+                    project:project,
+                    id:project.id,
                     GetNodeName:function() { return "Data Defs"; },
                     GetNodeChildren:function() { return []; }
                 },
                 {
-                    project:node.project,
-                    id:node.id,
+                    project:project,
+                    id:project.id,
                     GetNodeName:function() { return "Generators"; },
                     GetNodeChildren:function() { return []; }
                 }
