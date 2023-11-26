@@ -178,9 +178,9 @@ function OnPageLoaded()
         });*/
       
         ImGui.CreateContext();
+        ImGui.StyleColorsDark();
 		await AddFontFromFileTTF("icons.ttf", 16.0);
 		
-        ImGui.StyleColorsDark();
         //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
