@@ -272,15 +272,9 @@ function CreateExplorerNodeForProject(project)
         GetNodeChildren:function()
         {
             var children = [
-                {
-                    project:project,
-                    id:project.id,
-                    GetNodeName:function() { return "Graphs"; },
-                    GetNodeIcon:function() { return "e"; },
-                    GetNodeChildren:function() { return []; }
-                },
                 CreateExplorerDataDefsNode(project),
-                CreateExplorerGeneratorsNode(project)
+                CreateExplorerGeneratorsNode(project),
+                CreateExplorerGraphsNode(project)
             ];
             return children;
         }

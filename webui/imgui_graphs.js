@@ -446,3 +446,73 @@ function UpdateGraphsTable(id, graphs, selected_func)
 		ImGui.EndTable();
 	}
 }
+
+function CreateExplorerGraphNode(project, graph)
+{
+	return {
+		project:project,
+		id:data_def.id,
+		graph:graph,
+		GetNodeName:function() { return graph.name; },
+		GetNodeIcon:function() { return "f"; },
+		GetNodeChildren:function()
+		{ 
+			var children = [];
+			return children; 
+		}
+	};
+}
+
+function CreateExplorerGraphCategoryNode(project, cat_name, category)
+{
+	return {
+		project:project,
+		id:cat_name,
+		category:category,
+		GetNodeName:function() { return cat_name; },
+		GetNodeIcon:function() { return "n"; },
+		GetNodeChildren:function()
+		{ 
+			var children = [];
+			for([key, data] of Object.entries(category.children))
+			{
+				children.push( CreateExplorerGraphCategoryNode(project, key, data));
+			}
+		
+			for(data_def of category.objects)
+			{
+				children.push( CreateExplorerGraphNode(project, data_def) );
+			}
+			return children; 
+		}
+	};
+}
+
+function CreateExplorerGraphsNode(project)
+{
+	return {
+		project:project,
+		id:project.id,
+		GetNodeName:function() { return "Gaphs"; },
+		GetNodeIcon:function() { return "q"; },
+		GetNodeChildren:function()
+		{
+			var children = [];
+
+			//Might be slow as shit
+			var categories = BuildGraphOfCategories(project.dataDefs);
+
+			for([key, data] of Object.entries(categories.children))
+			{
+				children.push( CreateExplorerGraphCategoryNode(project, key, data));
+			}
+
+			for(g of categories.objects)
+			{
+				children.push( CreateExplorerGraphNode(project, g) );
+			}
+
+			return children;
+		}
+	};
+}
