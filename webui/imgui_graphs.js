@@ -451,7 +451,7 @@ function CreateExplorerGraphNode(project, graph)
 {
 	return {
 		project:project,
-		id:data_def.id,
+		id:graph.id,
 		graph:graph,
 		GetNodeName:function() { return graph.name; },
 		GetNodeIcon:function() { return "f"; },
