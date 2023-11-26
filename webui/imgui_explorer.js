@@ -4,7 +4,8 @@ var ExplorerNodeType =
     ProjectGraphs:"graphs",
     ProjectGraphCategory:"graph_cat",
     ProjectDataDefs:"data_defs",
-    ProjectGenerators:"generators"
+    ProjectGenerators:"generators",
+    ProjectGenerator:"generator"
 }
 
 function ShowExplorerNode(node)
@@ -29,7 +30,7 @@ function ShowExplorerNode(node)
             node_has_children = true;
             break;
         case ExplorerNodeType.ProjectGraphCategory:
-            node_name = node.category;
+            node_name = node.key;
             node_has_children = true;
             break;
         case ExplorerNodeType.ProjectDataDefs:
@@ -39,6 +40,10 @@ function ShowExplorerNode(node)
         case ExplorerNodeType.ProjectGenerators:
             node_name = "Generators";
             node_has_children = true;
+            break;
+        case ExplorerNodeType.ProjectGenerator:
+            node_name = node.name;
+            node_has_children = false;
             break;
     }
     var node_open = false;
@@ -90,8 +95,28 @@ function ShowExplorerNode(node)
                         type:ExplorerNodeType.ProjectGraphCategory,
                         project:node.project,
                         id:key,
+                        category:data
+                    });
+                }
+                break;
+            case ExplorerNodeType.ProjectGraphCategory:
+                for([key, data] of Object.entries(node.category.children))
+                {
+                    ShowExplorerNode({
+                        type:ExplorerNodeType.ProjectGraphCategory,
+                        project:node.project,
+                        id:key,
                         category:key,
                         children:data
+                    });
+                }
+                for(gen of node.category.objects)
+                {
+                    ShowExplorerNode({
+                        type:ExplorerNodeType.ProjectGenerator,
+                        project:node.project,
+                        id:gen.id,
+                        name:gen.name
                     });
                 }
                 break;
