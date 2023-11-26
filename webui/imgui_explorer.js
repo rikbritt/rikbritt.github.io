@@ -2,6 +2,7 @@ var ExplorerNodeType =
 {
     Project:"project",
     ProjectGraphs:"graphs",
+    ProjectGraphCategory:"graph_cat",
     ProjectDataDefs:"data_defs",
     ProjectGenerators:"generators"
 }
@@ -25,6 +26,10 @@ function ShowExplorerNode(node)
             break;
         case ExplorerNodeType.ProjectGraphs:
             node_name = "Graphs";
+            node_has_children = true;
+            break;
+        case ExplorerNodeType.ProjectGraphCategory:
+            node_name = node.category;
             node_has_children = true;
             break;
         case ExplorerNodeType.ProjectDataDefs:
@@ -76,6 +81,19 @@ function ShowExplorerNode(node)
             case ExplorerNodeType.ProjectDataDefs:
                 break;
             case ExplorerNodeType.ProjectGenerators:
+	            //Might be slow as shit
+	            var categories = BuildGraphOfCategories(node.project.generators);
+
+                for([key, data] of Object.entries(categories.children))
+                {
+                    ShowExplorerNode({
+                        type:ExplorerNodeType.ProjectGraphCategory,
+                        project:node.project,
+                        id:key,
+                        category:key,
+                        children:data
+                    });
+                }
                 break;
         }
         ImGui.TreePop();
