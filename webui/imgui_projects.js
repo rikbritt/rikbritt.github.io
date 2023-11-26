@@ -267,7 +267,7 @@ function CreateExplorerNodeForProject(project)
         },
         GetNodeIcon:function()
         {
-            return "a";
+            return "e";
         },
         GetNodeChildren:function()
         {
@@ -276,12 +276,14 @@ function CreateExplorerNodeForProject(project)
                     project:project,
                     id:project.id,
                     GetNodeName:function() { return "Graphs"; },
+                    GetNodeIcon:function() { return "e"; },
                     GetNodeChildren:function() { return []; }
                 },
                 {
                     project:project,
                     id:project.id,
                     GetNodeName:function() { return "Data Defs"; },
+                    GetNodeIcon:function() { return "q"; },
                     GetNodeChildren:function() { return []; }
                 },
                 CreateExplorerGeneratorsNode(project)

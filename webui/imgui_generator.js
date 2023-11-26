@@ -668,6 +668,7 @@ function CreateExplorerGeneratorNode(project, generator)
 		id:generator.id,
 		generator:generator,
 		GetNodeName:function() { return generator.name; },
+		GetNodeIcon:function() { return "f"; },
 		GetNodeChildren:function()
 		{ 
 			var children = [];
@@ -683,6 +684,7 @@ function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
 		id:cat_name,
 		category:category,
 		GetNodeName:function() { return cat_name; },
+		GetNodeIcon:function() { return "g"; },
 		GetNodeChildren:function()
 		{ 
 			var children = [];
