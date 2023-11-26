@@ -1,45 +1,52 @@
+var ExplorerNodeType =
+{
+    Project:"project",
+    ProjectGraphs:"graphs"
+}
 
-function ShowExplorerNode(prefix, uid)
+function ShowExplorerNode(node)
 {
         // Use object uid as identifier. Most commonly you could also use the object pointer as a base ID.
-    ImGui.PushID(uid);
+    ImGui.PushID(node.id);
 
     // Text and Tree nodes are less high than framed widgets, using AlignTextToFramePadding() we add vertical spacing to make the tree lines equal high.
     ImGui.TableNextRow();
     ImGui.TableSetColumnIndex(0);
     ImGui.AlignTextToFramePadding();
-    var node_open = ImGui.TreeNode("Object", `${prefix}_${uid}`);
+    var node_name = "";
+    var node_has_children = false;
+    if(node.type == ExplorerNodeType.Project)
+    {
+        node_name = `Project : ${node.project.name}`;
+        node_has_children = true;
+    }
+    else if(node.type == ExplorerNodeType.ProjectGraphs)
+    {
+        node_name = "Graphs";
+        node_has_children - true;
+    }
+    var node_open = false;
+    if(node_has_children)
+    {
+        node_open = ImGui.TreeNode(node_name);
+    }
+    else
+    {
+        ImGui.AlignTextToFramePadding();
+        var flags = ImGui.TreeNodeFlags.Leaf | ImGui.TreeNodeFlags.NoTreePushOnOpen | ImGui.TreeNodeFlags.Bullet;
+        ImGui.TreeNodeEx("Field", flags, node_name);
+    }
     ImGui.TableSetColumnIndex(1);
-    ImGui.Text("my sailor is rich");
+    ImGui.Text("Node Val");
 
     if (node_open)
     {
-        var placeholder_members = [ 0.0, 0.0, 1.0, 3.1416, 100.0, 999.0 ]
-        for (var i = 0; i < 8; i++)
+        if(node.type == ExplorerNodeType.Project)
         {
-            ImGui.PushID(i); // Use field index as identifier.
-            if (i < 2)
-            {
-                ShowExplorerNode("Child", 424242);
-            }
-            else
-            {
-                // Here we use a TreeNode to highlight on hover (we could use e.g. Selectable as well)
-                ImGui.TableNextRow();
-                ImGui.TableSetColumnIndex(0);
-                ImGui.AlignTextToFramePadding();
-                var flags = ImGui.TreeNodeFlags.Leaf | ImGui.TreeNodeFlags.NoTreePushOnOpen | ImGui.TreeNodeFlags.Bullet;
-                ImGui.TreeNodeEx("Field", flags, "Field_%d", i);
-
-                ImGui.TableSetColumnIndex(1);
-                //ImGui.SetNextItemWidth(-FLT_MIN);
-                //if (i >= 5)
-                    //ImGui.InputFloat("##value", &placeholder_members[i], 1.0);
-                //else
-                  //  ImGui::DragFloat("##value", &placeholder_members[i], 0.01f);
-                ImGui.NextColumn();
-            }
-            ImGui.PopID();
+            ShowExplorerNode({type:ExplorerNodeType.ProjectGraphs, project:node.project});
+        }
+        else if(node.type == ExplorerNodeType.ProjectGraphs)
+        {
         }
         ImGui.TreePop();
     }
@@ -88,9 +95,16 @@ function UpdateExplorerWindow( close_func, data )
             ImGui.TableSetupColumn("Value");
             ImGui.TableHeadersRow();
 
-            // Iterate placeholder objects (all the same data)
-            for (var obj_i = 0; obj_i < 4; obj_i++)
-            ShowExplorerNode("Object", obj_i);
+            
+            for(var i=0; i<bg.projects.length; ++i)
+            {
+                var node = {
+                    type:ExplorerNodeType.Project,
+                    project:bg.projects[i],
+                    id:project.id
+                }
+                ShowExplorerNode(node);
+            }
 
             ImGui.EndTable();
         }
