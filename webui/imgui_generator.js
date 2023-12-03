@@ -730,7 +730,11 @@ function CreateExplorerGeneratorsNode(project)
 		},
 		UpdateContextMenu:function()
 		{
-			ImGui.Text("Generators");
+			if(ImGui.Button("Create New Generator..."))
+			{
+				bg.CreateEmptyProjectGenerator(project);
+                ImGui.CloseCurrentPopup();
+			}
 		}
 	};
 }

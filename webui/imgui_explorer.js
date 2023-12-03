@@ -57,7 +57,14 @@ function ShowExplorerNode(node)
         }
     }
     ImGui.TableSetColumnIndex(1);
-    ImGui.Text("Node Val");
+    if(node.UpdateNodeValue != null)
+    {
+        node.UpdateNodeValue();
+    }
+    else
+    {
+        ImGui.Text("-");
+    }
 
     if (node_open)
     {

@@ -302,6 +302,10 @@ function CreateExplorerDataDefNode(project, data_def)
 		{ 
 			var children = [];
 			return children; 
+		},
+		UpdateNodeValue:function()
+		{
+			ImGui.Button("Open...");
 		}
 	};
 }
@@ -362,6 +366,7 @@ function CreateExplorerDataDefsNode(project)
 			if(ImGui.Button("Create New Data Def..."))
 			{
 				bg.CreateEmptyDataDef(project);
+                ImGui.CloseCurrentPopup();
 			}
 		}
 	};
