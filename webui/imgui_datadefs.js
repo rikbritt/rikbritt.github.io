@@ -305,7 +305,10 @@ function CreateExplorerDataDefNode(project, data_def)
 		},
 		UpdateNodeValue:function()
 		{
-			ImGui.Button("Open...");
+			if(ImGui.Button("Open..."))
+			{
+				OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+			}
 		}
 	};
 }
@@ -365,7 +368,8 @@ function CreateExplorerDataDefsNode(project)
 		{
 			if(ImGui.Button("Create New Data Def..."))
 			{
-				bg.CreateEmptyDataDef(project);
+				var data_def = bg.CreateEmptyDataDef(project);
+				OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
                 ImGui.CloseCurrentPopup();
 			}
 		}
