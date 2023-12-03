@@ -20,6 +20,12 @@ Data Map - A hashmap of field values, keyed by field name. Used by the generator
 
 AddNotes("Release Notes",
 `
+3/12/2023
+Working on new node tree Explorer window.
+Wanting to improve how data is stored and saved. If i keep all references out of where I store data, and just use ids, then can serialise it all easier.
+Also rethinking the 'global' project. Still ok with having multiple libaries and letting them depend on each other, but bin the idea of a 'global' one and make all the stuff
+it currently stores 'shared'. The global list of generators is just a kind of cache - and in fact could be a global map of data referenced by guid id, so data defs and graphs all go into the same list. 
+
 8/10/2023
 Did some more loading/saving. Updated the Next notes.
 Have downloaded a copy of britt gen and started to make it a module for murder web. (Spent more of last few months doing Murder Web)
