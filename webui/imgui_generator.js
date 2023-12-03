@@ -673,6 +673,13 @@ function CreateExplorerGeneratorNode(project, generator)
 		{ 
 			var children = [];
 			return children; 
+		},
+		UpdateNodeValue:function()
+		{
+			if(ImGui.Button("Open..."))
+			{
+				OpenWindow(generator.id, UpdateGeneratorWindow, generator);
+			}
 		}
 	};
 }
@@ -732,7 +739,8 @@ function CreateExplorerGeneratorsNode(project)
 		{
 			if(ImGui.Button("Create New Generator..."))
 			{
-				bg.CreateEmptyProjectGenerator(project);
+				var gen = bg.CreateEmptyProjectGenerator(project);
+				OpenWindow(gen.id, UpdateGeneratorWindow, gen);
                 ImGui.CloseCurrentPopup();
 			}
 		}
