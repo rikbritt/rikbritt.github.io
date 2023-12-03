@@ -359,7 +359,10 @@ function CreateExplorerDataDefsNode(project)
 		},
 		UpdateContextMenu:function()
 		{
-			ImGui.Button("Create New Data Def...");
+			if(ImGui.Button("Create New Data Def..."))
+			{
+				bg.CreateEmptyDataDef(project);
+			}
 		}
 	};
 }
