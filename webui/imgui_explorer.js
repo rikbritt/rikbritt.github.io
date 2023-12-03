@@ -11,6 +11,15 @@ function ShowExplorerNode(node)
     var node_name = node.GetNodeName();
     var node_children = node.GetNodeChildren();
     var node_has_children = node_children.length > 0;
+    var UpdateNodeContextMenu = function()
+    {
+        var node_has_context_menu = node.UpdateContextMenu != null;
+        if (node_has_context_menu && ImGui.BeginPopupContextItem("node context menu"))
+        {
+            node.UpdateContextMenu();
+            ImGui.EndPopup();
+        }
+    };
     
     var node_open = false;
     if(node_has_children)
@@ -20,12 +29,14 @@ function ShowExplorerNode(node)
             ImGui.PushFont(gIconFont);
             node_open = ImGui.TreeNode(node_icon);
             ImGui.PopFont();
+            UpdateNodeContextMenu();
             ImGui.SameLine();
             ImGui.Text(node_name);
         }
         else
         {
             node_open = ImGui.TreeNode(node_name);
+            UpdateNodeContextMenu();
         }
     }
     else

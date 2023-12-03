@@ -356,6 +356,10 @@ function CreateExplorerDataDefsNode(project)
 			}
 
 			return children;
+		},
+		UpdateContextMenu:function()
+		{
+			ImGui.Button("Create New Data Def...");
 		}
 	};
 }

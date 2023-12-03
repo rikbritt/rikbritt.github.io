@@ -727,6 +727,10 @@ function CreateExplorerGeneratorsNode(project)
 			}
 
 			return children;
+		},
+		UpdateContextMenu:function()
+		{
+			ImGui.Text("Generators");
 		}
 	};
 }
