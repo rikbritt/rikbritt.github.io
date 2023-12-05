@@ -168,8 +168,16 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 			var file_name = project_data_files.files[i].name;
 			if(file_name.startsWith("generators/"))
 			{
-				var generator = bg.LoadGeneratorFromJSON(project_data_files.files[i].content);
-				loaded_project.generators.push(generator);
+				if(file_name.endsWith(".js"))
+				{
+					var loaded = await import(file_name);
+					loaded = "";
+				}
+				else
+				{
+					var generator = bg.LoadGeneratorFromJSON(project_data_files.files[i].content);
+					loaded_project.generators.push(generator);
+				}
 			}
 			else if(file_name.startsWith("graphs/"))
 			{
