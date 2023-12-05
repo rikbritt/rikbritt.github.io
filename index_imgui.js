@@ -193,7 +193,6 @@ function OnPageLoaded()
 
         ImGui_Impl.Init(canvas);
 
-		bg.CreateProject("Test Project");
 		OpenWindow("explorer", UpdateExplorerWindow, null);
 		
 		var clock = new THREE.Clock();
