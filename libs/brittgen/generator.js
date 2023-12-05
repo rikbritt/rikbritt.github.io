@@ -350,7 +350,7 @@ bg.SaveGeneratorToJSON = function(generator)
 bg.SaveGeneratorToJS = function(generator)
 {
 	var generator_json = JSON.stringify(generator, null, 4);
-	generator_json = generator_json.replaceAll("\n", "\n        ");
+	generator_json = generator_json.replaceAll("\n", "\n    ");
 	var generator_script_func = generator.script.toString();
 	var gen_js = `bg.LoadGenerator(\n    ${generator_json},\n    ${generator_script_func}\n)`;
 	return gen_js;
