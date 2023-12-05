@@ -137,7 +137,7 @@ bg.SaveProjectAsJSONFiles = function(project)
 	return project_data_files;
 }
 
-bg.LoadProjectFromJSONFiles = function(project_data_files)
+bg.LoadProjectFromJSONFiles = async function(project_data_files)
 {
 	var loaded_project = null;
 	//First scan, find project json file
