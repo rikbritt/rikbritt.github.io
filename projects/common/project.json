@@ -2,6 +2,6 @@
     "id":"545aa301-a596-41ec-bfd3-568b69184e83",
     "name":"Common",
     "files":[
-        "generators/vehicles/car_generator.json"
+        "generators/vehicles/car_generator.js"
     ]
 }
