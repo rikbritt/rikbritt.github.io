@@ -94,7 +94,7 @@ bg.SaveProjectAsJSONFiles = function(project)
 	for([key, data] of Object.entries(project.dataDefs))
 	{
 		var data_def_json = bg.SaveDataDefToJSON(data);
-		var file_name = "datadef/" + key + ".json";
+		var file_name = "datadefs/" + key + ".json";
 		project_data_files.files.push({
 			name:file_name,
 			content:data_def_json
@@ -106,7 +106,7 @@ bg.SaveProjectAsJSONFiles = function(project)
 	for(var i=0; i<project.generators.length; ++i)
 	{
 		var generator_json = bg.SaveGeneratorToJSON(project.generators[i]);
-		var file_name = "generator/" + project.generators[i].id + ".json";
+		var file_name = "generators/" + project.generators[i].id + ".json";
 		project_data_files.files.push({
 			name:file_name,
 			content:generator_json
@@ -120,7 +120,7 @@ bg.SaveProjectAsJSONFiles = function(project)
 		//add file entry to project_json_data.files
 		//add output file entry and content;
 		var graph_json = bg.SaveGraphToJSON(project.generatorGraphs[i]);
-		var file_name = "graph/" + project.generatorGraphs[i].id + ".json";
+		var file_name = "graphs/" + project.generatorGraphs[i].id + ".json";
 		project_data_files.files.push({
 			name:file_name,
 			content:graph_json
@@ -166,17 +166,17 @@ bg.LoadProjectFromJSONFiles = function(project_data_files)
 		for(var i=0; i<project_data_files.files.length; ++i)
 		{
 			var file_name = project_data_files.files[i].name;
-			if(file_name.startsWith("generator/"))
+			if(file_name.startsWith("generators/"))
 			{
 				var generator = bg.LoadGeneratorFromJSON(project_data_files.files[i].content);
 				loaded_project.generators.push(generator);
 			}
-			else if(file_name.startsWith("graph/"))
+			else if(file_name.startsWith("graphs/"))
 			{
 				var graph = bg.LoadGraphFromJSON(project_data_files.files[i].content);
 				loaded_project.generatorGraphs.push(graph);
 			}
-			else if(file_name.startsWith("datadef/"))
+			else if(file_name.startsWith("datadefs/"))
 			{
 				var data_def = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
 				loaded_project.dataDefs[data_def.id] = data_def;
