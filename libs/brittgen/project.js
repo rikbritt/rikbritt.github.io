@@ -137,7 +137,7 @@ bg.SaveProjectAsJSONFiles = function(project)
 	return project_data_files;
 }
 
-bg.LoadProjectFromJSONFiles = async function(project_data_files)
+bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = "")
 {
 	var loaded_project = null;
 	//First scan, find project json file
@@ -170,7 +170,7 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files)
 			{
 				if(file_name.endsWith(".js"))
 				{
-					var loaded = await import(file_name);
+					var loaded = await import(project_root + "/" + file_name);
 					loaded = "";
 				}
 				else
@@ -231,7 +231,7 @@ bg.LoadProjectFromJSONFileAsync = function(project_root, async_load_file_func, f
 
 			Promise.all(loading_tasks).then( () => 
 				{
-					var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+					var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files, "project_root");
 					if(finished_func)
 					{
 						finished_func(loaded_project);
@@ -272,6 +272,6 @@ bg.LoadProjectFromJSONFile = function(project_root, load_file_func)
 		);
 	}
 	
-	var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+	var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files, project_root);
 	return loaded_project;
 }

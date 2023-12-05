@@ -120,7 +120,7 @@ function LoadProjectFromZip(file_blob)
 
                     Promise.all(unzip_tasks).then( () => 
                         {
-                            var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files);
+                            var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files, "");
                             //OpenProjectWindow(loaded_project);
                         }
                     );
