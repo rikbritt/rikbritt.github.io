@@ -347,6 +347,17 @@ bg.SaveGeneratorToJSON = function(generator)
 	return data_json;
 }
 
+bg.SaveGeneratorToJS = function(generator)
+{
+	var generator_json = JSON.stringify(generator, null, 4);
+	var generator_script_func = generator.script.toString();
+	var gen_js = `bg.LoadGenerator(
+		${generator_json},
+		${generator_script_func}
+	)`;
+	return gen_js;
+}
+
 bg.LoadGeneratorFromJSON = function(json_str)
 {
 	var loaded_data = JSON.parse(json_str);
