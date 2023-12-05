@@ -81,6 +81,21 @@ function UpdateExplorerWindow( close_func, data )
 {
     if(ImGui.Begin("Explorer", close_func ))
     {
+        ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:2, y:2});
+        if (ImGui.BeginTable("##split", 2, ImGui.TableFlags.BordersOuter | ImGui.TableFlags.Resizable | ImGui.TableFlags.ScrollY))
+        {            
+            for(var i=0; i<bg.projects.length; ++i)
+            {
+                var node = CreateExplorerNodeForProject(bg.projects[i]);
+                ShowExplorerNode(node);
+            }
+
+            ImGui.EndTable();
+        }
+        ImGui.PopStyleVar();
+
+        ImGui.Separator();
+        
         if(ImGui.CollapsingHeader("Global"))
         {
             ImGui.Indent();
@@ -111,24 +126,6 @@ function UpdateExplorerWindow( close_func, data )
             ImGui.PopID();
         }
         
-        ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:2, y:2});
-        if (ImGui.BeginTable("##split", 2, ImGui.TableFlags.BordersOuter | ImGui.TableFlags.Resizable | ImGui.TableFlags.ScrollY))
-        {
-            ImGui.TableSetupScrollFreeze(0, 1);
-            ImGui.TableSetupColumn("Node");
-            ImGui.TableSetupColumn("Value");
-            ImGui.TableHeadersRow();
-
-            
-            for(var i=0; i<bg.projects.length; ++i)
-            {
-                var node = CreateExplorerNodeForProject(bg.projects[i]);
-                ShowExplorerNode(node);
-            }
-
-            ImGui.EndTable();
-        }
-        ImGui.PopStyleVar();
 
         ImGui.End();
     }
