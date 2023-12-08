@@ -367,6 +367,7 @@ var RockPaperScissors =
     OpponentMove:"",
     ForceOpponentMove:"",
     ForcePlayerMove:"",
+    OpponentFightPos:{x:135, y:185},
     SetState:function(s)
     {
         this.State=s;
@@ -397,7 +398,7 @@ var RockPaperScissors =
                                 this.ShowOpponentDefaultVisibility();
 
                                 //Move from door to centre
-                                this.Sprites.opponent_body.addTween({x:240, y:175}, 'linear', 100,
+                                this.Sprites.opponent_body.addTween(this.OpponentFightPos, 'linear', 100,
                                     function() { 
                                         this.StartStateBoundTimeout(
                                         function(){
@@ -511,7 +512,7 @@ var RockPaperScissors =
             }
             case this.States.OpponentCount:
             {
-                this.Sprites.opponent_body.attr({x:140, y:175});
+                this.Sprites.opponent_body.attr(this.OpponentFightPos);
                 HideSprite(this.Sprites.opponent_l_arm);
                 HideSprite(this.Sprites.opponent_r_arm);
                 ShowSprite(this.Sprites.opponent_count);
@@ -718,6 +719,7 @@ var RockPaperScissors =
     },
     ShowOpponentDefaultVisibility:function()
     {
+        this.Sprites.opponent_body.attr(this.OpponentFightPos);
         ShowSprite(this.Sprites.opponent_body); //Makes children visible
         HideSprite(this.Sprites.opponent_head_react);
         ShowSprite(this.Sprites.opponent_l_arm);
