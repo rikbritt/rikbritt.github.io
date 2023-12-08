@@ -367,7 +367,7 @@ var RockPaperScissors =
     OpponentMove:"",
     ForceOpponentMove:"",
     ForcePlayerMove:"",
-    OpponentFightPos:{x:135, y:185},
+    OpponentFightPos:{x:145, y:185},
     SetState:function(s)
     {
         this.State=s;
@@ -512,7 +512,6 @@ var RockPaperScissors =
             }
             case this.States.OpponentCount:
             {
-                this.Sprites.opponent_body.attr(this.OpponentFightPos);
                 HideSprite(this.Sprites.opponent_l_arm);
                 HideSprite(this.Sprites.opponent_r_arm);
                 ShowSprite(this.Sprites.opponent_count);
@@ -537,7 +536,6 @@ var RockPaperScissors =
             }
             case this.States.ShowMoves:
             {
-                this.Sprites.opponent_body.attr({x:240, y:175});
                 HideSprite(this.Sprites.opponent_l_arm);
                 HideSprite(this.Sprites.opponent_r_arm);
                 ShowSprite(this.Sprites.opponent_r_hand_receive_1);
