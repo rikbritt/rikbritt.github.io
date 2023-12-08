@@ -511,7 +511,7 @@ var RockPaperScissors =
             }
             case this.States.OpponentCount:
             {
-                this.Sprites.opponent_body.attr({x:240, y:175});
+                this.Sprites.opponent_body.attr({x:140, y:175});
                 HideSprite(this.Sprites.opponent_l_arm);
                 HideSprite(this.Sprites.opponent_r_arm);
                 ShowSprite(this.Sprites.opponent_count);
@@ -898,10 +898,10 @@ var RockPaperScissors =
             }
             case this.States.RoundOver:
             {
-                //if(this.TimeInState > 2)
-                //{
-                //    this.SetState(this.States.Voting);
-                //}
+                if(this.TimeInState > 4)
+                {
+                    this.SetState(this.States.Voting);
+                }
                 break;
             }
         };
