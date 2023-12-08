@@ -666,7 +666,14 @@ var RockPaperScissors =
                     "msg_lets_do_this.png",
                     "player_rock.png",
                     "player_paper.png",
-                    "player_scissors.png"
+                    "player_scissors.png",
+                    "scene1bg.png",
+                    "scene1bg_light1.png",
+                    "scene1bg_light2.png",
+                    "scene1bg_flash1.png",
+                    "scene1bg_flash2.png",
+                    "scene1bg_flash3.png",
+                    "scene1bg_flash4.png"
                 ],
                 "sprites":{
                     "vfx_1.png":{
@@ -730,7 +737,6 @@ var RockPaperScissors =
         //480 / 270
         this.Sprites.intro_bg = Crafty.e('2D, DOM, Image').image("scene1bg.png");
         this.Sprites.game_title = Crafty.e('2D, DOM, Image, Tweener').image("title.png");
-
         
         this.Sprites.opponent_origin = Crafty.e('2D, DOM, Tweener');
         this.Sprites.opponent_body = MakeSpriteWithOrigin("opponent_body.png", 52, 80);
@@ -833,6 +839,8 @@ var RockPaperScissors =
         //Last for opponent
         this.Sprites.opponent_body.attr({x:327, y:167});
 
+        this.Sprites.bg_light1 = Crafty.e('2D, DOM, Image').image("scene1bg_light1.png");
+        this.Sprites.bg_light2 = Crafty.e('2D, DOM, Image').image("scene1bg_light2.png");
         
         this.Sprites.player_rock = MakeSpriteWithOrigin("player_rock.png", 328, 254);
         this.Sprites.player_rock.attr({x:450, y:300});
