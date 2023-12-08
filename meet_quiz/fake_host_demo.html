@@ -1,0 +1,24 @@
+<html>
+    <link rel="stylesheet" href="framework/fake_chat.css">
+<body>
+    <div class="fake-chat">
+        <div class="z38b6">
+        </div>
+    </div>
+</body>
+<script src="framework/game_meet_hooks.js"></script>
+<script src="framework/fake_chat_popout.js"></script>
+<script>
+    MeetHooks.GameWindow = window.open("demo/game.html", "game", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=1280,height=720");
+    MeetHooks.ControlWindow = window.open("framework/game_control.html", "game_control", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=400,height=800");
+    //Done from here to minimise popup blocks
+    setTimeout(
+        function()
+        {
+            MeetHooks.GameWindow.postMessage({type:"func", name:"SetControlWindow", arg:"game_control"}, "*");
+            MeetHooks.ControlWindow.postMessage({type:"func", name:"SetGameWindow", arg:"game"}, "*");
+        },
+        2000
+    );
+</script>
+</html>

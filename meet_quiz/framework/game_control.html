@@ -1,0 +1,63 @@
+<html>
+    <head>
+    <style>
+        
+@import url('https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap');
+
+body {
+    background-color: #00000073;
+    text-align: center;
+    font-family: 'Asap Condensed';
+}
+.game-control h1 { 
+    text-align: center;
+}
+    </style>
+    </head>
+    <body><h1>GAME CONTROL</h1>
+    <div id="game_controls"></div>
+</body>
+
+    <script>
+function createElementFromHTML(htmlString) {
+    var div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+  
+    // Change this to div.childNodes to support multiple top-level nodes.
+    return div.firstChild;
+  }
+
+        var GameControl =
+        {
+            GameWindow:null,
+            SetGameWindow:function(win_name)
+            {
+                this.GameWindow = window.open("", win_name);
+            },
+            SetControls:function(element_str)
+            {
+                var game_controls = document.getElementById("game_controls");
+                game_controls.innerHTML = "";
+                game_controls.appendChild(createElementFromHTML(element_str));
+            }
+        };
+        
+        (window.addEventListener || window.attachEvent)(
+                (window.attachEvent && "on" || "") + "message", 
+                function (evt) 
+                {
+                  var data = evt.data; // this is the data sent to the window
+                  if(data.type=="func")
+                  {
+                    GameControl[data.name](data.arg);
+                  }
+                  else if(data.type=="js_str")
+                  {
+                    var decoded_js = decodeURI(data.arg);
+                    eval(decoded_js);
+                  }
+                },
+              false
+            );
+    </script>
+</html>

@@ -1,0 +1,11 @@
+
+.fake-chat {
+    position: absolute;
+    left:5%;
+    top:10%;
+    flex-direction: column-reverse;
+    display: flex;
+    height:300px;
+    overflow: auto;
+    z-index: 10;
+}
