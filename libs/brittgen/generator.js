@@ -103,35 +103,61 @@ bg.RegisterGenerator = function(generator, add_to_global = true)
 //id should normally be null so it makes a new one
 bg.CreateEmptyGenerator = function(id)
 {
-	if(id == null)
-	{
-		id = bg.CreateGUID();
-	}
 	var generator = {
-		id:id,
-		name:"",
-		description:"",
-		version:3,
-		category:[],
-		inputs:{
+		id:id
+	}
+	bg.UpgradeGenerator(generator);
+	bg.RegisterGenerator(generator);
+	return generator;
+}
+
+//Take a generator object and upgrade it to the latest version standard
+bg.UpgradeGenerator = function(generator)
+{
+	if(generator.id == null)
+	{
+		generator.id = bg.CreateGUID();
+	}
+	
+	if(generator.name == null)
+	{
+		generator.name = "";
+	}
+	if(generator.description == null)
+	{
+		generator.description = "";
+	}
+	if(generator.category == null)
+	{
+		generator.category = [];
+	}
+	if(generator.inputs == null)
+	{
+		generator.inputs = {
 			name:"inputs",
 			version:1,
 			fields:[
 				//system:{		type:"data",		dataType:galaxyDataDef	}
 			],
-		},
-		outputs:{
+		};
+	}
+	if(generator.outputs == null)
+	{
+		generator.outputs = {
 			name:"outputs",
 			version:1,
 			fields:[
-				//data:{ type:"data", dataType:galaxyDataDef }
+				//system:{		type:"data",		dataType:galaxyDataDef	}
 			],
-		},
-		script:function(inputs, outputs){
+		};
+	}
+	if(generator.script == null)
+	{
+		generator.script = function(inputs, outputs){
 			outputs.data = inputs;
 		}
-	};
-	bg.RegisterGenerator(generator);
+	}
+	generator.version = 3;
 	return generator;
 }
 
@@ -348,9 +374,9 @@ bg.SaveGeneratorToJSON = function(generator)
 }
 
 //Load a generator for the currently loading project
-bg.LoadGenerator = function(generator_data, generator_script_func)
+bg.LoadGeneratorFromObject = function(generator_data, generator_script_func)
 {
-	//var generator = bg.UpgradeGenerator(generator_data);
+	var generator = bg.UpgradeGenerator(generator_data);
 }
 
 bg.SaveGeneratorToJS = function(generator)
