@@ -40,7 +40,7 @@ var carStyling = {
 	]
 }
 
-var carGenerator = {
+var generator = {
 	version:1,
 	name:"Car Generator",
 	inputs:{
@@ -73,3 +73,5 @@ var carGenerator = {
 		outputs.model.material = inputs.carStyling.paintColour;
 	}
 }
+
+export { generator }
