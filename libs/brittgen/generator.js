@@ -377,6 +377,7 @@ bg.SaveGeneratorToJSON = function(generator)
 bg.LoadGeneratorFromObject = function(generator_data, generator_script_func)
 {
 	var generator = bg.UpgradeGenerator(generator_data);
+	return generator;
 }
 
 bg.SaveGeneratorToJS = function(generator)
