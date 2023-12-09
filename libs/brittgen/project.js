@@ -231,7 +231,7 @@ bg.LoadProjectFromJSONFileAsync = function(project_root, async_load_file_func, f
 
 			Promise.all(loading_tasks).then( () => 
 				{
-					var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files, "project_root");
+					var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files, project_root);
 					if(finished_func)
 					{
 						finished_func(loaded_project);
