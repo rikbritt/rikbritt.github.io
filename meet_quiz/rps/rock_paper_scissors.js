@@ -1,373 +1,26 @@
-
-
-
-// Page
-var rps_inject = `
-<div class="game">
-<style>
-.game div {
-  image-rendering: optimizeSpeed;             /* Older versions of FF          */
-  image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
-  image-rendering: -webkit-optimize-contrast; /* Safari                        */
-  image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
-  image-rendering: pixelated;                 /* Awesome future-browsers       */
-  -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
-}
-.rps-game-timer {
-    position: absolute;
-    top: 0px;
-    left: 50%;
-    transform: translate(-50%, 0px);
-    font-family: 'Asap Condensed';
-    font-size: 50px;
-    color: red;
-    font-weight: bold;
-}
-
-.rps-game-player-answer {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, 0px);
-    font-family: 'Asap Condensed';
-    font-size: 96px;
-    color: red;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-}
-
-.rps-game-enemy-answer {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, 0px);
-    font-family: 'Asap Condensed';
-    font-size: 50px;
-    color: red;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-}
-
-.rps-game-result {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, 0px);
-    font-family: 'Asap Condensed';
-    font-size: 96px;
-    color: green;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-}
-
-.rps-game-boss-head {
-    /* background-image: url("boss_head.png"); */
-    background-image: url("data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Layer_1'%3E%3Ctitle%3ELayer 1%3C/title%3E%3Cellipse ry='126' rx='126' id='svg_1' cy='128' cx='128' stroke='%23000' fill='%23f4c1c1'/%3E%3Cellipse stroke='%23000' ry='23' rx='75' id='svg_2' cy='183' cx='131' fill='%23ffffff'/%3E%3Cline id='svg_3' y2='102' x2='129' y1='56' x1='43' stroke='%23000' fill='none'/%3E%3Cline id='svg_4' y2='100' x2='148' y1='55' x1='203' stroke='%23000' fill='none'/%3E%3C/g%3E%3C/svg%3E");
-    width: 256px;
-    height: 256px;
-    left: 50%;
-    position: relative;
-    transform: translate(-50%, 0px);
-}
-
-.rps-game-scene-bg {
-    width: 100%;
-    height: 100%;
-}
-
-.rps-game-scene-bg img
-{
-    width: 100%;
-    height: 100%;
-    image-rendering: pixelated;
-}
-</style>
-
-    <div class="game">
-        <div id="scene_bg" class="rps-game-scene-bg"><img src="scene1bg.png"/></div>
-    </div>
-    <div id="rps_game" class="game" style="display:none;">
-        <div id="rps_head" class="rps-game-boss-head"></div>
-        <div id="time_left" class="rps-game-timer">0</div>
-        <div id="enemy_answered" class="rps-game-enemy-answer"></div>
-        <div id="most_answered" class="rps-game-player-answer"></div>
-        <div id="result" class="rps-game-result"></div>
-    </div>
-    <div id="crafty_game" class="game"></div>
-    <div class="overlay">
-    <div class="overlay-current-mode" id="overlay_answer_mode">Answer</div>
-        <div class="overlay-players-container">
-            <div class="flex-container" id="players">
-                <!-- <div class="flex-items"><div class="player-name">Bob F</div></div> -->
-            </div>
-        </div>
-    </div>
-</div>
-`;
-
 var gWinWidth = window.innerWidth;
 var gWinHeight = window.innerHeight;
 var gVW = 480;
 var gVH = 270;
-
-function CentreOrigin(e)
-{
-    e.attr({x:-e.w / 2, y:-e.h / 2});
-}
-
-function MakeSpriteWithCentreOrigin(url)
-{
-    var o = Crafty.e('2D, DOM, Tweener');
-    var e = Crafty.e('2D, DOM, Image').image(url);
-    o.attach(e);
-    CentreOrigin(e);
-    return o;
-}
-
-function MakeSpriteWithOrigin(url, x, y)
-{
-    var o = Crafty.e('2D, DOM, Tweener');
-    var e = Crafty.e('2D, DOM, Image').image(url);
-    o.attach(e);
-    e.attr({x:-x, y:-y});
-    return o;
-}
-
-function MakeAnimSprite(sprite_name)
-{
-    var e = Crafty.e(`2D, DOM, Image, ${sprite_name}, SpriteAnimation`);
-    return e;
-}
-
-function AddAnimSpriteReel(e, reel_name, reel_interval, reel_data)
-{
-    return e.reel(reel_name, reel_interval, reel_data);
-}
-
-function StartAnimSpriteReel(e, name, loop)
-{
-    e.animate(name, loop);
-}
-
-
-function MakeNumberSprite(num)
-{
-    var o = Crafty.e('2D, DOM, Tweener');
-    var num_str = num.toString();
-    if(num_str == "")
-    {
-        num_str = "0";
-    }
-    var num_spacing = 30;
-    var num_numbers = num_str.length;
-    for (var i = 0; i < num_str.length; i++) 
-    {
-        var num_url = `num_${num_str.charAt(i)}.png`;
-        var e = Crafty.e('2D, DOM, Image').image(num_url);
-        var x = (i * num_spacing) - ((num_numbers * num_spacing) / 2);
-        o.attach(e);
-        e.attr({x:x, y:0});
-    }
-    return o;
-}
-
-function MakeLoopingTween(e, ease, duration, from, to)
-{
-    var data = { e:e, duration:duration, ease:ease, from:from, to:to, to_next:true, stop:false};
-    e._looping_tween_data = data;
-    var bounce_f = function(e)
-    {
-        var d = e._looping_tween_data;
-        if(d.stop)
-        {
-            return;
-        }
-        if(d.to_next)
-        {
-            d.to_next = false;
-            d.e.addTween(d.to, d.ease, d.duration, bounce_f, [e]);
-        }
-        else
-        {
-            d.to_next = true;
-            d.e.addTween(d.from, d.ease, d.duration, bounce_f, [e]);
-        }
-    }
-    bounce_f(e);
-}
-
-function StopLoopingTween(e)
-{
-    e._looping_tween_data.stop = true;
-}
-
-function MakeItFlash(e, interval)
-{
-    e.flash_interval = setInterval(
-        function()
-        {
-            e._children[0].visible = !e._children[0].visible;
-        },
-        interval
-    );
-}
-
-function AnimateSpriteArrayFrames(e, time, frames_array, finished_cb)
-{
-    if(e[0].anim_data != null)
-    {
-        StopAnimateSpriteArray(e);
-    }
-
-    HideSprite(e);
-    
-    e[0].anim_data = {
-        interval:-1,
-        frame:0,
-        frames:frames_array,
-        cb:finished_cb
-    };
-
-    e[0].anim_data.interval = setInterval(
-        function()
-        {
-            HideSprite(e);
-            var anim_data = e[0].anim_data;
-            var frame_idx = anim_data.frames[anim_data.frame];
-            ShowSprite(e[frame_idx]);
-            anim_data.frame += 1;
-            if(anim_data.frame >= anim_data.frames.length)
-            {
-                StopAnimateSpriteArray(e);
-                if(anim_data.cb != null)
-                {
-                    anim_data.cb();
-                }   
-            }
-        },
-        time
-    );
-}
-
-function AnimateSpriteArray(e, time, loop = false)
-{
-    if(e[0].anim_data == null)
-    {
-        HideSprite(e);
-
-        e[0].anim_data = {
-            interval:-1,
-            frame:0,
-            loop:loop
-        };
-
-        e[0].anim_data.interval = setInterval(
-            function()
-            {
-                HideSprite(e);
-                var anim_data = e[0].anim_data;
-                ShowSprite(e[anim_data.frame]);
-                anim_data.frame += 1;
-                if(anim_data.frame >= e.length)
-                {
-                    if(anim_data.loop)
-                    {
-                        anim_data.frame = 0;
-                    }
-                    else
-                    {
-                        StopAnimateSpriteArray(e);
-                    }
-                }
-            },
-            time
-        );
-    }
-}
-
-function StopAnimateSpriteArray(e)
-{
-    if(e[0].anim_data != null)
-    {
-        clearInterval(e[0].anim_data.interval);
-        e[0].anim_data = null;
-    }
-}
-
-function StopFlashing(e)
-{
-    if(e.flash_interval)
-    {
-        clearInterval(e.flash_interval);
-        e._children[0].visible = false;
-        e.flash_interval = null;
-    }
-}
-
-function HideSprite(e)
-{
-    if(Array.isArray(e))
-    {
-        for(var i=0; i<e.length; ++i)
-        {
-            HideSprite(e[i]);
-        }
-    }
-    else
-    {
-        e.visible = false;
-        var children = e._children;
-        for(var i=0; i<children.length; ++i)
-        {
-            HideSprite(children[i]);
-        }
-        //e._children[0].visible = false;
-    }
-}
-
-function ShowSprite(e)
-{
-    if(Array.isArray(e))
-    {
-        for(var i=0; i<e.length; ++i)
-        {
-            ShowSprite(e[i]);
-        }
-    }
-    else
-    {
-        e.visible = true;
-        var children = e._children;
-        for(var i=0; i<children.length; ++i)
-        {
-            ShowSprite(children[i]);
-        }
-        //e._children[0].visible = true;
-    }
-}
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-  }
 
 var RockPaperScissors = 
 {
     States:
     {
         Intro:0,
-        Voting:1,
-        RoundOver:2,
-        OpponentCount:3,
-        ShowMoves:4
+        Tutorial:1,
+        //StartVoting:2,
+        Voting:3,
+        RoundOver:4,
+        OpponentCount:5,
+        ShowMoves:6
     },
     State:0,
     TimeInState:0,
     OpponentMove:"",
     ForceOpponentMove:"",
     ForcePlayerMove:"",
-    OpponentFightPos:{x:145, y:185},
+    OpponentFightPos:{x:275, y:180},
     SetState:function(s)
     {
         this.State=s;
@@ -383,8 +36,8 @@ var RockPaperScissors =
             {
                 ChatGame.AbortRound();
 
-                this.Sprites.opponent_body.attr({x:327, y:167});
                 HideSprite(this.Sprites.opponent_body);
+                ShowSprite(this.Sprites.announcer);
 
                 this.Sprites.game_title.attr({x:0, y:-200});
                 this.Sprites.game_title.cancelTweener();
@@ -395,76 +48,74 @@ var RockPaperScissors =
             
                         this.StartStateBoundTimeout(
                             function(){
-                                this.ShowOpponentDefaultVisibility();
-
-                                //Move from door to centre
-                                this.Sprites.opponent_body.addTween(this.OpponentFightPos, 'linear', 100,
-                                    function() { 
-                                        this.StartStateBoundTimeout(
-                                        function(){
-                                            ShowSprite(this.Sprites.msg_lets_do_this);
-                                            
-                                            this.StartStateBoundTimeout(
-                                                function(){
-                                                    HideSprite(this.Sprites.msg_lets_do_this);
-                                                    this.SetState(this.States.Voting);
-                                                }.bind(this),
-                                                2000
-                                            );
-                                        }.bind(this),
-                                        500
-                                    );
-                                    }.bind(this));
                             }.bind(this),
                             1000
                         );
             
-                        this.StartStateBoundTimeout(
-                            function(){
-                                StopLoopingTween(this.Sprites.game_title);
-                                //Move from door to centre
-                                this.Sprites.game_title.addTween({x:0, y:-200}, 'linear', 50,
-                                    function() { 
-                                    }.bind(this));
-                            }.bind(this),
-                            3000
-                        );
                     }.bind(this)
                 );
                 break;
             }
+            case this.States.Tutorial:
+            {
+                HideSprite(this.Sprites.opponent_body);
+                //ShowSprite(this.Sprites.msg_lets_do_this);
+                ShowSprite(this.Sprites.announcer);
+
+                this.ShowVotingChoices();
+                this.Anim_ShowVotingChoices();
+                break;
+            }
+            // case this.States.StartVoting:
+            // {
+            //     this.ShowVotingChoices();
+            //     this.Anim_ShowVotingChoices(
+            //         function() {
+            //             ShowSprite(this.Sprites.numbers);
+            //             StartAnimSpriteReel(this.Sprites.numbers, "nums", -1)
+            //             this.Sprites.numbers.pauseAnimation();
+            //             this.Countdown = 4;
+            //         }.bind(this)
+            //     );
+
+            //     break;
+            // }
             case this.States.Voting:
             {
-                ShowSprite(this.Sprites.choice_scissors);
-                HideSprite(this.Sprites.choice_scissors_highlight);
-                ShowSprite(this.Sprites.choice_paper);
-                HideSprite(this.Sprites.choice_paper_highlight);
-                ShowSprite(this.Sprites.choice_rock);
-                HideSprite(this.Sprites.choice_rock_highlight);
-                ShowSprite(this.Sprites.msg_vote_now);
-                
-                ShowSprite(this.Sprites.choice_scissors_name);
-                ShowSprite(this.Sprites.choice_paper_name);
-                ShowSprite(this.Sprites.choice_rock_name);
-                
+                this.ShowVotingChoices();
+                this.Anim_ShowVotingChoices(
+                    function() {
+                        ShowSprite(this.Sprites.numbers);
+                        StartAnimSpriteReel(this.Sprites.numbers, "nums", -1)
+                        this.Sprites.numbers.pauseAnimation();
+                        
+                        ChatGame.StartRound(
+                            4,
+                            ChatGame.AnswerModes.MultipleChoice,
+                            ChatGame.ScoreModes.FirstRightAnswer,
+                            ["rock", "paper", "scissors"],
+                            true //wipe previous messages
+                        );
+                    }.bind(this)
+                );
+
+
+                //this.ShowVotingChoices();
+                //ShowSprite(this.Sprites.msg_vote_now);
                 //StopFlashing(this.Sprites.choice_rock_highlight);
                 //StopFlashing(this.Sprites.choice_paper_highlight);
                 //StopFlashing(this.Sprites.choice_scissors_highlight);
 
-                document.getElementById("most_answered").innerHTML = "";
-                document.getElementById("enemy_answered").innerHTML = "";
-                document.getElementById("result").innerHTML = "";
-                ChatGame.StartRound(
-                    3,
-                    ChatGame.AnswerModes.MultipleChoice,
-                    ChatGame.ScoreModes.FirstRightAnswer,
-                    ["rock", "paper", "scissors"],
-                    true //wipe previous messages
-                );
+                //document.getElementById("most_answered").innerHTML = "";
+                //document.getElementById("enemy_answered").innerHTML = "";
+                //document.getElementById("result").innerHTML = "";
+
                 break;
             }
             case this.States.RoundOver:
             {
+                this.ShowVotingChoices();
+                this.Anim_HideVotingChoices();
                 ShowSprite(this.Sprites.msg_vote_over);
                 setTimeout(
                     function()
@@ -572,6 +223,101 @@ var RockPaperScissors =
             }
         }
     },
+    
+    UpdateGame:function(dt)
+    {
+        this.TimeInState += dt;
+        switch(this.State)
+        {
+            case this.States.Intro:
+            {
+                //document.getElementById("time_left").innerHTML = "Intro";
+                //Intro anim changes to voting state itself
+                if(this.Continue)
+                {
+                    //this.ShowOpponentDefaultVisibility();
+                    //this.Sprites.opponent_body.attr({x:600, y:200});
+
+                    //Move from side to centre
+                    // this.Sprites.opponent_body.addTween(this.OpponentFightPos, 'linear', 100,
+                    //     function() { 
+                    //         this.StartStateBoundTimeout(
+                    //         function(){
+                    //             ShowSprite(this.Sprites.msg_lets_do_this);
+                                
+                    //             this.StartStateBoundTimeout(
+                    //                 function(){
+                    //                     HideSprite(this.Sprites.msg_lets_do_this);
+                    //                     this.SetState(this.States.Tutorial);
+                    //                 }.bind(this),
+                    //                 2000
+                    //             );
+                    //         }.bind(this),
+                    //         500
+                    //     );
+                    //     }.bind(this)
+                    // );
+                    
+                    StopLoopingTween(this.Sprites.game_title);
+                    this.Sprites.game_title.cancelTweener();
+                    this.Sprites.game_title.addTween({x:0, y:-200}, 'linear', 50,
+                        function() { 
+                            this.SetState(this.States.Tutorial);
+                        }.bind(this)
+                    );
+
+                    this.Continue = false;
+                }
+                break;
+            }
+            case this.States.Tutorial:
+            {
+                if(this.Continue)
+                {
+                    this.Anim_HideVotingChoices();
+                    this.Anim_OpponentEnter( function() {
+                        this.SetState(this.States.Voting);
+                    }.bind(this));
+                    this.Continue = false;
+                }
+                break;
+            }
+            // case this.States.StartVoting:
+            // {
+            //     if(this.Countdown > 0)
+            //     {
+            //         this.Countdown -= dt;
+            //         var time_left = Math.floor(this.Countdown);
+            //         this.Sprites.numbers.reelPosition(time_left);
+            //         if(time_left == 0)
+            //         {
+            //             //this.SetState(this.States.Voting);
+            //         }
+            //     }
+            //     break;
+            // }
+            case this.States.Voting:
+            {
+                var time_left = Math.floor(ChatGame.TimeLeftInRound) + 1;
+                this.Sprites.numbers.reelPosition(time_left);
+                //ChatGame.TimeLeftInRound.toFixed(1);
+                break;
+            }
+            case this.States.RoundOver:
+            {
+                if(this.TimeInState > 4)
+                {
+                    this.SetState(this.States.Voting);
+                }
+                break;
+            }
+        };
+        
+    },
+    OnRoundEnd:function(round)
+    {
+        this.SetState(this.States.RoundOver);
+    },
     NextTimeoutId:0,
     StateTimeouts:{},
     StopStateBasedTimeouts:function()
@@ -610,7 +356,7 @@ var RockPaperScissors =
         Crafty.init(gVW, gVH, document.getElementById("crafty_game"));
         var scale = 2.0;
         var stageStyle = Crafty.stage.elem.style;
-            stageStyle.transformOrigin = stageStyle.webkitTransformOrigin = stageStyle.mozTransformOrigin = "0 0";
+            stageStyle.transformOrigin = stageStyle.webkitTransformOrigin = stageStyle.mozTransformOrigin = "50% 0";
             stageStyle.transform = stageStyle.webkitTransform = stageStyle.mozTransform = "scale(" + scale + ")";
 
             //https://github.com/talitapagani/craftytweener/tree/master
@@ -630,6 +376,7 @@ var RockPaperScissors =
                     "num_7.png",
                     "num_8.png",
                     "num_9.png",
+                    "announcer.png",
                     "opponent_head.png",
                     "opponent_head_react.png",
                     "opponent_mouth.png",
@@ -679,6 +426,11 @@ var RockPaperScissors =
                         tile:256,
                         tileh:256,
                         map: { vfx_1:[0,0] }
+                    },
+                    "numbers.png":{
+                        tile:42,
+                        tileh:64,
+                        map: { numbers:[0,0] }
                     }
                 }
             },
@@ -691,8 +443,6 @@ var RockPaperScissors =
                 //this.SetState(this.States.OpponentDoRock);
             }.bind(this)
         );
-
-        document.getElementById("rps_game").style.display = "block";
     },
     SetSceneDefaultVisibility:function()
     {
@@ -714,6 +464,8 @@ var RockPaperScissors =
         HideSprite(this.Sprites.player_rock);
         HideSprite(this.Sprites.player_paper);
         HideSprite(this.Sprites.player_scissors);
+        HideSprite(this.Sprites.numbers);
+        HideSprite(this.Sprites.announcer);
     },
     ShowOpponentDefaultVisibility:function()
     {
@@ -729,6 +481,60 @@ var RockPaperScissors =
         StopAnimateSpriteArray(this.Sprites.opponent_count);
         HideSprite(this.Sprites.opponent_count);
         
+    },
+    ShowVotingChoices:function()
+    {
+        ShowSprite(this.Sprites.choice_scissors);
+        HideSprite(this.Sprites.choice_scissors_highlight);
+        ShowSprite(this.Sprites.choice_paper);
+        HideSprite(this.Sprites.choice_paper_highlight);
+        ShowSprite(this.Sprites.choice_rock);
+        HideSprite(this.Sprites.choice_rock_highlight);
+        
+        ShowSprite(this.Sprites.choice_scissors_name);
+        ShowSprite(this.Sprites.choice_paper_name);
+        ShowSprite(this.Sprites.choice_rock_name);
+    },
+    Anim_ShowVotingChoices:function(cb)
+    {
+        MoveFromTo(this.Sprites.choice_rock, {x:30, y:-200}, {x:64, y:45}, 70, function() { 
+                MakeItWobble(this.Sprites.choice_rock); }.bind(this) );
+        MoveFromTo(this.Sprites.choice_rock_name, {x:30, y:-200}, {x:64, y:75}, 70, function() { 
+                MakeItWobble(this.Sprites.choice_rock_name); }.bind(this) );
+
+        MoveFromTo(this.Sprites.choice_paper, {x:-100, y:128}, {x:64, y:128}, 70, function() { 
+            MakeItWobble(this.Sprites.choice_paper); }.bind(this) );
+        MoveFromTo(this.Sprites.choice_paper_name, {x:-100, y:128}, {x:64, y:155}, 70, function() { 
+                MakeItWobble(this.Sprites.choice_paper_name); }.bind(this) );
+
+        MoveFromTo(this.Sprites.choice_scissors, {x:30, y:400}, {x:64, y:218}, 70, function() {
+                MakeItWobble(this.Sprites.choice_scissors); }.bind(this) );
+        MoveFromTo(this.Sprites.choice_scissors_name, {x:30, y:400}, {x:64, y:250}, 70, function() { 
+                MakeItWobble(this.Sprites.choice_scissors_name);
+                if(cb)
+                {
+                    cb();
+                }
+             }.bind(this) );
+    },
+    Anim_HideVotingChoices:function()
+    {
+        MoveTo(this.Sprites.choice_rock, {x:30, y:-200}, 70 );
+        MoveTo(this.Sprites.choice_rock_name, {x:30, y:-200}, 70 );
+
+        MoveTo(this.Sprites.choice_paper, {x:-100, y:128}, 70 );
+        MoveTo(this.Sprites.choice_paper_name, {x:-100, y:128}, 70);
+
+        MoveTo(this.Sprites.choice_scissors, {x:30, y:400}, 70 );
+        MoveTo(this.Sprites.choice_scissors_name, {x:30, y:400}, 70 );
+    },
+    Anim_OpponentEnter:function(cb = null)
+    {
+        this.ShowOpponentDefaultVisibility();
+        this.Sprites.opponent_body.attr({x:600, y:200});
+
+        //Move from side to centre
+        MoveFromTo(this.Sprites.opponent_body, {x:600, y:200}, this.OpponentFightPos, 70, cb);
     },
     CreateAllSprites:function()
     {
@@ -809,7 +615,6 @@ var RockPaperScissors =
         //StartAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", -1);
         this.Sprites.hand_down_vfx_l.attr({x:220, y:256, rotation:180});
 
-
         this.Sprites.opponent_big_rock = MakeSpriteWithOrigin("opponent_big_rock.png", 50, 55);
         this.Sprites.opponent_body.attach(this.Sprites.opponent_big_rock);
         this.Sprites.opponent_big_rock.attr({x:-10, y:-45});
@@ -837,7 +642,12 @@ var RockPaperScissors =
         MakeLoopingTween(this.Sprites.opponent_big_scissors, 'linear', 30, {rotation:-5}, {rotation:5} );
 
         //Last for opponent
-        this.Sprites.opponent_body.attr({x:327, y:167});
+        this.Sprites.opponent_body.attr({x:480, y:270});
+
+
+
+        this.Sprites.announcer = MakeSpriteWithCentreOrigin("announcer.png");
+        this.Sprites.announcer.attr({x:317, y:170});
 
         this.Sprites.bg_light1 = Crafty.e('2D, DOM, Image').image("scene1bg_light1.png");
         this.Sprites.bg_light2 = Crafty.e('2D, DOM, Image').image("scene1bg_light2.png");
@@ -855,31 +665,35 @@ var RockPaperScissors =
         //MakeLoopingTween(this.Sprites.player_scissors, 'linear', 30, {rotation:-5}, {rotation:5} );
 
         //Voting        
-        this.Sprites.choice_scissors = MakeSpriteWithCentreOrigin("choice_scissors.png");
-        this.Sprites.choice_scissors_highlight = MakeSpriteWithCentreOrigin("choice_scissors_highlight.png");
-        this.Sprites.choice_scissors_name = MakeSpriteWithCentreOrigin("choice_scissors_name.png");
-        this.Sprites.choice_scissors.attach(this.Sprites.choice_scissors_highlight);
-        this.Sprites.choice_scissors.attr({x:330, y:218});
-        MakeLoopingTween(this.Sprites.choice_scissors, 'linear', 30, {x:330, y:218}, {x:334, y:222} );
-        MakeLoopingTween(this.Sprites.choice_scissors_name, 'linear', 30, {x:334, y:228}, {x:330, y:233} );
-
+        this.Sprites.choice_rock = MakeSpriteWithCentreOrigin("choice_rock.png");
+        this.Sprites.choice_rock_highlight = MakeSpriteWithCentreOrigin("choice_rock_highlight.png");
+        this.Sprites.choice_rock_name = MakeSpriteWithCentreOrigin("choice_rock_name.png");
+        this.Sprites.choice_rock.attach(this.Sprites.choice_rock_highlight);
+        this.Sprites.choice_rock.attr({x:134, y:218});
+        MakeItWobble(this.Sprites.choice_rock, {x:64, y:45});
+        MakeItWobble(this.Sprites.choice_rock_name, {x:64, y:75});
 
         this.Sprites.choice_paper = MakeSpriteWithCentreOrigin("choice_paper.png");
         this.Sprites.choice_paper_highlight = MakeSpriteWithCentreOrigin("choice_paper_highlight.png");
         this.Sprites.choice_paper_name = MakeSpriteWithCentreOrigin("choice_paper_name.png");
         this.Sprites.choice_paper.attach(this.Sprites.choice_paper_highlight);
         this.Sprites.choice_paper.attr({x:240, y:218});
-        MakeLoopingTween(this.Sprites.choice_paper, 'linear', 30, {x:240, y:218}, {x:238, y:223} );
-        MakeLoopingTween(this.Sprites.choice_paper_name, 'linear', 30, {x:240, y:234}, {x:238, y:227} );
+        MakeItWobble(this.Sprites.choice_paper, {x:64, y:128});
+        MakeItWobble(this.Sprites.choice_paper_name, {x:64, y:155});
 
 
-        this.Sprites.choice_rock = MakeSpriteWithCentreOrigin("choice_rock.png");
-        this.Sprites.choice_rock_highlight = MakeSpriteWithCentreOrigin("choice_rock_highlight.png");
-        this.Sprites.choice_rock_name = MakeSpriteWithCentreOrigin("choice_rock_name.png");
-        this.Sprites.choice_rock.attach(this.Sprites.choice_rock_highlight);
-        this.Sprites.choice_rock.attr({x:134, y:218});
-        MakeLoopingTween(this.Sprites.choice_rock, 'linear', 30, {x:134, y:218}, {x:138, y:212} );
-        MakeLoopingTween(this.Sprites.choice_rock_name, 'linear', 30, {x:136, y:229}, {x:132, y:235} );
+        this.Sprites.choice_scissors = MakeSpriteWithCentreOrigin("choice_scissors.png");
+        this.Sprites.choice_scissors_highlight = MakeSpriteWithCentreOrigin("choice_scissors_highlight.png");
+        this.Sprites.choice_scissors_name = MakeSpriteWithCentreOrigin("choice_scissors_name.png");
+        this.Sprites.choice_scissors.attach(this.Sprites.choice_scissors_highlight);
+        this.Sprites.choice_scissors.attr({x:330, y:218});
+        MakeItWobble(this.Sprites.choice_scissors, {x:64, y:218});
+        MakeItWobble(this.Sprites.choice_scissors_name, {x:64, y:250});
+
+        this.Sprites.numbers = MakeAnimSprite("numbers");
+        AddAnimSpriteReel(this.Sprites.numbers, "nums", 500, [[0,0], [1,0], [2,0], [3,0], [4,0], [5,0], [6,0], [7,0], [8,0], [9,0]]);
+        //StartAnimSpriteReel(this.Sprites.numbers, "nums", -1);
+        this.Sprites.numbers.attr({x:220, y:100});
         
         this.Sprites.msg_vote_now = MakeSpriteWithCentreOrigin("msg_vote_now.png").attr({x:240, y:148});
         MakeLoopingTween(this.Sprites.msg_vote_now, 'linear', 30, {x:240, y:148}, {x:240, y:142} );
@@ -887,41 +701,6 @@ var RockPaperScissors =
         this.Sprites.msg_vote_over = MakeSpriteWithCentreOrigin("msg_vote_over.png").attr({x:240, y:148});
         MakeLoopingTween(this.Sprites.msg_vote_over, 'linear', 30, {x:240, y:148}, {x:240, y:142} );
         
-    },
-    UpdateGame:function(dt)
-    {
-        this.TimeInState += dt;
-        switch(this.State)
-        {
-            case this.States.Intro:
-            {
-                document.getElementById("time_left").innerHTML = "Intro";
-                //Intro anim changes to voting state itself
-                break;
-            }
-            case this.States.Voting:
-            {
-                document.getElementById("time_left").innerHTML = ChatGame.TimeLeftInRound.toFixed(1);
-                break;
-            }
-            case this.States.RoundOver:
-            {
-                if(this.TimeInState > 4)
-                {
-                    this.SetState(this.States.Voting);
-                }
-                break;
-            }
-        };
-        
-    },
-    OnRoundEnd:function(round)
-    {
-        this.SetState(this.States.RoundOver);
-    },
-    GetHTMLToInject:function()
-    {
-        return rps_inject;
     },
     Debug_JumpToIntro:function()
     {
@@ -934,6 +713,14 @@ var RockPaperScissors =
     Debug_JumpToVoting:function()
     {
         this.SetState(this.States.Voting);
+    },
+    Debug_JumpToTutorial:function()
+    {
+        this.SetState(this.States.Tutorial);
+    },
+    Debug_JumpToRoundOver:function()
+    {
+        this.SetState(this.States.RoundOver);
     },
     Debug_OpponentDoPaper:function()
     {
@@ -967,16 +754,46 @@ var RockPaperScissors =
     {
         this.SetState(this.States.OpponentCount);
     },
+    State_Continue:function()
+    {
+        this.Continue = true;
+    },
     GetGameControls:function()
     {
         var controls = "<div>";
         
         controls += "<h2>Rock Paper Scissors Controls</h2>";
-        controls += "<button>Replay Intro</button>";
+        var state_name = "?";
+        for (const [key, value] of Object.entries(this.States)) {
+            if(value == this.State)
+            {
+                state_name = key;
+                break;
+            }
+        }
+        controls += `<p>${state_name}</p>`;
+
+        switch(this.State)
+        {
+            case this.States.Intro:
+            {
+                controls += "<p>Welcome folks to the game.</p>";
+                controls += CreateButton("Continue Intro", "State_Continue") + "<br>";
+                break;
+            }
+            case this.States.Tutorial:
+            {
+                controls += "<p>Explain how the game works</p>";
+                controls += CreateButton("Continue Game", "State_Continue") + "<br>";
+                break;
+            }
+        }
 
         controls += "<h2>Jump To State...</h2>";
         controls += CreateButton("Intro", "Debug_JumpToIntro") + "<br>";
+        controls += CreateButton("Tutorial", "Debug_JumpToTutorial") + "<br>";
         controls += CreateButton("Voting", "Debug_JumpToVoting") + "<br>";
+        controls += CreateButton("Round Over", "Debug_JumpToRoundOver") + "<br>";
         controls += CreateButton("Start Count", "Debug_StartCount") + "<br>";
         controls += CreateButton("Set Opponent Do Rock", "Debug_OpponentDoRock") + "<br>";
         controls += CreateButton("Set Opponent Do Paper", "Debug_OpponentDoPaper") + "<br>";

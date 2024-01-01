@@ -1,8 +1,38 @@
 <html>
+    <head>
+        
+<style>        
+    .rps-game-scene-bg {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .rps-game-scene-bg img
+    {
+        width: 100%;
+        height: 100%;
+        image-rendering: pixelated;
+    }
+
+    .rps-game
+    {
+        margin-left: auto;
+        margin-right: auto;
+      image-rendering: optimizeSpeed;             /* Older versions of FF          */
+      image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+      image-rendering: -webkit-optimize-contrast; /* Safari                        */
+      image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+      image-rendering: pixelated;                 /* Awesome future-browsers       */
+      -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+    }
+    </style>
+    
+    </head>
 <body>
     <script type="text/javascript" src="crafty-min.js"></script>
     <script type="text/javascript" src="Tweener.js"></script>
     <script src="../framework/game_framework_popout.js"></script>
+    <script src="craft_helpers.js"></script>
     <script src="rock_paper_scissors.js"></script>
     <!-- <script src="fake_chat.js"></script> -->
     <script>
@@ -15,5 +45,16 @@
             return true;
         }
     </script>
+    <div class="game-bg">
+        <div id="crafty_game" class="rps-game"></div>
+        <div class="overlay">
+        <div class="overlay-current-mode" id="overlay_answer_mode">Answer</div>
+            <div class="overlay-players-container">
+                <div class="flex-container" id="players">
+                    <!-- <div class="flex-items"><div class="player-name">Bob F</div></div> -->
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

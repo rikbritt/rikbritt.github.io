@@ -241,28 +241,7 @@ var ChatGame =
     StartGameClicked:function()
     {
         this.Started = true;
-        this.ControlsDirty = true;
         this.CurrentGame.StartGame();
-    },
-    ControlsDirty:true,
-    UpdateGameControls:function()
-    {
-        if(this.ControlsDirty)
-        {
-            var game_controls = document.getElementById("game_controls");
-            game_controls.innerHTML = "";
-            if(this.Started == false)
-            {
-                game_controls.appendChild(this.CreateButton("Start Game", "ChatGame.StartGameClicked();"));
-            }
-            else
-            {
-                var controls_div = this.CurrentGame.GetGameControls();
-                game_controls.appendChild(controls_div);
-            }
-
-            this.ControlsDirty = false;
-        }
     },
     CreateButton:function(text, js)
     {

@@ -20,7 +20,7 @@ function text_truncate(str, length, ending) {
     }
   };
 
-function CreateButton(text, js)
+function CreateButton(text, js) //todo - take arg in nice way
 {
     return `<button onclick="GameControl.GameWindow.postMessage({type:'func', name:'${js}', arg:null}, '*');"}>${text}</button>`;
 }
@@ -258,27 +258,28 @@ var ChatGame =
     StartGameClicked:function()
     {
         this.Started = true;
-        this.ControlsDirty = true;
         this.CurrentGame.StartGame();
     },
-    ControlsDirty:true,
+    LastGameControlsDiv:"",
     UpdateGameControls:function()
     {
-        if(this.ControlsDirty && this.GameControlWindow != null)
+        if(this.GameControlWindow != null)
         {
+            var controls_div = "";
             if(this.Started == false)
             {
                 //var start_button = this.CreateButton("Start Game", "ChatGame.StartGameClicked();");
-                var start_button = this.CreateButton("Start Game", "StartGameClicked");
-                this.GameControlWindow.postMessage({type:"func", name:"SetControls", arg:start_button}, "*");
+                controls_div = this.CreateButton("Start Game", "StartGameClicked");
             }
             else
             {
-                var controls_div = this.CurrentGame.GetGameControls();
-                this.GameControlWindow.postMessage({type:"func", name:"SetControls", arg:controls_div}, "*");
+                controls_div = this.CurrentGame.GetGameControls();
             }
-
-            this.ControlsDirty = false;
+            if(this.LastGameControlsDiv != controls_div)
+            {
+                this.GameControlWindow.postMessage({type:"func", name:"SetControls", arg:controls_div}, "*");
+                this.LastGameControlsDiv = controls_div;
+            }
         }
     },
     CreateButton:function(text, js)
@@ -435,6 +436,19 @@ var pre_game_inject = `
     padding: 0px;
     pointer-events: none;
     z-index: 1;
+}
+
+.game-bg {    
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0px;
+    left:0px;
+    margin: 0px;
+    padding: 0px;
+    pointer-events: none;
+    z-index: 1;
+    background-color:black;
 }
 
 .flex-container {
@@ -638,10 +652,6 @@ var setup = setInterval(
             var game_to_play = GetGameToPlay();
             var pre_game_inject_div = createElementFromHTML(pre_game_inject);
             document.getElementsByTagName("body")[0].appendChild(pre_game_inject_div);
-
-            var game_inject = game_to_play.GetHTMLToInject();
-            var game_inject_div = createElementFromHTML(game_inject);
-            document.getElementsByTagName("body")[0].appendChild(game_inject_div);
 
             var post_game_inject_div = createElementFromHTML(post_game_inject);
             document.getElementsByTagName("body")[0].appendChild(post_game_inject_div);
