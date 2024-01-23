@@ -13,18 +13,31 @@ var RockPaperScissors =
         Voting:3,
         RoundOver:4,
         OpponentCount:5,
-        ShowMoves:6
+        ShowMoves:6,
+        OpponentKO:7,
+        PlayerKO:8
     },
     State:0,
     TimeInState:0,
+    OpponentHealth:4,
+    PlayerHealth:4,
     OpponentMove:"",
     ForceOpponentMove:"",
     ForcePlayerMove:"",
-    OpponentFightPos:{x:275, y:180},
+
+    //   ######  ######## ########  ######  ########    ###    ######## ######## 
+    //  ##    ## ##          ##    ##    ##    ##      ## ##      ##    ##       
+    //  ##       ##          ##    ##          ##     ##   ##     ##    ##       
+    //   ######  ######      ##     ######     ##    ##     ##    ##    ######   
+    //        ## ##          ##          ##    ##    #########    ##    ##       
+    //  ##    ## ##          ##    ##    ##    ##    ##     ##    ##    ##       
+    //   ######  ########    ##     ######     ##    ##     ##    ##    ######## 
     SetState:function(s)
     {
         this.State=s;
         this.TimeInState = 0;
+        this.SubState = 0;
+        this.Continue = false;
 
         this.SetSceneDefaultVisibility();
         this.ShowOpponentDefaultVisibility();
@@ -32,20 +45,32 @@ var RockPaperScissors =
         
         switch(this.State)
         {
+            //  #### ##    ## ######## ########   #######  
+            //   ##  ###   ##    ##    ##     ## ##     ## 
+            //   ##  ####  ##    ##    ##     ## ##     ## 
+            //   ##  ## ## ##    ##    ########  ##     ## 
+            //   ##  ##  ####    ##    ##   ##   ##     ## 
+            //   ##  ##   ###    ##    ##    ##  ##     ## 
+            //  #### ##    ##    ##    ##     ##  #######  
+
             case this.States.Intro:
             {
                 ChatGame.AbortRound();
 
                 HideSprite(this.Sprites.opponent_body);
-                ShowSprite(this.Sprites.announcer);
+                HideSprite(this.Sprites.health_bar_back);
+                //ShowSprite(this.Sprites.announcer);
 
-                this.Sprites.game_title.attr({x:0, y:-200});
-                this.Sprites.game_title.cancelTweener();
                 ShowSprite(this.Sprites.game_title);
-                this.Sprites.game_title.addTween({x:0, y:0}, 'linear', 50,
+                MoveFromTo(this.Sprites.game_title, {x:0, y:-200}, {x:0, y:0}, 50,
                     function() { 
                         MakeLoopingTween(this.Sprites.game_title, 'linear', 30, {y:-5}, {y:5} );
             
+                        ShowSprite(this.Sprites.hand_down_vfx_l);
+                        ShowSprite(this.Sprites.hand_down_vfx_r);
+                        StartAnimSpriteReel(this.Sprites.hand_down_vfx_r, "hand_down_vfx_r_play", 1);
+                        StartAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", 1);
+
                         this.StartStateBoundTimeout(
                             function(){
                             }.bind(this),
@@ -56,38 +81,48 @@ var RockPaperScissors =
                 );
                 break;
             }
+
+            //  ######## ##     ## ########  #######  ########  ####    ###    ##       
+            //     ##    ##     ##    ##    ##     ## ##     ##  ##    ## ##   ##       
+            //     ##    ##     ##    ##    ##     ## ##     ##  ##   ##   ##  ##       
+            //     ##    ##     ##    ##    ##     ## ########   ##  ##     ## ##       
+            //     ##    ##     ##    ##    ##     ## ##   ##    ##  ######### ##       
+            //     ##    ##     ##    ##    ##     ## ##    ##   ##  ##     ## ##       
+            //     ##     #######     ##     #######  ##     ## #### ##     ## ######## 
+
             case this.States.Tutorial:
             {
                 HideSprite(this.Sprites.opponent_body);
+                HideSprite(this.Sprites.health_bar_back);
                 //ShowSprite(this.Sprites.msg_lets_do_this);
-                ShowSprite(this.Sprites.announcer);
+                //ShowSprite(this.Sprites.announcer);
+                ShowSprite(this.Sprites.instructions);
+                MoveFromTo(this.Sprites.instructions, {x:400, y:0}, {x:0, y:0}, 40);
 
                 this.ShowVotingChoices();
                 this.Anim_ShowVotingChoices();
                 break;
             }
-            // case this.States.StartVoting:
-            // {
-            //     this.ShowVotingChoices();
-            //     this.Anim_ShowVotingChoices(
-            //         function() {
-            //             ShowSprite(this.Sprites.numbers);
-            //             StartAnimSpriteReel(this.Sprites.numbers, "nums", -1)
-            //             this.Sprites.numbers.pauseAnimation();
-            //             this.Countdown = 4;
-            //         }.bind(this)
-            //     );
+            
+            //  ##     ##  #######  ######## #### ##    ##  ######   
+            //  ##     ## ##     ##    ##     ##  ###   ## ##    ##  
+            //  ##     ## ##     ##    ##     ##  ####  ## ##        
+            //  ##     ## ##     ##    ##     ##  ## ## ## ##   #### 
+            //   ##   ##  ##     ##    ##     ##  ##  #### ##    ##  
+            //    ## ##   ##     ##    ##     ##  ##   ### ##    ##  
+            //     ###     #######     ##    #### ##    ##  ######   
 
-            //     break;
-            // }
             case this.States.Voting:
             {
                 this.ShowVotingChoices();
+                ShowSprite(this.Sprites.get_ready_to_vote);
+                StartAnimSpriteReel(this.Sprites.numbers, "nums", -1)
+                this.Sprites.numbers.pauseAnimation();
                 this.Anim_ShowVotingChoices(
                     function() {
+                        HideSprite(this.Sprites.get_ready_to_vote);
+                        ShowSprite(this.Sprites.vote_now);
                         ShowSprite(this.Sprites.numbers);
-                        StartAnimSpriteReel(this.Sprites.numbers, "nums", -1)
-                        this.Sprites.numbers.pauseAnimation();
                         
                         ChatGame.StartRound(
                             4,
@@ -112,6 +147,15 @@ var RockPaperScissors =
 
                 break;
             }
+
+            //  ########   #######  ##     ## ##    ## ########        #######  ##     ## ######## ########  
+            //  ##     ## ##     ## ##     ## ###   ## ##     ##      ##     ## ##     ## ##       ##     ## 
+            //  ##     ## ##     ## ##     ## ####  ## ##     ##      ##     ## ##     ## ##       ##     ## 
+            //  ########  ##     ## ##     ## ## ## ## ##     ##      ##     ## ##     ## ######   ########  
+            //  ##   ##   ##     ## ##     ## ##  #### ##     ##      ##     ##  ##   ##  ##       ##   ##   
+            //  ##    ##  ##     ## ##     ## ##   ### ##     ##      ##     ##   ## ##   ##       ##    ##  
+            //  ##     ##  #######   #######  ##    ## ########        #######     ###    ######## ##     ## 
+
             case this.States.RoundOver:
             {
                 this.ShowVotingChoices();
@@ -185,6 +229,15 @@ var RockPaperScissors =
 
                 break;
             }
+
+            //   ######  ##     ##  #######  ##      ##      ##     ##  #######  ##     ## ########  ######  
+            //  ##    ## ##     ## ##     ## ##  ##  ##      ###   ### ##     ## ##     ## ##       ##    ## 
+            //  ##       ##     ## ##     ## ##  ##  ##      #### #### ##     ## ##     ## ##       ##       
+            //   ######  ######### ##     ## ##  ##  ##      ## ### ## ##     ## ##     ## ######    ######  
+            //        ## ##     ## ##     ## ##  ##  ##      ##     ## ##     ##  ##   ##  ##             ## 
+            //  ##    ## ##     ## ##     ## ##  ##  ##      ##     ## ##     ##   ## ##   ##       ##    ## 
+            //   ######  ##     ##  #######   ###  ###       ##     ##  #######     ###    ########  ######  
+
             case this.States.ShowMoves:
             {
                 HideSprite(this.Sprites.opponent_l_arm);
@@ -200,102 +253,219 @@ var RockPaperScissors =
                     this.OpponentMove = this.ForceOpponentMove;
                 }
 
+                var opponent_hand_sprite;
                 if(this.OpponentMove == "rock")
                 {
-                    ShowSprite(this.Sprites.opponent_big_rock);
+                    opponent_hand_sprite = this.Sprites.opponent_big_rock;
                 }
                 else if(this.OpponentMove == "paper")
                 {
-                    ShowSprite(this.Sprites.opponent_big_paper);
+                    opponent_hand_sprite = this.Sprites.opponent_big_paper;
                 }
                 else if(this.OpponentMove == "scissors")
                 {
-                    ShowSprite(this.Sprites.opponent_big_scissors);
+                    opponent_hand_sprite = this.Sprites.opponent_big_scissors;
+                }
+                ShowSprite(opponent_hand_sprite);
+
+
+                var round_answers = ChatGame.GetRoundAnswers();
+                var player_hand_sprite;
+                if(round_answers.MostAnswered == "rock")
+                {
+                    player_hand_sprite = this.Sprites.player_rock;
+                }
+                else if(round_answers.MostAnswered == "paper")
+                {
+                    player_hand_sprite = this.Sprites.player_paper;
+                }
+                else if(round_answers.MostAnswered == "scissors")
+                {
+                    player_hand_sprite = this.Sprites.player_scissors;
                 }
 
-                var player_hand_sprites = [this.Sprites.player_rock, this.Sprites.player_paper, this.Sprites.player_scissors];
-                var player_hand_sprite = player_hand_sprites[getRandomInt(3)]; //not inclusive of 3
-                
-                player_hand_sprite.attr({rotation:30, x:500, y:300});
                 ShowSprite(player_hand_sprite);
-                player_hand_sprite.addTween({x:450, y:320, rotation:0}, 'linear', 20);
+                MoveFromTo(player_hand_sprite, {rotation:30, x:500, y:300}, {x:300, y:320, rotation:0}, 20);
+
+                var player_won = false;
+                var opponent_won = false;
+                if( (round_answers.MostAnswered == "rock" && this.OpponentMove == "scissors")
+                    || (round_answers.MostAnswered == "paper" && this.OpponentMove == "rock")
+                    || (round_answers.MostAnswered == "scissors" && this.OpponentMove == "paper") )
+                {
+                    player_won = true;
+                    this.OpponentHealth -= 1;
+                }
+                else if( (this.OpponentMove == "rock" && round_answers.MostAnswered == "scissors")
+                    || (this.OpponentMove == "paper" && round_answers.MostAnswered == "rock")
+                    || (this.OpponentMove == "scissors" && round_answers.MostAnswered == "paper") )
+                {
+                    opponent_won = true;
+                    this.PlayerHealth -= 1;
+                }
+
+                if(player_won)
+                {
+                    HideSprite(this.Sprites.opponent_head);
+                    HideSprite(this.Sprites.opponent_head_react);
+                    HideSprite(this.Sprites.opponent_head_laugh);
+                    ShowSprite(this.Sprites.opponent_head_pain);
+                }
+                else if(opponent_won)
+                {
+                    HideSprite(this.Sprites.opponent_head);
+                    HideSprite(this.Sprites.opponent_head_react);
+                    HideSprite(this.Sprites.opponent_head_laugh);
+                    ShowSprite(this.Sprites.opponent_head_grin);
+                    this.StartStateBoundTimeout(
+                        function() {
+                            HideSprite(this.Sprites.opponent_head_grin);
+                            ShowSprite(this.Sprites.opponent_head_laugh);
+                        }.bind(this),
+                        1000
+                    );
+                }
+                else
+                {
+                    //tie
+                }
+                this.StartStateBoundTimeout(
+                    function() {
+                        if(player_won)
+                        {
+                            ShowSprite(this.Sprites.player_won);
+                        }
+                        else if(opponent_won)
+                        {
+                            ShowSprite(this.Sprites.opponent_won);
+                        }
+                        else
+                        {
+                            ShowSprite(this.Sprites.tie);
+                        }
+
+                        MoveTo(player_hand_sprite, {x:100, y:500, rotation:-20}, 50);
+                        MoveToRelative(opponent_hand_sprite, {x: 0, y:20, rotation:25}, 50);
+                        this.StartStateBoundTimeout(
+                            function() {
+                                this.SetState(this.States.Voting);
+                            }.bind(this),
+                            1000
+                        );
+                    }.bind(this),
+                    1000
+                );
+                break;
+            }
+
+            //   #######  ########  ########       ##     ##  #######  
+            //  ##     ## ##     ## ##     ##      ##    ##  ##     ## 
+            //  ##     ## ##     ## ##     ##      ##   ##   ##     ## 
+            //  ##     ## ########  ########       #####     ##     ## 
+            //  ##     ## ##        ##             ##   ##   ##     ## 
+            //  ##     ## ##        ##             ##    ##  ##     ## 
+            //   #######  ##        ##             ##     ##  #######  
+
+            case this.States.OpponentKO:
+            {
+                HideSprite(this.Sprites.opponent_body);
+                ShowSprite(this.Sprites.opponent_ko_1);
+                MoveFromTo(this.Sprites.opponent_ko_1, {x:350, y:150, rotation:0}, {x:380, y:125}, 20,
+                    function()
+                    {
+                        MoveTo(this.Sprites.opponent_ko_1, {x:420, y:250, rotation:45}, 20,
+                            function()
+                            {
+                                MoveTo(this.Sprites.opponent_ko_1, {x:425, y:260, rotation:55}, 5);
+                                ShowSprite(this.Sprites.hand_down_vfx_l);
+                                //ShowSprite(this.Sprites.hand_down_vfx_r);
+                                //this.Sprites.hand_down_vfx_r.attr({x:275 + 95, y:0 + 120});
+                                this.Sprites.hand_down_vfx_l.attr({x:220 + 95, y:256 + 120, rotation:180});
+                                //StartAnimSpriteReel(this.Sprites.hand_down_vfx_r, "hand_down_vfx_r_play", 1);
+                                StartAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", 1);
+
+                            }.bind(this)
+                        );
+                    }.bind(this)
+                );
+                break;
+            }
+            case this.States.PlayerKO:
+            {
+                HideSprite(this.Sprites.opponent_mouth);
+                ShowSprite(this.Sprites.opponent_mouth_smile);
                 break;
             }
         }
     },
     
+    //  ##     ## ########  ########     ###    ######## ######## 
+    //  ##     ## ##     ## ##     ##   ## ##      ##    ##       
+    //  ##     ## ##     ## ##     ##  ##   ##     ##    ##       
+    //  ##     ## ########  ##     ## ##     ##    ##    ######   
+    //  ##     ## ##        ##     ## #########    ##    ##       
+    //  ##     ## ##        ##     ## ##     ##    ##    ##       
+    //   #######  ##        ########  ##     ##    ##    ######## 
+
     UpdateGame:function(dt)
     {
         this.TimeInState += dt;
+        if(this.Sprites.health_left)
+        {
+            this.Sprites.health_left.reelPosition(this.PlayerHealth);
+            this.Sprites.health_right.reelPosition(this.OpponentHealth);
+        }
         switch(this.State)
         {
             case this.States.Intro:
             {
-                //document.getElementById("time_left").innerHTML = "Intro";
                 //Intro anim changes to voting state itself
                 if(this.Continue)
-                {
-                    //this.ShowOpponentDefaultVisibility();
-                    //this.Sprites.opponent_body.attr({x:600, y:200});
-
-                    //Move from side to centre
-                    // this.Sprites.opponent_body.addTween(this.OpponentFightPos, 'linear', 100,
-                    //     function() { 
-                    //         this.StartStateBoundTimeout(
-                    //         function(){
-                    //             ShowSprite(this.Sprites.msg_lets_do_this);
-                                
-                    //             this.StartStateBoundTimeout(
-                    //                 function(){
-                    //                     HideSprite(this.Sprites.msg_lets_do_this);
-                    //                     this.SetState(this.States.Tutorial);
-                    //                 }.bind(this),
-                    //                 2000
-                    //             );
-                    //         }.bind(this),
-                    //         500
-                    //     );
-                    //     }.bind(this)
-                    // );
-                    
+                {                    
                     StopLoopingTween(this.Sprites.game_title);
-                    this.Sprites.game_title.cancelTweener();
-                    this.Sprites.game_title.addTween({x:0, y:-200}, 'linear', 50,
+                    MoveTo(this.Sprites.game_title, {x:0, y:-200}, 50, 
                         function() { 
                             this.SetState(this.States.Tutorial);
                         }.bind(this)
                     );
-
-                    this.Continue = false;
                 }
                 break;
             }
+            //  ######## ##     ## ########  #######  ########  ####    ###    ##       
+            //     ##    ##     ##    ##    ##     ## ##     ##  ##    ## ##   ##       
+            //     ##    ##     ##    ##    ##     ## ##     ##  ##   ##   ##  ##       
+            //     ##    ##     ##    ##    ##     ## ########   ##  ##     ## ##       
+            //     ##    ##     ##    ##    ##     ## ##   ##    ##  ######### ##       
+            //     ##    ##     ##    ##    ##     ## ##    ##   ##  ##     ## ##       
+            //     ##     #######     ##     #######  ##     ## #### ##     ## ######## 
+
             case this.States.Tutorial:
             {
                 if(this.Continue)
                 {
-                    this.Anim_HideVotingChoices();
-                    this.Anim_OpponentEnter( function() {
-                        this.SetState(this.States.Voting);
-                    }.bind(this));
-                    this.Continue = false;
+                    if(this.SubState == 1) {
+                        this.Anim_HideVotingChoices();
+                        MoveTo(this.Sprites.instructions, {x:400, y:0}, 25, null);
+                        this.Anim_OpponentEnter( function() {
+                            ShowSprite(this.Sprites.instructions_opponent);
+                            MoveFromTo(this.Sprites.instructions_opponent, {x:400, y:0}, {x:0, y:0}, 25);
+
+                            ShowSprite(this.Sprites.health_bar_back);
+                            MoveFromTo(this.Sprites.health_bar_back, {x:0, y:-100}, {x:0, y:0}, 25);
+                        }.bind(this));
+                    }
+                    else if(this.SubState == 2)
+                    {
+                        MoveTo(this.Sprites.instructions_opponent, {x:-400, y:0}, 25,
+                            function()
+                            {
+                                this.SetState(this.States.Voting);
+                            }.bind(this)
+                        );
+                    }
                 }
                 break;
             }
-            // case this.States.StartVoting:
-            // {
-            //     if(this.Countdown > 0)
-            //     {
-            //         this.Countdown -= dt;
-            //         var time_left = Math.floor(this.Countdown);
-            //         this.Sprites.numbers.reelPosition(time_left);
-            //         if(time_left == 0)
-            //         {
-            //             //this.SetState(this.States.Voting);
-            //         }
-            //     }
-            //     break;
-            // }
             case this.States.Voting:
             {
                 var time_left = Math.floor(ChatGame.TimeLeftInRound) + 1;
@@ -313,6 +483,7 @@ var RockPaperScissors =
             }
         };
         
+        this.Continue = false;
     },
     OnRoundEnd:function(round)
     {
@@ -362,6 +533,22 @@ var RockPaperScissors =
             //https://github.com/talitapagani/craftytweener/tree/master
         Crafty.background('#FFFFFF');
 
+        //  ##        #######     ###    ########   
+        //  ##       ##     ##   ## ##   ##     ##  
+        //  ##       ##     ##  ##   ##  ##     ##  
+        //  ##       ##     ## ##     ## ##     ##  
+        //  ##       ##     ## ######### ##     ##  
+        //  ##       ##     ## ##     ## ##     ##  
+        //  ########  #######  ##     ## ########  
+        //  
+        //   ######  ########  ########  #### ######## ########  ######  
+        //  ##    ## ##     ## ##     ##  ##     ##    ##       ##    ## 
+        //  ##       ##     ## ##     ##  ##     ##    ##       ##       
+        //   ######  ########  ########   ##     ##    ######    ######  
+        //        ## ##        ##   ##    ##     ##    ##             ## 
+        //  ##    ## ##        ##    ##   ##     ##    ##       ##    ## 
+        //   ######  ##        ##     ## ####    ##    ########  ######  
+
         Crafty.load(
             {
                 "images":[
@@ -379,7 +566,10 @@ var RockPaperScissors =
                     "announcer.png",
                     "opponent_head.png",
                     "opponent_head_react.png",
+                    "opponent_head_grin.png",
+                    "opponent_head_pain.png",
                     "opponent_mouth.png",
+                    "opponent_mouth_smile.png",
                     "opponent_body.png",
                     "opponent_hips.png",
                     "opponent_l_arm.png",
@@ -398,6 +588,7 @@ var RockPaperScissors =
                     "opponent_count_4.png",
                     "opponent_count_5.png",
                     "opponent_count_6.png",
+                    "opponent_ko_1.png",
                     "choice_scissors.png",
                     "choice_scissors_highlight.png",
                     "choice_scissors_name.png",
@@ -419,7 +610,15 @@ var RockPaperScissors =
                     "scene1bg_flash1.png",
                     "scene1bg_flash2.png",
                     "scene1bg_flash3.png",
-                    "scene1bg_flash4.png"
+                    "scene1bg_flash4.png",
+                    "instructions.png",
+                    "instructions_opponent.png",
+                    "get_ready_to_vote.png",
+                    "opponent_won.png",
+                    "player_won.png",
+                    "tie.png",
+                    "vote_now.png",
+                    "health_bar_back.png"
                 ],
                 "sprites":{
                     "vfx_1.png":{
@@ -431,6 +630,21 @@ var RockPaperScissors =
                         tile:42,
                         tileh:64,
                         map: { numbers:[0,0] }
+                    },
+                    "opponent_head_laugh.png":{
+                        tile:91,
+                        tileh:105,
+                        map: { opponent_head_laugh:[0,0] }
+                    },
+                    "health_left.png":{
+                        tile:480,
+                        tileh:48,
+                        map: { health_left:[0,0] }
+                    },
+                    "health_right.png":{
+                        tile:480,
+                        tileh:48,
+                        map: { health_right:[0,0] }
                     }
                 }
             },
@@ -453,10 +667,14 @@ var RockPaperScissors =
         HideSprite(this.Sprites.choice_scissors_name);
         HideSprite(this.Sprites.choice_paper_name);
         HideSprite(this.Sprites.choice_rock_name);
+        HideSprite(this.Sprites.get_ready_to_vote);
+        HideSprite(this.Sprites.vote_now);
         HideSprite(this.Sprites.msg_vote_now);
         HideSprite(this.Sprites.msg_vote_over);
         HideSprite(this.Sprites.hand_down_vfx_l);
         HideSprite(this.Sprites.hand_down_vfx_r);
+        this.Sprites.hand_down_vfx_r.attr({x:275, y:0});
+        this.Sprites.hand_down_vfx_l.attr({x:220, y:256, rotation:180});
         HideSprite(this.Sprites.msg_lets_do_this);
         HideSprite(this.Sprites.choice_scissors_highlight);
         HideSprite(this.Sprites.choice_paper_highlight);
@@ -465,13 +683,25 @@ var RockPaperScissors =
         HideSprite(this.Sprites.player_paper);
         HideSprite(this.Sprites.player_scissors);
         HideSprite(this.Sprites.numbers);
-        HideSprite(this.Sprites.announcer);
+        HideSprite(this.Sprites.instructions);
+        HideSprite(this.Sprites.instructions_opponent);
+        HideSprite(this.Sprites.player_won);
+        HideSprite(this.Sprites.opponent_won);
+        HideSprite(this.Sprites.tie);
+        ShowSprite(this.Sprites.health_bar_back);
+        //HideSprite(this.Sprites.announcer);
     },
     ShowOpponentDefaultVisibility:function()
     {
         this.Sprites.opponent_body.attr(this.OpponentFightPos);
+        this.Sprites.opponent_big_rock.attr(this.Sprites.opponent_big_rock.DefaultPos);
+        this.Sprites.opponent_big_paper.attr(this.Sprites.opponent_big_paper.DefaultPos);
+        this.Sprites.opponent_big_scissors.attr(this.Sprites.opponent_big_scissors.DefaultPos);
         ShowSprite(this.Sprites.opponent_body); //Makes children visible
         HideSprite(this.Sprites.opponent_head_react);
+        HideSprite(this.Sprites.opponent_head_grin);
+        HideSprite(this.Sprites.opponent_head_laugh);
+        HideSprite(this.Sprites.opponent_head_pain);
         ShowSprite(this.Sprites.opponent_l_arm);
         ShowSprite(this.Sprites.opponent_r_arm);
         HideSprite(this.Sprites.opponent_r_hand_receive_1);
@@ -480,7 +710,7 @@ var RockPaperScissors =
         HideSprite(this.Sprites.opponent_big_scissors);
         StopAnimateSpriteArray(this.Sprites.opponent_count);
         HideSprite(this.Sprites.opponent_count);
-        
+        HideSprite(this.Sprites.opponent_ko_1);        
     },
     ShowVotingChoices:function()
     {
@@ -509,13 +739,15 @@ var RockPaperScissors =
 
         MoveFromTo(this.Sprites.choice_scissors, {x:30, y:400}, {x:64, y:218}, 70, function() {
                 MakeItWobble(this.Sprites.choice_scissors); }.bind(this) );
-        MoveFromTo(this.Sprites.choice_scissors_name, {x:30, y:400}, {x:64, y:250}, 70, function() { 
+        MoveFromTo(this.Sprites.choice_scissors_name, {x:30, y:400}, {x:64, y:250}, 70,
+            function() { 
                 MakeItWobble(this.Sprites.choice_scissors_name);
                 if(cb)
                 {
                     cb();
                 }
-             }.bind(this) );
+            }.bind(this)
+        );
     },
     Anim_HideVotingChoices:function()
     {
@@ -536,14 +768,66 @@ var RockPaperScissors =
         //Move from side to centre
         MoveFromTo(this.Sprites.opponent_body, {x:600, y:200}, this.OpponentFightPos, 70, cb);
     },
+
+    //   ######  ######## ######## ##     ## ########   
+    //  ##    ## ##          ##    ##     ## ##     ##  
+    //  ##       ##          ##    ##     ## ##     ##  
+    //   ######  ######      ##    ##     ## ########   
+    //        ## ##          ##    ##     ## ##         
+    //  ##    ## ##          ##    ##     ## ##         
+    //   ######  ########    ##     #######  ##        
+    //  
+    //   ######  ########  ########  #### ######## ########  ######  
+    //  ##    ## ##     ## ##     ##  ##     ##    ##       ##    ## 
+    //  ##       ##     ## ##     ##  ##     ##    ##       ##       
+    //   ######  ########  ########   ##     ##    ######    ######  
+    //        ## ##        ##   ##    ##     ##    ##             ## 
+    //  ##    ## ##        ##    ##   ##     ##    ##       ##    ## 
+    //   ######  ##        ##     ## ####    ##    ########  ######  
+
+    OpponentFightPos:{x:325, y:180},
     CreateAllSprites:function()
     {
 
         //https://github.com/talitapagani/craftytweener
         //480 / 270
         this.Sprites.intro_bg = Crafty.e('2D, DOM, Image').image("scene1bg.png");
-        this.Sprites.game_title = Crafty.e('2D, DOM, Image, Tweener').image("title.png");
+        this.Sprites.instructions = MakeSpriteWithOrigin("instructions.png", 0, 0);
+        this.Sprites.bg_flash_1 = Crafty.e('2D, DOM, Image').image("scene1bg_flash1.png");
+        setInterval(function() {
+            this.Sprites.bg_flash_1.visible = true;
+            setTimeout(function() { this.Sprites.bg_flash_1.visible = false; }.bind(this), 100);
+        }.bind(this), 934);
+        this.Sprites.bg_flash_2 = Crafty.e('2D, DOM, Image').image("scene1bg_flash2.png");
+        setInterval(function() {
+            this.Sprites.bg_flash_2.visible = true;
+            setTimeout(function() { this.Sprites.bg_flash_2.visible = false; }.bind(this), 120);
+        }.bind(this), 1734);
+        this.Sprites.bg_flash_3 = Crafty.e('2D, DOM, Image').image("scene1bg_flash3.png");
+        setInterval(function() {
+            this.Sprites.bg_flash_3.visible = true;
+            setTimeout(function() { this.Sprites.bg_flash_3.visible = false; }.bind(this), 120);
+        }.bind(this), 1434);
+        this.Sprites.bg_flash_4 = Crafty.e('2D, DOM, Image').image("scene1bg_flash4.png");
+        setInterval(function() {
+            this.Sprites.bg_flash_4.visible = true;
+            setTimeout(function() { this.Sprites.bg_flash_4.visible = false; }.bind(this), 110);
+        }.bind(this), 1234);
         
+        this.Sprites.health_bar_back = MakeSpriteWithOrigin("health_bar_back.png", 0, 0);
+        this.Sprites.health_left = MakeAnimSprite("health_left");
+        AddAnimSpriteReel(this.Sprites.health_left, "health_left", 500, [[0,0], [0,1], [0,2], [0,3], [0,4]]);
+        StartAnimSpriteReel(this.Sprites.health_left, "health_left", -1);
+        this.Sprites.health_left.pauseAnimation();
+        this.Sprites.health_right = MakeAnimSprite("health_right");
+        AddAnimSpriteReel(this.Sprites.health_right, "health_right", 500, [[0,0], [0,1], [0,2], [0,3], [0,4]]);
+        StartAnimSpriteReel(this.Sprites.health_right, "health_right", -1);
+        this.Sprites.health_right.pauseAnimation();
+
+        this.Sprites.health_bar_back.attach(this.Sprites.health_left);
+        this.Sprites.health_bar_back.attach(this.Sprites.health_right);
+
+
         this.Sprites.opponent_origin = Crafty.e('2D, DOM, Tweener');
         this.Sprites.opponent_body = MakeSpriteWithOrigin("opponent_body.png", 52, 80);
 
@@ -582,13 +866,27 @@ var RockPaperScissors =
 
         this.Sprites.opponent_head = MakeSpriteWithOrigin("opponent_head.png", 39, 88);
         this.Sprites.opponent_head_react = MakeSpriteWithOrigin("opponent_head_react.png", 35, 102);
+        this.Sprites.opponent_head_grin = MakeSpriteWithOrigin("opponent_head_grin.png", 52, 90);
+        this.Sprites.opponent_head_pain = MakeSpriteWithOrigin("opponent_head_pain.png", 46, 85);
+        this.Sprites.opponent_head_laugh = MakeAnimSprite("opponent_head_laugh");
+        AddAnimSpriteReel(this.Sprites.opponent_head_laugh, "opponent_head_laugh_play", 650, [[0,0],[1,0],[2,0],[2,0],[1,0],[2,0],[1,0],[2,0],[2,0],[2,0],[1,0]]);
+        StartAnimSpriteReel(this.Sprites.opponent_head_laugh, "opponent_head_laugh_play", -1);
         this.Sprites.opponent_mouth = MakeSpriteWithOrigin("opponent_mouth.png", 0, 0);
+        this.Sprites.opponent_mouth_smile = MakeSpriteWithOrigin("opponent_mouth_smile.png", 0, 0);
         this.Sprites.opponent_head.attach(this.Sprites.opponent_mouth);
         this.Sprites.opponent_mouth.attr({x:-39, y:-88});
+        this.Sprites.opponent_head.attach(this.Sprites.opponent_mouth_smile);
+        this.Sprites.opponent_mouth_smile.attr({x:-39, y:-88});
         this.Sprites.opponent_head.attr({x:-8, y:-70});
         this.Sprites.opponent_head_react.attr({x:-8, y:-76});
+        this.Sprites.opponent_head_grin.attr({x:-8, y:-70});
+        this.Sprites.opponent_head_pain.attr({x:-8, y:-70});
+        this.Sprites.opponent_head_laugh.attr({x:-55, y:-165});
         this.Sprites.opponent_body.attach(this.Sprites.opponent_head);
         this.Sprites.opponent_body.attach(this.Sprites.opponent_head_react);
+        this.Sprites.opponent_body.attach(this.Sprites.opponent_head_pain);
+        this.Sprites.opponent_body.attach(this.Sprites.opponent_head_grin);
+        this.Sprites.opponent_body.attach(this.Sprites.opponent_head_laugh);
 
         this.Sprites.opponent_count = [];
         this.Sprites.opponent_count.push( MakeSpriteWithOrigin("opponent_count_1.png", 0, 0));
@@ -603,7 +901,8 @@ var RockPaperScissors =
             count_spr.attr({x:-108, y:-126});
         }
 
-
+        this.Sprites.opponent_ko_1 = MakeSpriteWithOrigin("opponent_ko_1.png", 135, 125);
+        this.Sprites.opponent_ko_1.attr({x:350, y:150});
         
         this.Sprites.hand_down_vfx_r = MakeAnimSprite("vfx_1");
         AddAnimSpriteReel(this.Sprites.hand_down_vfx_r, "hand_down_vfx_r_play", 500, [[0,0],[1,0],[0,1],[1,1],[0,2]]);
@@ -614,6 +913,12 @@ var RockPaperScissors =
         AddAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", 500, [[0,0],[1,0],[0,1],[1,1],[0,2]]);
         //StartAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", -1);
         this.Sprites.hand_down_vfx_l.attr({x:220, y:256, rotation:180});
+
+        this.Sprites.game_title = Crafty.e('2D, DOM, Image, Tweener').image("title.png");
+        this.Sprites.instructions_opponent = MakeSpriteWithOrigin("instructions_opponent.png", 0, 0);
+        this.Sprites.get_ready_to_vote = MakeSpriteWithOrigin("get_ready_to_vote.png", 0, 0);
+        this.Sprites.vote_now = MakeSpriteWithOrigin("vote_now.png", 0, 0);
+
 
         this.Sprites.opponent_big_rock = MakeSpriteWithOrigin("opponent_big_rock.png", 50, 55);
         this.Sprites.opponent_body.attach(this.Sprites.opponent_big_rock);
@@ -636,6 +941,7 @@ var RockPaperScissors =
         MakeLoopingTween(this.Sprites.opponent_r_hand_rest, 'linear', 30, {rotation:-15}, {rotation:30} );
         MakeLoopingTween(this.Sprites.opponent_head, 'linear', 30, {rotation:-5}, {rotation:5} );
         MakeLoopingTween(this.Sprites.opponent_head_react, 'linear', 30, {rotation:-2}, {rotation:2} );
+        MakeLoopingTween(this.Sprites.opponent_head_grin, 'linear', 30, {rotation:-2}, {rotation:2});
         MakeLoopingTween(this.Sprites.opponent_r_hand_receive_1, 'linear', 30, {rotation:-5}, {rotation:5} );
         MakeLoopingTween(this.Sprites.opponent_big_rock, 'linear', 30, {rotation:-5}, {rotation:5} );
         MakeLoopingTween(this.Sprites.opponent_big_paper, 'linear', 30, {rotation:-5}, {rotation:5} );
@@ -646,8 +952,8 @@ var RockPaperScissors =
 
 
 
-        this.Sprites.announcer = MakeSpriteWithCentreOrigin("announcer.png");
-        this.Sprites.announcer.attr({x:317, y:170});
+        //this.Sprites.announcer = MakeSpriteWithCentreOrigin("announcer.png");
+        //this.Sprites.announcer.attr({x:317, y:170});
 
         this.Sprites.bg_light1 = Crafty.e('2D, DOM, Image').image("scene1bg_light1.png");
         this.Sprites.bg_light2 = Crafty.e('2D, DOM, Image').image("scene1bg_light2.png");
@@ -663,6 +969,11 @@ var RockPaperScissors =
         this.Sprites.player_scissors = MakeSpriteWithOrigin("player_scissors.png", 328, 254);
         this.Sprites.player_scissors.attr({x:450, y:300});
         //MakeLoopingTween(this.Sprites.player_scissors, 'linear', 30, {rotation:-5}, {rotation:5} );
+
+        this.Sprites.player_won = MakeSpriteWithOrigin("player_won.png", 0, 0);
+        this.Sprites.opponent_won = MakeSpriteWithOrigin("opponent_won.png", 0, 0);
+        this.Sprites.tie = MakeSpriteWithOrigin("tie.png", 0, 0);
+
 
         //Voting        
         this.Sprites.choice_rock = MakeSpriteWithCentreOrigin("choice_rock.png");
@@ -701,6 +1012,12 @@ var RockPaperScissors =
         this.Sprites.msg_vote_over = MakeSpriteWithCentreOrigin("msg_vote_over.png").attr({x:240, y:148});
         MakeLoopingTween(this.Sprites.msg_vote_over, 'linear', 30, {x:240, y:148}, {x:240, y:142} );
         
+        this.Sprites.opponent_body.attr(this.OpponentFightPos);
+
+        //Store default WS positions
+        for (var [spr_id, spr] of Object.entries(this.Sprites)) {
+            spr.DefaultPos = {x:spr.x, y:spr.y, rotation:spr.rotation};
+        }
     },
     Debug_JumpToIntro:function()
     {
@@ -754,10 +1071,33 @@ var RockPaperScissors =
     {
         this.SetState(this.States.OpponentCount);
     },
+    Debug_PlayerKO:function()
+    {
+        this.PlayerHealth = 0;
+        this.OpponentHealth = 4;
+        this.SetState(this.States.PlayerKO);
+    },
+    Debug_OpponentKO:function()
+    {
+        this.PlayerHealth = 4;
+        this.OpponentHealth = 0;
+        this.SetState(this.States.OpponentKO);
+    },
+    Continue:false,
+    SubState:0,
     State_Continue:function()
     {
         this.Continue = true;
+        this.SubState += 1;
     },
+    //   ######   #######  ##    ## ######## ########   #######  ##        ######  
+    //  ##    ## ##     ## ###   ##    ##    ##     ## ##     ## ##       ##    ## 
+    //  ##       ##     ## ####  ##    ##    ##     ## ##     ## ##       ##       
+    //  ##       ##     ## ## ## ##    ##    ########  ##     ## ##        ######  
+    //  ##       ##     ## ##  ####    ##    ##   ##   ##     ## ##             ## 
+    //  ##    ## ##     ## ##   ###    ##    ##    ##  ##     ## ##       ##    ## 
+    //   ######   #######  ##    ##    ##    ##     ##  #######  ########  ######  
+
     GetGameControls:function()
     {
         var controls = "<div>";
@@ -777,13 +1117,13 @@ var RockPaperScissors =
         {
             case this.States.Intro:
             {
-                controls += "<p>Welcome folks to the game.</p>";
+                controls += '<p class="instructions">Welcome folks to the game.</p>';
                 controls += CreateButton("Continue Intro", "State_Continue") + "<br>";
                 break;
             }
             case this.States.Tutorial:
             {
-                controls += "<p>Explain how the game works</p>";
+                controls += '<p class="instructions">Explain how the game works</p>';
                 controls += CreateButton("Continue Game", "State_Continue") + "<br>";
                 break;
             }
@@ -802,6 +1142,8 @@ var RockPaperScissors =
         controls += CreateButton("Set Player Do Rock", "Debug_PlayerDoRock") + "<br>";
         controls += CreateButton("Set Player Do Paper", "Debug_PlayerDoPaper") + "<br>";
         controls += CreateButton("Set Player Do Scissors", "Debug_PlayerDoScissors") + "<br>";
+        controls += CreateButton("Opponent KO", "Debug_OpponentKO") + "<br>";
+        controls += CreateButton("Player KO", "Debug_PlayerKO") + "<br>";
         controls += "</div>";
 
         return controls;

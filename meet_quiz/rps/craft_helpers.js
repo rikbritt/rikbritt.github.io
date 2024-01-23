@@ -75,6 +75,28 @@ function MoveTo(e, to, time, func, ease = 'linear')
     e.addTween(to, ease, time, func, [e]);
 }
 
+function MoveToRelative(e, to, time, func, ease = 'linear')
+{
+    StopLoopingTween(e);
+    e.cancelTweener();
+    var dest_attr = {};
+    if(to.x != null)
+    {
+        dest_attr.x = e.x + to.x;
+    }
+
+    if(to.y != null)
+    {
+        dest_attr.y = e.y + to.y;
+    }
+
+    if(to.rotation != null)
+    {
+        dest_attr.rotation = e.rotation + to.rotation;
+    }
+    e.addTween(dest_attr, ease, time, func, [e]);
+}
+
 function MakeLoopingTween(e, ease, duration, from, to)
 {
     e.cancelTweener();
@@ -161,23 +183,26 @@ function AnimateSpriteArrayFrames(e, time, frames_array, finished_cb)
         cb:finished_cb
     };
 
-    e[0].anim_data.interval = setInterval(
-        function()
+    var show_frame = function()
+    {
+        HideSprite(e);
+        var anim_data = e[0].anim_data;
+        var frame_idx = anim_data.frames[anim_data.frame];
+        ShowSprite(e[frame_idx]);
+        anim_data.frame += 1;
+        if(anim_data.frame >= anim_data.frames.length)
         {
-            HideSprite(e);
-            var anim_data = e[0].anim_data;
-            var frame_idx = anim_data.frames[anim_data.frame];
-            ShowSprite(e[frame_idx]);
-            anim_data.frame += 1;
-            if(anim_data.frame >= anim_data.frames.length)
+            StopAnimateSpriteArray(e);
+            if(anim_data.cb != null)
             {
-                StopAnimateSpriteArray(e);
-                if(anim_data.cb != null)
-                {
-                    anim_data.cb();
-                }   
-            }
-        },
+                anim_data.cb();
+            }   
+        }
+    };
+    show_frame();
+
+    e[0].anim_data.interval = setInterval(
+        show_frame,
         time
     );
 }
