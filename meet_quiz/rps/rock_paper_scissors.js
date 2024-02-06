@@ -38,6 +38,7 @@ var RockPaperScissors =
         this.TimeInState = 0;
         this.SubState = 0;
         this.Continue = false;
+        this.Instructions = "";
 
         this.SetSceneDefaultVisibility();
         this.ShowOpponentDefaultVisibility();
@@ -56,6 +57,7 @@ var RockPaperScissors =
             case this.States.Intro:
             {
                 ChatGame.AbortRound();
+                this.Instructions = "Welcome folks to the game.";
 
                 HideSprite(this.Sprites.opponent_body);
                 HideSprite(this.Sprites.health_bar_back);
@@ -92,6 +94,7 @@ var RockPaperScissors =
 
             case this.States.Tutorial:
             {
+                this.Instructions = 'Explain how the game works';
                 HideSprite(this.Sprites.opponent_body);
                 HideSprite(this.Sprites.health_bar_back);
                 //ShowSprite(this.Sprites.msg_lets_do_this);
@@ -121,14 +124,16 @@ var RockPaperScissors =
                 this.Anim_ShowVotingChoices(
                     function() {
                         HideSprite(this.Sprites.get_ready_to_vote);
-                        ShowSprite(this.Sprites.vote_now);
+                        //ShowSprite(this.Sprites.vote_now);
+                        ShowSprite(this.Sprites.msg_vote_now);
+                        
                         ShowSprite(this.Sprites.numbers);
                         
                         ChatGame.StartRound(
                             4,
                             ChatGame.AnswerModes.MultipleChoice,
                             ChatGame.ScoreModes.FirstRightAnswer,
-                            ["rock", "paper", "scissors"],
+                            ["r", "p", "s"],
                             true //wipe previous messages
                         );
                     }.bind(this)
@@ -283,6 +288,10 @@ var RockPaperScissors =
                 {
                     player_hand_sprite = this.Sprites.player_scissors;
                 }
+                else
+                {
+                    player_hand_sprite = this.Sprites.player_rock;
+                }
 
                 ShowSprite(player_hand_sprite);
                 MoveFromTo(player_hand_sprite, {rotation:30, x:500, y:300}, {x:300, y:320, rotation:0}, 20);
@@ -390,10 +399,22 @@ var RockPaperScissors =
                 );
                 break;
             }
+
+            //  ########  ##          ###    ##    ## ######## ########       ##     ##  #######  
+            //  ##     ## ##         ## ##    ##  ##  ##       ##     ##      ##    ##  ##     ## 
+            //  ##     ## ##        ##   ##    ####   ##       ##     ##      ##   ##   ##     ## 
+            //  ########  ##       ##     ##    ##    ######   ########       #####     ##     ## 
+            //  ##        ##       #########    ##    ##       ##   ##        ##   ##   ##     ## 
+            //  ##        ##       ##     ##    ##    ##       ##    ##       ##    ##  ##     ## 
+            //  ##        ######## ##     ##    ##    ######## ##     ##      ##     ##  #######  
+
             case this.States.PlayerKO:
             {
                 HideSprite(this.Sprites.opponent_mouth);
                 ShowSprite(this.Sprites.opponent_mouth_smile);
+                ShowSprite(this.Sprites.opponent_win_arms);
+                HideSprite(this.Sprites.opponent_l_arm);
+                HideSprite(this.Sprites.opponent_r_arm);
                 break;
             }
         }
@@ -444,6 +465,7 @@ var RockPaperScissors =
                 if(this.Continue)
                 {
                     if(this.SubState == 1) {
+                        this.Instructions = 'Welcome the opponent!';
                         this.Anim_HideVotingChoices();
                         MoveTo(this.Sprites.instructions, {x:400, y:0}, 25, null);
                         this.Anim_OpponentEnter( function() {
@@ -572,6 +594,7 @@ var RockPaperScissors =
                     "opponent_mouth_smile.png",
                     "opponent_body.png",
                     "opponent_hips.png",
+                    "opponent_win_arms.png",
                     "opponent_l_arm.png",
                     "opponent_r_arm.png",
                     "opponent_l_hand_rest.png",
@@ -702,8 +725,10 @@ var RockPaperScissors =
         HideSprite(this.Sprites.opponent_head_grin);
         HideSprite(this.Sprites.opponent_head_laugh);
         HideSprite(this.Sprites.opponent_head_pain);
+        HideSprite(this.Sprites.opponent_mouth_smile);
         ShowSprite(this.Sprites.opponent_l_arm);
         ShowSprite(this.Sprites.opponent_r_arm);
+        HideSprite(this.Sprites.opponent_win_arms);
         HideSprite(this.Sprites.opponent_r_hand_receive_1);
         HideSprite(this.Sprites.opponent_big_rock);
         HideSprite(this.Sprites.opponent_big_paper);
@@ -841,6 +866,10 @@ var RockPaperScissors =
         this.Sprites.opponent_r_leg = MakeSpriteWithOrigin("opponent_r_leg.png", 17, 10);
         this.Sprites.opponent_hips.attach(this.Sprites.opponent_r_leg);
         this.Sprites.opponent_r_leg.attr({x:16, y:16});
+
+        this.Sprites.opponent_win_arms = MakeSpriteWithOrigin("opponent_win_arms.png", 190, 120);
+        this.Sprites.opponent_body.attach(this.Sprites.opponent_win_arms);
+        this.Sprites.opponent_win_arms.attr({x:-8, y:-54});
 
         this.Sprites.opponent_l_arm = MakeSpriteWithOrigin("opponent_l_arm.png", 27, 11);
         this.Sprites.opponent_body.attach(this.Sprites.opponent_l_arm);
@@ -1004,10 +1033,10 @@ var RockPaperScissors =
         this.Sprites.numbers = MakeAnimSprite("numbers");
         AddAnimSpriteReel(this.Sprites.numbers, "nums", 500, [[0,0], [1,0], [2,0], [3,0], [4,0], [5,0], [6,0], [7,0], [8,0], [9,0]]);
         //StartAnimSpriteReel(this.Sprites.numbers, "nums", -1);
-        this.Sprites.numbers.attr({x:220, y:100});
+        this.Sprites.numbers.attr({x:220, y:120});
         
         this.Sprites.msg_vote_now = MakeSpriteWithCentreOrigin("msg_vote_now.png").attr({x:240, y:148});
-        MakeLoopingTween(this.Sprites.msg_vote_now, 'linear', 30, {x:240, y:148}, {x:240, y:142} );
+        MakeLoopingTween(this.Sprites.msg_vote_now, 'linear', 30, {x:240, y:98}, {x:240, y:92} );
         
         this.Sprites.msg_vote_over = MakeSpriteWithCentreOrigin("msg_vote_over.png").attr({x:240, y:148});
         MakeLoopingTween(this.Sprites.msg_vote_over, 'linear', 30, {x:240, y:148}, {x:240, y:142} );
@@ -1083,6 +1112,21 @@ var RockPaperScissors =
         this.OpponentHealth = 0;
         this.SetState(this.States.OpponentKO);
     },
+    Debug_SetFullHealth:function()
+    {
+        this.PlayerHealth = 4;
+        this.OpponentHealth = 0;
+    },
+    Debug_SetPlayer1Health:function()
+    {
+        this.PlayerHealth = 1;
+        this.OpponentHealth = 4;
+    },
+    Debug_SetOpponent1Health:function()
+    {
+        this.PlayerHealth = 4;
+        this.OpponentHealth = 1;
+    },
     Continue:false,
     SubState:0,
     State_Continue:function()
@@ -1098,6 +1142,7 @@ var RockPaperScissors =
     //  ##    ## ##     ## ##   ###    ##    ##    ##  ##     ## ##       ##    ## 
     //   ######   #######  ##    ##    ##    ##     ##  #######  ########  ######  
 
+    Instructions:"",
     GetGameControls:function()
     {
         var controls = "<div>";
@@ -1113,17 +1158,20 @@ var RockPaperScissors =
         }
         controls += `<p>${state_name}</p>`;
 
+        if(this.Instructions != "")
+        {
+            controls += `<p class="instructions">${this.Instructions}</p>`;
+        }
+
         switch(this.State)
         {
             case this.States.Intro:
             {
-                controls += '<p class="instructions">Welcome folks to the game.</p>';
                 controls += CreateButton("Continue Intro", "State_Continue") + "<br>";
                 break;
             }
             case this.States.Tutorial:
             {
-                controls += '<p class="instructions">Explain how the game works</p>';
                 controls += CreateButton("Continue Game", "State_Continue") + "<br>";
                 break;
             }
@@ -1144,6 +1192,10 @@ var RockPaperScissors =
         controls += CreateButton("Set Player Do Scissors", "Debug_PlayerDoScissors") + "<br>";
         controls += CreateButton("Opponent KO", "Debug_OpponentKO") + "<br>";
         controls += CreateButton("Player KO", "Debug_PlayerKO") + "<br>";
+        controls += "<h2>Set Var</h2>";
+        controls += CreateButton("Set Full Health", "Debug_SetFullHealth") + "<br>";
+        controls += CreateButton("Set Player 1 Health", "Debug_SetPlayer1Health") + "<br>";
+        controls += CreateButton("Set Opponent 1 Health", "Debug_SetOpponent1Health") + "<br>";
         controls += "</div>";
 
         return controls;
