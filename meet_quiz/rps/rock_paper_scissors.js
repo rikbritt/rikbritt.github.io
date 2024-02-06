@@ -288,10 +288,6 @@ var RockPaperScissors =
                 {
                     player_hand_sprite = this.Sprites.player_scissors;
                 }
-                else
-                {
-                    player_hand_sprite = this.Sprites.player_rock;
-                }
 
                 ShowSprite(player_hand_sprite);
                 MoveFromTo(player_hand_sprite, {rotation:30, x:500, y:300}, {x:300, y:320, rotation:0}, 20);
