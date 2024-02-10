@@ -17,6 +17,12 @@ var RockPaperScissors =
         OpponentKO:7,
         PlayerKO:8
     },
+    Words:
+    {
+        Rock:"r",
+        Paper:"p",
+        Scissors:"s"
+    },
     State:0,
     TimeInState:0,
     OpponentHealth:4,
@@ -186,25 +192,25 @@ var RockPaperScissors =
                         //     this.Sprites.scissors_vote_count.destroy();
                         // }
         
-                        // this.Sprites.rock_vote_count = MakeNumberSprite(round_answers.AnswerCounts["rock"]);
+                        // this.Sprites.rock_vote_count = MakeNumberSprite(round_answers.AnswerCounts[this.Words.Rock]);
                         // this.Sprites.rock_vote_count.attr({x:this.Sprites.choice_rock_highlight.x, y:this.Sprites.choice_rock_highlight.y});
-                        // this.Sprites.paper_vote_count = MakeNumberSprite(round_answers.AnswerCounts["paper"]);
+                        // this.Sprites.paper_vote_count = MakeNumberSprite(round_answers.AnswerCounts[this.Words.Paper]);
                         // this.Sprites.paper_vote_count.attr({x:this.Sprites.choice_paper_highlight.x, y:this.Sprites.choice_paper_highlight.y});
-                        // this.Sprites.scissors_vote_count = MakeNumberSprite(round_answers.AnswerCounts["scissors"]);
+                        // this.Sprites.scissors_vote_count = MakeNumberSprite(round_answers.AnswerCounts[this.Words.Scissors]);
                         // this.Sprites.scissors_vote_count.attr({x:this.Sprites.choice_scissors_highlight.x, y:this.Sprites.choice_scissors_highlight.y});
         
                     }.bind(this),
                     1000
                 );
-                //if(round_answers.MostAnswered == "rock")
+                //if(round_answers.MostAnswered == this.Words.Rock)
                 //{
                 //    MakeItFlash(this.Sprites.choice_rock_highlight);
                 //}
-                //else if(round_answers.MostAnswered == "paper")
+                //else if(round_answers.MostAnswered == this.Words.Paper)
                 //{
                 //    MakeItFlash(this.Sprites.choice_paper_highlight);
                 //}
-                //else if(round_answers.MostAnswered == "scissors")
+                //else if(round_answers.MostAnswered == this.Words.Scissors)
                 //{
                 //    MakeItFlash(this.Sprites.choice_scissors_highlight);
                 //}
@@ -225,7 +231,7 @@ var RockPaperScissors =
                         ShowSprite(this.Sprites.hand_down_vfx_r);
                         StartAnimSpriteReel(this.Sprites.hand_down_vfx_r, "hand_down_vfx_r_play", 1);
                         StartAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", 1);
-                        var choices = ["rock", "paper", "scissors"]; 
+                        var choices = [this.Words.Rock, this.Words.Paper, this.Words.Scissors]; 
                         this.OpponentMove = choices[getRandomInt(3)]; //not inclusive of 3
                         this.SetState(this.States.ShowMoves);
                     }.bind(this)
@@ -259,15 +265,15 @@ var RockPaperScissors =
                 }
 
                 var opponent_hand_sprite;
-                if(this.OpponentMove == "rock")
+                if(this.OpponentMove == this.Words.Rock)
                 {
                     opponent_hand_sprite = this.Sprites.opponent_big_rock;
                 }
-                else if(this.OpponentMove == "paper")
+                else if(this.OpponentMove == this.Words.Paper)
                 {
                     opponent_hand_sprite = this.Sprites.opponent_big_paper;
                 }
-                else if(this.OpponentMove == "scissors")
+                else if(this.OpponentMove == this.Words.Scissors)
                 {
                     opponent_hand_sprite = this.Sprites.opponent_big_scissors;
                 }
@@ -276,15 +282,15 @@ var RockPaperScissors =
 
                 var round_answers = ChatGame.GetRoundAnswers();
                 var player_hand_sprite;
-                if(round_answers.MostAnswered == "rock")
+                if(round_answers.MostAnswered == this.Words.Rock)
                 {
                     player_hand_sprite = this.Sprites.player_rock;
                 }
-                else if(round_answers.MostAnswered == "paper")
+                else if(round_answers.MostAnswered == this.Words.Paper)
                 {
                     player_hand_sprite = this.Sprites.player_paper;
                 }
-                else if(round_answers.MostAnswered == "scissors")
+                else if(round_answers.MostAnswered == this.Words.Scissors)
                 {
                     player_hand_sprite = this.Sprites.player_scissors;
                 }
@@ -294,16 +300,16 @@ var RockPaperScissors =
 
                 var player_won = false;
                 var opponent_won = false;
-                if( (round_answers.MostAnswered == "rock" && this.OpponentMove == "scissors")
-                    || (round_answers.MostAnswered == "paper" && this.OpponentMove == "rock")
-                    || (round_answers.MostAnswered == "scissors" && this.OpponentMove == "paper") )
+                if( (round_answers.MostAnswered == this.Words.Rock && this.OpponentMove == this.Words.Scissors)
+                    || (round_answers.MostAnswered == this.Words.Paper && this.OpponentMove == this.Words.Rock)
+                    || (round_answers.MostAnswered == this.Words.Scissors && this.OpponentMove == this.Words.Paper) )
                 {
                     player_won = true;
                     this.OpponentHealth -= 1;
                 }
-                else if( (this.OpponentMove == "rock" && round_answers.MostAnswered == "scissors")
-                    || (this.OpponentMove == "paper" && round_answers.MostAnswered == "rock")
-                    || (this.OpponentMove == "scissors" && round_answers.MostAnswered == "paper") )
+                else if( (this.OpponentMove == this.Words.Rock && round_answers.MostAnswered == this.Words.Scissors)
+                    || (this.OpponentMove == this.Words.Paper && round_answers.MostAnswered == this.Words.Rock)
+                    || (this.OpponentMove == this.Words.Scissors && round_answers.MostAnswered == this.Words.Paper) )
                 {
                     opponent_won = true;
                     this.PlayerHealth -= 1;
@@ -1066,15 +1072,15 @@ var RockPaperScissors =
     },
     Debug_OpponentDoPaper:function()
     {
-        this.ForceOpponentMove = "paper";
+        this.ForceOpponentMove = this.Words.Paper;
     },
     Debug_OpponentDoScissors:function()
     {
-        this.ForceOpponentMove = "scissors";
+        this.ForceOpponentMove = this.Words.Scissors;
     },
     Debug_OpponentDoRock:function()
     {
-        this.ForceOpponentMove = "rock";
+        this.ForceOpponentMove = this.Words.Rock;
     },
     Debug_OpponentDoRandom:function()
     {
@@ -1082,15 +1088,15 @@ var RockPaperScissors =
     },
     Debug_PlayerDoPaper:function()
     {
-        this.ForcePlayerMove = "paper";
+        this.ForcePlayerMove = this.Words.Paper;
     },
     Debug_PlayerDoScissors:function()
     {
-        this.ForcePlayerMove = "scissors";
+        this.ForcePlayerMove = this.Words.Scissors;
     },
     Debug_PlayerDoRock:function()
     {
-        this.ForcePlayerMove = "rock";
+        this.ForcePlayerMove = this.Words.Rock;
     },
     Debug_StartCount:function()
     {
