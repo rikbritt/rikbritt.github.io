@@ -4,9 +4,9 @@ var gFakeRandomStrings = [
     //"Banana",
     //"Spoon",
     //"Poop",
-    "Rock",
-    "Paper",
-    "Scissors"
+    "e",
+    "p",
+    "s"
 ];
 var gFakePlayerNames = [
     "Susan",
