@@ -282,6 +282,10 @@ var RockPaperScissors =
 
                 var round_answers = ChatGame.GetRoundAnswers();
                 var player_hand_sprite;
+                if(round_answers.MostAnswered == "")
+                {
+                    round_answers.MostAnswered = "p"; //fallback
+                }
                 if(round_answers.MostAnswered == this.Words.Rock)
                 {
                     player_hand_sprite = this.Sprites.player_rock;
