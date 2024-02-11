@@ -4,7 +4,7 @@ var gFakeRandomStrings = [
     //"Banana",
     //"Spoon",
     //"Poop",
-    "r",
+    "e",
     "p",
     "s"
 ];
@@ -68,26 +68,40 @@ var gFakePlayerNames = [
     "Jaden Noel",
     "Sofia Hamby"
 ];
+function createElementFromHTML(htmlString) 
+{
+    var div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+  
+    // Change this to div.childNodes to support multiple top-level nodes.
+    return div.firstChild;
+}
+
+var gChatActive = true;
 
 setInterval(
     function()
     {
         gFakeTime += 1000;
+        if(gChatActive == false)
+        {
+            return;
+        }
         var chat_window = document.getElementsByClassName("z38b6")[0];
         
         var random_name = gFakePlayerNames[Math.floor(Math.random()*gFakePlayerNames.length)];
 
         var msg = gFakeRandomStrings[Math.floor(Math.random()*gFakeRandomStrings.length)];
-        if(Math.random() > 0.2)
-        {
-            if(ChatGame.CurrentRound)
-            {
-                if(ChatGame.CurrentRound.WordList && ChatGame.CurrentRound.WordList.length > 0)
-                {
-                    msg = ChatGame.CurrentRound.WordList[Math.floor(Math.random()*ChatGame.CurrentRound.WordList.length)];
-                }
-            }
-        }
+        // if(Math.random() > 0.2)
+        // {
+        //     if(ChatGame.CurrentRound)
+        //     {
+        //         if(ChatGame.CurrentRound.WordList && ChatGame.CurrentRound.WordList.length > 0)
+        //         {
+        //             msg = ChatGame.CurrentRound.WordList[Math.floor(Math.random()*ChatGame.CurrentRound.WordList.length)];
+        //         }
+        //     }
+        // }
         
         if(chat_window.children.length > 0 && Math.random() > 0.5)
         {
@@ -109,3 +123,8 @@ setInterval(
     },
     500
 );
+
+function SetChatActive(setting)
+{
+    gChatActive = setting;
+}
