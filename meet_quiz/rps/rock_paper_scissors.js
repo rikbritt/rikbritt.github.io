@@ -30,6 +30,16 @@ var RockPaperScissors =
     OpponentMove:"",
     ForceOpponentMove:"",
     ForcePlayerMove:"",
+    DecideOpponentNextMove:function()
+    {
+        var choices = [this.Words.Rock, this.Words.Paper, this.Words.Scissors]; 
+        this.OpponentMove = choices[getRandomInt(3)]; //not inclusive of 3
+
+        if(this.ForceOpponentMove != "")
+        {
+            this.OpponentMove = this.ForceOpponentMove;
+        }
+    },
 
     //   ######  ######## ########  ######  ########    ###    ######## ######## 
     //  ##    ## ##          ##    ##    ##    ##      ## ##      ##    ##       
@@ -67,7 +77,6 @@ var RockPaperScissors =
 
                 HideSprite(this.Sprites.opponent_body);
                 HideSprite(this.Sprites.health_bar_back);
-                //ShowSprite(this.Sprites.announcer);
 
                 ShowSprite(this.Sprites.game_title);
                 MoveFromTo(this.Sprites.game_title, {x:0, y:-200}, {x:0, y:0}, 50,
@@ -103,8 +112,6 @@ var RockPaperScissors =
                 this.Instructions = 'Explain how the game works';
                 HideSprite(this.Sprites.opponent_body);
                 HideSprite(this.Sprites.health_bar_back);
-                //ShowSprite(this.Sprites.msg_lets_do_this);
-                //ShowSprite(this.Sprites.announcer);
                 ShowSprite(this.Sprites.instructions);
                 MoveFromTo(this.Sprites.instructions, {x:400, y:0}, {x:0, y:0}, 40);
 
@@ -127,6 +134,8 @@ var RockPaperScissors =
                 ShowSprite(this.Sprites.get_ready_to_vote);
                 StartAnimSpriteReel(this.Sprites.numbers, "nums", -1)
                 this.Sprites.numbers.pauseAnimation();
+                this.DecideOpponentNextMove();
+                this.StartOpponentTell();
                 this.Anim_ShowVotingChoices(
                     function() {
                         HideSprite(this.Sprites.get_ready_to_vote);
@@ -144,17 +153,6 @@ var RockPaperScissors =
                         );
                     }.bind(this)
                 );
-
-
-                //this.ShowVotingChoices();
-                //ShowSprite(this.Sprites.msg_vote_now);
-                //StopFlashing(this.Sprites.choice_rock_highlight);
-                //StopFlashing(this.Sprites.choice_paper_highlight);
-                //StopFlashing(this.Sprites.choice_scissors_highlight);
-
-                //document.getElementById("most_answered").innerHTML = "";
-                //document.getElementById("enemy_answered").innerHTML = "";
-                //document.getElementById("result").innerHTML = "";
 
                 break;
             }
@@ -176,44 +174,9 @@ var RockPaperScissors =
                     function()
                     {
                         this.SetState(this.States.OpponentCount);
-                        // HideSprite(this.Sprites.msg_vote_over);
-                        // var round_answers = ChatGame.GetRoundAnswers();
-                
-                        // if(this.Sprites.rock_vote_count)
-                        // {
-                        //     this.Sprites.rock_vote_count.destroy();
-                        // }
-                        // if(this.Sprites.paper_vote_count)
-                        // {
-                        //     this.Sprites.paper_vote_count.destroy();
-                        // }
-                        // if(this.Sprites.scissors_vote_count)
-                        // {
-                        //     this.Sprites.scissors_vote_count.destroy();
-                        // }
-        
-                        // this.Sprites.rock_vote_count = MakeNumberSprite(round_answers.AnswerCounts[this.Words.Rock]);
-                        // this.Sprites.rock_vote_count.attr({x:this.Sprites.choice_rock_highlight.x, y:this.Sprites.choice_rock_highlight.y});
-                        // this.Sprites.paper_vote_count = MakeNumberSprite(round_answers.AnswerCounts[this.Words.Paper]);
-                        // this.Sprites.paper_vote_count.attr({x:this.Sprites.choice_paper_highlight.x, y:this.Sprites.choice_paper_highlight.y});
-                        // this.Sprites.scissors_vote_count = MakeNumberSprite(round_answers.AnswerCounts[this.Words.Scissors]);
-                        // this.Sprites.scissors_vote_count.attr({x:this.Sprites.choice_scissors_highlight.x, y:this.Sprites.choice_scissors_highlight.y});
-        
                     }.bind(this),
                     1000
                 );
-                //if(round_answers.MostAnswered == this.Words.Rock)
-                //{
-                //    MakeItFlash(this.Sprites.choice_rock_highlight);
-                //}
-                //else if(round_answers.MostAnswered == this.Words.Paper)
-                //{
-                //    MakeItFlash(this.Sprites.choice_paper_highlight);
-                //}
-                //else if(round_answers.MostAnswered == this.Words.Scissors)
-                //{
-                //    MakeItFlash(this.Sprites.choice_scissors_highlight);
-                //}
                 break;
             }
             case this.States.OpponentCount:
@@ -231,13 +194,9 @@ var RockPaperScissors =
                         ShowSprite(this.Sprites.hand_down_vfx_r);
                         StartAnimSpriteReel(this.Sprites.hand_down_vfx_r, "hand_down_vfx_r_play", 1);
                         StartAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", 1);
-                        var choices = [this.Words.Rock, this.Words.Paper, this.Words.Scissors]; 
-                        this.OpponentMove = choices[getRandomInt(3)]; //not inclusive of 3
                         this.SetState(this.States.ShowMoves);
                     }.bind(this)
                 );
-                //AnimateSpriteArray(this.Sprites.opponent_count, 150);
-
                 break;
             }
 
@@ -259,10 +218,6 @@ var RockPaperScissors =
                 ShowSprite(this.Sprites.hand_down_vfx_l);
                 ShowSprite(this.Sprites.hand_down_vfx_r);
 
-                if(this.ForceOpponentMove != "")
-                {
-                    this.OpponentMove = this.ForceOpponentMove;
-                }
 
                 var opponent_hand_sprite;
                 if(this.OpponentMove == this.Words.Rock)
@@ -363,7 +318,18 @@ var RockPaperScissors =
                         MoveToRelative(opponent_hand_sprite, {x: 0, y:20, rotation:25}, 50);
                         this.StartStateBoundTimeout(
                             function() {
-                                this.SetState(this.States.Voting);
+                                if(this.PlayerHealth == 0)
+                                {
+                                    this.SetState(this.States.PlayerKO);
+                                }
+                                else if(this.OpponentHealth == 0)
+                                {
+                                    this.SetState(this.States.OpponentKO);
+                                }
+                                else
+                                {
+                                    this.SetState(this.States.Voting);
+                                }
                             }.bind(this),
                             1000
                         );
@@ -402,6 +368,18 @@ var RockPaperScissors =
                             }.bind(this)
                         );
                     }.bind(this)
+                );
+
+                this.StartStateBoundTimeout(
+                    function()
+                    {
+                        ShowSprite(this.Sprites.victory);
+                        ShowSprite(this.Sprites.hand_down_vfx_l);
+                        ShowSprite(this.Sprites.hand_down_vfx_r);
+                        StartAnimSpriteReel(this.Sprites.hand_down_vfx_r, "hand_down_vfx_r_play", 1);
+                        StartAnimSpriteReel(this.Sprites.hand_down_vfx_l, "hand_down_vfx_l_play", 1);
+                    }.bind(this),
+                    1000
                 );
                 break;
             }
@@ -498,7 +476,7 @@ var RockPaperScissors =
             {
                 var time_left = Math.floor(ChatGame.TimeLeftInRound) + 1;
                 this.Sprites.numbers.reelPosition(time_left);
-                //ChatGame.TimeLeftInRound.toFixed(1);
+                this.UpdateOpponentTell(dt);
                 break;
             }
             case this.States.RoundOver:
@@ -549,6 +527,64 @@ var RockPaperScissors =
         );
         this.StateTimeouts[timeout_id] = i;
     },
+    StartOpponentTell:function()
+    {
+        this.tell_timer = 0;
+    },
+    UpdateOpponentTell:function(dt)
+    {
+        this.tell_timer -= dt;
+        if(this.OpponentMove == this.Words.Rock)
+        {
+            if(this.tell_timer < 0)
+            {
+                if(this.Sprites.opponent_head_blink.visible)
+                {
+                    HideSprite(this.Sprites.opponent_head_blink);
+                    this.tell_timer = 0.5 + (Math.random() * 2.0);
+                }
+                else
+                {
+                    ShowSprite(this.Sprites.opponent_head_blink);
+                    this.tell_timer = 0.1 + (Math.random() * 0.2);
+                }
+            }
+        }
+        if(this.OpponentMove == this.Words.Paper)
+        {
+            if(this.tell_timer < 0)
+            {
+                if(this.Sprites.opponent_mouth_smile.visible)
+                {
+                    ShowSprite(this.Sprites.opponent_mouth);
+                    HideSprite(this.Sprites.opponent_mouth_smile);
+                    this.tell_timer = 0.5 + (Math.random() * 2.0);
+                }
+                else
+                {
+                    HideSprite(this.Sprites.opponent_mouth);
+                    ShowSprite(this.Sprites.opponent_mouth_smile);
+                    this.tell_timer = 0.5 + (Math.random() * 1.0);
+                }
+            }
+        }
+        if(this.OpponentMove == this.Words.Scissors)
+        {
+            if(this.tell_timer < 0)
+            {
+                if(this.Sprites.opponent_head_squint.visible)
+                {
+                    HideSprite(this.Sprites.opponent_head_squint);
+                    this.tell_timer = 0.5 + (Math.random() * 2.0);
+                }
+                else
+                {
+                    ShowSprite(this.Sprites.opponent_head_squint);
+                    this.tell_timer = 0.1 + (Math.random() * 0.2);
+                }
+            }
+        }
+    },
     Sprites:{},
     StartGame:function()
     {
@@ -593,9 +629,11 @@ var RockPaperScissors =
                     "num_9.png",
                     "announcer.png",
                     "opponent_head.png",
+                    "opponent_head_blink.png",
                     "opponent_head_react.png",
                     "opponent_head_grin.png",
                     "opponent_head_pain.png",
+                    "opponent_head_squint.png",
                     "opponent_mouth.png",
                     "opponent_mouth_smile.png",
                     "opponent_body.png",
@@ -647,7 +685,8 @@ var RockPaperScissors =
                     "player_won.png",
                     "tie.png",
                     "vote_now.png",
-                    "health_bar_back.png"
+                    "health_bar_back.png",
+                    "victory.png"
                 ],
                 "sprites":{
                     "vfx_1.png":{
@@ -718,6 +757,7 @@ var RockPaperScissors =
         HideSprite(this.Sprites.opponent_won);
         HideSprite(this.Sprites.tie);
         ShowSprite(this.Sprites.health_bar_back);
+        HideSprite(this.Sprites.victory);
         //HideSprite(this.Sprites.announcer);
     },
     ShowOpponentDefaultVisibility:function()
@@ -731,6 +771,8 @@ var RockPaperScissors =
         HideSprite(this.Sprites.opponent_head_grin);
         HideSprite(this.Sprites.opponent_head_laugh);
         HideSprite(this.Sprites.opponent_head_pain);
+        HideSprite(this.Sprites.opponent_head_blink);
+        HideSprite(this.Sprites.opponent_head_squint);
         HideSprite(this.Sprites.opponent_mouth_smile);
         ShowSprite(this.Sprites.opponent_l_arm);
         ShowSprite(this.Sprites.opponent_r_arm);
@@ -900,6 +942,11 @@ var RockPaperScissors =
 
 
         this.Sprites.opponent_head = MakeSpriteWithOrigin("opponent_head.png", 39, 88);
+        this.Sprites.opponent_head_blink = MakeSpriteWithOrigin("opponent_head_blink.png", 39, 88);
+        this.Sprites.opponent_head.attach(this.Sprites.opponent_head_blink);
+        this.Sprites.opponent_head_squint = MakeSpriteWithOrigin("opponent_head_squint.png", 39, 88);
+        this.Sprites.opponent_head.attach(this.Sprites.opponent_head_squint);
+        
         this.Sprites.opponent_head_react = MakeSpriteWithOrigin("opponent_head_react.png", 35, 102);
         this.Sprites.opponent_head_grin = MakeSpriteWithOrigin("opponent_head_grin.png", 52, 90);
         this.Sprites.opponent_head_pain = MakeSpriteWithOrigin("opponent_head_pain.png", 46, 85);
@@ -913,6 +960,7 @@ var RockPaperScissors =
         this.Sprites.opponent_head.attach(this.Sprites.opponent_mouth_smile);
         this.Sprites.opponent_mouth_smile.attr({x:-39, y:-88});
         this.Sprites.opponent_head.attr({x:-8, y:-70});
+        //this.Sprites.opponent_head_blink.attr({x:-8, y:-70});
         this.Sprites.opponent_head_react.attr({x:-8, y:-76});
         this.Sprites.opponent_head_grin.attr({x:-8, y:-70});
         this.Sprites.opponent_head_pain.attr({x:-8, y:-70});
@@ -952,6 +1000,7 @@ var RockPaperScissors =
         this.Sprites.game_title = Crafty.e('2D, DOM, Image, Tweener').image("title.png");
         this.Sprites.instructions_opponent = MakeSpriteWithOrigin("instructions_opponent.png", 0, 0);
         this.Sprites.get_ready_to_vote = MakeSpriteWithOrigin("get_ready_to_vote.png", 0, 0);
+        MakeItWobble(this.Sprites.get_ready_to_vote, {x:0, y:0});
         this.Sprites.vote_now = MakeSpriteWithOrigin("vote_now.png", 0, 0);
 
 
@@ -1008,6 +1057,7 @@ var RockPaperScissors =
         this.Sprites.player_won = MakeSpriteWithOrigin("player_won.png", 0, 0);
         this.Sprites.opponent_won = MakeSpriteWithOrigin("opponent_won.png", 0, 0);
         this.Sprites.tie = MakeSpriteWithOrigin("tie.png", 0, 0);
+        this.Sprites.victory = MakeSpriteWithOrigin("victory.png", 0, 0);
 
 
         //Voting        
@@ -1163,6 +1213,7 @@ var RockPaperScissors =
             }
         }
         controls += `<p>${state_name}</p>`;
+        controls += `<p>${this.OpponentMove}</p>`;
 
         if(this.Instructions != "")
         {
