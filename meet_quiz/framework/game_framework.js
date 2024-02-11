@@ -202,8 +202,6 @@ var ChatGame =
                 this.Players.PlayerList[i].SetMessage("");
             }
         }
-
-        document.getElementById("overlay_answer_mode").innerText = answer_mode.Description;
     },
     UpdateGame:function(dt)
     {
@@ -527,7 +525,6 @@ var pre_game_inject = `
 var post_game_inject = `
 <div>
     <div class="overlay">
-        <div class="overlay-current-mode" id="overlay_answer_mode">Answer</div>
         <div class="overlay-players-container">
             <div class="flex-container" id="players">
                 <!-- <div class="flex-items"><div class="player-name">Bob F</div></div> -->
