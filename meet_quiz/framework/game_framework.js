@@ -20,6 +20,11 @@ function text_truncate(str, length, ending) {
     }
   };
 
+function CreateButton(text, js) //todo - take arg in nice way
+{
+    return `<button onclick="GameControl.GameWindow.postMessage({type:'func', name:'${js}', arg:null}, '*');"}>${text}</button>`;
+}
+
 var ChatGame = 
 {
     ScoreModes:
@@ -55,11 +60,13 @@ var ChatGame =
             {
                 //Check allowed list
                 var valid = false;
-
+                
                 for(var w=0; w<ChatGame.CurrentRound.WordList.length; ++w)
                 {
                     if(message.toLowerCase() == ChatGame.CurrentRound.WordList[w].toLowerCase())
                     {
+                        //Set player message to be exactly the allowed answer string
+                        message = ChatGame.CurrentRound.WordList[w];
                         valid = true;
                         break;
                     }
@@ -78,8 +85,8 @@ var ChatGame =
         }
     },
     MeetChatFound:false,
-    TimeLeftInRound:10,
-    RoundTime:10,
+    TimeLeftInRound:-1,
+    RoundTime:-1,
     Players:
     {
         AddPlayer:function(name)
@@ -165,6 +172,11 @@ var ChatGame =
         },
         PlayerList:[]
     },
+    GameControlWindow:null,
+    SetControlWindow:function(win_name)
+    {
+        this.GameControlWindow = window.open("", win_name);
+    },
     CurrentGame:null,
     CurrentRound:null,
     Started:false, //If false then the game hasn't been started yet, so we wait for that initial button click
@@ -182,6 +194,8 @@ var ChatGame =
         hide_answers = true
     )
     {
+        
+        console.log("ROUND STARTING!");
         this.CurrentRound = {
             WordList:word_list,
             FirstValidAnswerPlayer:null,
@@ -203,15 +217,15 @@ var ChatGame =
             }
         }
     },
+    AbortRound:function()
+    {
+        this.CurrentRound = null;
+        this.TimeLeftInRound = -1;
+        this.RoundTime = -1;
+    },
     UpdateGame:function(dt)
     {
         this.UpdateGameControls();
-
-        //Update number of players
-        if(this.GetNewChatsAndPlayers() == false)
-        {
-            return;
-        }
 
         if(this.Started == false)
         {
@@ -223,12 +237,15 @@ var ChatGame =
             this.TimeLeftInRound -= dt;
             if(this.TimeLeftInRound <= 0)
             {
+                console.log("ROUND ENDING!");
+                
                 this.TimeLeftInRound = 0;
                 for(var i=0; i<this.Players.PlayerList.length;++i)
                 {
                     //this.Players.PlayerList[i].SetMessage("");
                     this.Players.PlayerList[i].UpdateClasses();
                 }
+                this.CalcRoundAnswers();
                 var ended_round = this.CurrentRound;
                 this.CurrentRound = null;
                 this.CurrentGame.OnRoundEnd(ended_round);
@@ -241,124 +258,121 @@ var ChatGame =
         this.Started = true;
         this.CurrentGame.StartGame();
     },
+    LastGameControlsDiv:"",
+    UpdateGameControls:function()
+    {
+        if(this.GameControlWindow != null)
+        {
+            var controls_div = "";
+            if(this.Started == false)
+            {
+                //var start_button = this.CreateButton("Start Game", "ChatGame.StartGameClicked();");
+                controls_div = this.CreateButton("Start Game", "StartGameClicked");
+            }
+            else
+            {
+                controls_div = this.CurrentGame.GetGameControls();
+            }
+            if(this.LastGameControlsDiv != controls_div)
+            {
+                this.GameControlWindow.postMessage({type:"func", name:"SetControls", arg:controls_div}, "*");
+                this.LastGameControlsDiv = controls_div;
+            }
+        }
+    },
     CreateButton:function(text, js)
     {
-        return createElementFromHTML(`<button onclick="${js}">${text}</button>`);
+        //var encoded = encodeURI(js);
+        //return `<button onclick="GameControl.GameWindow.postMessage({type:'js_str', arg:'${encoded}'});"}>${text}</button>`;
+        return `<button onclick="GameControl.GameWindow.postMessage({type:'func', name:'${js}', arg:null}, '*');"}>${text}</button>`;
     },
     OldestLastSeenChat:0,
-    GetNewChatsAndPlayers:function()
+    OnMessage:function(sender_name, message, time_stamp)
     {
-        var chat_windows = document.getElementsByClassName("z38b6");
-        if(chat_windows.length == 0)
+        var player = this.Players.GetOrAddPlayer(sender_name);
+        if(player)
         {
-            return false;
+            if(time_stamp != player.LastMessageTime)
+            {
+                player.LastMessageTime = 0;
+            }
+
+            if(this.CurrentRound != null)
+            {
+                var valid = this.CurrentRound.AnswerMode.ProcessAnswer(player, message);
+                this.CurrentRound.ScoreMode.ProcessAnswerScore(player, valid, message);
+                //Check allowed list
+                // var valid = false;
+                // if(this.CurrentRound.WordList.length == 0)
+                // {
+                //     valid = true;
+                // }
+                // else
+                // {
+                //     for(var w=0; w<this.CurrentRound.WordList.length; ++w)
+                //     {
+                //         if(message.toLowerCase() == this.CurrentRound.WordList[w].toLowerCase())
+                //         {
+                //             valid = true;
+                //         }
+                //     }
+                // }
+                // if(valid)
+                // {
+                //     player.SetMessage(message);
+                //     if(this.CurrentRound.FirstValidAnswerPlayer == null)
+                //     {
+                //         this.CurrentRound.FirstValidAnswerPlayer = player;
+                //     }
+                // }
+
+                player.MessageHistory.push( { message:message, time_stamp:time_stamp, valid:valid} );
+
+                console.log(sender_name + " sent " + message + " at " + time_stamp + " valid:" + valid);
+            
+            }
+            else
+            {
+                console.log(" NO ACTIVE ROUND : Ignoring sender_name message");
+            }
+            
+            player.LastMessageTime = time_stamp;
         }
-        var chat_window = chat_windows[0];
-        var chats = chat_window.getElementsByClassName("GDhqjd");
-        var seen_player_chats = {};
-        for(var i=0; i<chats.length; ++i) //iterate backwards
-        {
-            var c = (chats.length-1) - i;
-            var sender_name = chats[c].attributes["data-sender-name"].value;
-            if(seen_player_chats[sender_name] != null)
-            {
-                continue;
-            }
-            var time_stamp = parseInt(chats[c].attributes["data-timestamp"].value);
-            if(time_stamp < this.OldestLastSeenChat) // < as current one may have add new messages added
-            {
-                //Processed all known chats
-                break;
-            }
-            this.OldestLastSeenChat = time_stamp;
-            seen_player_chats[sender_name] = time_stamp;
-            var player = this.Players.GetOrAddPlayer(sender_name);
-            if(player)
-            {
-               
-                if(time_stamp != player.LastMessageTime)
-                {
-                    player.LastMessageTime = 0;
-                }
-                //if(time_stamp > player.LastMessageTime)
-                //{
-                //    player.LastMessageNumEntries = 0;
-                //}
-                var messages = chats[c].getElementsByClassName("oIy2qc");
-                if(messages.length == player.LastMessageNumEntries)
-                {
-                    continue;
-                }
-                    
-                if(this.CurrentRound != null)
-                {
-                    for(var m=player.LastMessageNumEntries; m<messages.length; ++m)
-                    {
-                        var message = messages[m].attributes["data-message-text"].value;
-
-                        var valid = this.CurrentRound.AnswerMode.ProcessAnswer(player, message);
-                        this.CurrentRound.ScoreMode.ProcessAnswerScore(player, valid, message);
-                        //Check allowed list
-                        // var valid = false;
-                        // if(this.CurrentRound.WordList.length == 0)
-                        // {
-                        //     valid = true;
-                        // }
-                        // else
-                        // {
-                        //     for(var w=0; w<this.CurrentRound.WordList.length; ++w)
-                        //     {
-                        //         if(message.toLowerCase() == this.CurrentRound.WordList[w].toLowerCase())
-                        //         {
-                        //             valid = true;
-                        //         }
-                        //     }
-                        // }
-                        // if(valid)
-                        // {
-                        //     player.SetMessage(message);
-                        //     if(this.CurrentRound.FirstValidAnswerPlayer == null)
-                        //     {
-                        //         this.CurrentRound.FirstValidAnswerPlayer = player;
-                        //     }
-                        // }
-
-                        player.MessageHistory.push( { message:message, time_stamp:time_stamp, valid:valid} );
-
-                        console.log(sender_name + " sent " + message + " at " + time_stamp + " valid:" + valid);
-                    }
-                }
-                else
-                {
-                    console.log(" NO ACTIVE ROUND : Ignoring sender_name message");
-                }
-                player.LastMessageNumEntries = messages.length;
-                player.LastMessageTime = time_stamp;
-            }
-        }
-        return true;
     },
-    MostAnswered:"",
-    MostAnsweredCount:0,
-    CalcMostAnswered:function()
+    LastRoundAnswers:{},
+    GetRoundAnswers:function()
     {
-        var answer_counts = {};
-        this.MostAnsweredCount = 0;
-        this.MostAnswered = "";
+        return this.LastRoundAnswers;
+    },
+    CalcRoundAnswers:function()
+    {
+        this.LastRoundAnswers = {
+            MostAnsweredCount:0,
+            MostAnswered:"",
+            AnswerCounts:{}
+        };
+
+        for(var w=0; w<ChatGame.CurrentRound.WordList.length; ++w)
+        {
+            this.LastRoundAnswers.AnswerCounts[ChatGame.CurrentRound.WordList[w].toLowerCase()] = 0;
+        }
+
+        this.LastRoundAnswers.MostAnsweredCount = 0;
+        this.LastRoundAnswers.MostAnswered = "";
         for(var i=0; i<this.Players.PlayerList.length;++i)
         {
             var player_message = this.Players.PlayerList[i].LastMessage;
             if(player_message != "")
             {
-                if(answer_counts[player_message] == null)
+                if(this.LastRoundAnswers.AnswerCounts[player_message] == null)
                 {
-                    answer_counts[player_message] = 0;
+                    this.LastRoundAnswers.AnswerCounts[player_message] = 0;
                 }
-                answer_counts[player_message] += 1;
-                if(answer_counts[player_message] > this.MostAnsweredCount)
+                this.LastRoundAnswers.AnswerCounts[player_message] += 1;
+                if(this.LastRoundAnswers.AnswerCounts[player_message] > this.LastRoundAnswers.MostAnsweredCount)
                 {
-                    this.MostAnsweredCount = answer_counts[player_message];
-                    this.MostAnswered = player_message;
+                    this.LastRoundAnswers.MostAnsweredCount = this.LastRoundAnswers.AnswerCounts[player_message];
+                    this.LastRoundAnswers.MostAnswered = player_message;
                 }
             }
         }
@@ -420,6 +434,19 @@ var pre_game_inject = `
     padding: 0px;
     pointer-events: none;
     z-index: 1;
+}
+
+.game-bg {    
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0px;
+    left:0px;
+    margin: 0px;
+    padding: 0px;
+    pointer-events: none;
+    z-index: 1;
+    background-color:black;
 }
 
 .flex-container {
@@ -510,6 +537,21 @@ var pre_game_inject = `
     font-weight: bold;
 }
 
+.game-control {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: #00000073;
+    width: 300px;
+    height: 600px;
+    text-align: center;
+    font-family: 'Asap Condensed';
+    z-index:100000;
+}
+.game-control h1 { 
+    text-align: center;
+}
+
 .GDhqjd {
     font-weight: bold;
 }
@@ -529,12 +571,6 @@ var post_game_inject = `
             <div class="flex-container" id="players">
                 <!-- <div class="flex-items"><div class="player-name">Bob F</div></div> -->
             </div>
-        </div>
-    </div>
-    <div class="game-control">
-        <h1>Game Control</h1>
-        <div id="game_controls">
-            Loading
         </div>
     </div>
 </div>
@@ -580,13 +616,39 @@ var setup = setInterval(
     {
         if(ReadyToStart())
         {
+            (window.addEventListener || window.attachEvent)(
+                (window.attachEvent && "on" || "") + "message", 
+                function (evt) 
+                {
+                  var data = evt.data; // this is the data sent to the window
+                  if(data.type=="func")
+                  {
+                    if(ChatGame[data.name])
+                    {
+                        ChatGame[data.name](data.arg);
+                    }
+                    else
+                    {
+                        ChatGame.CurrentGame[data.name](data.arg);
+                    }
+                  }
+                  else if(data.type=="js_str")
+                  {
+                    var decoded_js = decodeURI(data.arg);
+                    eval(decoded_js);
+                  }
+                  else
+                  {
+                    ChatGame.OnMessage(data.sender, data.message, data.time_stamp);
+                    console.log(`Sender:${data.sender}  Message:${data.message}`);
+                  }
+                },
+              false
+            );
+
             var game_to_play = GetGameToPlay();
             var pre_game_inject_div = createElementFromHTML(pre_game_inject);
             document.getElementsByTagName("body")[0].appendChild(pre_game_inject_div);
-
-            var game_inject = game_to_play.GetHTMLToInject();
-            var game_inject_div = createElementFromHTML(game_inject);
-            document.getElementsByTagName("body")[0].appendChild(game_inject_div);
 
             var post_game_inject_div = createElementFromHTML(post_game_inject);
             document.getElementsByTagName("body")[0].appendChild(post_game_inject_div);
@@ -609,18 +671,3 @@ var setup = setInterval(
     },
     1000
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
