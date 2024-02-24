@@ -20,7 +20,7 @@ var MeetHooks =
         var messages = null;
         for (const [key, value] of Object.entries(chat_windows[0].__jscontroller))
         {
-            if(typeof value === "object")
+            if(typeof value === "object" && value != null)
             {
                 if(value.messages != null)
                 {
