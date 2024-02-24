@@ -15,18 +15,71 @@ var MeetHooks =
         {
             return false;
         }
-        var messages = chat_windows[0].__jscontroller.yQ.messages.messages;
+
+        //Find Messages
+        var messages = null;
+        for (const [key, value] of Object.entries(chat_windows[0].__jscontroller))
+        {
+            if(typeof value === "object")
+            {
+                if(value.messages != null)
+                {
+                    messages = value.messages.messages;
+                }
+            }
+        }
+
+        if(messages == null)
+        {
+            return false;
+        }
+
+        //Find Data in each message structure
         messages.forEach(function(value, key) {
-            var time_stamp = parseInt(key.split("/").pop());
+            var time_stamp = key.includes("/") ? parseInt(key.split("/").pop()) : parseInt(key);
             if(time_stamp > this.OldestLastSeenChat) // < as current one may have add new messages added
             {
-                var message = value.message.oa.Ph[1];
-                var sender_name = value.message.oa.Ph[3].Ph[0];
-                console.log(\`Posting : $\{sender_name} - $\{message} - $\{time_stamp}\`);
-                this.OldestLastSeenChat = time_stamp;
-                this.GameWindow.postMessage({sender:sender_name, message:message, time_stamp:time_stamp}, "*");
+                //Find the message data
+                var msg_data = null;
+                for (const [k2, v2] of Object.entries(value.message))
+                {
+                    if(typeof v2 === "object" && v2 != null)
+                    {
+                        for (const [k3, v3] of Object.entries(v2))
+                        {
+                            if(Array.isArray(v3))
+                            {
+                                if(v3.length > 2 && (typeof v3[1] === 'string' || v3[1] instanceof String))
+                                {
+                                    console.log(k2);
+                                    msg_data = v3;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(msg_data != null)
+                {
+                    var message = msg_data[1]; //Let's hope this index doesn't change
+
+                    //Try and dig out sender name
+                    var sender_name = "";
+                    for (const [k2, v2] of Object.entries(msg_data[3]))
+                    {
+                        if(Array.isArray(v2))
+                        {
+                            sender_name = v2[0];
+                        }
+                    }
+                    console.log(\`Posting : $\{sender_name} - $\{message} - $\{time_stamp}\`);
+                    this.OldestLastSeenChat = time_stamp;
+                    this.GameWindow.postMessage({sender:sender_name, message:message, time_stamp:time_stamp}, "*");
+                }
             }
         }.bind(this));
+    
 
         return true;
     }
@@ -97,3 +150,5 @@ function CopyRPSMeetJS()
         <h1>Demo</h1>
     </body>
 </html>
+
+
