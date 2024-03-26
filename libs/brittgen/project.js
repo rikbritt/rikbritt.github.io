@@ -218,25 +218,27 @@ bg.LoadProjectFromJSONFileAsync = function(project_root, async_load_file_func, f
 			};
 
 			var project_data = JSON.parse(data);
-			//Async load other files referenced in here.
-			var loading_tasks = [];
-			for(var i=0; i<project_data.files.length; ++i)
+			if(project_data) //todo - add error handler?
 			{
-				var file_name = project_data.files[i];
-				var full_file_name = project_root + "/" + file_name;
-				var load_task = async_load_file_func(full_file_name)
-					.then((data2) => 
-						project_data_files.files.push(
-							{
-								name:file_name,
-								content:data2
-							}
-						)
-					);
+				//Async load other files referenced in here.
+				var loading_tasks = [];
+				for(var i=0; i<project_data.files.length; ++i)
+				{
+					var file_name = project_data.files[i];
+					var full_file_name = project_root + "/" + file_name;
+					var load_task = async_load_file_func(full_file_name)
+						.then((data2) => 
+							project_data_files.files.push(
+								{
+									name:file_name,
+									content:data2
+								}
+							)
+						);
 
-				loading_tasks.push(load_task);
+					loading_tasks.push(load_task);
+				}
 			}
-
 			Promise.all(loading_tasks).then( () => 
 				{
 					var loaded_project = bg.LoadProjectFromJSONFiles(project_data_files, project_root);
