@@ -30,12 +30,12 @@ function LoadProjectFromURL(project_json_url)
             .then(response => {
                 if (!response.ok)
                 {
-                    throw new Error('Network error');
+                    throw new Error(`${response.status} - ${response.url}`);
                 }
                 return response.text();
             })
             .catch(error => {
-                LogError(error.message);
+                LogError(error);
             });
             return load_task;
         },

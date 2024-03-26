@@ -1,8 +1,15 @@
 var gErrors = [];
 
-function LogError(error_text)
+function LogError(error)
 {
-    gErrors.push(error_text);
+    if (typeof error === 'string' || error instanceof String)
+    {
+        gErrors.push(error);
+    }
+    else
+    {
+        gErrors.push(error.message);
+    }
 }
 
 function UpdateErrorsWindow(close_func)
