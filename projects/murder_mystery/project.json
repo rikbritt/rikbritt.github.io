@@ -2,6 +2,6 @@
     "id":"4e82b0d6-2cbc-45ab-8fd8-a38da7c62aef",
     "name":"Murder Mystery Project",
     "files":[
-        "generator/example.json"
+        "generators/example.json"
     ]
 }
