@@ -5,15 +5,15 @@
     "fields": [
         {
             "name": "forename",
-            "type": "string"
+            "type": "text"
         },
         {
             "name": "surname",
-            "type": "string"
+            "type": "text"
         },
         {
             "name": "maidenName",
-            "type": "string"
+            "type": "text"
         }
     ],
     "description": "Person's Name",

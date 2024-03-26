@@ -502,9 +502,9 @@ function UpdateGeneratorWindow(close_func, generator)
 			
 		}
 
-		if(ImGui.Button("Create Temporary Test Instance (TODO)"))
+		if(ImGui.Button("Create Temporary Test Instance"))
 		{
-			
+			CreateGeneratorInstance(generator);
 		}
 	}
 	ImGui.End();
