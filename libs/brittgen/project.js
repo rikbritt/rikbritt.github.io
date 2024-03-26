@@ -224,8 +224,8 @@ bg.LoadProjectFromJSONFileAsync = function(project_root, async_load_file_func, f
 				var loading_tasks = [];
 				for(var i=0; i<project_data.files.length; ++i)
 				{
-					var file_name = project_data.files[i];
-					var full_file_name = project_root + "/" + file_name;
+					let file_name = project_data.files[i];
+					let full_file_name = project_root + "/" + file_name;
 					var load_task = async_load_file_func(full_file_name)
 						.then((data2) => 
 							project_data_files.files.push(
