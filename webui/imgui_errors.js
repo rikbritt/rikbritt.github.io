@@ -16,7 +16,7 @@ function UpdateErrorsWindow(close_func)
 {
     if(ImGui.Begin("Errors", close_func))
     {
-        for(var e in gErrors)
+        for(var e of gErrors)
         {
             ImGui.Text(e);
         }
