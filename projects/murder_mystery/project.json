@@ -4,6 +4,6 @@
     "files":[
         "datadefs/name_data_def.json",
         "generators/example.json",
-        "generators/name.json"
+        "generators/name.js"
     ]
 }
