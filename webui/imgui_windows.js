@@ -20,6 +20,17 @@ function OpenWindow(win_id, update_func, data)
     gWindows.push(win_data);
 }
 
+function IsWindowOpen(win_id)
+{
+    for(var i=0; i<gWindows.length; ++i)
+    {
+        if(gWindows[i].id == win_id)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 function UpdateWindows()
 {
