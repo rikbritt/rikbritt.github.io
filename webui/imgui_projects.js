@@ -32,7 +32,7 @@ function LoadProjectFromURL(project_json_url)
                 {
                     throw new Error('Network error');
                 }
-                response.text();
+                return response.text();
             })
             .catch(error => {
                 LogError(error.message);
