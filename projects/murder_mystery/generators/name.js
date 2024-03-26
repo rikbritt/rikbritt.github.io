@@ -1,14 +1,5 @@
-var mm_nameDataDef = {
-	version:1,
-	name:"Name",
-	fields:[
-		{ name:"forename",		type:"text" },
-		{ name:"surname",		type:"text"	},
-		{ name:"maidenName",	type:"text"	}
-	]
-}
 
-var mm_nameGenerator = {
+var generator = {
 	version:1,
 	name:"Name",
 	category:["Murder Mystery","Person"],
@@ -23,7 +14,7 @@ var mm_nameGenerator = {
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",		type:"data",		dataType:mm_nameDataDef	}
+			{ name:"data",		type:"data",		dataType:"df22de14-e904-496f-8ff0-70f7e820c8f6"	}
 		],
 	},
 	script:function(inputs, outputs)
@@ -55,4 +46,5 @@ var mm_nameGenerator = {
 		}
 	}
 }
-bg.RegisterGenerator(mm_nameGenerator);
+
+export { generator }

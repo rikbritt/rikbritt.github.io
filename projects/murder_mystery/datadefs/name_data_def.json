@@ -1,0 +1,21 @@
+{
+    "version": 1,
+    "id": "df22de14-e904-496f-8ff0-70f7e820c8f6",
+    "name": "Name",
+    "fields": [
+        {
+            "name": "forename",
+            "type": "string"
+        },
+        {
+            "name": "surname",
+            "type": "string"
+        },
+        {
+            "name": "maidenName",
+            "type": "string"
+        }
+    ],
+    "description": "Person's Name",
+    "category": []
+}
