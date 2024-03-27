@@ -1,6 +1,7 @@
 
 bg.generators = [];
 bg.generatorsById = {};
+bg.GENERATOR_CURRENT_VERSION = 3;
 
 //Will add to a global list of generators, and by default add to the global project
 bg.RegisterGenerator = function(generator, add_to_global = true)
@@ -157,7 +158,7 @@ bg.UpgradeGenerator = function(generator)
 			outputs.data = inputs;
 		}
 	}
-	generator.version = 3;
+	generator.version = bg.GENERATOR_CURRENT_VERSION;
 	return generator;
 }
 
@@ -311,9 +312,9 @@ bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden
 //Treat the passed in generator and it's data as const.
 bg.RunGenerator = function(generator, seed, inputs)
 {
-	if(generator.version != 1)
+	if(generator.version != bg.GENERATOR_CURRENT_VERSION)
 	{
-		console.error("Unknown generator version" + generator.version);
+		console.error("Generator not on current version" + generator.version);
 		return;
 	}
 	
