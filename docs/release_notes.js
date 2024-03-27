@@ -9,6 +9,12 @@ Finish this. Graphs are not done at all yet.
 Do a pass on the generator and graph structures, and see if all the data can be setup to just be JSON stringified immediately.
 Would need to possibly do some kind of "_runtime" member or something that skips serialisation and has all the cached object refs in it, and the serialised data just stores ids etc.
 
+* Data Def and other Generator refs *
+As I work on the work flow it's more likely more generators will be in the .json format, and even the .js format will become loaded without refs to others as the file is loaded in isolation.
+That means any refs in a generator need to be done by GUID and resolved at runtime.
+I need to find a nice syntax/solution for that.
+For performance I could cache these refs somewhere in a way that is easy to skip during serialisation, and easy to delete/rebuild as edits are done.
+
 ** Rename **
 Field Type - bool,float,weight,distance etc
 Field Def - a field type with data for min/max etc. Has a name and guid
@@ -16,10 +22,25 @@ Field Value - a value for a Field Def - within its bounds etc.
 Data Def - A list of field def's. Used as structures for generator template inputs/outputs/etc. Used as standalone structures for building and sharing data. Also contains meta data, like name, version etc
 Data Instance - A list of field values. Link to its Data Def
 Data Map - A hashmap of field values, keyed by field name. Used by the generator scripts.
+
+* UI *
+Making async project loading blocking? With ui popup?
+Make error window a generic logging window? Or keep the console for that?
+Add a 3rd party code editor window.
+
+* Long Term *
+Split out project code managing a tree and links of objects with GUIDs from the generator lib itself.
+That layer is abstract and could be re-used.
 `);
 
 AddNotes("Release Notes",
 `
+27/03/2024
+Been working mainly on Murder Mystery server and app, but coming back to this as now I need to start embedding a Murder Mystery proc gen project into the server and start generating characters etc.
+Coming back it's obvious I need to spend more time improving project loading/saving/workflow and fix up the UI more.
+Breaking some stuff while I'm doing this.
+Moving murder mystery generators into own project.
+
 3/12/2023
 Working on new node tree Explorer window.
 Wanting to improve how data is stored and saved. If i keep all references out of where I store data, and just use ids, then can serialise it all easier.
