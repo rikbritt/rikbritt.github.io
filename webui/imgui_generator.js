@@ -463,9 +463,10 @@ function UpdateGeneratorWindow(close_func, generator)
 			generator.category = category_str.split("/");
 		}
 
-		if(ImGui.CollapsingHeader("Inputs (TODO)"))
+		if(ImGui.CollapsingHeader("Inputs"))
 		{
-			//UpdateGeneratorInputsImGuiV2(generator.inputs);
+			//Generator inputs are an inplace data def, so can be edited the same way as a data def window does.
+			UpdateDataDefFields(generator.inputs.fields);
 		}
 		if(ImGui.CollapsingHeader("Outputs (TODO)"))
 		{
