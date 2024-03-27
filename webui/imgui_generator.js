@@ -468,9 +468,11 @@ function UpdateGeneratorWindow(close_func, generator)
 			//Generator inputs are an inplace data def, so can be edited the same way as a data def window does.
 			UpdateDataDefFields(generator.inputs.fields);
 		}
-		if(ImGui.CollapsingHeader("Outputs (TODO)"))
+		if(ImGui.CollapsingHeader("Outputs"))
 		{
+			UpdateDataDefFields(generator.outputs.fields);
 		}
+		
 		if(ImGui.CollapsingHeader("Script"))
 		{
 			ImGui.SetNextItemWidth(-1);
