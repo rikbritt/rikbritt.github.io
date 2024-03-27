@@ -282,6 +282,7 @@ function CreateExplorerNodeForProject(project)
         {
             var children = [
                 CreateExplorerDataDefsNode(project),
+                CreateExplorerDataTableNode(project),
                 CreateExplorerGeneratorsNode(project),
                 CreateExplorerGraphsNode(project)
             ];

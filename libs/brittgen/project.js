@@ -21,7 +21,8 @@ bg.CreateProject = function(name, id)
         name:name,
 		generatorGraphs:[],
 		generators:[],
-		dataDefs:[]
+		dataDefs:[],
+		dataTables:[]
     };
 
 	bg.projects.push(project);
