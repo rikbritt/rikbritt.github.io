@@ -559,7 +559,7 @@ function UpdateGeneratorInstanceWindow(close_func, generatorInstance)
 		
 		ImGui.Text("Generator Output");
 		{
-			if(generatorInstance.output.outputs)
+			if(generatorInstance.output && generatorInstance.output.outputs)
 			{
 				if(generatorInstance.output.outputs.model == null)
 				{
