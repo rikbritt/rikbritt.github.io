@@ -130,7 +130,7 @@ function UpdateDataDefsTable_AddCatRow(cat, cat_name, is_root, selected_func)
 	ImGui.PopID();
 }
 
-function UpdateDataDefaTable(id, data_defs, selected_func)
+function UpdateDataDefsTable(id, data_defs, selected_func)
 {
 	//Mighg be slow as shit
 	var categories = BuildGraphOfCategories(data_defs);

@@ -192,7 +192,7 @@ function UpdateProjectProperties( project )
             bg.CreateEmptyDataDef(project);
         }
 
-        UpdateDataDefaTable(
+        UpdateDataDefsTable(
             project.id + "_data_defs", 
             project.dataDefs,
             function(data_def)
