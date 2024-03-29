@@ -22,8 +22,9 @@ bg.CreateProject = function(name, id)
 		generatorGraphs:[],
 		generators:[],
 		dataDefs:[],
-		dataTables:[]
-    };
+		dataTables:[],
+		assetDb:AssetDb.CreateAssetDB()
+	};
 
 	bg.projects.push(project);
 	bg.projectsById[id] = project;
