@@ -1,4 +1,28 @@
 
+function CreateExplorerAssetNode(project, asset_id, asset)
+{
+	return {
+		project:project,
+		id:"assetdb_" + asset_id,
+		GetNodeName:function() { return `${asset_id} - (${asset.type})`; },
+		GetNodeIcon:function() { return "n"; },
+		GetNodeChildren:function()
+		{ 
+			var children = [];
+			// for([key, data] of Object.entries(category.children))
+			// {
+			// 	children.push( CreateExplorerGraphCategoryNode(project, key, data));
+			// }
+		
+			// for(data_def of category.objects)
+			// {
+			// 	children.push( CreateExplorerGraphNode(project, data_def) );
+			// }
+			return children; 
+		}
+	};
+}
+
 function CreateExplorerAssetDbNode(project)
 {
 	return {
@@ -10,29 +34,15 @@ function CreateExplorerAssetDbNode(project)
 		{
 			var children = [];
 
-			//Might be slow as shit
-			// var categories = BuildGraphOfCategories(project.dataDefs);
-
-			// for([key, data] of Object.entries(categories.children))
-			// {
-			// 	children.push( CreateExplorerDataDefCategoryNode(project, key, data));
-			// }
-
-			// for(gen of categories.objects)
-			// {
-			// 	children.push( CreateExplorerDataDefNode(project, gen) );
-			// }
+            for([id, asset] of Object.entries(project.assetDb.assets))
+			{
+				children.push( CreateExplorerAssetNode(project, id, asset));
+			}
 
 			return children;
 		},
 		UpdateContextMenu:function()
 		{
-			// if(ImGui.Button("Create New Data Def..."))
-			// {
-			// 	var data_def = bg.CreateEmptyDataDef(project);
-			// 	OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
-            //     ImGui.CloseCurrentPopup();
-			// }
 		}
 	};
 }

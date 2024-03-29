@@ -45,6 +45,7 @@ bg.RegisterProjectGenerator = function(project, generator)
 	if(bg.RegisterGenerator(generator, false /* don't add to global project*/))
 	{
 		project.generators.push(generator);
+		AssetDb.AddAsset(project.assetDb, generator.id, "generator", generator);
 	}
 }
 
