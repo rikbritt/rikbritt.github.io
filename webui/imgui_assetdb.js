@@ -5,7 +5,7 @@ function CreateExplorerAssetDbNode(project)
 		project:project,
 		id:"assetdb_" + project.id,
 		GetNodeName:function() { return "Asset Db"; },
-		GetNodeIcon:function() { return "q"; },
+		GetNodeIcon:function() { return "i"; },
 		GetNodeChildren:function()
 		{
 			var children = [];

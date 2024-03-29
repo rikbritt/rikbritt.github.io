@@ -494,7 +494,7 @@ function CreateExplorerGraphsNode(project)
 		project:project,
 		id:"graphs_" + project.id,
 		GetNodeName:function() { return "Graphs"; },
-		GetNodeIcon:function() { return "q"; },
+		GetNodeIcon:function() { return "z"; },
 		GetNodeChildren:function()
 		{
 			var children = [];
