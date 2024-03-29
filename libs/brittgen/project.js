@@ -177,7 +177,8 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 					{
 						var loaded = await import("../../" + project_root + "/" + file_name);
 						var generator = bg.LoadGeneratorFromObject(loaded.generator);
-						loaded_project.generators.push(generator);
+						bg.RegisterProjectGenerator(loaded_project, generator);
+						//loaded_project.generators.push(generator);
 					}
 					catch
 					{
@@ -187,7 +188,8 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 				else
 				{
 					var generator = bg.LoadGeneratorFromJSON(project_data_files.files[i].content);
-					loaded_project.generators.push(generator);
+					bg.RegisterProjectGenerator(loaded_project, generator);
+					//loaded_project.generators.push(generator);
 				}
 			}
 			else if(file_name.startsWith("graphs/"))
