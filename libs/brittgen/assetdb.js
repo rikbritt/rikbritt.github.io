@@ -9,7 +9,7 @@ AssetDb.CreateAssetDB = function()
     }
 }
 
-AssetDb.GetAsset(db, guid, type_str = null)
+AssetDb.GetAsset = function(db, guid, type_str = null)
 {
     var asset = db.assets[guid];
     if(asset)
@@ -22,7 +22,7 @@ AssetDb.GetAsset(db, guid, type_str = null)
     return null;
 }
     
-AssetDb.AddAsset(db, guid, type_str, data)
+AssetDb.AddAsset = function(db, guid, type_str, data)
 {
     var existing = db.GetAsset(guid, type_str);
     if(existing != null)
