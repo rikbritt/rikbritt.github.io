@@ -24,7 +24,7 @@ AssetDb.GetAsset = function(db, guid, type_str = null)
     
 AssetDb.AddAsset = function(db, guid, type_str, data)
 {
-    var existing = db.GetAsset(guid, type_str);
+    var existing = AssetDb.GetAsset(db, guid, type_str);
     if(existing != null)
     {
         //Error
