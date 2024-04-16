@@ -88,4 +88,4 @@ var realityGenerator = {
 		outputs.data = inputs;
 	}
 }
-bg.RegisterGenerator(realityGenerator);
+bg.RegisterProjectGenerator(bg.global_project, realityGenerator);

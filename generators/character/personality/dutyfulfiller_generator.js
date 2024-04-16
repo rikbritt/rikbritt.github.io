@@ -38,4 +38,5 @@ var dutyFulfillerGenerator = {
 		outputs.data = bg.BuildDataDefValues(personalityDataDef.fields, 0, {});
 	}
 }
-bg.RegisterGenerator(dutyFulfillerGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, dutyFulfillerGenerator);

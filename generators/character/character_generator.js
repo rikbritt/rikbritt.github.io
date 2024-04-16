@@ -31,4 +31,5 @@ var characterGenerator = {
 		outputs.data = inputs;
 	}
 }
-bg.RegisterGenerator(characterGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, characterGenerator);

@@ -25,4 +25,4 @@ var mm_murdererGenerator = {
 		
 	}
 }
-bg.RegisterGenerator(mm_murdererGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_murdererGenerator);

@@ -19,7 +19,7 @@ var nameV2Generator = {
 		outputs.data = "";
 	}
 }
-bg.RegisterGenerator(nameV2Generator);
+bg.RegisterProjectGenerator(bg.global_project, nameV2Generator);
 
 var nameV1Generator = {
 	version:1,
@@ -118,4 +118,4 @@ var nameV1Generator = {
 		outputs.data += GetRandomPair(this.data);
 	}
 }
-bg.RegisterGenerator(nameV1Generator);
+bg.RegisterProjectGenerator(bg.global_project, nameV1Generator);

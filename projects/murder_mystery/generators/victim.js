@@ -26,4 +26,4 @@ var mm_victimGenerator = {
 		
 	}
 }
-bg.RegisterGenerator(mm_victimGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_victimGenerator);

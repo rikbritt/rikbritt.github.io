@@ -54,4 +54,4 @@ var mm_careerGenerator = {
 		
 	}
 }
-bg.RegisterGenerator(mm_careerGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_careerGenerator);

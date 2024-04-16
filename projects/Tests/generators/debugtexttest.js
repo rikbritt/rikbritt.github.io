@@ -27,4 +27,4 @@ var testDebugTextGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testDebugTextGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testDebugTextGenerator);

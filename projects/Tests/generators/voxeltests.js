@@ -42,4 +42,4 @@ var testVoxelsGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testVoxelsGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testVoxelsGenerator);

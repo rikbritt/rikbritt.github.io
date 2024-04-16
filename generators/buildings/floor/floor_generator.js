@@ -53,4 +53,4 @@ var floorGenerator = {
 		//floor.colour = 0x440000;
 	}
 }
-bg.RegisterGenerator(floorGenerator);
+bg.RegisterProjectGenerator(bg.global_project, floorGenerator);

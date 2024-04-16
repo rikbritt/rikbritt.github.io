@@ -47,4 +47,4 @@ var earthLikePlanetGenerator = {
 		outputs.data = inputs.planet;
 	}
 }
-bg.RegisterGenerator(earthLikePlanetGenerator);
+bg.RegisterProjectGenerator(bg.global_project, earthLikePlanetGenerator);

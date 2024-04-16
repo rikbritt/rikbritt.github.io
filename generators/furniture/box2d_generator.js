@@ -29,7 +29,8 @@ var woodPanelsGenerator = {
 		}		
 	}
 }
-bg.RegisterGenerator(woodPanelsGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, woodPanelsGenerator);
 
 var woodFrameGenerator = {
 	version:1,
@@ -66,7 +67,8 @@ var woodFrameGenerator = {
 		var sidePlankRight = bg.CreateBoxShape(outputs.model, "Right Side Plank", "wood", plankWidth, sidePlankHeight, (inputs.width/2) - (plankWidth/2), 0);
 	}
 }
-bg.RegisterGenerator(woodFrameGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, woodFrameGenerator);
 
 var woodSupportDiagonalGenerator = {
 	version:1,
@@ -104,7 +106,8 @@ var woodSupportDiagonalGenerator = {
 		supportShape.points.push( CreatePoint(halfWidth - w, halfHeight) );
 	}
 }
-bg.RegisterGenerator(woodSupportDiagonalGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, woodSupportDiagonalGenerator);
 
 var woodSupportStraightGenerator = {
 	version:1,
@@ -134,7 +137,7 @@ var woodSupportStraightGenerator = {
 		bg.CreateBoxShape(outputs.model, "Support", "wood", inputs.width, plankWidth, 0, 0);
 	}
 }
-bg.RegisterGenerator(woodSupportStraightGenerator);
+bg.RegisterProjectGenerator(bg.global_project, woodSupportStraightGenerator);
 
 var woodSupportGenerator = {
 	version:1,
@@ -173,7 +176,7 @@ var woodSupportGenerator = {
 		outputs.model = bg.RunGenerator(supportGenerator, inputs.seed, supportInputs).outputs.model;
 	}
 }
-bg.RegisterGenerator(woodSupportGenerator);
+bg.RegisterProjectGenerator(bg.global_project, woodSupportGenerator);
 
 var woodCrate2DGenerator = {
 	version:1,
@@ -232,4 +235,4 @@ var woodCrate2DGenerator = {
 		}
 	}
 }
-bg.RegisterGenerator(woodCrate2DGenerator);
+bg.RegisterProjectGenerator(bg.global_project, woodCrate2DGenerator);

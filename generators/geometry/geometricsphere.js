@@ -100,4 +100,4 @@ var geodesicSphereGenerator = {
 		//bg.CreateDebugPoint(outputs.model, bg.CreateTranslation(-1,0,0));
 	}
 }
-bg.RegisterGenerator(geodesicSphereGenerator);
+bg.RegisterProjectGenerator(bg.global_project, geodesicSphereGenerator);

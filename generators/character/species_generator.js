@@ -40,4 +40,5 @@ var speciesGenerator = {
 		outputs.data = inputs.species;
 	}
 }
-bg.RegisterGenerator(speciesGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, speciesGenerator);

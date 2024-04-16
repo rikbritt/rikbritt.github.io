@@ -27,4 +27,4 @@ var forestSceneGenerator = {
 		bg.CreateBoxShape(outputs.model, "Ground", "ground", sceneWidth, 1, 0, -0.5);
 	}
 }
-bg.RegisterGenerator(forestSceneGenerator);
+bg.RegisterProjectGenerator(bg.global_project, forestSceneGenerator);

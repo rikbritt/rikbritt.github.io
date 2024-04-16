@@ -28,4 +28,4 @@ var testGraphGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testGraphGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testGraphGenerator);

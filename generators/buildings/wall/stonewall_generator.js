@@ -26,7 +26,8 @@ var stoneWallStoneGenerator = {
 		stone.colour += bg.GetRandomInt(-20,20);
 	}
 }
-bg.RegisterGenerator(stoneWallStoneGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, stoneWallStoneGenerator);
 
 //Specifically for following a path?
 var stoneWallV1Generator = {
@@ -80,7 +81,8 @@ var stoneWallV1Generator = {
 		}
 	}
 }
-bg.RegisterGenerator(stoneWallV1Generator);
+
+bg.RegisterProjectGenerator(bg.global_project, stoneWallV1Generator);
 
 
 var stoneWallGenerator = {
@@ -177,4 +179,5 @@ var stoneWallGenerator = {
 		//}
 	}
 }
-bg.RegisterGenerator(stoneWallGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, stoneWallGenerator);

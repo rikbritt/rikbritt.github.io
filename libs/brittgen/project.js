@@ -42,7 +42,7 @@ bg.GetProjectById = function(id)
 
 bg.RegisterProjectGenerator = function(project, generator)
 {
-	if(bg.RegisterGenerator(generator, false /* don't add to global project*/))
+	if(bg.ValidateGenerator(generator))
 	{
 		project.generators.push(generator);
 		AssetDb.AddAsset(project.assetDb, generator.id, "generator", generator);

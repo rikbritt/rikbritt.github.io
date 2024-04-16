@@ -86,7 +86,8 @@ var tree2DV2Generator = {
 		makeBranchShape(trunk, outputs.model);
 	}
 }
-bg.RegisterGenerator(tree2DV2Generator);
+
+bg.RegisterProjectGenerator(bg.global_project, tree2DV2Generator);
 
 var tree2DV1Generator = {
 	version:1,
@@ -154,4 +155,4 @@ var tree2DV1Generator = {
 		makeBranchShape(trunk, outputs.model);
 	}
 }
-bg.RegisterGenerator(tree2DV1Generator);
+bg.RegisterProjectGenerator(bg.global_project, tree2DV1Generator);

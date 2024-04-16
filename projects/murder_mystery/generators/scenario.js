@@ -71,7 +71,7 @@ var mm_scenarioGenerator3 = {
 		}
 	}
 }
-bg.RegisterGenerator(mm_scenarioGenerator3);
+bg.RegisterProjectGenerator(bg.global_project, mm_scenarioGenerator3);
 
 var mm_scenarioGenerator2 = {
 	version:1,
@@ -118,7 +118,7 @@ var mm_scenarioGenerator2 = {
 		outputs.data.bio_graph_uml = MM_DiGraphToUML(outputs.data.bio_graph);
 	}
 }
-bg.RegisterGenerator(mm_scenarioGenerator2);
+bg.RegisterProjectGenerator(bg.global_project, mm_scenarioGenerator2);
 
 var mm_scenarioGenerator = {
 	version:1,
@@ -179,4 +179,4 @@ var mm_scenarioGenerator = {
 		}
 	}
 }
-bg.RegisterGenerator(mm_scenarioGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_scenarioGenerator);

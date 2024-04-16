@@ -29,4 +29,4 @@ var universeGenerator = {
 		outputs.data = inputs;
 	}
 }
-bg.RegisterGenerator(universeGenerator);
+bg.RegisterProjectGenerator(bg.global_project, universeGenerator);

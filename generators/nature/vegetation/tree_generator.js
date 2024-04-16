@@ -119,4 +119,5 @@ var treeGenerator = {
 		makeBranchShape(trunk, outputs.model);
 	}
 }
-bg.RegisterGenerator(treeGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, treeGenerator);

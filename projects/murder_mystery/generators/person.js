@@ -42,4 +42,4 @@ var mm_personGenerator = {
 		outputs.data.name = outputs.data.forename + " " + outputs.data.surname;
 	}
 }
-bg.RegisterGenerator(mm_personGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_personGenerator);

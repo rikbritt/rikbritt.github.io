@@ -37,4 +37,5 @@ var cultureGenerator = {
 		outputs.data = inputs.culture;
 	}
 }
-bg.RegisterGenerator(cultureGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, cultureGenerator);

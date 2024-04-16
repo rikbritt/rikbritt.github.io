@@ -28,4 +28,4 @@ var sunGenerator = {
 		outputs.data = inputs;
 	}
 }
-bg.RegisterGenerator(sunGenerator);
+bg.RegisterProjectGenerator(bg.global_project, sunGenerator);

@@ -32,7 +32,7 @@ var testRotationGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testRotationGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testRotationGenerator);
 
 var testLookAtGenerator = {
 	version:1,
@@ -81,4 +81,4 @@ var testLookAtGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testLookAtGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testLookAtGenerator);

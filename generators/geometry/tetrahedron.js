@@ -34,4 +34,5 @@ var tetrahedronGenerator = {
 		bg.CreateLineModelBetweenPoints(outputs.model, outputs.model.children[2].position, outputs.model.children[3].position );
 	}
 }
-bg.RegisterGenerator(tetrahedronGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, tetrahedronGenerator);

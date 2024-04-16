@@ -30,4 +30,4 @@ var mm_workRelationshipGenerator = {
 		
 	}
 }
-bg.RegisterGenerator(mm_workRelationshipGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_workRelationshipGenerator);

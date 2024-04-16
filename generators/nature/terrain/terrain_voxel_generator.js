@@ -43,4 +43,5 @@ var terrainVoxelGenerator = {
 		bg.CreateVoxelModel(outputs.model, inputs.width, inputs.height, inputs.depth, voxelData);
 	}
 }
-bg.RegisterGenerator(terrainVoxelGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, terrainVoxelGenerator);

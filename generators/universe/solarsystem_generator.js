@@ -28,4 +28,4 @@ var solarSystemGenerator = {
 		outputs.data = inputs.system;
 	}
 }
-bg.RegisterGenerator(solarSystemGenerator);
+bg.RegisterProjectGenerator(bg.global_project, solarSystemGenerator);

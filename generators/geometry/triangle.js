@@ -70,4 +70,4 @@ var subDividedTriangleGenerator = {
 		}
 	}
 }
-bg.RegisterGenerator(subDividedTriangleGenerator);
+bg.RegisterProjectGenerator(bg.global_project, subDividedTriangleGenerator);

@@ -34,4 +34,4 @@ var mm_suspectGenerator = {
 		
 	}
 }
-bg.RegisterGenerator(mm_suspectGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_suspectGenerator);

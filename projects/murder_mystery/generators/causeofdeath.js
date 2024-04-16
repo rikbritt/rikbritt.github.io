@@ -43,4 +43,4 @@ var mm_causeOfDeathGenerator = {
 		
 	}
 }
-bg.RegisterGenerator(mm_causeOfDeathGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_causeOfDeathGenerator);

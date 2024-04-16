@@ -60,4 +60,4 @@ var woodCrateGenerator = {
 		//}
 	}
 }
-bg.RegisterGenerator(woodCrateGenerator);
+bg.RegisterProjectGenerator(bg.global_project, woodCrateGenerator);

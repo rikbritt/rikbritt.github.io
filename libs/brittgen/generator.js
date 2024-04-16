@@ -3,103 +3,113 @@ bg.generators = [];
 bg.generatorsById = {};
 bg.GENERATOR_CURRENT_VERSION = 3;
 
-//Will add to a global list of generators, and by default add to the global project
-bg.RegisterGenerator = function(generator, add_to_global = true)
+bg.ValidateGenerator = function(generator)
 {
-	var id = generator.id;
-	if(generator.version==1)
+	if(generator.version != bg.GENERATOR_CURRENT_VERSION)
 	{
-		if(generator.name == null)
-		{
-			console.error("Failed to register generator without a name");
-			return false;
-		}
-		id = bg.GUIDFromStr(generator.name);
-	}
-	else if(generator.version == 2)
-	{
-		id = bg.GUIDFromStr(generator.id);
-	}
-	else
-	{
-		if(generator.id == null)
-		{
-			console.error("Failed to register generator without an id");
-			return false;
-		}
-	}
-
-	if(bg.generatorsById[id] != null)
-	{
-		console.error("Already have a generator registered with id " + id);
+		console.error("Generator is wrong version");
 		return false;
 	}
-
-	if(generator.inputs.name != "inputs")
-	{
-		console.error("Generator '" + generator.name + "' inputs have name '" + generator.inputs.name + "' instead of 'inputs'");
-	}
-	generator.inputs.id = bg.GUIDFromStr(id + "inputs");
-	if(bg.IsValidDataDef(generator.inputs) == false)
-	{
-		console.error("Generator '" + generator.name + "' inputs are not a data def");
-		return false;
-	}
-
-	if(generator.outputs.name != "outputs")
-	{
-		console.error("Generator '" + generator.name + "' outputs have name '" + generator.outputs.name + "' instead of 'outputs'");
-	}
-	generator.outputs.id = bg.GUIDFromStr(id + "outputs");
-	if(bg.IsValidDataDef(generator.outputs) == false)
-	{
-		console.error("Generator '" + generator.name + "' outputs are not a data def");
-		return false;
-	}
-
-	//Set missing input ids
-	for(var i=0; i<generator.inputs.fields.length; ++i)
-	{
-		var field = generator.inputs.fields[i];
-		if(field.id == null)
-		{
-			field.id = bg.GUIDFromStr(field.name);
-		}
-	}
-
-	//Set missing output ids
-	for(var i=0; i<generator.outputs.fields.length; ++i)
-	{
-		var field = generator.outputs.fields[i];
-		if(field.id == null)
-		{
-			field.id = bg.GUIDFromStr(field.name);
-		}
-	}
-
-	//Check for missing description
-	if(generator.description == null)
-	{
-		generator.description = "";
-	}
-
-	//Build string rep for script function
-	if(generator.script_str == null)
-	{
-		generator.script_str = generator.script.toString();
-	}
-
-	generator.id = id;
-	bg.generators.push(generator);
-	bg.generatorsById[id] = generator;
-
-	if(add_to_global)
-	{
-		bg.global_project.generators.push(generator);
-	}
-
 	return true;
 }
+
+//Will add to a global list of generators, and by default add to the global project
+// bg.RegisterGenerator = function(generator, add_to_global = true)
+// {
+// 	var id = generator.id;
+// 	if(generator.version==1)
+// 	{
+// 		if(generator.name == null)
+// 		{
+// 			console.error("Failed to register generator without a name");
+// 			return false;
+// 		}
+// 		id = bg.GUIDFromStr(generator.name);
+// 	}
+// 	else if(generator.version == 2)
+// 	{
+// 		id = bg.GUIDFromStr(generator.id);
+// 	}
+// 	else
+// 	{
+// 		if(generator.id == null)
+// 		{
+// 			console.error("Failed to register generator without an id");
+// 			return false;
+// 		}
+// 	}
+
+// 	if(bg.generatorsById[id] != null)
+// 	{
+// 		console.error("Already have a generator registered with id " + id);
+// 		return false;
+// 	}
+
+// 	if(generator.inputs.name != "inputs")
+// 	{
+// 		console.error("Generator '" + generator.name + "' inputs have name '" + generator.inputs.name + "' instead of 'inputs'");
+// 	}
+// 	generator.inputs.id = bg.GUIDFromStr(id + "inputs");
+// 	if(bg.IsValidDataDef(generator.inputs) == false)
+// 	{
+// 		console.error("Generator '" + generator.name + "' inputs are not a data def");
+// 		return false;
+// 	}
+
+// 	if(generator.outputs.name != "outputs")
+// 	{
+// 		console.error("Generator '" + generator.name + "' outputs have name '" + generator.outputs.name + "' instead of 'outputs'");
+// 	}
+// 	generator.outputs.id = bg.GUIDFromStr(id + "outputs");
+// 	if(bg.IsValidDataDef(generator.outputs) == false)
+// 	{
+// 		console.error("Generator '" + generator.name + "' outputs are not a data def");
+// 		return false;
+// 	}
+
+// 	//Set missing input ids
+// 	for(var i=0; i<generator.inputs.fields.length; ++i)
+// 	{
+// 		var field = generator.inputs.fields[i];
+// 		if(field.id == null)
+// 		{
+// 			field.id = bg.GUIDFromStr(field.name);
+// 		}
+// 	}
+
+// 	//Set missing output ids
+// 	for(var i=0; i<generator.outputs.fields.length; ++i)
+// 	{
+// 		var field = generator.outputs.fields[i];
+// 		if(field.id == null)
+// 		{
+// 			field.id = bg.GUIDFromStr(field.name);
+// 		}
+// 	}
+
+// 	//Check for missing description
+// 	if(generator.description == null)
+// 	{
+// 		generator.description = "";
+// 	}
+
+// 	//Build string rep for script function
+// 	if(generator.script_str == null)
+// 	{
+// 		generator.script_str = generator.script.toString();
+// 	}
+
+// 	generator.id = id;
+// 	bg.generators.push(generator);
+// 	bg.generatorsById[id] = generator;
+
+// 	if(add_to_global)
+// 	{
+// 		bg.global_project.generators.push(generator);
+// 	}
+
+// 	return true;
+// }
 
 //id should normally be null so it makes a new one
 bg.CreateEmptyGenerator = function(id)
@@ -108,7 +118,7 @@ bg.CreateEmptyGenerator = function(id)
 		id:id
 	}
 	bg.UpgradeGenerator(generator);
-	bg.RegisterGenerator(generator);
+	bg.ValidateGenerator(generator);
 	return generator;
 }
 

@@ -28,4 +28,4 @@ var galaxyGenerator = {
 		outputs.data = inputs;
 	}
 }
-bg.RegisterGenerator(galaxyGenerator);
+bg.RegisterProjectGenerator(bg.global_project, galaxyGenerator);

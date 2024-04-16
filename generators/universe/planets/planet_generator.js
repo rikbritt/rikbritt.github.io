@@ -52,4 +52,4 @@ var planetGenerator = {
 		outputs.data = inputs.planet;
 	}
 }
-bg.RegisterGenerator(planetGenerator);
+bg.RegisterProjectGenerator(bg.global_project, planetGenerator);

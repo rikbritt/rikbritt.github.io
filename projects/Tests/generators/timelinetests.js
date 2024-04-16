@@ -38,7 +38,7 @@ var testFixedTimelineGenerator = {
         outputs.data = timeline;
 	}
 }
-bg.RegisterGenerator(testFixedTimelineGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testFixedTimelineGenerator);
 
 
 var testTimelineGenerator = {
@@ -70,4 +70,4 @@ var testTimelineGenerator = {
         outputs.data = timeline;
 	}
 }
-bg.RegisterGenerator(testTimelineGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testTimelineGenerator);

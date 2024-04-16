@@ -34,4 +34,4 @@ var testObjectLogicGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testObjectLogicGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testObjectLogicGenerator);

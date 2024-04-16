@@ -26,4 +26,4 @@ var testGeomSubtractGenerator = {
 	}
 
 }
-bg.RegisterGenerator(testGeomSubtractGenerator);
+bg.RegisterProjectGenerator(bg.global_project, testGeomSubtractGenerator);

@@ -91,7 +91,7 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 		}
 	}
 }
-bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator2);
+bg.RegisterProjectGenerator(bg.global_project, mm_relationshipBioRelationshipsGenerator2);
 
 var mm_relationshipBioRelationshipsGenerator = {
 	version:1,
@@ -167,7 +167,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 		}
 	}
 }
-bg.RegisterGenerator(mm_relationshipBioRelationshipsGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_relationshipBioRelationshipsGenerator);
 
 var mm_relationshipsGenerator = {
 	version:1,
@@ -244,7 +244,7 @@ var mm_relationshipsGenerator = {
 		outputs.uml = MM_GraphToUML(outputs.relationshipGraph);
 	}
 }
-bg.RegisterGenerator(mm_relationshipsGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_relationshipsGenerator);
 
 
 var mm_relationshipGenerator1 = {
@@ -322,4 +322,4 @@ var mm_relationshipGenerator1 = {
 		
 	}
 }
-bg.RegisterGenerator(mm_relationshipGenerator1);
+bg.RegisterProjectGenerator(bg.global_project, mm_relationshipGenerator1);

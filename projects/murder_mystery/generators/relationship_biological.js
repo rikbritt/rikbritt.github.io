@@ -54,4 +54,4 @@ var mm_biologicalRelationshipGenerator = {
 		}
 	}
 }
-bg.RegisterGenerator(mm_biologicalRelationshipGenerator);
+bg.RegisterProjectGenerator(bg.global_project, mm_biologicalRelationshipGenerator);

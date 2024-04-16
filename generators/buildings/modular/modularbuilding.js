@@ -53,4 +53,5 @@ var modularRoomGenerator = {
 		woodCrate.position.y = 0.5;
 	}
 }
-bg.RegisterGenerator(modularRoomGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, modularRoomGenerator);

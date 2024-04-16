@@ -39,4 +39,5 @@ var terrainHeightMapGenerator = {
 		bg.CreateHeightMapTerrainModel(outputs.model, inputs.width, 1, inputs.depth, map);
 	}
 }
-bg.RegisterGenerator(terrainHeightMapGenerator);
+
+bg.RegisterProjectGenerator(bg.global_project, terrainHeightMapGenerator);

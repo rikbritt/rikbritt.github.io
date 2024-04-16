@@ -25,4 +25,4 @@ var personalityGenerator = {
 		outputs.data = {core:inputs.personalityCoreWeight, personality:inputs.personalityWeightDataDef};
 	}
 }
-bg.RegisterGenerator(personalityGenerator);
+bg.RegisterProjectGenerator(bg.global_project, personalityGenerator);
