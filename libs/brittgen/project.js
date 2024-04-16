@@ -42,6 +42,8 @@ bg.GetProjectById = function(id)
 
 bg.RegisterProjectGenerator = function(project, generator)
 {
+	//Auto upgrade to latest version
+	bg.UpgradeGenerator(generator);
 	if(bg.ValidateGenerator(generator))
 	{
 		project.generators.push(generator);
