@@ -4,7 +4,17 @@ function CreateExplorerAssetNode(project, asset_id, asset)
 	return {
 		project:project,
 		id:"assetdb_" + asset_id,
-		GetNodeName:function() { return `${asset_id} - (${asset.type})`; },
+		GetNodeName:function()
+		{
+			if(asset.data.name)
+			{
+				return `${asset_id} - (${asset.type}) - ${asset.data.name}`;
+			}
+			else
+			{
+			 	return `${asset_id} - (${asset.type})`;
+			} 
+		},
 		GetNodeIcon:function() { return "n"; },
 		GetNodeChildren:function()
 		{ 
