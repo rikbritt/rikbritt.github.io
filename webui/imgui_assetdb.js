@@ -19,6 +19,10 @@ function CreateExplorerAssetNode(project, asset_id, asset)
 		GetNodeChildren:function()
 		{ 
 			var children = [];
+			if(asset.type == "generator")
+			{
+				children.push( CreateExplorerGeneratorNode(project, asset.data) );
+			}
 			// for([key, data] of Object.entries(category.children))
 			// {
 			// 	children.push( CreateExplorerGraphCategoryNode(project, key, data));
