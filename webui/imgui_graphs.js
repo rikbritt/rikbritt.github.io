@@ -500,7 +500,7 @@ function CreateExplorerGraphsNode(project)
 			var children = [];
 
 			//Might be slow as shit
-			var categories = BuildGraphOfCategories(project.dataDefs);
+			var categories = BuildGraphOfCategories(project.generatorGraphs);
 
 			for([key, data] of Object.entries(categories.children))
 			{
