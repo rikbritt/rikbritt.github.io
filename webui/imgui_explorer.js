@@ -48,12 +48,14 @@ function ShowExplorerNode(node)
             ImGui.PushFont(gIconFont);
             ImGui.TreeNodeEx("Field", flags, node_icon);
             ImGui.PopFont();
+            UpdateNodeContextMenu();
             ImGui.SameLine();
             ImGui.Text(node_name);
         }
         else
         {
             ImGui.TreeNodeEx("Field", flags, node_name);
+            UpdateNodeContextMenu();
         }
     }
     ImGui.TableSetColumnIndex(1);
