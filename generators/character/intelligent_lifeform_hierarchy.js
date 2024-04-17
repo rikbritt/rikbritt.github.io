@@ -1,6 +1,6 @@
 
 var intLifeformGraph = bg.CreateGenerationGraph("Intelligent Lifeform");
-//bg.RegisterGeneratorGraph(intLifeformGraph);
+//bg.RegisterProjectGeneratorGraph(intLifeformGraph);
 
 intLifeformGraph.speciesNode = bg.CreateGenerationGraph_GeneratorNode(intLifeformGraph, speciesGenerator);
 intLifeformGraph.cultureNode = bg.CreateGenerationGraph_GeneratorNode(intLifeformGraph, cultureGenerator);

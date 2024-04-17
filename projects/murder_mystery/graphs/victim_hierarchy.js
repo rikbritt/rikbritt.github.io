@@ -1,6 +1,6 @@
 
 var mm_victimGraph = bg.CreateGenerationGraph("Murder Mystery Victim");
-//bg.RegisterGeneratorGraph(mm_victimGraph);
+//bg.RegisterProjectGeneratorGraph(mm_victimGraph);
 
 mm_victimGraph.victimCauseOfDeathNode = bg.CreateGenerationGraph_GeneratorNode(mm_victimGraph, mm_causeOfDeathGenerator);
 mm_victimGraph.victimPersonNode = bg.CreateGenerationGraph_GeneratorNode(mm_victimGraph, mm_personGenerator);

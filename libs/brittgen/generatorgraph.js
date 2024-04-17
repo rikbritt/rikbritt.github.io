@@ -1,7 +1,22 @@
 
-bg.RegisterGeneratorGraph = function(project, graph)
+bg.UpgradeGeneratorGraph = function(graph)
 {
-	project.generatorGraphs.push(graph);
+
+}
+
+bg.ValidateGeneratorGraph = function(graph)
+{
+	return true;
+}
+
+bg.RegisterProjectGeneratorGraph = function(project, graph)
+{
+	bg.UpgradeGeneratorGraph(graph);
+	if(bg.ValidateGeneratorGraph(graph))
+	{
+		project.generatorGraphs.push(graph);
+		AssetDb.AddAsset(project.assetDb, graph.id, "graph", graph);
+	}
 }
 
 bg.CreateGenerationGraph = function(graphName)

@@ -1,6 +1,6 @@
 
 var testGraph = bg.CreateGenerationGraph("Test Graph");
-//bg.RegisterGeneratorGraph(testGraph);
+//bg.RegisterProjectGeneratorGraph(testGraph);
 
 var speciesNode = bg.CreateGenerationGraph_GeneratorNode(testGraph, speciesGenerator);
 var nameNode = bg.CreateGenerationGraph_GeneratorNode(testGraph, nameV1Generator);
