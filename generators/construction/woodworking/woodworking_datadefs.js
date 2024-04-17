@@ -10,4 +10,4 @@ var woodWorkingDataDef = {
 	]
 }
 
-bg.RegisterDataDef(woodWorkingDataDef);
+bg.RegisterProjectDataDef(bg.global_project, woodWorkingDataDef);

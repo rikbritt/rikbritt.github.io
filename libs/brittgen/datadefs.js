@@ -1,26 +1,35 @@
 
 bg.dataDefs = {};
 
-//Take a func to make an instance - or just a template to copy?
-bg.RegisterDataDef = function(data_def, project)
+bg.UpgradeDataDef = function(data_def)
+{
+	if(data_def.id == null)
+	{
+		data_def.id = bg.GUIDFromStr(data_def.name);
+	}
+}
+
+bg.ValidateDataDef = function(data_def)
 {
 	if(data_def.name == null)
 	{
 		console.error("Failed to register data def without a name");
 		return false;
 	}
-	if(data_def.id == null)
-	{
-		data_def.id = bg.GUIDFromStr(data_def.name);
-	}
-	if(project == null)
-	{
-		project = bg.global_project;
-	}
-	//todo : more checks. make global list use a data def if instead of name.
-	bg.dataDefs[data_def.name] = data_def;
-	project.dataDefs[data_def.id] = data_def;
 	return true;
+}
+
+//Take a func to make an instance - or just a template to copy?
+bg.RegisterProjectDataDef = function(project, data_def)
+{
+	bg.UpgradeDataDef(data_def);
+	if(bg.ValidateDataDef(data_def))
+	{
+		project.dataDefs[data_def.id] = data_def;
+		AssetDb.AddAsset(project.assetDb, data_def.id, "data_def", data_def);
+		return true;
+	}
+	return false;
 }
 
 bg.CreateEmptyDataDef = function(project)
