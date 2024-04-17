@@ -54,7 +54,7 @@ bg.RegisterProjectGenerator = function(project, generator)
 bg.CreateEmptyProjectGenerator = function(project)
 {
 	var generator = bg.CreateEmptyGenerator();
-	project.generators.push(generator);
+	bg.RegisterProjectGenerator(generator);
 	return generator;
 }
 
