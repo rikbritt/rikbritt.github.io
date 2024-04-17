@@ -27,6 +27,10 @@ function CreateExplorerAssetNode(project, asset_id, asset)
 			{
 				children.push( CreateExplorerDataDefNode(project, asset.data) );
 			}
+			else if(asset.type == "data_table")
+			{
+				children.push( CreateExplorerDataTableNode(project, asset.data) );
+			}
 			// for([key, data] of Object.entries(category.children))
 			// {
 			// 	children.push( CreateExplorerGraphCategoryNode(project, key, data));
