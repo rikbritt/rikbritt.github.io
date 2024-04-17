@@ -112,7 +112,7 @@ bg.ValidateGenerator = function(generator)
 // }
 
 //id should normally be null so it makes a new one
-bg.CreateEmptyGenerator = function(id)
+bg.CreateEmptyGenerator = function(id = null)
 {
 	var generator = {
 		id:id
