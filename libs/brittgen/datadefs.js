@@ -42,7 +42,6 @@ bg.CreateEmptyDataDef = function(project)
 	};
 
 	bg.RegisterProjectDataDef(project, data_def);
-	project.dataDefs[data_def.id] = data_def;
 
 	return data_def;
 }
