@@ -92,6 +92,9 @@ function UpdateExplorerWindow( close_func, data )
                 ShowExplorerNode(node);
             }
 
+            var global_db_node = CreateExplorerAssetDbNode(gAssetDb, "global_db");
+            ShowExplorerNode(global_db_node);
+
             ImGui.EndTable();
         }
         ImGui.PopStyleVar();

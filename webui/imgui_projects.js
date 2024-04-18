@@ -285,7 +285,7 @@ function CreateExplorerNodeForProject(project)
                 CreateExplorerDataTablesNode(project),
                 CreateExplorerGeneratorsNode(project),
                 CreateExplorerGraphsNode(project),
-                CreateExplorerAssetDbNode(project)
+                CreateExplorerAssetDbNode(project.assetDb, project.id)
             ];
             return children;
         }

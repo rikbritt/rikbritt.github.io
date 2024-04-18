@@ -1,8 +1,7 @@
 
-function CreateExplorerAssetNode(project, asset_id, asset)
+function CreateExplorerAssetNode(asset_id, asset)
 {
 	return {
-		project:project,
 		id:"assetdb_" + asset_id,
 		GetNodeName:function()
 		{
@@ -14,15 +13,15 @@ function CreateExplorerAssetNode(project, asset_id, asset)
 			var children = [];
 			if(asset.type == "generator")
 			{
-				children.push( CreateExplorerGeneratorNode(project, asset.data) );
+				children.push( CreateExplorerGeneratorNode(asset.data) );
 			}
 			else if(asset.type == "data_def")
 			{
-				children.push( CreateExplorerDataDefNode(project, asset.data) );
+				children.push( CreateExplorerDataDefNode(asset.data) );
 			}
 			else if(asset.type == "data_table")
 			{
-				children.push( CreateExplorerDataTableNode(project, asset.data) );
+				children.push( CreateExplorerDataTableNode(asset.data) );
 			}
 			// for([key, data] of Object.entries(category.children))
 			// {
@@ -38,20 +37,19 @@ function CreateExplorerAssetNode(project, asset_id, asset)
 	};
 }
 
-function CreateExplorerAssetDbNode(project)
+function CreateExplorerAssetDbNode(db, db_id)
 {
 	return {
-		project:project,
-		id:"assetdb_" + project.id,
+		id:"assetdb_" + db_id,
 		GetNodeName:function() { return "Asset Db"; },
 		GetNodeIcon:function() { return "i"; },
 		GetNodeChildren:function()
 		{
 			var children = [];
 
-            for([id, asset] of Object.entries(project.assetDb.assets))
+            for([id, asset] of Object.entries(db.assets))
 			{
-				children.push( CreateExplorerAssetNode(project, id, asset));
+				children.push( CreateExplorerAssetNode(id, asset));
 			}
 
 			return children;
