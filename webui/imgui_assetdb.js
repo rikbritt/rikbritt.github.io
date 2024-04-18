@@ -6,14 +6,7 @@ function CreateExplorerAssetNode(project, asset_id, asset)
 		id:"assetdb_" + asset_id,
 		GetNodeName:function()
 		{
-			if(asset.data.name)
-			{
-				return `${asset_id} - (${asset.type}) - ${asset.data.name}`;
-			}
-			else
-			{
-			 	return `${asset_id} - (${asset.type})`;
-			} 
+			return AssetDb.GetAssetName(asset);
 		},
 		GetNodeIcon:function() { return "n"; },
 		GetNodeChildren:function()
@@ -69,7 +62,7 @@ function CreateExplorerAssetDbNode(project)
 	};
 }
 
-function UpdateAssetDBPicker(v, type)
+function UpdateAssetDBPicker(db, v, type)
 {
 	var curr_asset = v();
 	if(curr_asset == null)
@@ -86,7 +79,13 @@ function UpdateAssetDBPicker(v, type)
 
 	if (ImGui.BeginPopupContextItem("asset_picker"))
 	{
-		ImGui.Text("TODO - asset list here...");
+		for([id, asset] of Object.entries(gAssetDb.assets))
+		{
+			if(asset.type == type)
+			{
+				ImGui.Button(AssetDb.GetAssetName(asset));
+			}
+		}
 		ImGui.EndPopup();
 	}
 }
