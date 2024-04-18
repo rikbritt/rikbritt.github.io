@@ -27,7 +27,7 @@ AssetDb.GetAssetName = function(asset_id, asset = null)
 {
     if(asset == null)
     {
-        asset = assets[asset_id];
+        asset = gAssetDb.assets[asset_id];
     }
 
     if(asset.data.name)
