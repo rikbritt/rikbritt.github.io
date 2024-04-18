@@ -664,10 +664,9 @@ function UpdateGeneratorsTable(id, generators)
 	}
 }
 
-function CreateExplorerGeneratorNode(project, generator)
+function CreateExplorerGeneratorNode(generator)
 {
 	return {
-		project:project,
 		id:generator.id,
 		generator:generator,
 		GetNodeName:function() { return generator.name; },
@@ -705,7 +704,7 @@ function CreateExplorerGeneratorCategoryNode(project, cat_name, category)
 		
 			for(gen of category.objects)
 			{
-				children.push( CreateExplorerGeneratorNode(project, gen) );
+				children.push( CreateExplorerGeneratorNode(gen) );
 			}
 			return children; 
 		}
@@ -733,7 +732,7 @@ function CreateExplorerGeneratorsNode(project)
 
 			for(gen of categories.objects)
 			{
-				children.push( CreateExplorerGeneratorNode(project, gen) );
+				children.push( CreateExplorerGeneratorNode(gen) );
 			}
 
 			return children;

@@ -292,10 +292,9 @@ function UpdateDataTableWindow(close_func, data_table)
 	ImGui.End();
 }
 
-function CreateExplorerDataTableNode(project, data_table)
+function CreateExplorerDataTableNode(data_table)
 {
 	return {
-		project:project,
 		id:data_table.id,
 		data_table:data_table,
 		GetNodeName:function() { return data_table.name; },
@@ -333,7 +332,7 @@ function CreateExplorerDataTablesCategoryNode(project, cat_name, category)
 		
 			for(data_table of category.objects)
 			{
-				children.push( CreateExplorerDataTableNode(project, data_table) );
+				children.push( CreateExplorerDataTableNode(data_table) );
 			}
 			return children; 
 		}
@@ -361,7 +360,7 @@ function CreateExplorerDataTablesNode(project)
 
 			for(gen of categories.objects)
 			{
-				children.push( CreateExplorerDataTableNode(project, gen) );
+				children.push( CreateExplorerDataTableNode(gen) );
 			}
 
 			return children;

@@ -290,10 +290,9 @@ function UpdateDataDefWindow(close_func, data_def)
 	ImGui.End();
 }
 
-function CreateExplorerDataDefNode(project, data_def)
+function CreateExplorerDataDefNode(data_def)
 {
 	return {
-		project:project,
 		id:data_def.id,
 		data_def:data_def,
 		GetNodeName:function() { return data_def.name; },
@@ -331,7 +330,7 @@ function CreateExplorerDataDefCategoryNode(project, cat_name, category)
 		
 			for(data_def of category.objects)
 			{
-				children.push( CreateExplorerDataDefNode(project, data_def) );
+				children.push( CreateExplorerDataDefNode(data_def) );
 			}
 			return children; 
 		}
@@ -359,7 +358,7 @@ function CreateExplorerDataDefsNode(project)
 
 			for(gen of categories.objects)
 			{
-				children.push( CreateExplorerDataDefNode(project, gen) );
+				children.push( CreateExplorerDataDefNode(gen) );
 			}
 
 			return children;
