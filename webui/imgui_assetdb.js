@@ -5,7 +5,7 @@ function CreateExplorerAssetNode(asset_id, asset)
 		id:"assetdb_" + asset_id,
 		GetNodeName:function()
 		{
-			return AssetDb.GetAssetName(asset);
+			return AssetDb.GetAssetName(asset_id, asset);
 		},
 		GetNodeIcon:function() { return "n"; },
 		GetNodeChildren:function()
@@ -81,7 +81,7 @@ function UpdateAssetDBPicker(v, type)
 		{
 			if(asset.type == type)
 			{
-				ImGui.Button(AssetDb.GetAssetName(asset));
+				ImGui.Button(AssetDb.GetAssetName(id, asset));
 			}
 		}
 		ImGui.EndPopup();

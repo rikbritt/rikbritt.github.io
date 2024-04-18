@@ -22,7 +22,7 @@ AssetDb.GetAsset = function(db, guid, type_str = null)
     return null;
 }
 
-AssetDb.GetAssetName = function(asset)
+AssetDb.GetAssetName = function(asset_id, asset)
 {
     if(asset.data.name)
     {
