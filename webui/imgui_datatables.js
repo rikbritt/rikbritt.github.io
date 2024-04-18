@@ -286,7 +286,7 @@ function UpdateDataTableWindow(close_func, data_table)
 			data_table.category = category_str.split("/");
 		}
 
-		UpdateAssetDBPicker((_ = data_table.data_def) => data_table.data_def = _, "data_table");
+		UpdateAssetDBPicker("Table Data Def", (_ = data_table.data_def) => data_table.data_def = _, "data_def");
         //UpdateDataTableFields(data_table.fields);
     }
 	ImGui.End();

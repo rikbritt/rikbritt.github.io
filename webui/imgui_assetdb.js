@@ -60,9 +60,11 @@ function CreateExplorerAssetDbNode(db, db_id)
 	};
 }
 
-function UpdateAssetDBPicker(v, type)
+function UpdateAssetDBPicker(label, v, type)
 {
 	var curr_asset = v();
+	ImGui.Text(label);
+	ImGui.SameLine();
 	if(curr_asset == null)
 	{
 		if(ImGui.Button(`Pick ${type} Asset`))
