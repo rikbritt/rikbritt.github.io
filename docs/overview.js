@@ -36,6 +36,10 @@ A list of field def's. Used as structures for generator template inputs/outputs/
 -- Data Instance
 A list of field values. Link to its Data Def
 
+-- Data Table
+A table of values. Constant data. Can be used by generator scripts
+Uses a data def to define each rows data
+
 -- Data Map
 A hashmap of field values, keyed by field name. Used by the generator scripts.
 
