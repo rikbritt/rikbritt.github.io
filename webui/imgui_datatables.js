@@ -285,6 +285,8 @@ function UpdateDataTableWindow(close_func, data_table)
 		{
 			data_table.category = category_str.split("/");
 		}
+
+		UpdateAssetDBPicker((_ = data_table.data_def) => data_table.data_def = _);
         //UpdateDataTableFields(data_table.fields);
     }
 	ImGui.End();

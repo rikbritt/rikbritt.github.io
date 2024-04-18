@@ -27,6 +27,7 @@ bg.CreateEmptyDataTable = function(project)
 		version:1,
 		id:bg.CreateGUID(),
 		name:"New Data Table",
+		data_def:null,
 		data:[]
 	};
 

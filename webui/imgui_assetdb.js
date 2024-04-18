@@ -68,3 +68,8 @@ function CreateExplorerAssetDbNode(project)
 		}
 	};
 }
+
+function UpdateAssetDBPicker(v)
+{
+	ImGui.Button("Pick Asset");
+}
