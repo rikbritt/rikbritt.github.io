@@ -82,11 +82,6 @@ function UpdateAssetDBPicker(label, v, type)
 
 	if (ImGui.BeginPopupContextItem("asset_picker"))
 	{
-		if(ImGui.Button("Cancel"))
-		{
-			ImGui.CloseCurrentPopup();
-		}
-		
 		for([id, asset] of Object.entries(gAssetDb.assets))
 		{
 			if(asset.type == type)
