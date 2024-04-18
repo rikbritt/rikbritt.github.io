@@ -62,7 +62,7 @@ function CreateExplorerAssetDbNode(project)
 	};
 }
 
-function UpdateAssetDBPicker(db, v, type)
+function UpdateAssetDBPicker(v, type)
 {
 	var curr_asset = v();
 	if(curr_asset == null)
