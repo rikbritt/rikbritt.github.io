@@ -83,7 +83,11 @@ function UpdateAssetDBPicker(label, v, type)
 		{
 			if(asset.type == type)
 			{
-				ImGui.Button(AssetDb.GetAssetName(id, asset));
+				if(ImGui.Button(AssetDb.GetAssetName(id, asset)))
+				{
+					v(id);
+					ImGui.CloseCurrentPopup();
+				}
 			}
 		}
 		ImGui.EndPopup();
