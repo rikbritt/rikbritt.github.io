@@ -74,11 +74,19 @@ function UpdateAssetDBPicker(label, v, type)
 	}
 	else
 	{
-		ImGui.Button(`${curr_asset}`);
+		if(ImGui.Button(`${curr_asset}`))
+		{
+			ImGui.OpenPopup("asset_picker");
+		}
 	}
 
 	if (ImGui.BeginPopupContextItem("asset_picker"))
 	{
+		if(ImGui.Button("Cancel"))
+		{
+			ImGui.CloseCurrentPopup();
+		}
+		
 		for([id, asset] of Object.entries(gAssetDb.assets))
 		{
 			if(asset.type == type)
