@@ -22,8 +22,14 @@ AssetDb.GetAsset = function(db, guid, type_str = null)
     return null;
 }
 
-AssetDb.GetAssetName = function(asset_id, asset)
+//Can be used with only id
+AssetDb.GetAssetName = function(asset_id, asset = null)
 {
+    if(asset == null)
+    {
+        asset = assets[asset_id];
+    }
+
     if(asset.data.name)
     {
         return `${asset_id} - (${asset.type}) - ${asset.data.name}`;

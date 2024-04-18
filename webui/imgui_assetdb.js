@@ -62,10 +62,10 @@ function CreateExplorerAssetDbNode(db, db_id)
 
 function UpdateAssetDBPicker(label, v, type)
 {
-	var curr_asset = v();
+	var curr_asset_id = v();
 	ImGui.Text(label);
 	ImGui.SameLine();
-	if(curr_asset == null)
+	if(curr_asset_id == null)
 	{
 		if(ImGui.Button(`Pick ${type} Asset`))
 		{
@@ -74,7 +74,7 @@ function UpdateAssetDBPicker(label, v, type)
 	}
 	else
 	{
-		if(ImGui.Button(`${curr_asset}`))
+		if(ImGui.Button(`${AssetDb.GetAssetName(curr_asset_id)}`))
 		{
 			ImGui.OpenPopup("asset_picker");
 		}
