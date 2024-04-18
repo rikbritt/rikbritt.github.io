@@ -76,12 +76,17 @@ function UpdateAssetDBPicker(v, type)
 	{
 		if(ImGui.Button(`Pick ${type} Asset`))
 		{
-			//fake
-			v("123");
+			ImGui.OpenPopup("asset_picker");
 		}
 	}
 	else
 	{
 		ImGui.Button(`${curr_asset}`);
+	}
+
+	if (ImGui.BeginPopupContextItem("asset_picker"))
+	{
+		ImGui.Text("TODO - asset list here...");
+		ImGui.EndPopup();
 	}
 }
