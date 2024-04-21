@@ -313,7 +313,7 @@ function UpdateDataTableWindow(close_func, data_table)
 				 	ImGui.PushID(i);
 				 	ImGui.TableNextRow();
 					
-					for(var j=0; j<data_def.fields.length; ++ij
+					for(var j=0; j<data_def.fields.length; ++j)
 					{
 						var field = data_def.fields[j];
 						ImGui.TableSetColumnIndex(j);
