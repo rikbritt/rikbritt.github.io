@@ -313,11 +313,11 @@ function UpdateDataTableWindow(close_func, data_table)
 				 	ImGui.PushID(i);
 				 	ImGui.TableNextRow();
 					
-					for(var i=0; i<data_def.fields.length; ++i)
+					for(var j=0; j<data_def.fields.length; ++ij
 					{
-						var field = data_def.fields[i];
+						var field = data_def.fields[j];
 						ImGui.TableSetColumnIndex(j);
-						ImGui.Text(i.toString()); //temp
+						ImGui.Text(j.toString()); //temp
 					}
 				 	ImGui.PopID();
 				}
