@@ -288,6 +288,34 @@ function UpdateDataTableWindow(close_func, data_table)
 
 		UpdateAssetDBPicker("Table Data Def", (_ = data_table.data_def) => data_table.data_def = _, "data_def");
         //UpdateDataTableFields(data_table.fields);
+
+		if(data_table.data_def != null)
+		{
+			var data_def = AssetDb.GetAsset(gAsssetDb, data_table.data_def, "data_def");
+			
+			ImGui.BeginTable("DataTableFields", data_def.fields.length, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
+
+			for(var i=0; i<data_def.fields.length; ++i)
+			{
+				var field = data_def.fields[i];
+				ImGui.TableSetupColumn(field.name);
+			}
+			ImGui.TableHeadersRow();
+
+			// for(var i=0; i<fields.length; ++i)
+			// {
+			// 	var field = fields[i];
+			// 	ImGui.PushID(i);
+			// 	ImGui.TableNextRow();
+			// 	ImGui.TableSetColumnIndex(0);
+			// 	ImGui.Text(field[0]);
+			// 	ImGui.TableSetColumnIndex(1);
+			// 	ImGui.Text(field[1]);
+			// 	ImGui.PopID();
+			// }
+
+			ImGui.EndTable();
+		}
     }
 	ImGui.End();
 }
