@@ -291,7 +291,7 @@ function UpdateDataTableWindow(close_func, data_table)
 
 		if(data_table.data_def != null)
 		{
-			var data_def = AssetDb.GetAsset(gAsssetDb, data_table.data_def, "data_def");
+			var data_def = AssetDb.GetAsset(gAssetDb, data_table.data_def, "data_def");
 			
 			ImGui.BeginTable("DataTableFields", data_def.fields.length, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
 
