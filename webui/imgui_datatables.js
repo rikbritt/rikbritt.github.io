@@ -309,7 +309,7 @@ function UpdateDataTableWindow(close_func, data_table)
 
 				for(var i=0; i<data_table.data.length; ++i)
 				{
-				 	var entry = fields[i];
+				 	var entry = data_def.fields[i];
 				 	ImGui.PushID(i);
 				 	ImGui.TableNextRow();
 					
