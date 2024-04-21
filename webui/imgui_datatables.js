@@ -307,19 +307,26 @@ function UpdateDataTableWindow(close_func, data_table)
 				}
 				ImGui.TableHeadersRow();
 
-				// for(var i=0; i<fields.length; ++i)
-				// {
-				// 	var field = fields[i];
-				// 	ImGui.PushID(i);
-				// 	ImGui.TableNextRow();
-				// 	ImGui.TableSetColumnIndex(0);
-				// 	ImGui.Text(field[0]);
-				// 	ImGui.TableSetColumnIndex(1);
-				// 	ImGui.Text(field[1]);
-				// 	ImGui.PopID();
-				// }
+				for(var i=0; i<data_table.data.length; ++i)
+				{
+				 	var entry = fields[i];
+				 	ImGui.PushID(i);
+				 	ImGui.TableNextRow();
+					
+					for(var i=0; i<data_def.fields.length; ++i)
+					{
+						var field = data_def.fields[i];
+						ImGui.TableSetColumnIndex(j);
+						ImGui.Text(i.toString()); //temp
+					}
+				 	ImGui.PopID();
+				}
 
 				ImGui.EndTable();
+				if(ImGui.Button("Add Row"))
+				{
+					data_table.data.push( Array.from(''.repeat(data_def.fields.length) ) );
+				}
 			}
 		}
     }
