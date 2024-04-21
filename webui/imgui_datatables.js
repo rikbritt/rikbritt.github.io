@@ -292,29 +292,35 @@ function UpdateDataTableWindow(close_func, data_table)
 		if(data_table.data_def != null)
 		{
 			var data_def = AssetDb.GetAsset(gAssetDb, data_table.data_def, "data_def");
-			
-			ImGui.BeginTable("DataTableFields", data_def.fields.length, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
-
-			for(var i=0; i<data_def.fields.length; ++i)
+			if(data_def.fields.length > 16)
 			{
-				var field = data_def.fields[i];
-				ImGui.TableSetupColumn(field.name);
+				ImGui.Text("Too many fields in data def!");
 			}
-			ImGui.TableHeadersRow();
+			else
+			{
+				ImGui.BeginTable("DataTableFields", data_def.fields.length, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
 
-			// for(var i=0; i<fields.length; ++i)
-			// {
-			// 	var field = fields[i];
-			// 	ImGui.PushID(i);
-			// 	ImGui.TableNextRow();
-			// 	ImGui.TableSetColumnIndex(0);
-			// 	ImGui.Text(field[0]);
-			// 	ImGui.TableSetColumnIndex(1);
-			// 	ImGui.Text(field[1]);
-			// 	ImGui.PopID();
-			// }
+				for(var i=0; i<data_def.fields.length; ++i)
+				{
+					var field = data_def.fields[i];
+					ImGui.TableSetupColumn(field.name);
+				}
+				ImGui.TableHeadersRow();
 
-			ImGui.EndTable();
+				// for(var i=0; i<fields.length; ++i)
+				// {
+				// 	var field = fields[i];
+				// 	ImGui.PushID(i);
+				// 	ImGui.TableNextRow();
+				// 	ImGui.TableSetColumnIndex(0);
+				// 	ImGui.Text(field[0]);
+				// 	ImGui.TableSetColumnIndex(1);
+				// 	ImGui.Text(field[1]);
+				// 	ImGui.PopID();
+				// }
+
+				ImGui.EndTable();
+			}
 		}
     }
 	ImGui.End();
