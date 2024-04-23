@@ -368,7 +368,7 @@ function CreateExplorerDataTablesCategoryNode(project, cat_name, category)
 			var children = [];
 			for([key, data] of Object.entries(category.children))
 			{
-				children.push( CreateExplorerDataTableCategoryNode(project, key, data));
+				children.push( CreateExplorerDataTablesCategoryNode(project, key, data));
 			}
 		
 			for(data_table of category.objects)
