@@ -35,6 +35,14 @@ That layer is abstract and could be re-used.
 
 AddNotes("Release Notes",
 `
+23/04/2024
+Added Asset Db, a store of asset to guid. Each project gets one, and there's a global one. Will be how we save a ref (guid) to a project, then at runtime find the actual asset instance to use.
+Added Data Tables, which use a data def to describe each data row. Added a 'picker' imgui ui for this, that queries the asset db.
+Will start making all existing generators not use direct references, but use guid refs via the asset db. Then they can all be loaded via js import and still work.
+
+Still have murder mystery as primary customer, but also thinking about a Beach Comber game, and running this lib in Unreal via a JS plugin.
+
+Added some data tables for name data.
 27/03/2024
 Been working mainly on Murder Mystery server and app, but coming back to this as now I need to start embedding a Murder Mystery proc gen project into the server and start generating characters etc.
 Coming back it's obvious I need to spend more time improving project loading/saving/workflow and fix up the UI more.
