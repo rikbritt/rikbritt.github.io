@@ -309,7 +309,7 @@ function UpdateDataTableWindow(close_func, data_table)
 
 				for(var i=0; i<data_table.data.length; ++i)
 				{
-				 	var entry = data_def.fields[i];
+				 	var row_data = data_table.data[i];
 				 	ImGui.PushID(i);
 				 	ImGui.TableNextRow();
 					
@@ -317,7 +317,7 @@ function UpdateDataTableWindow(close_func, data_table)
 					{
 						var field = data_def.fields[j];
 						ImGui.TableSetColumnIndex(j);
-						ImGui.Text(j.toString()); //temp
+						ImGui.Text( row_data[j] ); //will need more work
 					}
 				 	ImGui.PopID();
 				}
