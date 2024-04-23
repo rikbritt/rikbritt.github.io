@@ -9,4 +9,4 @@ var string_data_table_def = {
 	]
 }
 
-bg.RegisterProjectDataTable(bg.global_project, string_data_table_def);
+bg.RegisterProjectDataDef(bg.global_project, string_data_table_def);
