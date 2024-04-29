@@ -32,11 +32,11 @@ AssetDb.GetAssetName = function(asset_id, asset = null)
 
     if(asset.data.name)
     {
-        return `${asset_id} - (${asset.type}) - ${asset.data.name}`;
+        return `${asset.data.name} (${asset.type}) - ${asset_id}`;
     }
     else
     {
-        return `${asset_id} - (${asset.type})`;
+        return `${asset_id} (${asset.type})`;
     } 
 }
     
