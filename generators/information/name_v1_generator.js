@@ -21,41 +21,6 @@ var nameV1Generator = {
 		],
 	},
 	data:{
-		vowels:["a","e","o","u","i"],
-		//consonant pairs
-		pairs:[
-			"ch",
-			"ck",
-			"rl",
-			"rk",
-			"hn",
-			"ld",
-			"ll",
-			"sh",
-			"ve"
-			//"qu"
-		],
-		//consonant minus 'q', 'x', 'z'
-		consonants:[
-			"b",
-			"c",
-			"d",
-			"f",
-			"g",
-			"h",
-			"j",
-			"k",
-			"l",
-			"m",
-			"n",
-			"p",
-			"r",
-			"s",
-			"t",
-			"v",
-			"w",
-			"y"
-		]
 	},
 	script:function(inputs, outputs){
 		
@@ -76,28 +41,28 @@ var nameV1Generator = {
 		outputs.data = "";
 		var GetRandomConsonant = function(data)
 		{
-			var i = bg.GetRandomInt(0, data.consonants.length-1);
-			return data.consonants[i];
+			var i = bg.GetRandomInt(0, data.length-1);
+			return data[i];
 		};
 		
 		var GetRandomVowel = function(data)
 		{
-			var i = bg.GetRandomInt(0, data.vowels.length-1);
-			return data.vowels[i];
+			var i = bg.GetRandomInt(0, data.length-1);
+			return data[i];
 		};
 		
 		var GetRandomPair = function(data)
 		{
-			var i = bg.GetRandomInt(0, data.pairs.length-1);
-			return data.pairs[i];
+			var i = bg.GetRandomInt(0, data.length-1);
+			return data[i];
 		}
 		
-		outputs.data += GetRandomConsonant(this.data);
-		outputs.data += GetRandomVowel(this.data);
-		outputs.data += GetRandomConsonant(this.data);
-		outputs.data += GetRandomVowel(this.data);
+		outputs.data += GetRandomConsonant(inputs.consonants.data);
+		outputs.data += GetRandomVowel(inputs.vowels.data);
+		outputs.data += GetRandomConsonant(inputs.consonants.data);
+		outputs.data += GetRandomVowel(inputs.vowels.data);
 		//outputs.data += GetRandomConsonant(this.data);
-		outputs.data += GetRandomPair(this.data);
+		outputs.data += GetRandomPair(inputs.pairs.data);
 	}
 }
 bg.RegisterProjectGenerator(bg.global_project, nameV1Generator);
