@@ -8,9 +8,9 @@ var nameV1Generator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"vowels", type:"data_table", default:"b82b66f7-fc33-49f5-968b-aea4abcb644b" },
-			{ name:"consonants", type:"data_table", default:"704105dd-5221-49c8-ada3-25702b6fdc12" },
-			{ name:"pairs", type:"data_table", default:"48614f99-1836-47c8-94c8-c890f773373f" }
+			{ name:"vowels", type:"data_table", default_id:"b82b66f7-fc33-49f5-968b-aea4abcb644b" },
+			{ name:"consonants", type:"data_table", default_id:"704105dd-5221-49c8-ada3-25702b6fdc12" },
+			{ name:"pairs", type:"data_table", default_id:"48614f99-1836-47c8-94c8-c890f773373f" }
 		],
 	},
 	outputs:{

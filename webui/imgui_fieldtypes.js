@@ -174,14 +174,7 @@ SetupFieldTypeImGui("data",
 SetupFieldTypeImGui("data_table", 
     function(field_name, field_data)
     {
-        //var data_table = AssetDb.GetAsset(gAssetDb, field_data.default, "data_table");
-        //ImGui.Text(`Default: ${data_table.name} - ${field_data.default}`);
-		UpdateAssetDBPicker("Default", (_ = field_data.default) => field_data.default = _, "data_table");
-        //if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
-        //{
-        //	UpdateGeneratorInputsImGui(field_data.dataType.fields, getFunc());
-        //	ImGui.TreePop();
-        //}
+		UpdateAssetDBPicker("Default", (_ = field_data.default_id) => field_data.default_id = _, "data_table");
     },
     function(field_name, field_data, get_func, set_func)
     {

@@ -239,11 +239,14 @@ bg.CreateFieldTypeInstance = function(field_type_def)
 bg.CreateFieldType(
 	"data_table",
 	function(field_def, seed) {
-		var data_table = AssetDb.GetAsset(gAssetDb, field_def.default, "data_table");
+		var data_table = AssetDb.GetAsset(gAssetDb, field_def.default_id, "data_table");
 		return data_table;
 	},
 	function(field_def) {
-		return {}; //?
+		var data_table = AssetDb.GetAsset(gAssetDb, field_def.default_id, "data_table");
+		return data_table;
 	},
-	{}
+	{
+		default_id:null
+	}
 )
