@@ -447,7 +447,7 @@ function UpdateGeneratorsList( selected_func )
 var gLastScriptErrors = {};
 function UpdateGeneratorWindow(close_func, generator)
 {
-	if(ImGui.Begin(`Generator - ${bg.GetGeneratorFullName(generator)}###${generator.id}`, close_func))
+	if(ImGui.Begin(`Generator Def - ${bg.GetGeneratorFullName(generator)}###${generator.id}`, close_func))
 	{
 		ImGui.Text("Id : " + generator.id);
 		ImGui.InputText("Name", (_ = generator.name) => generator.name = _, 256);
