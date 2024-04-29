@@ -172,22 +172,24 @@ SetupFieldTypeImGui("data",
 
  
 SetupFieldTypeImGui("data_table", 
-function(field_name, field_data) {
-    ImGui.Text("TODO - data table");
-    //if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
-    //{
-    //	UpdateGeneratorInputsImGui(field_data.dataType.fields, getFunc());
-    //	ImGui.TreePop();
-    //}
-},
-function(field_name, field_data, get_func, set_func)
-{
-    if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
+    function(field_name, field_data)
     {
-        ImGui.Text("TODO - data table");
-        //Use v2?
-        //UpdateGeneratorInputsImGui(field_data.dataType.fields, get_func());
-        ImGui.TreePop();
+        var data_table = AssetDb.GetAsset(gAssetDb, field_data.default, "data_table");
+        ImGui.Text(`Default: ${data_table.name} - ${field_data.default}`);
+        //if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
+        //{
+        //	UpdateGeneratorInputsImGui(field_data.dataType.fields, getFunc());
+        //	ImGui.TreePop();
+        //}
+    },
+    function(field_name, field_data, get_func, set_func)
+    {
+        if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
+        {
+            ImGui.Text(`TODO - data table`);
+            //Use v2?
+            //UpdateGeneratorInputsImGui(field_data.dataType.fields, get_func());
+            ImGui.TreePop();
+        }
     }
-}
 );
