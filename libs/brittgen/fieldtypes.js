@@ -235,3 +235,15 @@ bg.CreateFieldTypeInstance = function(field_type_def)
 	var instance_data = bg.fieldTypes[field_type_def.type].defaultInstanceDataFunc(field_type_def);
 	return instance_data;
 }
+
+bg.CreateFieldType(
+	"data_table",
+	function(field_def, seed) {
+		var data_table = AssetDb.GetAsset(gAssetDb, field_def.default, "data_table");
+		return data_table;
+	},
+	function(field_def) {
+		return {}; //?
+	},
+	{}
+)

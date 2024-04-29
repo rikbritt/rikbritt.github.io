@@ -7,7 +7,9 @@ var nameV1Generator = {
 	inputs:{
 		name:"inputs",
 		version:1,
-		fields:[],
+		fields:[
+			{ name:"vowels", type:"data_table", default:"b82b66f7-fc33-49f5-968b-aea4abcb644b" }
+		],
 	},
 	outputs:{
 		name:"outputs",
