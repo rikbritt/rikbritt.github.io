@@ -228,7 +228,8 @@ function UpdateOverridableDataDef_Recurse(data_def, setInputs)
 			{
 				if(ImGui.TreeNode(field.name))
 				{
-					UpdateOverridableDataDef_Recurse(field.dataType, setInputs[i]);
+					var field_data_def = AssetDb.GetAsset(gAssetDb, field.default_def, "data_def");
+					UpdateOverridableDataDef_Recurse(field_data_def, setInputs[i]);
 					ImGui.TreePop();
 				}
 			}
