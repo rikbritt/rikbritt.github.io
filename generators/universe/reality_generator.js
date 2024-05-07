@@ -47,6 +47,7 @@ var scientificPossibilitiesDataDef = {
 var realityDataDef = {
 	version:1,
 	name:"Reality",
+	id:"6a8e97b3-3acd-4b6e-9db4-ada5a4da53f6",
 	fields:[
 		{ name:"mythicism",				type:"norm", min:0, max:1, description:"How likely mythic beings are." },
 		//is god a thing.
@@ -63,6 +64,7 @@ var realityDataDef = {
 		
 	]
 }
+bg.RegisterProjectDataDef(bg.global_project, realityDataDef);
 
 
 var realityGenerator = {
@@ -74,7 +76,7 @@ var realityGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"reality",		type:"data_def",		default_def:realityDataDef	}
+			{ name:"reality",		type:"data_def",		default_def:"6a8e97b3-3acd-4b6e-9db4-ada5a4da53f6"	}
 		],
 	},
 	outputs:{
