@@ -30,6 +30,11 @@ AssetDb.GetAssetName = function(asset_id, asset = null)
         asset = gAssetDb.assets[asset_id];
     }
 
+    if(asset == null)
+    {
+        return `BROKEN ASSET`;
+    }
+
     if(asset.data.name)
     {
         return `${asset.data.name} (${asset.type}) - ${asset_id}`;
