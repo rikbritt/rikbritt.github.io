@@ -14,7 +14,7 @@ var sunGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			//system:{		type:"data",		dataType:planetDataDef	}
+			//system:{		type:"data_def",		default_def:planetDataDef	}
 		],
 	},
 	outputs:{

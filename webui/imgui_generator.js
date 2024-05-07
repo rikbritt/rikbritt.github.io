@@ -211,7 +211,7 @@ function UpdateOverridableDataDef_Recurse(data_def, setInputs)
         ImGui.TableNextColumn();
 		
 		ImGui.PushID(i);
-		if(field.type == "data")
+		if(field.type == "data_def")
 		{
 			if(setInputs[i] == null)
 			{

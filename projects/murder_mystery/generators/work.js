@@ -6,18 +6,18 @@ var mm_workRelationshipGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"person1",				type:"data",		dataType:mm_personDataDef },
-			{ name:"person2",				type:"data",		dataType:mm_personDataDef },
-			{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
-			{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
+			{ name:"person1",				type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e" },
+			{ name:"person2",				type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e" },
+			{ name:"relationship1To2",		type:"data_def",		default_def:mm_relationshipDataDef	},
+			{ name:"relationship2To1",		type:"data_def",		default_def:mm_relationshipDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
-			{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
+			{ name:"relationship1To2",		type:"data_def",		default_def:mm_relationshipDataDef	},
+			{ name:"relationship2To1",		type:"data_def",		default_def:mm_relationshipDataDef	}
 		],
 	},
 	script:function(inputs, outputs){

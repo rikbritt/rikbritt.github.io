@@ -148,7 +148,7 @@ bg.UpgradeGenerator = function(generator)
 			name:"inputs",
 			version:1,
 			fields:[
-				//system:{		type:"data",		dataType:galaxyDataDef	}
+				//system:{		type:"data_def",		default_def:galaxyDataDef	}
 			],
 		};
 	}
@@ -158,7 +158,7 @@ bg.UpgradeGenerator = function(generator)
 			name:"outputs",
 			version:1,
 			fields:[
-				//system:{		type:"data",		dataType:galaxyDataDef	}
+				//system:{		type:"data_def",		default_def:galaxyDataDef	}
 			],
 		};
 	}
@@ -233,7 +233,7 @@ bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 	{
 		var fieldDef = data_def.fields[i];
 		var fieldName = fieldDef.name;
-		if(fieldDef.type == "data")
+		if(fieldDef.type == "data_def") //TODO - do this with field types
 		{
 			overidden[fieldName] = this.CreateEmptyOveriddenTables(fieldDef.dataType, {} );
 		}
@@ -282,7 +282,7 @@ bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden
 			if(inputs != undefined && inputs[i] != undefined)
 			{
 				fieldValue = inputs[i];
-				if(fieldDef.type == "data")
+				if(fieldDef.type == "data_data") //TODO - do this with field types
 				{
 					var paramSeed = bg.SeedFromString(fieldName) + seed;
 					fieldValue = bg.BuildDataDefValues(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate, overidden[fieldName]);

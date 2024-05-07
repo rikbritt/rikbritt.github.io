@@ -3,7 +3,7 @@ var mm_suspectDataDef = {
 	version:1,
 	name:"Suspect",
 	fields:[
-		{ name:"person",			type:"data",		dataType:mm_personDataDef	}
+		{ name:"person",			type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	}
 	]
 }
 
@@ -16,7 +16,7 @@ var mm_suspectGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"suspect",			type:"data",		dataType:mm_suspectDataDef	}
+			{ name:"suspect",			type:"data_def",		default_def:mm_suspectDataDef	}
 			
 			//todo: character traits
 		],

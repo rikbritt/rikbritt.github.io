@@ -22,8 +22,8 @@ var mm_relationshipLinkDataDef = {
 	version:1,
 	name:"Relationship Link",
 	fields:[
-		{ name:"aToBRelationship",			type:"data",	dataType:mm_relationshipDataDef },
-		{ name:"bToARelationship",			type:"data",	dataType:mm_relationshipDataDef },
+		{ name:"aToBRelationship",			type:"data_def",	default_def:mm_relationshipDataDef },
+		{ name:"bToARelationship",			type:"data_def",	default_def:mm_relationshipDataDef },
 		{ name:"aName",		type:"text" },
 		{ name:"bName",		type:"text" },
 	]
@@ -43,7 +43,7 @@ var mm_GraphDataDef = {
 	name:"Graph",
 	fields:[
 		{ name:"nodes",			type:"list", 	min:0,	max:100,	elementType:{ type:"text" } }, //node names
-		{ name:"edges",			type:"list", 	min:0,	max:100,	elementType:{ type:"data", dataType:mm_GraphEdgeDataDef } }
+		{ name:"edges",			type:"list", 	min:0,	max:100,	elementType:{ type:"data_def", default_def:mm_GraphEdgeDataDef } }
 	]
 }
 

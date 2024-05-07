@@ -23,14 +23,14 @@ var cultureGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"culture",		type:"data",		dataType:cultureDataDef	}
+			{ name:"culture",		type:"data_def",		default_def:cultureDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",		type:"data",		dataType:cultureDataDef	}
+			{ name:"data",		type:"data_def",		default_def:cultureDataDef	}
 		],
 	},
 	script:function(inputs, outputs){

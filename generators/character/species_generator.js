@@ -26,14 +26,14 @@ var speciesGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"species",		type:"data",		dataType:speciesDataDef	}
+			{ name:"species",		type:"data_def",		default_def:speciesDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",			type:"data",		dataType:speciesDataDef	}
+			{ name:"data",			type:"data_def",		default_def:speciesDataDef	}
 		],
 	},
 	script:function(inputs, outputs){

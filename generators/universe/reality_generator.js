@@ -52,8 +52,8 @@ var realityDataDef = {
 		//is god a thing.
 		{ name:"afterlife",				type:"bool" },
 		
-		{ name:"psychicAbilityPower",		type:"data", dataType:psychicPowerDataDef},
-		{ name:"scientificPossibilities",	type:"data", dataType:scientificPossibilitiesDataDef},
+		{ name:"psychicAbilityPower",		type:"data_def", default_def:psychicPowerDataDef},
+		{ name:"scientificPossibilities",	type:"data_def", default_def:scientificPossibilitiesDataDef},
 		
 		//Magic - the abilities to perform acts not observed in our reality.
 		{ name:"willedMagic",			type:"norm", min:0, max:1, description:"How strong magic powered by willpower is in this reality." },
@@ -74,7 +74,7 @@ var realityGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"reality",		type:"data",		dataType:realityDataDef	}
+			{ name:"reality",		type:"data_def",		default_def:realityDataDef	}
 		],
 	},
 	outputs:{

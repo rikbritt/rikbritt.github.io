@@ -3,6 +3,7 @@
     "name":"Murder Mystery Project",
     "files":[
         "datadefs/name_data_def.json",
+        "datadefs/person_data_def.json",
         "generators/example.json",
         "generators/name.js"
     ]

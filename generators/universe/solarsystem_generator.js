@@ -14,14 +14,14 @@ var solarSystemGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"system",		type:"data",		dataType:solarSystemDataDef	}
+			{ name:"system",		type:"data_def",		default_def:solarSystemDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data", 			type:"data", dataType:solarSystemDataDef }
+			{ name:"data", 			type:"data_def", default_def:solarSystemDataDef }
 		],
 	},
 	script:function(inputs, outputs){

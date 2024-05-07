@@ -14,14 +14,14 @@ var galaxyGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			//system:{		type:"data",		dataType:galaxyDataDef	}
+			//system:{		type:"data_def",		default_def:galaxyDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			//data:{ type:"data", dataType:galaxyDataDef }
+			//data:{ type:"data_def", default_def:galaxyDataDef }
 		],
 	},
 	script:function(inputs, outputs){

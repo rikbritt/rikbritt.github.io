@@ -15,14 +15,14 @@ var dutyFulfillerGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"personalityCore",		type:"data",		dataType:personalityCoreDataDef	}
+			{ name:"personalityCore",		type:"data_def",		default_def:personalityCoreDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",					type:"data",		dataType:personalityDataDef	}
+			{ name:"data",					type:"data_def",		default_def:personalityDataDef	}
 		],
 	},
 	script:function(inputs, outputs){

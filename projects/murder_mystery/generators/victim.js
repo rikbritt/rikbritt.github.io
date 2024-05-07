@@ -7,7 +7,7 @@ var mm_victimGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"person",			type:"data",		dataType:mm_personDataDef	},
+			{ name:"person",			type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	},
 			{ name:"causeOfDeath",		type:"text"}
 			
 			//todo: character traits

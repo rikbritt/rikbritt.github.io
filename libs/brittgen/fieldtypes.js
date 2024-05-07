@@ -164,24 +164,6 @@ bg.CreateFieldType(
 );
 
 bg.CreateFieldType(
-	"data",
-	function(field_def, seed) {
-		var data_def_in = field_def.value;
-		if(data_def_in == undefined){
-			data_def_in = field_def.dataType;
-		}
-
-		return bg.BuildDataDefValues(data_def_in, seed, null, field_def.autoGenerate);
-	},
-	function(field_def) {
-		return Array(field_def.dataType.fields.length).fill(null);
-	},
-	{
-		dataType:{} //todo
-	}
-);
-
-bg.CreateFieldType(
 	"list",
 	function(field_def, seed) {
 		if(field_def.min == undefined)
@@ -235,6 +217,28 @@ bg.CreateFieldTypeInstance = function(field_type_def)
 	var instance_data = bg.fieldTypes[field_type_def.type].defaultInstanceDataFunc(field_type_def);
 	return instance_data;
 }
+
+
+bg.CreateFieldType(
+	"data_def",
+	function(field_def, seed) {
+		var data_def = AssetDb.GetAsset(gAssetDb, field_def.default_def, "data_def");
+
+		//var data_def_in = field_def.value;
+		//if(data_def_in == undefined){
+		//	data_def_in = field_def.dataType;
+		//}
+
+		return bg.BuildDataDefValues(data_def, seed, null, field_def.autoGenerate);
+	},
+	function(field_def) {
+		var data_def = AssetDb.GetAsset(gAssetDb, field_def.default_def, "data_def");
+		return Array(data_def.fields.length).fill(null);
+	},
+	{
+		dataType:{} //todo
+	}
+);
 
 bg.CreateFieldType(
 	"data_table",

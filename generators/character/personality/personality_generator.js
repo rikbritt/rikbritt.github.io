@@ -7,15 +7,15 @@ var personalityGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"personalityCoreWeight",		type:"data",		dataType:personalityCoreWeightDataDef	},
-			{ name:"personalityWeightDataDef",	type:"data",		dataType:personalityWeightDataDef	}
+			{ name:"personalityCoreWeight",		type:"data_def",		default_def:personalityCoreWeightDataDef	},
+			{ name:"personalityWeightDataDef",	type:"data_def",		default_def:personalityWeightDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data", 						type:"data",		dataType:personalityDataDef	}
+			{ name:"data", 						type:"data_def",		default_def:personalityDataDef	}
 		],
 	},
 	script:function(inputs, outputs){

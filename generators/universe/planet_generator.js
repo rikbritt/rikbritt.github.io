@@ -14,14 +14,14 @@ var planetGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			//system:{		type:"data",		dataType:planetDataDef	}
+			//system:{		type:"data_def",		default_def:planetDataDef	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			//data:{ type:"data", dataType:planetDataDef }
+			//data:{ type:"data_def", default_def:planetDataDef }
 		],
 	},
 	script:function(inputs, outputs){

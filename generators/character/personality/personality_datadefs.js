@@ -41,7 +41,7 @@ var personalityDataDef = {
 	version:1,
 	name:"Personality",
 	fields:[
-		{ name:"core",					type:"data",	dataType:personalityCoreDataDef },
+		{ name:"core",					type:"data_def",	default_def:personalityCoreDataDef },
 		
 		//*** SYMPATHY ***
 		//More details traits. Trim as needed. For now putting loads in

@@ -7,7 +7,7 @@ var mm_murdererGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"suspect",			type:"data",		dataType:mm_suspectDataDef	}
+			{ name:"suspect",			type:"data_def",		default_def:mm_suspectDataDef	}
 			
 			//todo: character traits
 		],

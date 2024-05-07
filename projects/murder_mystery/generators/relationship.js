@@ -8,7 +8,7 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 		version:1,
 		fields:[
 			//How close they are?
-			{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
+			{ name:"graph", 				type:"data_def",		default_def:mm_GraphDataDef },
 			{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
 		],
 	},
@@ -103,7 +103,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 		version:1,
 		fields:[
 			//How close they are?
-			{ name:"graph", 				type:"data",		dataType:mm_GraphDataDef },
+			{ name:"graph", 				type:"data_def",		default_def:mm_GraphDataDef },
 			{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
 		],
 	},
@@ -179,15 +179,15 @@ var mm_relationshipsGenerator = {
 		version:1,
 		fields:[
 			//How close they are?
-			{ name:"people", 				type:"list",		min:2, max:20, 		elementType:{ type:"data", dataType:mm_personDataDef} }
+			{ name:"people", 				type:"list",		min:2, max:20, 		elementType:{ type:"data_def", default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"} }
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			//relationship1To2:{		type:"data",		dataType:mm_relationshipDataDef	},
-			//relationship2To1:{		type:"data",		dataType:mm_relationshipDataDef	}
+			//relationship1To2:{		type:"data_def",		default_def:mm_relationshipDataDef	},
+			//relationship2To1:{		type:"data_def",		default_def:mm_relationshipDataDef	}
 		],
 	},
 	script:function(inputs, outputs)
@@ -256,16 +256,16 @@ var mm_relationshipGenerator1 = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"person1",				type:"data",		dataType:mm_personDataDef },
-			{ name:"person2",				type:"data",		dataType:mm_personDataDef }
+			{ name:"person1",				type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e" },
+			{ name:"person2",				type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e" }
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"relationship1To2",		type:"data",		dataType:mm_relationshipDataDef	},
-			{ name:"relationship2To1",		type:"data",		dataType:mm_relationshipDataDef	}
+			{ name:"relationship1To2",		type:"data_def",		default_def:mm_relationshipDataDef	},
+			{ name:"relationship2To1",		type:"data_def",		default_def:mm_relationshipDataDef	}
 		],
 	},
 	script:function(inputs, outputs){

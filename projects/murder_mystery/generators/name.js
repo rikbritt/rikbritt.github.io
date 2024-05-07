@@ -14,7 +14,7 @@ var generator = {
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",		type:"data",		dataType:"df22de14-e904-496f-8ff0-70f7e820c8f6"	}
+			{ name:"data",		type:"data_def",		default_def:"df22de14-e904-496f-8ff0-70f7e820c8f6"	}
 		],
 	},
 	script:function(inputs, outputs)

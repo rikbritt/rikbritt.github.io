@@ -1,17 +1,3 @@
-var mm_personDataDef = {
-	version:1,
-	name:"Person",
-	fields:[
-		{ name:"age",			type:"time",	units:"years", min:5, max:80 },
-		{ name:"male",			type:"bool" },
-		{ name:"name",			type:"text" },
-		{ name:"forename",		type:"text" },
-		{ name:"surname",		type:"text"	},
-		{ name:"maidenName",	type:"text"	},
-		{ name:"gay",			type:"bool" }
-	]
-}
-
 var mm_personGenerator = {
 	version:2,
 	name:"Person",
@@ -21,14 +7,14 @@ var mm_personGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"person",	type:"data",		dataType:mm_personDataDef	}
+			{ name:"person",	type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",		type:"data",		dataType:mm_personDataDef	}
+			{ name:"data",		type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	}
 		],
 	},
 	script:function(inputs, outputs){

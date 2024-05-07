@@ -30,14 +30,14 @@ var planetGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"planet",		type:"data",		dataType:planetDataDef, autoGenerate:true	}
+			{ name:"planet",		type:"data_def",		default_def:planetDataDef, autoGenerate:true	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data", 			type:"data", 		dataType:planetDataDef }
+			{ name:"data", 			type:"data_def", 		default_def:planetDataDef }
 		],
 	},
 	script:function(inputs, outputs){

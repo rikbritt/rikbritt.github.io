@@ -16,7 +16,7 @@ var mm_scenarioGenerator3 = {
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",							type:"data",		dataType:mm_personDataDef	} /*fix type*/
+			{ name:"data",							type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	}
 		],
 	},
 	script:function(inputs, outputs)
@@ -89,7 +89,7 @@ var mm_scenarioGenerator2 = {
 		name:"outputs",
 		version:1,
 		fields:[
-			//data:{		type:"data",		dataType:mm_personDataDef	} /*fix type*/
+			//data:{		type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	} /*fix type*/
 		],
 	},
 	script:function(inputs, outputs)
@@ -136,7 +136,7 @@ var mm_scenarioGenerator = {
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data",			type:"data",		dataType:mm_personDataDef	} /*fix type*/
+			{ name:"data",			type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	}
 		],
 	},
 	script:function(inputs, outputs)

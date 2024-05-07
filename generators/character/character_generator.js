@@ -6,8 +6,8 @@ var characterGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"species",		type:"data",		dataType:speciesDataDef	},
-			{ name:"culture",		type:"data",		dataType:cultureDataDef,
+			{ name:"species",		type:"data_def",		default_def:speciesDataDef	},
+			{ name:"culture",		type:"data_def",		default_def:cultureDataDef,
 				description:"What culture a character identifies with. What if a character is influenced by multiple cultures?"
 			},
 			{ name:"age", 			type:"time",		units:"years",		min:0, max:200,

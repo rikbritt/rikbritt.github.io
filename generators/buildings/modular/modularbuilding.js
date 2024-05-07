@@ -15,7 +15,7 @@ var modularRoomGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"modularDataDef",		type:"data",		dataType:modularRoomDataDef	}
+			{ name:"modularDataDef",		type:"data_def",		default_def:modularRoomDataDef	}
 		],
 	},
 	outputs:{
