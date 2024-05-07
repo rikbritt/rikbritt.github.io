@@ -528,7 +528,7 @@ function UpdateGeneratorInstanceWindow(close_func, generatorInstance)
 		ImGui.SameLine();
 		ImGui.SliderInt("Seed", (_ = generatorInstance.seed) => generatorInstance.seed = _, 0, 10000000);
 
-		if(ImGui.Button("Open Generator Window"))
+		if(ImGui.Button("Open Generator Def Window"))
 		{
 			OpenWindow(generatorInstance.generator.id, UpdateGeneratorWindow, generatorInstance.generator);			
 		}
