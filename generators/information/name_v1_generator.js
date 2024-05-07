@@ -20,8 +20,6 @@ var nameV1Generator = {
 			{ name:"data",		type:"text"	}
 		],
 	},
-	data:{
-	},
 	script:function(inputs, outputs){
 		
 		//Observations:
