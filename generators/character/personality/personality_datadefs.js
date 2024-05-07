@@ -2,6 +2,7 @@
 var personalityCoreDataDef = {
 	version:1,
 	name:"Personality Core",
+	id:"7ddb8611-0575-46c5-9511-665b570bd233",
 	fields:[
 		{ name:"intelligence",			type:"norm",	min:0, max:1 },
 		//The ability to acquire and apply knowledge and skills.		
@@ -35,13 +36,16 @@ var personalityCoreDataDef = {
 }
 bg.RegisterProjectDataDef(bg.global_project, personalityCoreDataDef);
 
+
+//TODO - This breaks things. All data defs need ids and stuff.
 var personalityCoreWeightDataDef = bg.CreateWeightingDataDef(personalityCoreDataDef);
 
 var personalityDataDef = {
 	version:1,
 	name:"Personality",
+	id:"dc5eae14-0ccf-414b-a9ea-6eaae1d13ac6",
 	fields:[
-		{ name:"core",					type:"data_def",	default_def:personalityCoreDataDef },
+		{ name:"core",					type:"data_def",	default_def:"7ddb8611-0575-46c5-9511-665b570bd233" },
 		
 		//*** SYMPATHY ***
 		//More details traits. Trim as needed. For now putting loads in
