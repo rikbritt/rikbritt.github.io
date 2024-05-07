@@ -235,7 +235,8 @@ bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 		var fieldName = fieldDef.name;
 		if(fieldDef.type == "data_def") //TODO - do this with field types
 		{
-			overidden[fieldName] = this.CreateEmptyOveriddenTables(fieldDef.dataType, {} );
+			var field_data_def = AssetDb.GetAsset(gAssetDb, field_def.default_def, "data_def");
+			overidden[fieldName] = this.CreateEmptyOveriddenTables(field_data_def, {} );
 		}
 	}
 	return overidden;
