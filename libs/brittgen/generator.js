@@ -286,7 +286,8 @@ bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden
 				if(fieldDef.type == "data_data") //TODO - do this with field types
 				{
 					var paramSeed = bg.SeedFromString(fieldName) + seed;
-					fieldValue = bg.BuildDataDefValues(fieldDef.dataType.fields, paramSeed, fieldValue, fieldDef.autoGenerate, overidden[fieldName]);
+					var field_data_def = AssetDb.GetAsset(gAssetDb, fieldDef.default_def, "data_def");
+					fieldValue = bg.BuildDataDefValues(field_data_def.fields, paramSeed, fieldValue, fieldDef.autoGenerate, overidden[fieldName]);
 				}
 				else
 				{
