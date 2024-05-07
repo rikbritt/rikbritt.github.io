@@ -1,6 +1,7 @@
 var psychicPowerDataDef = {
 	version:1,
 	name:"Psychic Powers",
+	id:"ef4c8093-4028-4cd3-8f48-a172131ee064",
 	fields:[
 		//https://en.wikipedia.org/wiki/List_of_psychic_abilities
 		{ name:"apportation",			type:"norm", min:0, max:1,	description:"The ability to undergo materialization, disappearance or teleportation of an object"},
@@ -28,10 +29,12 @@ var psychicPowerDataDef = {
 		{ name:"telepathy",				type:"norm", min:0, max:1,	description:"The ability to transfer thoughts mentally through extrasensory perception."}
 	]
 };
+bg.RegisterProjectDataDef(bg.global_project, psychicPowerDataDef);
 
 var scientificPossibilitiesDataDef = {
 	version:1,
 	name:"Scientific Possibilities",
+	id:"c22e786e-74d8-486c-a5f6-3f31f24b8ff2",
 	fields:[
 		{ name:"timeTravel",			type:"bool", description:"Is time travel possible." },
 		{ name:"antiGravity",			type:"bool", description:"Is anti-gravity possible." },
@@ -43,6 +46,7 @@ var scientificPossibilitiesDataDef = {
 		{ name:"forceFields",			type:"bool", description:"Are force fields possible."}
 	]
 }
+bg.RegisterProjectDataDef(bg.global_project, scientificPossibilitiesDataDef);
 
 var realityDataDef = {
 	version:1,
@@ -53,8 +57,8 @@ var realityDataDef = {
 		//is god a thing.
 		{ name:"afterlife",				type:"bool" },
 		
-		{ name:"psychicAbilityPower",		type:"data_def", default_def:psychicPowerDataDef},
-		{ name:"scientificPossibilities",	type:"data_def", default_def:scientificPossibilitiesDataDef},
+		{ name:"psychicAbilityPower",		type:"data_def", default_def:"ef4c8093-4028-4cd3-8f48-a172131ee064"},
+		{ name:"scientificPossibilities",	type:"data_def", default_def:"c22e786e-74d8-486c-a5f6-3f31f24b8ff2"},
 		
 		//Magic - the abilities to perform acts not observed in our reality.
 		{ name:"willedMagic",			type:"norm", min:0, max:1, description:"How strong magic powered by willpower is in this reality." },
