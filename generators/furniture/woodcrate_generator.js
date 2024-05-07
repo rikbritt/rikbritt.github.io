@@ -8,7 +8,7 @@ var woodCrateGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"woodWorking",	type:"data_def",		default_def:woodWorkingDataDef	},
+			{ name:"woodWorking",	type:"data_def",	default_def:"7e706010-2abf-48ca-bb2a-02bbdccad9be"	},
 			{ name:"width", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 			{ name:"depth", 		type:"distance", 	units:"m", min:0.5, max:10	}, //would be good to set some kind of ratio between width and height
 			{ name:"height", 		type:"distance", 	units:"m", min:0.5, max:10	}

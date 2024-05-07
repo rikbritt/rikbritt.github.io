@@ -2,6 +2,7 @@
 var woodWorkingDataDef = {
 	version:1,
 	name:"Wood Working",
+	id:"7e706010-2abf-48ca-bb2a-02bbdccad9be",
 	description:"Info about plank sizes etc",
 	category:["Construction","Wood Working"],
 	fields:[

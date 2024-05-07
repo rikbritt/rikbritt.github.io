@@ -8,7 +8,7 @@ var treeGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"treeType",			type:"data_def",		default_def:"721ff5d7-2c4d-4772-b456-7ba392149ed5"	},
+			{ name:"treeType",			type:"data_def",	default_def:"721ff5d7-2c4d-4772-b456-7ba392149ed5"	},
 			{ name:"height", 			type:"distance", 	units:"m", 		min:0.5, max:10	}, //would generate this via a script based on tree age? How easy to force a height?
 			{ name:"age",				type:"time",		units:"years",	min:0.1, max:100 }
 		],
