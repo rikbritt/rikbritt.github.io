@@ -3,6 +3,7 @@ var personalityCoreDataDef = {
 	version:1,
 	name:"Personality Core",
 	id:"7ddb8611-0575-46c5-9511-665b570bd233",
+	category:["Character"],
 	fields:[
 		{ name:"intelligence",			type:"norm",	min:0, max:1 },
 		//The ability to acquire and apply knowledge and skills.		
@@ -44,6 +45,7 @@ var personalityDataDef = {
 	version:1,
 	name:"Personality",
 	id:"dc5eae14-0ccf-414b-a9ea-6eaae1d13ac6",
+	category:["Character"],
 	fields:[
 		{ name:"core",					type:"data_def",	default_def:"7ddb8611-0575-46c5-9511-665b570bd233" },
 		
