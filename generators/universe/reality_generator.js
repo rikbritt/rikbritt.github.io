@@ -2,6 +2,7 @@ var psychicPowerDataDef = {
 	version:1,
 	name:"Psychic Powers",
 	id:"ef4c8093-4028-4cd3-8f48-a172131ee064",
+	category:["Reality"],
 	fields:[
 		//https://en.wikipedia.org/wiki/List_of_psychic_abilities
 		{ name:"apportation",			type:"norm", min:0, max:1,	description:"The ability to undergo materialization, disappearance or teleportation of an object"},
@@ -35,6 +36,7 @@ var scientificPossibilitiesDataDef = {
 	version:1,
 	name:"Scientific Possibilities",
 	id:"c22e786e-74d8-486c-a5f6-3f31f24b8ff2",
+	category:["Reality"],
 	fields:[
 		{ name:"timeTravel",			type:"bool", description:"Is time travel possible." },
 		{ name:"antiGravity",			type:"bool", description:"Is anti-gravity possible." },
@@ -52,6 +54,7 @@ var realityDataDef = {
 	version:1,
 	name:"Reality",
 	id:"6a8e97b3-3acd-4b6e-9db4-ada5a4da53f6",
+	category:["Reality"],
 	fields:[
 		{ name:"mythicism",				type:"norm", min:0, max:1, description:"How likely mythic beings are." },
 		//is god a thing.
