@@ -37,10 +37,6 @@ var personalityCoreDataDef = {
 }
 bg.RegisterProjectDataDef(bg.global_project, personalityCoreDataDef);
 
-
-//TODO - This breaks things. All data defs need ids and stuff.
-var personalityCoreWeightDataDef = bg.CreateWeightingDataDef(personalityCoreDataDef);
-
 var personalityDataDef = {
 	version:1,
 	name:"Personality",
@@ -249,5 +245,3 @@ var personalityDataDef = {
 	]
 }
 bg.RegisterProjectDataDef(bg.global_project, personalityDataDef);
-
-var personalityWeightDataDef = bg.CreateWeightingDataDef(personalityDataDef);

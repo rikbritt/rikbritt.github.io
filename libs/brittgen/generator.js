@@ -198,34 +198,6 @@ bg.GetGeneratorOutputByName = function(generator, name)
 	return bg.GetDataDefFieldByName(generator.outputs, name);
 }
 
-//TODO - prob needs fixing
-bg.CreateWeightingDataDef = function(dataDefIn)
-{
-	var weightDataDefOut = {
-		version:1,
-		name:dataDefIn.name + " Weight",
-		fields:[]
-	};
-	
-	for(var i=0; i<dataDefIn.fields.length; ++i)
-	{
-		var fieldDef = dataDefIn.fields[i];
-		//currently ignore everything other than a normalised value.
-		if(fieldDef.type == "norm")
-		{
-			weightDataDefOut.fields.push(
-				{
-					name:fieldDef.name,
-					type:"weight",
-					min:-1,
-					max:1
-				}
-			);
-		}
-	}
-	return weightDataDefOut;
-}
-
 //TODO - Write a description for this!
 bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 {
