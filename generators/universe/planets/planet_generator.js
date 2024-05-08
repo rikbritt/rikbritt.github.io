@@ -1,6 +1,7 @@
 var planetDataDef = {
 	version:1,
 	name:"Planet",
+	id:"e5286443-8672-4425-894d-062335f5d100",
 	fields:[
 		
 		//This is the outer diameter that includes atmosphere.
@@ -21,6 +22,7 @@ var planetDataDef = {
 		//weather
 	]
 };
+bg.RegisterProjectDataDef(bg.global_project, planetDataDef);
 
 var planetGenerator = {
 	version:1,
@@ -30,14 +32,14 @@ var planetGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"planet",		type:"data_def",		default_def:planetDataDef, autoGenerate:true	}
+			{ name:"planet",		type:"data_def",		default_def:"e5286443-8672-4425-894d-062335f5d100", autoGenerate:true	}
 		],
 	},
 	outputs:{
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"data", 			type:"data_def", 		default_def:planetDataDef }
+			{ name:"data", 			type:"data_def", 		default_def:"e5286443-8672-4425-894d-062335f5d100" }
 		],
 	},
 	script:function(inputs, outputs){
