@@ -186,8 +186,8 @@ var mm_relationshipsGenerator = {
 		name:"outputs",
 		version:1,
 		fields:[
-			//relationship1To2:{		type:"data_def",		default_def:mm_relationshipDataDef	},
-			//relationship2To1:{		type:"data_def",		default_def:mm_relationshipDataDef	}
+			//relationship1To2:{		type:"data_def",		default_def:"64fb176f-ecb2-46d6-9633-b0eb57582c16"	},
+			//relationship2To1:{		type:"data_def",		default_def:"64fb176f-ecb2-46d6-9633-b0eb57582c16"	}
 		],
 	},
 	script:function(inputs, outputs)
@@ -264,8 +264,8 @@ var mm_relationshipGenerator1 = {
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"relationship1To2",		type:"data_def",		default_def:mm_relationshipDataDef	},
-			{ name:"relationship2To1",		type:"data_def",		default_def:mm_relationshipDataDef	}
+			{ name:"relationship1To2",		type:"data_def",		default_def:"64fb176f-ecb2-46d6-9633-b0eb57582c16"	},
+			{ name:"relationship2To1",		type:"data_def",		default_def:"64fb176f-ecb2-46d6-9633-b0eb57582c16"	}
 		],
 	},
 	script:function(inputs, outputs){

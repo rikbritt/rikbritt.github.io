@@ -1,11 +1,13 @@
 var modularRoomDataDef = {
 	version:1,
 	name:"Modular Room",
+	id:"ae0d2691-bb8c-4ca2-9490-d8debc2e28b4",
 	fields:[
 		{ name:"tileWidth",	type:"distance",	units:"m",	min:2.0, max:8 },
 		{ name:"height",	type:"distance",	units:"m",	min:1.0, max:3 }
 	]
 }
+bg.RegisterProjectDataDef(bg.global_project, modularRoomDataDef);
 
 var modularRoomGenerator = {
 	version:1,
@@ -15,7 +17,7 @@ var modularRoomGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"modularDataDef",		type:"data_def",		default_def:modularRoomDataDef	}
+			{ name:"modularDataDef",		type:"data_def",		default_def:"ae0d2691-bb8c-4ca2-9490-d8debc2e28b4"	}
 		],
 	},
 	outputs:{

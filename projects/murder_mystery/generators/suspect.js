@@ -2,10 +2,12 @@
 var mm_suspectDataDef = {
 	version:1,
 	name:"Suspect",
+	id:"378773d6-50dd-4c1e-9474-e9bc8335c0ba",
 	fields:[
 		{ name:"person",			type:"data_def",		default_def:"af338b4d-8a4c-4fd8-ab8c-466a624f032e"	}
 	]
 }
+bg.RegisterProjectDataDef(bg.global_project, mm_suspectDataDef);
 
 var mm_suspectGenerator = {
 	version:2,
@@ -16,7 +18,7 @@ var mm_suspectGenerator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"suspect",			type:"data_def",		default_def:mm_suspectDataDef	}
+			{ name:"suspect",			type:"data_def",		default_def:"378773d6-50dd-4c1e-9474-e9bc8335c0ba"	}
 			
 			//todo: character traits
 		],
