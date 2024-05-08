@@ -254,3 +254,15 @@ bg.CreateFieldType(
 		default_id:null
 	}
 )
+
+bg.CreateFieldType(
+	"model",
+	function(field_def, seed) {
+		return null;
+	},
+	function(field_def) {
+		return null;
+	},
+	{
+	}
+)

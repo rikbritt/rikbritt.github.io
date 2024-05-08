@@ -182,3 +182,21 @@ SetupFieldTypeImGui("data_table",
         }
     }
 );
+
+
+SetupFieldTypeImGui("model", 
+    function(field_name, field_data)
+    {
+        ImGui.Text("TODO - Model");
+    },
+    function(field_name, field_data, get_func, set_func)
+    {
+        if(ImGui.TreeNodeEx(field_name, ImGui.TreeNodeFlags.DefaultOpen))
+        {
+            ImGui.Text(`TODO - data table`);
+            //Use v2?
+            //UpdateGeneratorInputsImGui(field_data.dataType.fields, get_func());
+            ImGui.TreePop();
+        }
+    }
+);
