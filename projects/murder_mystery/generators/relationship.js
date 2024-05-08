@@ -8,7 +8,7 @@ var mm_relationshipBioRelationshipsGenerator2 = {
 		version:1,
 		fields:[
 			//How close they are?
-			{ name:"graph", 				type:"data_def",		default_def:mm_GraphDataDef },
+			{ name:"graph", 				type:"data_def",		default_def:"13368b69-aa9f-479b-a200-32720bb63180" },
 			{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
 		],
 	},
@@ -103,7 +103,7 @@ var mm_relationshipBioRelationshipsGenerator = {
 		version:1,
 		fields:[
 			//How close they are?
-			{ name:"graph", 				type:"data_def",		default_def:mm_GraphDataDef },
+			{ name:"graph", 				type:"data_def",		default_def:"13368b69-aa9f-479b-a200-32720bb63180" },
 			{ name:"taken_nodes",			type:"list",		elementType:{ type:"string" }, default:[] } //which nodes are already used by another tree
 		],
 	},
