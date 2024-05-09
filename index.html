@@ -116,5 +116,12 @@
   </head>
   <body onload="OnPageLoaded()">
     <canvas id="output" tabindex="1"></canvas>
+    <div id="editor"></div>
   </body>
+  <script src="/libs/thirdparty/ace-min/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.session.setMode("ace/mode/javascript");
+  </script>
 </html>
