@@ -77,6 +77,7 @@
     <script src="generation_hierarchy/generation_hierarchy.js"></script>
 
     <!-- Third Party - Keep these last, nothing should depend on them directly -->
+    <script src="/libs/thirdparty/ace-min/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="libs/thirdparty/paper-full.js"></script>
     <script src="libs/thirdparty/three.js"></script>
     <script src="libs/thirdparty/csg.js"></script>
@@ -93,6 +94,7 @@
     <script src="libs/glue/model_three.js"></script>
    
     <!-- Test bed code -->
+    <script src="webui/code_editor.js"></script>
     <script src="webui/imgui_helpers.js"></script>
     <script src="webui/imgui_categories.js"></script>
     <script src="webui/imgui_windows.js"></script>
@@ -118,10 +120,4 @@
     <canvas id="output" tabindex="1"></canvas>
     <div id="editor"></div>
   </body>
-  <script src="/libs/thirdparty/ace-min/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script>
-      var editor = ace.edit("editor");
-      editor.setTheme("ace/theme/monokai");
-      editor.session.setMode("ace/mode/javascript");
-  </script>
 </html>

@@ -162,7 +162,8 @@ async function AddFontFromFileTTF(url, size_pixels, font_cfg = null, glyph_range
 var gIconFont;
 function OnPageLoaded() 
 {
-
+	SetupCodeEditor();
+	
     (async function() {
         await ImGui.default();
         const canvas = document.getElementById("output");
