@@ -473,6 +473,16 @@ function UpdateGeneratorWindow(close_func, generator)
 		{
 			UpdateDataDefFields(generator.outputs.fields);
 		}
+
+		//TODO - Work on this
+		if(ImGui.Button("Edit Script"))
+		{
+			if(generator.script_str == null)
+			{
+				generator.script_str = generator.script.toString();
+			}
+			gCodeEditor.session.SetValue(generator.script_str);
+		}
 		
 		if(ImGui.CollapsingHeader("Script"))
 		{
