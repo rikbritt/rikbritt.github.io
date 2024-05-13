@@ -8,8 +8,11 @@ function SetupCodeEditor()
     gCodeEditor.session.setMode("ace/mode/javascript");
 }
 
-function SetCodeToEdit(code, name)
+function SetCodeToEdit(code_prop, name)
 {
-    gCodeEditor.session.setValue(code);
+    gCodeEditor.session.setValue(code_prop());
     document.getElementById("editor_info_script_name").innerText = name;
+    gCodeEditor.session.on('change', function() {
+        code_prop(gCodeEditor.session.getValue());
+      });
 }

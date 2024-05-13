@@ -482,7 +482,7 @@ function UpdateGeneratorWindow(close_func, generator)
 				generator.script_str = generator.script.toString();
 			}
 
-			SetCodeToEdit(generator.script_str, generator.name);
+			SetCodeToEdit((_ =generator.script_str) => generator.script_str = _, generator.name);
 		}
 		
 		if(ImGui.CollapsingHeader("Script"))
