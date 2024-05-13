@@ -267,7 +267,15 @@ bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden
 		{
 			if(inputs != undefined && inputs[i] != undefined)
 			{
-				fieldValue = inputs[i];
+				if(ArrayBuffer.isArray(inputs))
+				{
+					fieldValue = inputs[i];
+				}
+				else
+				{
+					fieldValue = inputs[fieldName];
+				}
+
 				if(fieldDef.type == "data_data") //TODO - do this with field types
 				{
 					var paramSeed = bg.SeedFromString(fieldName) + seed;
