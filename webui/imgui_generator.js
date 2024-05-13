@@ -446,6 +446,16 @@ function UpdateGeneratorsList( selected_func )
 }
 
 var gLastScriptErrors = {};
+function SetGeneratorScript(generator, script_str)
+{
+	gLastScriptErrors[generator.id] = null;
+	bg.SetGeneratorScript(generator, script_str,
+		function(err) {
+			gLastScriptErrors[generator.id] = err; 
+		}
+	);
+}
+
 function UpdateGeneratorWindow(close_func, generator)
 {
 	if(ImGui.Begin(`Generator Def - ${bg.GetGeneratorFullName(generator)}###${generator.id}`, close_func))
@@ -482,7 +492,7 @@ function UpdateGeneratorWindow(close_func, generator)
 				generator.script_str = generator.script.toString();
 			}
 
-			SetCodeToEdit((_ =generator.script_str) => generator.script_str = _, generator.name);
+			SetCodeToEdit((_ =generator.script_str) => SetGeneratorScript(generator, _), generator.name);
 		}
 		
 		if(ImGui.CollapsingHeader("Script"))
@@ -492,18 +502,9 @@ function UpdateGeneratorWindow(close_func, generator)
 			{
 				generator.script_str = generator.script.toString();
 			}
-			if(ImGui.InputTextMultiline("##Script", (_ = generator.script_str) => generator.script_str = _, 1024 * 32))
-			{
-				try 
-				{
-					generator.script = Function('return ' + generator.script_str)(); 
-					gLastScriptErrors[generator.id] = null;
-				} 
-				catch (error) 
-				{
-					gLastScriptErrors[generator.id] = error.toString();
-				}
-			}
+			
+			ImGui.InputTextMultiline("##Script", (_ = generator.script_str) => SetGeneratorScript(generator, _), 1024 * 32);
+
 			ImGui.Text("Script Compile:");
 			if(gLastScriptErrors[generator.id] != null)
 			{

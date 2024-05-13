@@ -214,6 +214,19 @@ bg.CreateEmptyOveriddenTables = function(data_def, overidden)
 	return overidden;
 }
 
+bg.SetGeneratorScript = function(generator, script_str, on_error)
+{
+	try 
+	{
+		generator.script = Function('return ' + script_str)();
+		generator.script_str = script_str;
+	} 
+	catch (error) 
+	{
+		on_error(error.toString());
+	}
+}
+
 bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden)
 {
 	if(seed == undefined)
