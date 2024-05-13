@@ -10,10 +10,13 @@ function SetupCodeEditor()
 
 function SetCodeToEdit(code_prop, name)
 {
-    gCodeEditor.session.removeAllListeners('change');
+    if(gCodeEditor.changeListener != null)
+    {
+        gCodeEditor.session.removeListener('change', gCodeEditor.changeListener);
+    }
     gCodeEditor.session.setValue(code_prop());
     document.getElementById("editor_info_script_name").innerText = name;
-    gCodeEditor.session.on('change', function() {
+    gCodeEditor.changeListener = gCodeEditor.session.on('change', function() {
         code_prop(gCodeEditor.session.getValue());
       });
 }
