@@ -40,4 +40,9 @@ canvas.graphDiagram {
 	right: 0;
 	bottom: 0;
 	left: 75%;
+    background-color: #202020;
+    padding: 10px;
+    color: #8F908A;
+    font-family: monospace;
+    font-size: 18px;
 }

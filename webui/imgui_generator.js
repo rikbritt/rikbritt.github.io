@@ -481,7 +481,8 @@ function UpdateGeneratorWindow(close_func, generator)
 			{
 				generator.script_str = generator.script.toString();
 			}
-			gCodeEditor.session.setValue(generator.script_str);
+
+			SetCodeToEdit(generator.script_str, generator.name);
 		}
 		
 		if(ImGui.CollapsingHeader("Script"))
