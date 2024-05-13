@@ -29,7 +29,15 @@ canvas.graphDiagram {
 #editor { 
 	position: absolute;
 	top: 75%;
-	right: 0;
+	right: 25%;
 	bottom: 0;
 	left: 0;
+}
+
+#editor_info {
+	position: absolute;
+	top: 75%;
+	right: 0;
+	bottom: 0;
+	left: 75%;
 }
