@@ -9,7 +9,7 @@ var stoneWallStoneGenerator = {
 		fields:[
 			{ name:"width", 		type:"distance", 	units:"m", min:0.1, max:1	},
 			{ name:"depth",			type:"distance", 	units:"m", min:0.1, max:1	},
-			{ name:"heigh]", 		type:"distance", 	units:"m", min:0.1, max:1	}
+			{ name:"height", 		type:"distance", 	units:"m", min:0.1, max:1	}
 		],
 	},
 	outputs:{
