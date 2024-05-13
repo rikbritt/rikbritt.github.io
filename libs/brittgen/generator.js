@@ -265,7 +265,7 @@ bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden
 		}
 		else if(autoGenerate)
 		{
-			if(inputs != undefined && inputs[i] != undefined)
+			if(inputs != undefined && (inputs[i] != undefined || inputs[fieldName] != undefined))
 			{
 				if(ArrayBuffer.isArray(inputs))
 				{
