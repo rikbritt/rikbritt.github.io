@@ -454,6 +454,7 @@ function SetGeneratorScript(generator, script_str)
 			gLastScriptErrors[generator.id] = err; 
 		}
 	);
+	return script_str;
 }
 
 function UpdateGeneratorWindow(close_func, generator)
