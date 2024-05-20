@@ -81,7 +81,11 @@ function ShowExplorerNode(node)
 
 function UpdateExplorerWindow( close_func, data )
 {
-    if(ImGui.Begin("Explorer", close_func ))
+    var viewport = ImGui.GetMainViewport();
+    ImGui.SetNextWindowPos(viewport.WorkPos);
+    ImGui.SetNextWindowSize({x:300,y:viewport.WorkSize.y});
+        
+    if(ImGui.Begin("Explorer", null, ImGui.WindowFlags.NoTitleBar | ImGui.WindowFlags.NoResize | ImGui.WindowFlags.NoBringToFrontOnFocus ))
     {
         ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:2, y:2});
         if (ImGui.BeginTable("##split", 2, ImGui.TableFlags.BordersOuter | ImGui.TableFlags.Resizable | ImGui.TableFlags.ScrollY))
