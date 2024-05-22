@@ -79,7 +79,7 @@ function UpdateTestsMenu()
 
 	if(ImGui.MenuItem("Show Nodes UI Test Window"))
 	{
-		OpenWindow("Tests_Nodes", UpdateTestsWindow);
+		OpenWindow("Tests_Nodes", UpdateNodeTestWindow);
 	}
 
 	if(ImGui.MenuItem("Zip Test"))
