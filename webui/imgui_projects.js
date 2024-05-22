@@ -160,65 +160,6 @@ function SaveProjectToZip( project )
         );
 }
 
-//Add project info to a window
-function UpdateProjectProperties( project )
-{
-    ImGui.PushID(project.id);
-    ImGui.Text("Id : " + project.id);
-    ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
-    if(ImGui.CollapsingHeader("Graphs"))
-    {
-        ImGui.Indent();
-        if(ImGui.Button("New Graph... (WIP)"))
-        {
-            bg.CreateEmptyProjectGraph(project);
-        }
-
-        UpdateGraphsTable(
-            project.id + "_graphs", 
-            project.generatorGraphs,
-            function(graph)
-            {
-                OpenWindow(graph.id, UpdateGraphWindow, graph);
-            }
-        );
-        ImGui.Unindent();
-    }
-    if(ImGui.CollapsingHeader("Data Defs"))
-    {
-        ImGui.Indent();
-        if(ImGui.Button("New Data Def Type.."))
-        {
-            bg.CreateEmptyDataDef(project);
-        }
-
-        UpdateDataDefsTable(
-            project.id + "_data_defs", 
-            project.dataDefs,
-            function(data_def)
-            {
-                OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
-            }
-        );
-        
-        ImGui.Unindent();
-    }
-    if(ImGui.CollapsingHeader("Generators"))
-    {
-        ImGui.Indent();
-        if(ImGui.Button("New Generator..."))
-        {
-            var new_generator = bg.CreateEmptyProjectGenerator(project);
-            new_generator.name = "New Generator";
-        }
-        
-        UpdateGeneratorsTable("generator_table", project.generators);
-        ImGui.Unindent();
-    }
-    ImGui.PopID();
-}
-
-
 function UpdateProjectsMenu()
 {
     if (ImGui.BeginMenu("Projects"))

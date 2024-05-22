@@ -622,62 +622,6 @@ function UpdateGeneratorInstances()
 	gGeneratorInstances = gGeneratorInstances.filter(item => item.open);
 }
 
-function UpdateGeneratorsTable_AddCatRow(cat, cat_name, is_root)
-{
-	ImGui.PushID(cat_name);
-	var open = true;
-	if(is_root == false)
-	{
-		ImGui.TableNextRow();
-		ImGui.TableSetColumnIndex(0);
-		open = ImGui.TreeNodeEx(cat_name, ImGui.TreeNodeFlags.SpanFullWidth);
-		ImGui.TableSetColumnIndex(1);
-		ImGui.TextUnformatted("-");
-	}
-	if(open)
-	{
-		for([key, data] of Object.entries(cat.children))
-		{
-			UpdateGeneratorsTable_AddCatRow(data, key, false);
-		}
-		for(gen of cat.objects)
-		{
-			ImGui.TableNextRow();
-			ImGui.TableSetColumnIndex(0);
-			if(ImGui.Button(gen.name))
-			{
-				OpenWindow(gen.id, UpdateGeneratorWindow, gen);
-			}
-			ImGui.TableSetColumnIndex(1);
-			ImGui.TextUnformatted(gen.description);
-		}
-
-		if(is_root == false)
-		{
-			ImGui.TreePop();
-		}
-	}
-	ImGui.PopID();
-}
-
-function UpdateGeneratorsTable(id, generators)
-{
-	//Mighg be slow as shit
-	var categories = BuildGraphOfCategories(generators);
-
-	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
-	if (ImGui.BeginTable(id, 2, flags))
-	{
-		ImGui.TableSetupColumn("Name");
-		ImGui.TableSetupColumn("Description");
-		ImGui.TableHeadersRow();
-
-		UpdateGeneratorsTable_AddCatRow(categories, "Generators", true);
-		
-		ImGui.EndTable();
-	}
-}
-
 function CreateExplorerGeneratorNode(generator)
 {
 	return {
