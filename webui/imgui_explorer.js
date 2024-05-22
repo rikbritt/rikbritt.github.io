@@ -104,4 +104,4 @@ function UpdateExplorerWindow( close_func, data )
         ImGui.PopStyleVar();
         ImGui.End();
     }
-*}
+}
