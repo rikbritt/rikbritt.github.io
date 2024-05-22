@@ -205,6 +205,15 @@ function UpdateProjectsMenu()
         ImGui.EndMenu();
     }
 }
+function UpdateProjectWindow(close_func, project)
+{
+	if(ImGui.Begin(`Project - ${project.name}###${project.id}`, close_func))
+	{
+		ImGui.Text("Id : " + project.id);
+		ImGui.InputText("Name", (_ = project.name) => project.name = _, 256);
+	}
+	ImGui.End();
+}
 
 function CreateExplorerNodeForProject(project)
 {
@@ -229,7 +238,14 @@ function CreateExplorerNodeForProject(project)
                 CreateExplorerAssetDbNode(project.assetDb, project.id)
             ];
             return children;
-        }
+        },
+		UpdateNodeValue:function()
+		{
+			if(ImGui.Button("Open..."))
+			{
+				OpenWindow(project.id, UpdateProjectWindow, project);
+			}
+		}
     }
     return node;
 }
