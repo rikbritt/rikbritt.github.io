@@ -38,7 +38,6 @@ function UpdateImgui(dt, timestamp)
 	ImGui.End();
 
 	UpdateGeneratorInstances();
-	UpdateTestWindows();
 	UpdateWindows();
 
 	ImGui.EndFrame();
