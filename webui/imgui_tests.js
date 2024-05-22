@@ -1,9 +1,10 @@
 
+var testGraphLayout = [];
 function UpdateNodeTestWindow(close_func)
 {
 	if(ImGui.Begin("Node Test", close_func))
 	{
-		NodeImGui.BeginCanvas("test_canvas",  new ImGui.Vec2(-1,-1) );
+		NodeImGui.BeginCanvas("test_canvas",  new ImGui.Vec2(-1,-1), testGraphLayout );
 
 		NodeImGui.BeginNode(
 			"Bob",
