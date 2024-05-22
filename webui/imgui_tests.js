@@ -7,7 +7,7 @@ function UpdateNodeTestWindow(close_func)
 		NodeImGui.BeginCanvas("test_canvas",  new ImGui.Vec2(-1,-1), testGraphLayout );
 
 		NodeImGui.BeginNode(
-			"Bob",
+			0,
 			"Bobs Node",
 			50,
 			50
@@ -18,7 +18,7 @@ function UpdateNodeTestWindow(close_func)
 
 		
 		NodeImGui.BeginNode(
-			"Frank",
+			1,
 			"Franks Node",
 			450,
 			50
@@ -27,7 +27,7 @@ function UpdateNodeTestWindow(close_func)
 		NodeImGui.OutputPin("Output");
 
 		NodeImGui.LinkNode(
-			"Bob",
+			0,
 			"Output",
 			"Input"
 		);
