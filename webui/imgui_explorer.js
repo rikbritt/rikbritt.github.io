@@ -83,7 +83,7 @@ function UpdateExplorerWindow( close_func, data )
 {
     var viewport = ImGui.GetMainViewport();
     ImGui.SetNextWindowPos(viewport.WorkPos);
-    ImGui.SetNextWindowSize({x:300,y:viewport.WorkSize.y});
+    ImGui.SetNextWindowSize({x:400,y:viewport.WorkSize.y});
         
     if(ImGui.Begin("Explorer", null, ImGui.WindowFlags.NoTitleBar | ImGui.WindowFlags.NoResize | ImGui.WindowFlags.NoBringToFrontOnFocus ))
     {

@@ -18,21 +18,6 @@ function UpdateImgui(dt, timestamp)
 	if (ImGui.BeginMainMenuBar())
 	{
 		UpdateProjectsMenu();
-		if (ImGui.BeginMenu("Generators"))
-		{
-			UpdateGeneratorsList();
-			ImGui.EndMenu();
-		}
-		if (ImGui.BeginMenu("Graphs"))
-		{
-			UpdateGeneratorGraphsList();
-			ImGui.EndMenu();
-		}
-		if (ImGui.BeginMenu("Data Defs"))
-		{
-			UpdateDataDefsList();
-			ImGui.EndMenu();
-		}
 		if(ImGui.BeginMenu("Tests"))
 		{
 			UpdateTestsMenu();
