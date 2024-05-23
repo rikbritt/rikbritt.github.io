@@ -212,6 +212,12 @@ function UpdateGraphWindow(close_func, graph_instance)
 		ImGui.InputText("Name", (_ = graph_instance.name) => graph_instance.name = _, 256);
 		ImGui.InputText("Description", (_ = graph_instance.description) => graph_instance.description = _, 256);
 
+		var category_str = generator.category.join("/");
+		if(ImGui.InputText("Categories", (_ = category_str) => category_str = _, 256))
+		{
+			generator.category = category_str.split("/");
+		}
+		
 		ImGui.Text("Num Nodes : " + graph_instance.nodes.length);
 		ImGui.Indent();
 		for(var i=0; i<graph_instance.nodes.length; ++i)

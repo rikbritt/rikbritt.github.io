@@ -2,6 +2,9 @@ bg.CreateGraph = function()
 {
     return {
         id:bg.CreateGUID(),
+        name:"New Graph",
+        description:"",
+		category:[],
         nodes:[],
         edges:[]
     };
