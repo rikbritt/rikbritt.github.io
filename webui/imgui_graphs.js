@@ -455,7 +455,7 @@ function CreateExplorerGraphsNode(project)
 			if(ImGui.Button("Create New Graph..."))
 			{
 				var graph = bg.CreateEmptyProjectGraph(project);
-				OpenWindow(data_def.id, UpdateGraphWindow, graph);
+				OpenWindow(graph.id, UpdateGraphWindow, graph);
                 ImGui.CloseCurrentPopup();
 			}
 		}
