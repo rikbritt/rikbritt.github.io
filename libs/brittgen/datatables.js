@@ -36,3 +36,8 @@ bg.CreateEmptyDataTable = function(project)
 
 	return data_table;
 }
+
+bg.SaveDataTableToJSON = function(data_table)
+{
+	return JSON.stringify(data_table, null, 4);
+}

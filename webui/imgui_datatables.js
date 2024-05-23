@@ -329,6 +329,12 @@ function UpdateDataTableWindow(close_func, data_table)
 				}
 			}
 		}
+
+		if(ImGui.Button("Save To Clipboard"))
+		{
+			var json = bg.SaveDataTableToJSON(data_table);
+			ImGui.SetClipboardText(json);
+		}
     }
 	ImGui.End();
 }

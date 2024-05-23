@@ -222,6 +222,12 @@ function UpdateDataDefWindow(close_func, data_def)
 			data_def.category = category_str.split("/");
 		}
         UpdateDataDefFields(data_def.fields);
+
+		if(ImGui.Button("Save To Clipboard"))
+		{
+			var json = bg.SaveDataDefToJSON(data_def);
+			ImGui.SetClipboardText(json);
+		}
     }
 	ImGui.End();
 }
