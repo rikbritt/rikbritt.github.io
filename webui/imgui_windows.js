@@ -37,6 +37,7 @@ function UpdateWindows()
     for(var i=0; i<gWindows.length; ++i)
     {
         var win_open = true;
+        ImGui.SetNextWindowSizeConstraints({x:100,y:100}, {x:-1, y:-1});
         gWindows[i].Update((_ = win_open) => win_open = _, gWindows[i].data);
 
         if(win_open == false)
