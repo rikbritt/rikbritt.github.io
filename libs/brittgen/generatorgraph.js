@@ -44,13 +44,10 @@ bg.CreateGenerationGraphNode = function(graph)
 
 bg.GetGenerationGraphNodeName = function(node)
 {
-	if(node.type == "generator")
+	var asset = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+	if(asset != null)
 	{
-		return node.generator.name;
-	}
-	else if(node.type == "data_def")
-	{
-		return node.data_def.name;
+		return asset.data.name;
 	}
 	return "?";
 }
@@ -58,16 +55,16 @@ bg.GetGenerationGraphNodeName = function(node)
 bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
 {
 	var node = bg.CreateGenerationGraphNode(graph);
-	node.generator = generator;
-	node.type="generator";
+	node.asset_id = generator.id;
+	node.type = "generator";
 	return node;
 }
 
 bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
 {
 	var node = bg.CreateGenerationGraphNode(graph);
-	node.data_def = data_def;
-	node.type="data_def";
+	node.asset_id = data_def.id;
+	node.type = "data_def";
 	return node;
 }
 
@@ -111,7 +108,8 @@ bg.GenerateGraphNode = function(targetNode, seed, nodeInputDataDef)
 {
 	if(nodeInputDataDef == null)
 	{
-		nodeInputDataDef = Array(targetNode.generator.inputs.length).fill(null);
+		var targetAsset = AssetDb.GetAsset(gAssetDb, targetNode.asset_id, "generator");
+		nodeInputDataDef = Array(targetAsset.data.inputs.length).fill(null);
 	}
 
 	//Gather the input nodes data that is required.
