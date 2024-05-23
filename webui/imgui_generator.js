@@ -523,6 +523,12 @@ function UpdateGeneratorWindow(close_func, generator)
 		{
 			CreateGeneratorInstance(generator);
 		}
+
+		if(ImGui.Button("Save As JS To Clipboard"))
+		{
+			var js = bg.SaveGeneratorToJS(generator);
+			ImGui.SetClipboardText(js);
+		}
 	}
 	ImGui.End();
 }
