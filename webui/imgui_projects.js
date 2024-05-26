@@ -24,7 +24,7 @@ var gLoadingData = [];
 
 function UpdateLoadingWindow(close_func)
 {
-	if(ImGui.Begin(`Loading`, null, close_func))
+	if(ImGui.Begin(`Loading`, close_func))
 	{
         for(var data of gLoadingData)
         {
@@ -43,6 +43,7 @@ function LoadProjectFromURL(project_json_url)
         project_json_url, 
         function(file_name)
         {
+            gLoadingData.push( { name:file_name });
             var load_task = fetch(file_name)
             .then(response => {
                 if (!response.ok)
