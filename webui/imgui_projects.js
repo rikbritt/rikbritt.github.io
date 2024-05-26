@@ -20,8 +20,25 @@ function AddProjectToListFromURL(project_folder_url)
     );
 }
 
+var gLoadingData = [];
+
+function UpdateLoadingWindow(close_func)
+{
+	if(ImGui.Begin(`Loading`))
+	{
+        for(var data of gLoadingData)
+        {
+            ImGui.Text(data.name);
+        }
+	}
+	ImGui.End();
+}
+
 function LoadProjectFromURL(project_json_url)
 {
+    gLoadingData.push( { name:project_json_url });
+
+    OpenWindow("loading", UpdateLoadingWindow);
     var loaded_project = bg.LoadProjectFromJSONFileAsync(
         project_json_url, 
         function(file_name)
@@ -205,6 +222,7 @@ function UpdateProjectsMenu()
         ImGui.EndMenu();
     }
 }
+
 function UpdateProjectWindow(close_func, project)
 {
 	if(ImGui.Begin(`Project - ${project.name}###${project.id}`, close_func))
