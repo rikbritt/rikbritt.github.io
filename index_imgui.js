@@ -180,7 +180,7 @@ function OnPageLoaded()
 
 		OpenWindow("explorer", UpdateExplorerWindow, null);
 
-		LoadProjectFromURL("projects/global/project.json");
+		LoadProjectFromURL("projects/global");
 		
 		var clock = new THREE.Clock();
 
