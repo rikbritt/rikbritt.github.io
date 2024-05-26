@@ -8,7 +8,8 @@
         "generators/hierarchytests.json",
         "generators/objectlogictest.json",
         "generators/rotationtests.json",
-        "generators/timelinetests.json",
+        "generators/timeline_fixed.json",
+        "generators/timeline_random.json",
         "generators/voxeltests.js"
     ]
 }

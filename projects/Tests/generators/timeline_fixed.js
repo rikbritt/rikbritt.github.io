@@ -1,5 +1,4 @@
-
-var testFixedTimelineGenerator = {
+export var generator = {
 	version:1,
 	name:"Fixed Timeline",
 	category:["Test"],
@@ -37,37 +36,4 @@ var testFixedTimelineGenerator = {
         bg.TimelineAddStreamEvent(child1, 12, "Child1Test", {});
         outputs.data = timeline;
 	}
-}
-bg.RegisterProjectGenerator(bg.global_project, testFixedTimelineGenerator);
-
-
-var testTimelineGenerator = {
-	version:1,
-	name:"Random Timeline",
-	category:["Test"],
-	inputs:{
-		name:"inputs",
-		version:1,
-		fields:[
-			{ name:"num_streams",			type:"int", 	min:0,	max:100 },
-		],
-	},
-	outputs:{
-		name:"outputs",
-		version:1,
-		fields:[
-			{ name:"data",		type:"timeline"	}
-		],
-	},
-	script:function(inputs, outputs)
-    {
-        var timeline = bg.TimelineCreate("Test Timeline");
-		for(var i=0; i<inputs.num_streams; ++i)
-		{
-			var s = bg.TimelineCreateStream(timeline, "" + i, {});
-			bg.TimelineAddStreamEvent(s, i, "Test", {});
-		}
-        outputs.data = timeline;
-	}
-}
-bg.RegisterProjectGenerator(bg.global_project, testTimelineGenerator);
+};
