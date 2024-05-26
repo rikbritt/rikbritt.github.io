@@ -393,7 +393,7 @@ bg.SaveGeneratorToJS = function(generator)
 	var generator_script_func = generator.script.toString();
 	generator_script_func = generator_script_func.replaceAll("\t", "    ");
 	// -6 for ;, for space and a \n
-	var gen_js = generator_json.slice(0, -6) + `,\n script:${generator_script_func}\n }`
+	var gen_js = generator_json.slice(0, -6) + `,\n    script:${generator_script_func}\n }`
 	return gen_js;
 }
 
