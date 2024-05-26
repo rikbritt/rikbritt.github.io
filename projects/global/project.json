@@ -3,6 +3,9 @@
     "name":"Global",
     "files":[
         "generators/name_v1_generator.js",
-        "generators/name_v2_generator.js"
+        "generators/name_v2_generator.js",
+        "generators/geometricsphere.js",
+        "generators/tetrahedron.js",
+        "generators/triangle.js"
     ]
 }

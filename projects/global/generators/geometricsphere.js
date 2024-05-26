@@ -1,5 +1,4 @@
-
-var geodesicSphereGenerator = {
+export var generator = {
 	version:1,
 	name:"Geodesic Sphere",
 	category:["Geometry"],
@@ -99,5 +98,4 @@ var geodesicSphereGenerator = {
 		//bg.CreateDebugPoint(outputs.model, bg.CreateTranslation(0,0,0));
 		//bg.CreateDebugPoint(outputs.model, bg.CreateTranslation(-1,0,0));
 	}
-}
-bg.RegisterProjectGenerator(bg.global_project, geodesicSphereGenerator);
+};

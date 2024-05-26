@@ -1,5 +1,4 @@
-
-var subDividedTriangleGenerator = {
+export var generator = {
 	version:1,
 	name:"Subdivided Triangle",
 	category:["Geometry"],
@@ -69,5 +68,4 @@ var subDividedTriangleGenerator = {
 			}
 		}
 	}
-}
-bg.RegisterProjectGenerator(bg.global_project, subDividedTriangleGenerator);
+};
