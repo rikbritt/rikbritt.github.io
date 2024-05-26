@@ -9,6 +9,6 @@
         "generators/objectlogictest.json",
         "generators/rotationtests.json",
         "generators/timelinetests.json",
-        "generators/voxeltests.json"
+        "generators/voxeltests.js"
     ]
 }
