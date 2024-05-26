@@ -2,5 +2,7 @@
     "id":"e1763683-2d73-48ff-b886-513d71dc8b76",
     "name":"Global",
     "files":[
+        "generators/name_v1_generator.js",
+        "generators/name_v2_generator.js"
     ]
 }

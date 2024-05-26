@@ -179,6 +179,8 @@ function OnPageLoaded()
         ImGui_Impl.Init(canvas);
 
 		OpenWindow("explorer", UpdateExplorerWindow, null);
+
+		LoadProjectFromURL("projects/global/project.json");
 		
 		var clock = new THREE.Clock();
 

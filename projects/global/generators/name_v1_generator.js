@@ -1,5 +1,4 @@
-
-var nameV1Generator = {
+export var generator = {
 	version:1,
 	name:"Name V1",
 	description:"Builds a 'name' from random consonants and vowels",
@@ -62,5 +61,4 @@ var nameV1Generator = {
 		//outputs.data += GetRandomConsonant(this.data);
 		outputs.data += GetRandomPair(inputs.pairs.data);
 	}
-}
-bg.RegisterProjectGenerator(bg.global_project, nameV1Generator);
+};

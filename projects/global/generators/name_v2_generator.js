@@ -1,4 +1,4 @@
-var nameV2Generator = {
+export var generator = {
 	version:1,
 	name:"Name V2",
 	description:"Does nothing, just generates an empty string right now",
@@ -18,5 +18,4 @@ var nameV2Generator = {
 	script:function(inputs, outputs){
 		outputs.data = "";
 	}
-}
-bg.RegisterProjectGenerator(bg.global_project, nameV2Generator);
+};
