@@ -24,7 +24,7 @@ var gLoadingData = [];
 
 function UpdateLoadingWindow(close_func)
 {
-	if(ImGui.Begin(`Loading`))
+	if(ImGui.Begin(`Loading`, null, close_func))
 	{
         for(var data of gLoadingData)
         {
@@ -58,7 +58,6 @@ function LoadProjectFromURL(project_json_url)
         },
         function(loaded_project)
         {
-            
         }
     );
 
