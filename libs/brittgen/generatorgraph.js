@@ -106,9 +106,9 @@ bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, to
 //Generate a target node. Will trigger generation of all input nodes.
 bg.GenerateGraphNode = function(targetNode, seed, nodeInputDataDef)
 {
+	var targetAsset = AssetDb.GetAsset(gAssetDb, targetNode.asset_id, "generator");
 	if(nodeInputDataDef == null)
 	{
-		var targetAsset = AssetDb.GetAsset(gAssetDb, targetNode.asset_id, "generator");
 		nodeInputDataDef = Array(targetAsset.data.inputs.length).fill(null);
 	}
 
@@ -119,7 +119,7 @@ bg.GenerateGraphNode = function(targetNode, seed, nodeInputDataDef)
 		var inputResult = bg.GenerateGraphNode(nodeInput.fromNode, seed);
 		nodeInputDataDef[nodeInput.toNodeInputName] = inputResult.outputs[nodeInput.fromNodeOutputName];
 	}
-	return bg.RunGenerator(targetNode.generator, seed, nodeInputDataDef);
+	return bg.RunGenerator(targetAsset.data, seed, nodeInputDataDef);
 }
 
 
