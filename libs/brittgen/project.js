@@ -168,6 +168,12 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 		//TODO - FOR NOW ASSUMING FIRST LOAD / PROJECT NOT LOADED
 		for(var i=0; i<project_data_files.files.length; ++i)
 		{
+			if(project_data_files.files[i].content == undefined)
+			{
+				//Skip anything that has not loaded
+				continue;
+			}
+			
 			var file_name = project_data_files.files[i].name;
 			if(file_name.startsWith("generators/"))
 			{
