@@ -1,5 +1,4 @@
-
-var testDebugTextGenerator = {
+export var generator = {
 	version:1,
 	name:"Debug Text",
 	description:"Broken - should be a test of CreateDebugTextNode",
@@ -25,6 +24,4 @@ var testDebugTextGenerator = {
 		bg.CreateDebugTextNode(outputs.model, "ABCDEFGHIJKLMNOPQRSTUVWXYZ").position.y = 0.5;
 		bg.CreateDebugTextNode(outputs.model, "0123456789");
 	}
-
-}
-bg.RegisterProjectGenerator(bg.global_project, testDebugTextGenerator);
+};

@@ -1,4 +1,4 @@
-var testObjectLogicGenerator = {
+export var generator = {
 	version:1,
 	name:"Object Logic",
 	description:"Currently broken, but the idea is you can generate something with an 'update' script for game logic",
@@ -32,6 +32,4 @@ var testObjectLogicGenerator = {
 		var boxModel = bg.CreateBoxModel(outputs.model, 1, 1, 0.5);
 		bg.AddUpdateScriptToNode(boxModel, this.boxUpdateScript);
 	}
-
-}
-bg.RegisterProjectGenerator(bg.global_project, testObjectLogicGenerator);
+};

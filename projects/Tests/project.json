@@ -3,13 +3,14 @@
     "name":"Tests Project",
     "files":[
         "datadefs/18a3b2ee-8934-4816-ab92-a546a7c36cbf.json",
-        "generators/debugtexttest.json",
-        "generators/geomintersectiontests.json",
-        "generators/hierarchytests.json",
-        "generators/objectlogictest.json",
-        "generators/rotationtests.json",
-        "generators/timeline_fixed.json",
-        "generators/timeline_random.json",
+        "generators/debugtexttest.js",
+        "generators/geomintersectiontests.js",
+        "generators/hierarchytests.js",
+        "generators/objectlogictest.js",
+        "generators/rotationtests.js",
+        "generators/lookattest.js",
+        "generators/timeline_fixed.js",
+        "generators/timeline_random.js",
         "generators/voxeltests.js"
     ]
 }

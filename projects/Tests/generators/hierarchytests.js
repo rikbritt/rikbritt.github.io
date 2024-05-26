@@ -1,5 +1,4 @@
-
-var testGraphGenerator = {
+export var generator = {
 	version:1,
 	name:"Graph",
 	category:["Test"],
@@ -27,5 +26,4 @@ var testGraphGenerator = {
 		boxAAA.position.y = 1;
 	}
 
-}
-bg.RegisterProjectGenerator(bg.global_project, testGraphGenerator);
+};

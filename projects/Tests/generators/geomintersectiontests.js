@@ -1,5 +1,4 @@
-
-var testGeomSubtractGenerator = {
+export var generator = {
 	version:1,
 	name:"Subtract",
 	category:["Test","Geometry"],
@@ -24,6 +23,4 @@ var testGeomSubtractGenerator = {
 		var result = bg.SubtractModel(box1, box2);
 		outputs.model.children.push(result);
 	}
-
-}
-bg.RegisterProjectGenerator(bg.global_project, testGeomSubtractGenerator);
+};
