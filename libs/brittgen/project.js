@@ -173,7 +173,7 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 				//Skip anything that has not loaded
 				continue;
 			}
-			
+
 			var file_name = project_data_files.files[i].name;
 			if(file_name.startsWith("generators/"))
 			{
@@ -181,7 +181,7 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 				{
 					try
 					{
-						var loaded = await import("../../" + project_root + "/" + file_name);
+						var loaded = await import("data:text/javascript, " + project_data_files.files[i].content);
 						var generator = bg.LoadGeneratorFromObject(loaded.generator);
 						bg.RegisterProjectGenerator(loaded_project, generator);
 						//loaded_project.generators.push(generator);

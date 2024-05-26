@@ -1,5 +1,4 @@
-module.exports =
-{
+export var generator = {
 	version:1,
 	name:"Voxels",
 	category:["Test"],
