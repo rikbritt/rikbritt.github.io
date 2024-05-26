@@ -59,6 +59,8 @@ function LoadProjectFromURL(project_json_url)
         },
         function(loaded_project)
         {
+            CloseWindow("loading");
+            gLoadingData = [];
         }
     );
 

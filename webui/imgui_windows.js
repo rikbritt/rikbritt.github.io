@@ -20,6 +20,18 @@ function OpenWindow(win_id, update_func, data)
     gWindows.push(win_data);
 }
 
+function CloseWindow(win_id)
+{
+    for(var i=0; i<gWindows.length; ++i)
+    {
+        if(gWindows[i].id == win_id)
+        {
+            gWindows.splice(i,1);
+            return;
+        }
+    }
+}
+
 function IsWindowOpen(win_id)
 {
     for(var i=0; i<gWindows.length; ++i)
