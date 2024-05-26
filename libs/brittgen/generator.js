@@ -380,7 +380,7 @@ bg.SaveGeneratorToJSON = function(generator)
 }
 
 //Load a generator for the currently loading project
-bg.LoadGeneratorFromObject = function(generator_data, generator_script_func)
+bg.LoadGeneratorFromObject = function(generator_data)
 {
 	var generator = bg.UpgradeGenerator(generator_data);
 	return generator;
@@ -392,7 +392,7 @@ bg.SaveGeneratorToJS = function(generator)
 	generator_json = generator_json.replaceAll("\n", "\n    ");
 	var generator_script_func = generator.script.toString();
 	generator_script_func = generator_script_func.replaceAll("\t", "    ");
-	var gen_js = `bg.LoadGeneratorFromObject(\n    ${generator_json},\n    ${generator_script_func}\n);`;
+	var gen_js = generator_json.slice(0, -1) + `,\n script:${generator_script_func}\n }`
 	return gen_js;
 }
 
