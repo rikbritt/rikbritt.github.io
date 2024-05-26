@@ -71,21 +71,24 @@ bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
 
 bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, toNodeInputName)
 {
+	var toGen = AssetDb.GetAsset(gAssetDb, toNode.asset_id, "generator");
+	var fromGen = AssetDb.GetAsset(gAssetDb, fromNode.asset_id, "generator");
+
 	//Sanity check the link
-	if(bg.GetGeneratorInputByName(toNode.generator, toNodeInputName) == null)
+	if(bg.GetGeneratorInputByName(toGen, toNodeInputName) == null)
 	{
 		//Error
 		console.error("Failed to make graph link " + 
-		"'" + bg.GetGeneratorFullName(fromNode.generator) + "':'" + fromNodeOutputName +"'" +
-		" -> '" + bg.GetGeneratorFullName(toNode.generator) + "':'" + toNodeInputName + "'" +
+		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputName +"'" +
+		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputName + "'" +
 		" because '" + toNodeInputName + "' doesn't exist on the 'to' node."		
 		);
 	}
-	else if(bg.GetGeneratorOutputByName(fromNode.generator, fromNodeOutputName) == null)
+	else if(bg.GetGeneratorOutputByName(fromGen, fromNodeOutputName) == null)
 	{
 		console.error("Failed to make graph link " + 
-		"'" + bg.GetGeneratorFullName(fromNode.generator) + "':'" + fromNodeOutputName +"'" +
-		" -> '" + bg.GetGeneratorFullName(toNode.generator) + "':'" + toNodeInputName + "'" +
+		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputName +"'" +
+		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputName + "'" +
 		" because '" + fromNodeOutputName + "' doesn't exist on the 'from' node."
 		);
 	}
