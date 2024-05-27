@@ -24,21 +24,27 @@ var gLoadingData = [];
 
 function UpdateLoadingWindow(close_func)
 {
-	if(ImGui.Begin(`Loading`, close_func))
+	if(ImGui.BeginPopupModal("Delete?", null, ImGui.WindowFlags.AlwaysAutoResize))
 	{
         for(var data of gLoadingData)
         {
             ImGui.Text(data.name);
         }
+        if(gLoadingData.length == 0)
+        {
+            ImGui.CloseCurrentPopup();
+        }
+        ImGui.EndPopup();
 	}
-	ImGui.End();
 }
 
 function LoadProjectFromURL(project_json_url)
 {
     gLoadingData.push( { name:project_json_url });
 
+    ImGui.OpenPopup("Loading");
     OpenWindow("loading", UpdateLoadingWindow);
+
     var loaded_project = bg.LoadProjectFromJSONFileAsync(
         project_json_url, 
         function(file_name)
@@ -59,7 +65,6 @@ function LoadProjectFromURL(project_json_url)
         },
         function(loaded_project)
         {
-            CloseWindow("loading");
             gLoadingData = [];
         }
     );
