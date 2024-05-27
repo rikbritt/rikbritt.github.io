@@ -180,7 +180,7 @@ function OnPageLoaded()
 
 		OpenWindow("explorer", UpdateExplorerWindow, null);
 
-		LoadProjectFromURL("projects/global");
+		var loaded = false;
 		
 		var clock = new THREE.Clock();
 
@@ -190,6 +190,12 @@ function OnPageLoaded()
 
 			var dt = clock.getDelta();
 			UpdateImgui(dt, timestamp);
+
+			if(loaded == false)
+			{
+				LoadProjectFromURL("projects/global");
+				loaded = true;
+			}
 
 			if(gErrors.length > 0)
 			{
