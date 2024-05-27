@@ -36,7 +36,10 @@ function UpdateLoadingWindow(close_func)
         }
         ImGui.EndPopup();
 	}
-    ImGui.OpenPopup("Loading");
+    if(gLoadingData.length != 0)
+    {
+        ImGui.OpenPopup("Loading");
+    }
 }
 
 function LoadProjectFromURL(project_json_url)
