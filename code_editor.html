@@ -42,7 +42,7 @@ function SetupEditor()
             gCodeEditor.session.setValue(data.code);
             
             gCodeEditor.changeListener = gCodeEditor.session.on('change', function() {
-                
+                evt.source.postMessage({code:gCodeEditor.session.getValue()}, evt.origin);
             });
         },
         false

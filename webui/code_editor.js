@@ -4,24 +4,36 @@ var gCodeEditorWindow = 0;
 
 function SetupCodeEditor()
 {
-    gCodeEditor = ace.edit("editor");
-    gCodeEditor.setTheme("ace/theme/monokai");
-    gCodeEditor.session.setMode("ace/mode/javascript");
+    // gCodeEditor = ace.edit("editor");
+    // gCodeEditor.setTheme("ace/theme/monokai");
+    // gCodeEditor.session.setMode("ace/mode/javascript");
     
     gCodeEditorWindow = window.open("code_editor.html", "game", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=1280,height=720");
+
+    
+    (window.addEventListener || window.attachEvent)(
+        (window.attachEvent && "on" || "") + "message", 
+        function (evt) 
+        {
+            var data = evt.data; // this is the data sent to the window
+            
+            
+        },
+        false
+    );
 }
 
 function SetCodeToEdit(code_prop, name)
 {
     gCodeEditorWindow.postMessage({code:code_prop(), name:name}, "*");
 
-    if(gCodeEditor.changeListener != null)
-    {
-        gCodeEditor.session.removeListener('change', gCodeEditor.changeListener);
-    }
-    gCodeEditor.session.setValue(code_prop());
-    document.getElementById("editor_info_script_name").innerText = name;
-    gCodeEditor.changeListener = gCodeEditor.session.on('change', function() {
-        code_prop(gCodeEditor.session.getValue());
-      });
+    // if(gCodeEditor.changeListener != null)
+    // {
+    //     gCodeEditor.session.removeListener('change', gCodeEditor.changeListener);
+    // }
+    // gCodeEditor.session.setValue(code_prop());
+    // document.getElementById("editor_info_script_name").innerText = name;
+    // gCodeEditor.changeListener = gCodeEditor.session.on('change', function() {
+    //     code_prop(gCodeEditor.session.getValue());
+    //   });
 }
