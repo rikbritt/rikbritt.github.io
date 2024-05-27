@@ -17,6 +17,27 @@ function SetupEditor()
     gCodeEditor = ace.edit("editor");
     gCodeEditor.setTheme("ace/theme/monokai");
     gCodeEditor.session.setMode("ace/mode/javascript");
+
+    
+    (window.addEventListener || window.attachEvent)(
+        (window.attachEvent && "on" || "") + "message", 
+        function (evt) 
+        {
+            var data = evt.data; // this is the data sent to the window
+            
+            
+            if(gCodeEditor.changeListener != null)
+            {
+                gCodeEditor.session.removeListener('change', gCodeEditor.changeListener);
+            }
+            gCodeEditor.session.setValue(data.code);
+            
+            gCodeEditor.changeListener = gCodeEditor.session.on('change', function() {
+                
+            });
+        },
+        false
+    );
 }
 
 </script>

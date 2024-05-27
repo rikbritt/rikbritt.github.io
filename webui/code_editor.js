@@ -13,6 +13,8 @@ function SetupCodeEditor()
 
 function SetCodeToEdit(code_prop, name)
 {
+    gCodeEditorWindow.postMessage({code:code_prop(), name:name}, "*");
+
     if(gCodeEditor.changeListener != null)
     {
         gCodeEditor.session.removeListener('change', gCodeEditor.changeListener);
