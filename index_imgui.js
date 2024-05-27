@@ -143,6 +143,7 @@ async function AddFontFromFileTTF(url, size_pixels, font_cfg = null, glyph_range
     return ImGui.GetIO().Fonts.AddFontFromMemoryTTF(await LoadArrayBuffer(url), size_pixels, font_cfg, glyph_ranges);
 }
 
+
 var gIconFont;
 function OnPageLoaded() 
 {
