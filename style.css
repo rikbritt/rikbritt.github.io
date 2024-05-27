@@ -1,8 +1,3 @@
-
-:root{
-	--editor_height: 33%;
-}
-
 body {
 	font-family: sans-serif;
 	margin: 0px;
@@ -22,32 +17,11 @@ h1 {
 
 canvas {
 	width: 100%;
-	height: calc(100% - var(--editor_height));
+	height: 100%;
 }
 canvas.graphDiagram {
 	border: solid 1px black;
 	width: 200px;
 	height: 200px;
 	float: right;
-}
-
-#editor { 
-	position: absolute;
-	top: calc(100% - var(--editor_height));
-	right: 25%;
-	bottom: 0;
-	left: 0;
-}
-
-#editor_info {
-	position: absolute;
-	top: calc(100% - var(--editor_height));
-	right: 0;
-	bottom: 0;
-	left: 75%;
-    background-color: #202020;
-    padding: 10px;
-    color: #8F908A;
-    font-family: monospace;
-    font-size: 18px;
 }
