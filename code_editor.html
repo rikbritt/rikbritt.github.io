@@ -4,7 +4,20 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="/libs/thirdparty/ace-min/ace.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body onload="">
+<body onload="SetupEditor();">
   <div id="editor"></div>
 </body>
+
+<script>
+
+var gCodeEditor = {};
+
+function SetupEditor()
+{
+    gCodeEditor = ace.edit("editor");
+    gCodeEditor.setTheme("ace/theme/monokai");
+    gCodeEditor.session.setMode("ace/mode/javascript");
+}
+
+</script>
 </html>
