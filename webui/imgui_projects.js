@@ -24,7 +24,7 @@ var gLoadingData = [];
 
 function UpdateLoadingWindow(close_func)
 {
-	if(ImGui.BeginPopupModal("Delete?", null, ImGui.WindowFlags.AlwaysAutoResize))
+	if(ImGui.BeginPopupModal("Loading", null, ImGui.WindowFlags.AlwaysAutoResize))
 	{
         for(var data of gLoadingData)
         {
@@ -36,13 +36,13 @@ function UpdateLoadingWindow(close_func)
         }
         ImGui.EndPopup();
 	}
+    ImGui.OpenPopup("Loading");
 }
 
 function LoadProjectFromURL(project_json_url)
 {
     gLoadingData.push( { name:project_json_url });
 
-    ImGui.OpenPopup("Loading");
     OpenWindow("loading", UpdateLoadingWindow);
 
     var loaded_project = bg.LoadProjectFromJSONFileAsync(
