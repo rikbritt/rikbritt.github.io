@@ -1,6 +1,7 @@
 
 var gCodeEditor = {};
 var gCodeEditorWindow = 0;
+var gCurrentCodeProp = null;
 
 function SetupCodeEditor()
 {
@@ -16,8 +17,7 @@ function SetupCodeEditor()
         function (evt) 
         {
             var data = evt.data; // this is the data sent to the window
-            
-            
+            gCurrentCodeProp(data.code);            
         },
         false
     );
@@ -25,6 +25,7 @@ function SetupCodeEditor()
 
 function SetCodeToEdit(code_prop, name)
 {
+    gCurrentCodeProp = code_prop;
     gCodeEditorWindow.postMessage({code:code_prop(), name:name}, "*");
 
     // if(gCodeEditor.changeListener != null)
