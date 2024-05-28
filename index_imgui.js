@@ -23,6 +23,11 @@ function UpdateImgui(dt, timestamp)
 			UpdateTestsMenu();
 			ImGui.EndMenu();
 		}
+		if (ImGui.BeginMenu("Code Editor"))
+		{
+			UpdateCodeEditorOptions();
+			ImGui.EndMenu();
+		}
 		if (ImGui.BeginMenu("View Options"))
 		{
 			UpdateViewOptions();

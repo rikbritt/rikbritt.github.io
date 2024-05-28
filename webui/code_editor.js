@@ -9,7 +9,7 @@ function SetupCodeEditor()
     // gCodeEditor.setTheme("ace/theme/monokai");
     // gCodeEditor.session.setMode("ace/mode/javascript");
     
-    gCodeEditorWindow = window.open("code_editor.html", "game", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=1280,height=720");
+    gCodeEditorWindow = window.open("code_editor.html", "code_editor", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=1280,height=720");
 
     
     (window.addEventListener || window.attachEvent)(
@@ -37,4 +37,12 @@ function SetCodeToEdit(code_prop, name)
     // gCodeEditor.changeListener = gCodeEditor.session.on('change', function() {
     //     code_prop(gCodeEditor.session.getValue());
     //   });
+}
+
+function UpdateCodeEditorOptions()
+{
+    if(ImGui.MenuItem("Reopen Code Editor Window"))
+    {
+        gCodeEditorWindow = window.open("code_editor.html", "code_editor", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=1280,height=720");
+    }
 }
