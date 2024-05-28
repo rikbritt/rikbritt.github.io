@@ -47,7 +47,7 @@ bg.GetGenerationGraphNodeName = function(node)
 	var asset = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 	if(asset != null)
 	{
-		return asset.data.name;
+		return asset.name;
 	}
 	return "?";
 }
