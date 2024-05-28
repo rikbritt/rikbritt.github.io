@@ -31,7 +31,8 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 
 		if(selected_graph_node.type == "generator")
 		{
-			var generator_inputs = selected_graph_node.generator.inputs;
+			var generator = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
+			var generator_inputs = generator.inputs;
 			for([paramKey, paramData] of Object.entries(generator_inputs))
 			{
 				ImGui.Text(paramKey + " : " + paramData.type);
@@ -41,7 +42,7 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 
 			ImGui.Text("Outputs : ");
 			ImGui.Indent();
-			var generator_outputs = selected_graph_node.generator.outputs;
+			var generator_outputs = generator.outputs;
 			for([paramKey, paramData] of Object.entries(generator_outputs))
 			{
 				ImGui.Text(paramKey + " : " + paramData.type);
@@ -252,12 +253,13 @@ function UpdateGraphWindow(close_func, graph_instance)
 
 			if(node.type == "generator")
 			{
-				for([paramKey, paramData] of Object.entries(node.generator.inputs))
+				var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+				for([paramKey, paramData] of Object.entries(generator.inputs))
 				{
 					NodeImGui.InputPin(paramKey);
 				}
 
-				for([paramKey, paramData] of Object.entries(node.generator.outputs))
+				for([paramKey, paramData] of Object.entries(generator.outputs))
 				{
 					NodeImGui.OutputPin(paramKey);
 				}
