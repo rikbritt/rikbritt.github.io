@@ -33,21 +33,21 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 		{
 			var generator = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
 			var generator_inputs = generator.inputs;
-			for([paramKey, paramData] of Object.entries(generator_inputs))
+			for(field of generator_inputs.fields)
 			{
-				ImGui.Text(paramKey + " : " + paramData.type);
+				ImGui.Text(field.name + " : " + field.type);
 			}
-			ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, Object.entries(generator_inputs).length-1);
+			ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, generator_inputs.fields.length-1);
 			ImGui.Unindent();
 
 			ImGui.Text("Outputs : ");
 			ImGui.Indent();
 			var generator_outputs = generator.outputs;
-			for([paramKey, paramData] of Object.entries(generator_outputs))
+			for(field of generator_outputs.fields)
 			{
-				ImGui.Text(paramKey + " : " + paramData.type);
+				ImGui.Text(field.name + " : " + field.type);
 			}
-			ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, Object.entries(generator_outputs).length-1);
+			ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, generator_outputs.fields.length-1);
 			ImGui.Unindent();
 
 			ImGui.Text("Links : ");
@@ -254,14 +254,14 @@ function UpdateGraphWindow(close_func, graph_instance)
 			if(node.type == "generator")
 			{
 				var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
-				for([paramKey, paramData] of Object.entries(generator.inputs))
+				for(field of generator.inputs.fields)
 				{
-					NodeImGui.InputPin(paramKey);
+					NodeImGui.InputPin(field.name);
 				}
 
-				for([paramKey, paramData] of Object.entries(generator.outputs))
+				for(field of generator.outputs.fields)
 				{
-					NodeImGui.OutputPin(paramKey);
+					NodeImGui.OutputPin(field.name);
 				}
 
 				//Input Links
