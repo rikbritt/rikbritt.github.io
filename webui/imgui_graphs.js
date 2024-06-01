@@ -231,6 +231,25 @@ function UpdateGraphWindow(close_func, graph_instance)
 		var current_canvas = NodeImGui.GetOrCreateCanvas(graph_instance.id);
 		UpdateSelectedNodeInfo(current_canvas.selected_node_a, graph_instance);
 		UpdateSelectedNodeInfo(current_canvas.selected_node_b, graph_instance);
+		
+		if(ImGui.Button("Make Link From A Output to B Input"))
+		{
+			var a_node = graph_instance.nodes[current_canvas.selected_node_a.idx];
+			var a_generator = AssetDb.GetAsset(gAssetDb, a_node.asset_id, a_node.type);
+			var a_sub_idx = current_canvas.selected_node_a.output_pin;
+
+			var b_node = graph_instance.nodes[current_canvas.selected_node_b.idx];
+			var b_generator = AssetDb.GetAsset(gAssetDb, b_node.asset_id, b_node.type);
+			var b_sub_idx = current_canvas.selected_node_b.input_pin;
+
+			//TODO - need to make the sub indexes know if its input or output pins
+			// maybe use negative numbers, or put a 'type' with the sub idx?
+			bg.AddGraphSubEdgeById(graph_instance, a_node.id, a_sub_idx, b_node.id, b_sub_idx);
+		}
+		// if(ImGui.Button("Make Link From B Output to A Input"))
+		// {
+			
+		// }
 
 		ImGui.SliderInt("Canvas X", (_ = current_canvas.c_x) => current_canvas.c_x = _, 0, 1000);
 		ImGui.SliderInt("Canvas Y", (_ = current_canvas.c_y) => current_canvas.c_y = _, 0, 1000);

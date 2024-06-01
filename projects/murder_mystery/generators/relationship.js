@@ -192,56 +192,57 @@ var mm_relationshipsGenerator = {
 	},
 	script:function(inputs, outputs)
 	{
-		//Build Relationships Graph
-		{
-			//Create Biological Relationships First
-			outputs.relationshipGraph = bg.CreateGraph();
-			for(var i=0; i<inputs.people.length; ++i)
-			{
-				bg.AddGraphNode(outputs.relationshipGraph, inputs.people[i].name, inputs.people[i]);
-			}
-			var p2StartIdx = 1;
-			for(var p1Idx=0; p1Idx<inputs.people.length; ++p1Idx)
-			{
-				for(var p2Idx=p2StartIdx; p2Idx<inputs.people.length; ++p2Idx)
-				{
-					bg.AddGraphEdgeByIdx(outputs.relationshipGraph, p1Idx, p2Idx);
-				}
-				++p2StartIdx;
-			}
-		}
+		//TODO FIX by allowing sub edges and also only use ids for edges
+		// //Build Relationships Graph
+		// {
+		// 	//Create Biological Relationships First
+		// 	outputs.relationshipGraph = bg.CreateGraph();
+		// 	for(var i=0; i<inputs.people.length; ++i)
+		// 	{
+		// 		bg.AddGraphNode(outputs.relationshipGraph, inputs.people[i].name, inputs.people[i]);
+		// 	}
+		// 	var p2StartIdx = 1;
+		// 	for(var p1Idx=0; p1Idx<inputs.people.length; ++p1Idx)
+		// 	{
+		// 		for(var p2Idx=p2StartIdx; p2Idx<inputs.people.length; ++p2Idx)
+		// 		{
+		// 			bg.AddGraphEdgeByIdx(outputs.relationshipGraph, p1Idx, p2Idx);
+		// 		}
+		// 		++p2StartIdx;
+		// 	}
+		// }
 
-		//Build relationship links
-		{
-			outputs.relationships = [];
+		// //Build relationship links
+		// {
+		// 	outputs.relationships = [];
 
-			for(var e=0; e<outputs.relationshipGraph.edges.length; ++e)
-			{
-				var edge = outputs.relationshipGraph.edges[e];
-				var p1 = inputs.people[edge.a];
-				var p2 = inputs.people[edge.b];
+		// 	for(var e=0; e<outputs.relationshipGraph.edges.length; ++e)
+		// 	{
+		// 		var edge = outputs.relationshipGraph.edges[e];
+		// 		var p1 = inputs.people[edge.a];
+		// 		var p2 = inputs.people[edge.b];
 
-				//Call this generator to make the link, but it'll be random,
-				//so we'll sort it out
-				var link = bg.BuildDataDefValues(mm_relationshipLinkDataDef.fields, inputs.seed + e, null);
-				link.aName = p1.name;
-				link.bName = p2.name;
+		// 		//Call this generator to make the link, but it'll be random,
+		// 		//so we'll sort it out
+		// 		var link = bg.BuildDataDefValues(mm_relationshipLinkDataDef.fields, inputs.seed + e, null);
+		// 		link.aName = p1.name;
+		// 		link.bName = p2.name;
 
-				outputs.relationships.push(link);
-			}
-		}
+		// 		outputs.relationships.push(link);
+		// 	}
+		// }
 
-		//Build bio relationships
-		{
-			var bio_inputs = {
-				graph:outputs.relationshipGraph
-			};
-			var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator, inputs.seed, bio_inputs).outputs;
-			outputs.bio_graph = data.bio_graph;
-		}
+		// //Build bio relationships
+		// {
+		// 	var bio_inputs = {
+		// 		graph:outputs.relationshipGraph
+		// 	};
+		// 	var data = bg.RunGenerator(mm_relationshipBioRelationshipsGenerator, inputs.seed, bio_inputs).outputs;
+		// 	outputs.bio_graph = data.bio_graph;
+		// }
 
-		//Graph UML
-		outputs.uml = MM_GraphToUML(outputs.relationshipGraph);
+		// //Graph UML
+		// outputs.uml = MM_GraphToUML(outputs.relationshipGraph);
 	}
 }
 bg.RegisterProjectGenerator(bg.global_project, mm_relationshipsGenerator);

@@ -1,4 +1,6 @@
-
+//TODO
+// I think this whole file might be removable, or at least needs updating to work with 
+// Just the bf graph code.
 bg.UpgradeGeneratorGraph = function(graph)
 {
 
