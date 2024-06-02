@@ -64,7 +64,7 @@ bg.AddGraphLayout = function(graph)
     }
 }
 
-bg.FindOrCreateNodeLayout = function(graph_layout, node_idx)
+bg.FindOrCreateNodeLayout = function(graph_layout, node_id)
 {
     // for(var i=0; i<graph_layout.length; ++i)
     // {
@@ -82,15 +82,15 @@ bg.FindOrCreateNodeLayout = function(graph_layout, node_idx)
     // }
     // graph_layout.push(new_node_layout);
 
-    while(graph_layout.length < node_idx+1)
+    if(graph_layout[node_id] == undefined)
     {
         var new_node_layout =
         {
             x:10,
             y:10
         }
-        graph_layout.push(new_node_layout);
+        graph_layout[node_id] = new_node_layout;
     }
 
-    return graph_layout[node_idx];
+    return graph_layout[node_id];
 }

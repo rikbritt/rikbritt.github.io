@@ -136,7 +136,7 @@ var NodeImGui = {
 			canvas.Hovered_Output_Node = node;
 		}
 	},
-	LinkNode : function(from_id, from_pin, to_pin)
+	LinkToCurrentNode : function(from_id, from_pin, to_pin)
 	{
 		var from_imgui_id = ImGui.GetID(from_id);
 		NodeImGui.Current_Canvas.Links.push(

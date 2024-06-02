@@ -1,5 +1,13 @@
 
 var testGraphLayout = [];
+{
+	var bob_layout = bg.FindOrCreateNodeLayout(testGraphLayout, "0");
+	bob_layout.x = 50;
+	bob_layout.y = 50;
+	var frank_layout = bg.FindOrCreateNodeLayout(testGraphLayout, "1");
+	frank_layout.x = 450;
+	frank_layout.y = 50;
+}
 function UpdateNodeTestWindow(close_func)
 {
 	if(ImGui.Begin("Node Test", close_func))
@@ -7,10 +15,8 @@ function UpdateNodeTestWindow(close_func)
 		NodeImGui.BeginCanvas("test_canvas",  new ImGui.Vec2(-1,-1), testGraphLayout );
 
 		NodeImGui.BeginNode(
-			0,
-			"Bobs Node",
-			50,
-			50
+			"0",
+			"Bobs Node"
 		);
 		NodeImGui.InputPin("Input");
 		NodeImGui.OutputPin("Output");
@@ -18,16 +24,14 @@ function UpdateNodeTestWindow(close_func)
 
 		
 		NodeImGui.BeginNode(
-			1,
-			"Franks Node",
-			450,
-			50
+			"1",
+			"Franks Node"
 		);
 		NodeImGui.InputPin("Input");
 		NodeImGui.OutputPin("Output");
 
-		NodeImGui.LinkNode(
-			0,
+		NodeImGui.LinkToCurrentNode(
+			"0",
 			"Output",
 			"Input"
 		);

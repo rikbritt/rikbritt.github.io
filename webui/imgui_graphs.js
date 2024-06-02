@@ -287,7 +287,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 				for(var j=0; j<node.inputs.length; ++j)
 				{
 					var link = node.inputs[j];
-					NodeImGui.LinkNode(
+					NodeImGui.LinkToCurrentNode(
 						link.fromNodeIdx,
 						link.fromNodeOutputName,
 						link.toNodeInputName
