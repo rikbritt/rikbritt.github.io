@@ -286,9 +286,6 @@ var NodeImGui = {
 		{
 			var pin_rect = NodeImGui.Internal_CalcInputPinHitRect(node, i);
 			var pin_mid_y = pin_rect.y + (pin_rect.h / 2.0);
-
-			node.input_pins[i].x = pin_rect.x;
-			node.input_pins[i].y = pin_rect.y;
 			
 			//var c= canvas.Hovered_Node == node && canvas.Hovered_Input == i ? title_txt_col.toImU32() : title_bg_col.toImU32();
 			//dl.AddRectFilled(new ImGui.Vec2(pin_rect.x, pin_rect.y), new ImGui.Vec2(pin_rect.x + pin_rect.w, pin_rect.y + pin_rect.h), c);
@@ -296,6 +293,8 @@ var NodeImGui = {
 			var pin_circle_pos = {x:pin_rect.x + draw_info.pin_radius, y:pin_mid_y};
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
+			node.input_pins[i].x = pin_circle_pos.x;
+			node.input_pins[i].y = pin_circle_pos.y;
 
 			var pin_text =  node.input_pins[i].id;
 			var pin_text_pos = {x:pin_rect.x + (draw_info.pin_radius * 2.0), y:pin_rect.y};
@@ -307,9 +306,6 @@ var NodeImGui = {
 		{
 			var pin_rect = NodeImGui.Internal_CalcOutputPinHitRect(node, i);
 			var pin_mid_y = pin_rect.y + (pin_rect.h / 2.0);
-
-			node.output_pins[i].x = pin_rect.x;
-			node.output_pins[i].y = pin_rect.y;
 			
 			//var c= canvas.Hovered_Node == node && canvas.Hovered_Output == i ? title_txt_col.toImU32() : title_bg_col.toImU32();
 			//dl.AddRectFilled(new ImGui.Vec2(pin_rect.x, pin_rect.y), new ImGui.Vec2(pin_rect.x + pin_rect.w, pin_rect.y + pin_rect.h), c);
@@ -317,6 +313,9 @@ var NodeImGui = {
 			var pin_circle_pos = {x:pin_rect.x + pin_rect.w - draw_info.pin_radius, y:pin_mid_y};
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
+
+			node.output_pins[i].x = pin_circle_pos.x;
+			node.output_pins[i].y = pin_circle_pos.y;
 			
 			var pin_text =  node.output_pins[i].id;
 			var pin_text_pos = {x:pin_rect.x, y:pin_rect.y};
