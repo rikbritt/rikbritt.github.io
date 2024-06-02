@@ -60,8 +60,8 @@ bg.CreateEmptyProjectGenerator = function(project)
 
 bg.CreateEmptyProjectGraph = function(project)
 {
-	var graph = bg.CreateGraph();
-	project.generatorGraphs.push(graph);
+	var graph = bg.CreateGenerationGraph();
+	bg.RegisterProjectGraph(project, graph);
 	return graph;
 }
 
@@ -118,19 +118,19 @@ bg.SaveProjectAsJSONFiles = function(project)
 	}
 	
 	//Save Graphs
-	for(var i=0; i<project.generatorGraphs.length; ++i)
-	{
-		//add file entry to project_json_data.files
-		//add output file entry and content;
-		var graph_json = bg.SaveGraphToJSON(project.generatorGraphs[i]);
-		var file_name = "graphs/" + project.generatorGraphs[i].id + ".json";
-		project_data_files.files.push({
-			name:file_name,
-			content:graph_json
-		});
-		project_json_data.files.push(file_name);
+	// for(var i=0; i<project.generatorGraphs.length; ++i)
+	// {
+	// 	//add file entry to project_json_data.files
+	// 	//add output file entry and content;
+	// 	var graph_json = bg.SaveGraphToJSON(project.generatorGraphs[i]);
+	// 	var file_name = "graphs/" + project.generatorGraphs[i].id + ".json";
+	// 	project_data_files.files.push({
+	// 		name:file_name,
+	// 		content:graph_json
+	// 	});
+	// 	project_json_data.files.push(file_name);
 
-	}
+	// }
 
 	project_data_files.files.push({
 		name:"project.json",
@@ -198,11 +198,11 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 					//loaded_project.generators.push(generator);
 				}
 			}
-			else if(file_name.startsWith("graphs/"))
-			{
-				var graph = bg.LoadGraphFromJSON(project_data_files.files[i].content);
-				loaded_project.generatorGraphs.push(graph);
-			}
+			// else if(file_name.startsWith("graphs/"))
+			// {
+			// 	var graph = bg.LoadGraphFromJSON(project_data_files.files[i].content);
+			// 	loaded_project.generatorGraphs.push(graph);
+			// }
 			else if(file_name.startsWith("datadefs/"))
 			{
 				var data_def = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
