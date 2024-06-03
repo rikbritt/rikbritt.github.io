@@ -26,44 +26,37 @@ bg.CreateGenerationGraph = function(graphName)
 	return graph;
 }
 
-// bg.CreateGenerationGraphNode = function(graph)
-// {
-// 	var node = {
-// 		id:bg.CreateGUID(),
-// 		idx:graph.nodes.length,
-// 		inputs:[]
-// 	};
-	
-// 	graph.nodes.push(node);
-	
-// 	return node;
-// }
+bg.CreateGenerationGraphNode = function(graph)
+{
+	var node = bg.AddGraphNode(graph, bg.CreateGUID(), {});
+	return node;
+}
 
-// bg.GetGenerationGraphNodeName = function(node)
-// {
-// 	var asset = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
-// 	if(asset != null)
-// 	{
-// 		return asset.name;
-// 	}
-// 	return "?";
-// }
+bg.GetGenerationGraphNodeName = function(node)
+{
+	var asset = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+	if(asset != null)
+	{
+		return asset.name;
+	}
+	return "?";
+}
 
-// bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
-// {
-// 	var node = bg.CreateGenerationGraphNode(graph);
-// 	node.asset_id = generator.id;
-// 	node.type = "generator";
-// 	return node;
-// }
+bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
+{
+	var node = bg.CreateGenerationGraphNode(graph);
+	node.asset_id = generator.id;
+	node.type = "generator";
+	return node;
+}
 
-// bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
-// {
-// 	var node = bg.CreateGenerationGraphNode(graph);
-// 	node.asset_id = data_def.id;
-// 	node.type = "data_def";
-// 	return node;
-// }
+bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
+{
+	var node = bg.CreateGenerationGraphNode(graph);
+	node.asset_id = data_def.id;
+	node.type = "data_def";
+	return node;
+}
 
 
 // bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, toNodeInputName)
