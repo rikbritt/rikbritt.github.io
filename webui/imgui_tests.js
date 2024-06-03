@@ -42,6 +42,23 @@ function UpdateNodeTestWindow(close_func)
 	ImGui.End();
 }
 
+var testGenGraphLayout = [];
+var testGenGraph = null;
+function SetupGenGraphTestWindow()
+{
+	testGenGraph = bg.CreateEmptyProjectGraph(bg.global_project);
+	var generator = AssetDb.GetAsset(gAssetDb, "bae92d4e-3b90-4840-9ff7-1a6a88dad088", "generator");
+	var node = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
+}
+function UpdateGenGraphTestWindow(close_func)
+{
+	if(ImGui.Begin("Gen Graph Test", close_func))
+	{
+		UpdateGenGraphCanvas(testGenGraph, -1, -1);
+	}
+	ImGui.End();
+}
+
 function UpdateZipTestWindow(close_func)
 {
 	if(ImGui.Begin("Zip Test", close_func))
@@ -82,6 +99,12 @@ function UpdateTestsMenu()
 		OpenWindow("Tests", UpdateTestsWindow);
 	}
 
+	if(ImGui.MenuItem("Show Ge  Graph Test Window"))
+	{
+		SetupGenGraphTestWindow();
+		OpenWindow("Tests_GenGraph", UpdateGenGraphTestWindow);
+	}
+	
 	if(ImGui.MenuItem("Show Nodes UI Test Window"))
 	{
 		OpenWindow("Tests_Nodes", UpdateNodeTestWindow);

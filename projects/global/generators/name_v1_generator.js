@@ -1,6 +1,7 @@
 export var generator = {
 	version:1,
 	name:"Name V1",
+	id:"bae92d4e-3b90-4840-9ff7-1a6a88dad088",
 	description:"Builds a 'name' from random consonants and vowels",
 	category:["Information"],
 	inputs:{

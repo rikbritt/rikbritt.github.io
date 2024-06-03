@@ -194,7 +194,90 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 //	}
 //}
 
-function UpdateGraphWindow(close_func, graph_instance)
+function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height = -1)
+{
+	NodeImGui.BeginCanvas(graph_instance.id,  new ImGui.Vec2(canvas_width, canvas_height), graph_instance.layout);
+	NodeImGui.Current_Canvas.Scrolling.x = current_canvas.c_x;
+	NodeImGui.Current_Canvas.Scrolling.y = current_canvas.c_y;
+	for(var i=0; i<graph_instance.nodes.length; ++i)
+	{
+		var node = graph_instance.nodes[i];
+		NodeImGui.BeginNode(
+			node.idx,
+			bg.GetGenerationGraphNodeName(node)
+		);
+
+		if(node.type == "generator")
+		{
+			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+			for(field of generator.inputs.fields)
+			{
+				NodeImGui.InputPin(field.name);
+			}
+
+			for(field of generator.outputs.fields)
+			{
+				NodeImGui.OutputPin(field.name);
+			}
+
+			//Input Links
+			for(var j=0; j<node.inputs.length; ++j)
+			{
+				var link = node.inputs[j];
+				NodeImGui.LinkToCurrentNode(
+					link.fromNodeIdx,
+					link.fromNodeOutputName,
+					link.toNodeInputName
+				);
+			}
+		}
+		else if(node.type == "data_def")
+		{
+			for(var j=0; j<node.data_def.fields.length; ++j)
+			{
+				NodeImGui.InputPin(node.data_def.fields[j].name);
+			}
+		}
+
+		NodeImGui.EndNode();
+	}
+	
+	if (NodeImGui.BeginPopupContextWindow())
+	{
+		if(ImGui.BeginMenu("Add Generator..."))
+		{
+			UpdateGeneratorsList(
+				function(generator)
+				{
+					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, generator);
+					NodeImGui.SetNodePosToPopup(node.idx);
+				}
+			);
+			ImGui.EndMenu();
+		}
+
+		if(ImGui.BeginMenu("Add Data Def..."))
+		{
+			UpdateDataDefsList(
+				function(data_def)
+				{
+					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, data_def);
+					NodeImGui.SetNodePosToPopup(node.idx);
+				}
+			);
+			ImGui.EndMenu();
+		}
+
+		if(ImGui.MenuItem("Add Note / Comment"))
+		{
+		}
+
+		NodeImGui.EndPopup();
+	}
+	NodeImGui.EndCanvas();
+}
+
+function UpdateGenGraphWindow(close_func, graph_instance)
 {
 	if(graph_instance.layout == null)
 	{
@@ -257,87 +340,7 @@ function UpdateGraphWindow(close_func, graph_instance)
 
 		ImGui.SameLine();
 
-		var dw = ImGui.GetWindowDrawList();
-
-		NodeImGui.BeginCanvas(graph_instance.id,  new ImGui.Vec2(win_width - gens_width, win_height), graph_instance.layout);
-		NodeImGui.Current_Canvas.Scrolling.x = current_canvas.c_x;
-		NodeImGui.Current_Canvas.Scrolling.y = current_canvas.c_y;
-		for(var i=0; i<graph_instance.nodes.length; ++i)
-		{
-			var node = graph_instance.nodes[i];
-			NodeImGui.BeginNode(
-				node.idx,
-				bg.GetGenerationGraphNodeName(node)
-			);
-
-			if(node.type == "generator")
-			{
-				var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
-				for(field of generator.inputs.fields)
-				{
-					NodeImGui.InputPin(field.name);
-				}
-
-				for(field of generator.outputs.fields)
-				{
-					NodeImGui.OutputPin(field.name);
-				}
-
-				//Input Links
-				for(var j=0; j<node.inputs.length; ++j)
-				{
-					var link = node.inputs[j];
-					NodeImGui.LinkToCurrentNode(
-						link.fromNodeIdx,
-						link.fromNodeOutputName,
-						link.toNodeInputName
-					);
-				}
-			}
-			else if(node.type == "data_def")
-			{
-				for(var j=0; j<node.data_def.fields.length; ++j)
-				{
-					NodeImGui.InputPin(node.data_def.fields[j].name);
-				}
-			}
-
-			NodeImGui.EndNode();
-		}
-		
-		if (NodeImGui.BeginPopupContextWindow())
-		{
-			if(ImGui.BeginMenu("Add Generator..."))
-			{
-				UpdateGeneratorsList(
-					function(generator)
-					{
-						var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, generator);
-						NodeImGui.SetNodePosToPopup(node.idx);
-					}
-				);
-				ImGui.EndMenu();
-			}
-
-			if(ImGui.BeginMenu("Add Data Def..."))
-			{
-				UpdateDataDefsList(
-					function(data_def)
-					{
-						var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, data_def);
-						NodeImGui.SetNodePosToPopup(node.idx);
-					}
-				);
-				ImGui.EndMenu();
-			}
-
-			if(ImGui.MenuItem("Add Note / Comment"))
-			{
-			}
-
-			NodeImGui.EndPopup();
-		}
-		NodeImGui.EndCanvas();
+		UpdateGenGraphCanvas(graph_instance, win_width - gens_width, win_height);
 	}
 	ImGui.End();
 	ImGui.PopID();
@@ -482,7 +485,7 @@ function CreateExplorerGraphsNode(project)
 			if(ImGui.Button("Create New Graph..."))
 			{
 				var graph = bg.CreateEmptyProjectGraph(project);
-				OpenWindow(graph.id, UpdateGraphWindow, graph);
+				OpenWindow(graph.id, UpdateGenGraphWindow, graph);
                 ImGui.CloseCurrentPopup();
 			}
 		}
