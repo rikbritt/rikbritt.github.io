@@ -59,42 +59,41 @@ bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
 }
 
 
-// bg.CreateGenerationGraphLink = function(fromNode, fromNodeOutputName, toNode, toNodeInputName)
-// {
-// 	var toGen = AssetDb.GetAsset(gAssetDb, toNode.asset_id, "generator");
-// 	var fromGen = AssetDb.GetAsset(gAssetDb, fromNode.asset_id, "generator");
+bg.CreateGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNode, toNodeInputId)
+{
+	var toGen = AssetDb.GetAsset(gAssetDb, toNode.asset_id, "generator");
+	var fromGen = AssetDb.GetAsset(gAssetDb, fromNode.asset_id, "generator");
 
-// 	//Sanity check the link
-// 	if(bg.GetGeneratorInputByName(toGen, toNodeInputName) == null)
-// 	{
-// 		//Error
-// 		console.error("Failed to make graph link " + 
-// 		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputName +"'" +
-// 		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputName + "'" +
-// 		" because '" + toNodeInputName + "' doesn't exist on the 'to' node."		
-// 		);
-// 	}
-// 	else if(bg.GetGeneratorOutputByName(fromGen, fromNodeOutputName) == null)
-// 	{
-// 		console.error("Failed to make graph link " + 
-// 		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputName +"'" +
-// 		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputName + "'" +
-// 		" because '" + fromNodeOutputName + "' doesn't exist on the 'from' node."
-// 		);
-// 	}
-// 	//todo: add idx sanity checks and pass graph in as param to allow that
-// 	else
-// 	{
-// 		var link = {
-// 			fromNodeIdx:fromNode.idx,
-// 			fromNodeOutputName:fromNodeOutputName,
-// 			toNodeIdx:toNode.idx, //Maybe don't include this one.
-// 			toNodeInputName:toNodeInputName
-// 		};
-		
-// 		toNode.inputs.push(link);
-// 	}
-// }
+	//Sanity check the link
+	if(bg.GetGeneratorInputById(toGen, toNodeInputId) == null)
+	{
+		//Error
+		console.error("Failed to make graph link " + 
+		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputId +"'" +
+		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputId + "'" +
+		" because '" + toNodeInputId + "' doesn't exist on the 'to' node."		
+		);
+	}
+	else if(bg.GetGeneratorOutputById(fromGen, fromNodeOutputId) == null)
+	{
+		console.error("Failed to make graph link " + 
+		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputId +"'" +
+		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputId + "'" +
+		" because '" + fromNodeOutputId + "' doesn't exist on the 'from' node."
+		);
+	}
+	//todo: add idx sanity checks and pass graph in as param to allow that
+	else
+	{
+		bg.AddGraphSubEdgeById(
+			graph,
+			fromNode.id,
+			fromNodeOutputId,
+			toNode.id,
+			toNodeInputId
+		);
+	}
+}
 
 // //Generate a target node. Will trigger generation of all input nodes.
 // bg.GenerateGraphNode = function(targetNode, seed, nodeInputDataDef)

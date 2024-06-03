@@ -93,6 +93,19 @@ bg.GetDataDefFieldByName = function(data_def, name)
 	return null;
 }
 
+bg.GetDataDefFieldById = function(data_def, id)
+{
+	for(var i=0; i<data_def.fields.length; ++i)
+	{
+		var field = data_def.fields[i];
+		if(field.id == id)
+		{
+			return field;
+		}
+	}
+	return null;
+}
+
 bg.SaveDataDefToJSON = function(data_def)
 {
 	var data_json = JSON.stringify(data_def, null, 4);
