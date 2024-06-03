@@ -37,7 +37,6 @@ var NodeImGui = {
 		NodeImGui.Current_Canvas.Hovered_Node = null;
 		NodeImGui.Current_Canvas.Hovered_Input = -1;
 		NodeImGui.Current_Canvas.Hovered_Output = -1;
-		NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 
         ImGui.BeginChild(id, size);
 		var cusor_pos = ImGui.GetCursorScreenPos();
@@ -165,8 +164,8 @@ var NodeImGui = {
 	Internal_GetNodeScreenPos : function(node)
 	{
 		return {
-			x : node.x + ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Scrolling.x,
-			y : node.y + ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Scrolling.y,
+			x : node.x + ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Layout.Scrolling.x,
+			y : node.y + ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Layout.Scrolling.y,
 		};
 	},
 	Internal_GetNodeWidth : function(node)
@@ -237,8 +236,8 @@ var NodeImGui = {
 	{
 		var node_x = node.x;
 		var node_y = node.y;
-		var x = ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Scrolling.x;
-		var y = ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Scrolling.y;
+		var x = ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Layout.Scrolling.x;
+		var y = ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Layout.Scrolling.y;
 		node_x += x;
 		node_y += y;
 		return {x:node_x, y:node_y};
@@ -265,8 +264,8 @@ var NodeImGui = {
 		var num_outputs = node.output_pins.length;
 		var max_pins = num_inputs > num_outputs ? num_inputs : num_outputs;
 
-		var x = ImGui.GetWindowPos().x + canvas.Scrolling.x;
-		var y = ImGui.GetWindowPos().y + canvas.Scrolling.y;
+		var x = ImGui.GetWindowPos().x + canvas.Layout.Scrolling.x;
+		var y = ImGui.GetWindowPos().y + canvas.Layout.Scrolling.y;
 		node_x += x;
 		node_y += y;
 		var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
@@ -415,12 +414,12 @@ var NodeImGui = {
 
 		//Draw BG Grid
 		var GRID_STEP = 64.0;
-		for (var x = fmodf(canvas.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+		for (var x = fmodf(canvas.Layout.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
 		{
 			dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
 		}
 
-		for (let y = fmodf(canvas.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
+		for (let y = fmodf(canvas.Layout.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 		{
 			dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
 		}

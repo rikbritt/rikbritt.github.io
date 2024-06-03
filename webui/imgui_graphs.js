@@ -352,8 +352,8 @@ function UpdateGenGraphWindow(close_func, graph_instance)
 		ImGui.SameLine();
 
 
-		current_canvas.Scrolling.x = current_canvas.c_x;
-		current_canvas.Scrolling.y = current_canvas.c_y;
+		graph_instance.layout.Scrolling.x = current_canvas.c_x;
+		graph_instance.layout.Scrolling.y = current_canvas.c_y;
 		UpdateGenGraphCanvas(graph_instance, win_width - gens_width, win_height);
 	}
 	ImGui.End();
