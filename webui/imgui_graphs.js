@@ -218,16 +218,17 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 				NodeImGui.OutputPin(field.name);
 			}
 
+			//TODO - Fix this using graph edges
 			//Input Links
-			for(var j=0; j<node.inputs.length; ++j)
-			{
-				var link = node.inputs[j];
-				NodeImGui.LinkToCurrentNode(
-					link.fromNodeIdx,
-					link.fromNodeOutputName,
-					link.toNodeInputName
-				);
-			}
+			// for(var j=0; j<node.inputs.length; ++j)
+			// {
+			// 	var link = node.inputs[j];
+			// 	NodeImGui.LinkToCurrentNode(
+			// 		link.fromNodeIdx,
+			// 		link.fromNodeOutputName,
+			// 		link.toNodeInputName
+			// 	);
+			// }
 		}
 		else if(node.type == "data_def")
 		{
