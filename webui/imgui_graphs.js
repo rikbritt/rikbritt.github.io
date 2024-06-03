@@ -197,13 +197,11 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height = -1)
 {
 	NodeImGui.BeginCanvas(graph_instance.id,  new ImGui.Vec2(canvas_width, canvas_height), graph_instance.layout);
-	NodeImGui.Current_Canvas.Scrolling.x = current_canvas.c_x;
-	NodeImGui.Current_Canvas.Scrolling.y = current_canvas.c_y;
 	for(var i=0; i<graph_instance.nodes.length; ++i)
 	{
 		var node = graph_instance.nodes[i];
 		NodeImGui.BeginNode(
-			node.idx,
+			node.id,
 			bg.GetGenerationGraphNodeName(node)
 		);
 
@@ -340,6 +338,9 @@ function UpdateGenGraphWindow(close_func, graph_instance)
 
 		ImGui.SameLine();
 
+
+		current_canvas.Scrolling.x = current_canvas.c_x;
+		current_canvas.Scrolling.y = current_canvas.c_y;
 		UpdateGenGraphCanvas(graph_instance, win_width - gens_width, win_height);
 	}
 	ImGui.End();

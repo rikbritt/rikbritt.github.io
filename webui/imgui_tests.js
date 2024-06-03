@@ -47,6 +47,8 @@ var testGenGraph = null;
 function SetupGenGraphTestWindow()
 {
 	testGenGraph = bg.CreateEmptyProjectGraph(bg.global_project);
+	bg.AddGraphLayout(testGenGraph);
+	
 	var generator = AssetDb.GetAsset(gAssetDb, "bae92d4e-3b90-4840-9ff7-1a6a88dad088", "generator");
 	var node = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
 }
