@@ -210,12 +210,12 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 			for(field of generator.inputs.fields)
 			{
-				NodeImGui.InputPin(field.name);
+				NodeImGui.InputPin(field.id, field.name);
 			}
 
 			for(field of generator.outputs.fields)
 			{
-				NodeImGui.OutputPin(field.name);
+				NodeImGui.OutputPin(field.id, field.name);
 			}
 
 			//Input Links

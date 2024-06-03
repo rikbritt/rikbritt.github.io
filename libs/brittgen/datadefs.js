@@ -7,6 +7,17 @@ bg.UpgradeDataDef = function(data_def)
 	{
 		data_def.id = bg.GUIDFromStr(data_def.name);
 	}
+	if(data_def.fields == null)
+	{
+		data_def.fields = [];
+	}
+	for(var field of data_def.fields)
+	{
+		if(field.id == null)
+		{
+			field.id = bg.GUIDFromStr(field.name);
+		}
+	}
 }
 
 bg.ValidateDataDef = function(data_def)

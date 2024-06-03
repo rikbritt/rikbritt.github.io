@@ -152,6 +152,7 @@ bg.UpgradeGenerator = function(generator)
 			],
 		};
 	}
+	bg.UpgradeDataDef(generator.inputs);
 	if(generator.outputs == null)
 	{
 		generator.outputs = {
@@ -162,6 +163,7 @@ bg.UpgradeGenerator = function(generator)
 			],
 		};
 	}
+	bg.UpgradeDataDef(generator.outputs);
 	if(generator.script == null)
 	{
 		generator.script = function(inputs, outputs){
