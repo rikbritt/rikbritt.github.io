@@ -99,7 +99,7 @@ function UpdateTestsMenu()
 		OpenWindow("Tests", UpdateTestsWindow);
 	}
 
-	if(ImGui.MenuItem("Show Ge  Graph Test Window"))
+	if(ImGui.MenuItem("Show Gen Graph Test Window"))
 	{
 		SetupGenGraphTestWindow();
 		OpenWindow("Tests_GenGraph", UpdateGenGraphTestWindow);
