@@ -50,7 +50,11 @@ function SetupGenGraphTestWindow()
 	bg.AddGraphLayout(testGenGraph);
 	
 	var generator = AssetDb.GetAsset(gAssetDb, "bae92d4e-3b90-4840-9ff7-1a6a88dad088", "generator");
-	var node = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
+	var nodeA = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
+	var nodeB = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
+	var b_layout = bg.FindOrCreateNodeLayout(testGenGraph.layout, nodeB.id);
+	b_layout.x = 450;
+	b_layout.y = 50;
 }
 function UpdateGenGraphTestWindow(close_func)
 {
