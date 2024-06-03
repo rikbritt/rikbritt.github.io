@@ -82,7 +82,6 @@ bg.CreateGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNod
 		" because '" + fromNodeOutputId + "' doesn't exist on the 'from' node."
 		);
 	}
-	//todo: add idx sanity checks and pass graph in as param to allow that
 	else
 	{
 		bg.AddGraphSubEdgeById(
