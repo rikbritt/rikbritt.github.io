@@ -35,6 +35,10 @@ That layer is abstract and could be re-used.
 
 AddNotes("Release Notes",
 `
+3/6/2024
+Fixing up graphs and the imgui for them. Then will make sure they serialise too.
+Made the code window a seperate popup window.
+
 23/04/2024
 Added Asset Db, a store of asset to guid. Each project gets one, and there's a global one. Will be how we save a ref (guid) to a project, then at runtime find the actual asset instance to use.
 Added Data Tables, which use a data def to describe each data row. Added a 'picker' imgui ui for this, that queries the asset db.
