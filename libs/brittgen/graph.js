@@ -22,10 +22,12 @@ bg.CreateGraphFromList = function(list)
 
 bg.AddGraphNode = function(graph, node_id, node_data)
 {
-    graph.nodes.push({
+    var node = {
         id:node_id,
         data:node_data
-    });
+    };
+    graph.nodes.push(node);
+    return node;
 }
 
 //TODO: Inefficient but I think it has to store the edges by id and not index
