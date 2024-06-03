@@ -5,7 +5,8 @@ var gCurrentCodeProp = null;
 
 function SetupCodeEditor()
 {    
-    gCodeEditorWindow = window.open("code_editor.html", "code_editor", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=1280,height=720");
+    //TODO - make this a url param?
+    //gCodeEditorWindow = window.open("code_editor.html", "code_editor", "status=0,location=0,toolbar=0,menubar=0,addressbar=0,width=1280,height=720");
 
     
     (window.addEventListener || window.attachEvent)(
