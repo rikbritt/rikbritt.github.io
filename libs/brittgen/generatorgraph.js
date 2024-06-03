@@ -18,7 +18,7 @@ bg.RegisterProjectGeneratorGraph = function(project, graph)
 	}
 }
 
-bg.CreateGenerationGraph = function(graphName)
+bg.CreateGenerationGraph = function(graphName = "New Graph")
 {
 	var graph = bg.CreateGraph();
 	graph.id = bg.CreateGUID();
