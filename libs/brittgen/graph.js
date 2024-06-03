@@ -48,6 +48,17 @@ bg.AddGraphEdgeById = function(graph, from_id, to_id)
     graph.edges.push({a:a_idx, a_sub:-1, b:b_idx, b_sub:-1});
 }
 
+bg.ForEachGraphEdgeIntoNode = function(graph, node_id, func)
+{
+    for(var e of graph.edges)
+    {
+        if(e.b == node_id)
+        {
+            func(e.a, e.a_sub, e.b, e.b_sub);
+        }
+    }
+}
+
 bg.AddGraphLayout = function(graph)
 {
     if(graph.layout == null)

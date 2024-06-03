@@ -218,8 +218,20 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 				NodeImGui.OutputPin(field.name);
 			}
 
-			//TODO - Fix this using graph edges
 			//Input Links
+			bg.ForEachGraphEdgeIntoNode(
+				graph_instance,
+				node.id,
+				function(from_node_id, sub_id, to_node_id, to_sub_id)
+				{
+					NodeImGui.LinkToCurrentNode(
+						from_node_id,
+						sub_id,
+						to_sub_id
+					);	
+				}
+
+			)
 			// for(var j=0; j<node.inputs.length; ++j)
 			// {
 			// 	var link = node.inputs[j];

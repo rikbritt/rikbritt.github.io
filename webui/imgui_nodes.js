@@ -101,12 +101,17 @@ var NodeImGui = {
 		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, id);
 		return node;
 	},
-	InputPin : function(pin_id)
+	InputPin : function(pin_id, pin_name)
 	{
+		if(pin_name == null)
+		{
+			pin_name = pin_id;
+		}
 		var node = NodeImGui.Current_Canvas.Current_Node;
 		node.input_pins.push(
 			{
-				id:pin_id
+				id:pin_id,
+				name:pin_name
 			}
 		);
 
@@ -119,12 +124,17 @@ var NodeImGui = {
 			canvas.Hovered_Input_Node = node;
 		}
 	},
-	OutputPin : function(pin_id)
+	OutputPin : function(pin_id, pin_name)
 	{
+		if(pin_name == null)
+		{
+			pin_name = pin_id;
+		}
 		var node = NodeImGui.Current_Canvas.Current_Node;
 		node.output_pins.push(
 			{
-				id:pin_id
+				id:pin_id,
+				name:pin_name
 			}
 		);
 		var output_idx = node.output_pins.length - 1;
@@ -188,7 +198,7 @@ var NodeImGui = {
 	{
 		var draw_info = node.draw_info;
 		var ret = NodeImGui.Internal_CalcInputPinPos(node, pin_idx);
-		var pin_text =  node.input_pins[pin_idx].id;
+		var pin_text =  node.input_pins[pin_idx].name;
 		var text_width = ImGui.CalcTextSize(pin_text).x;
 		ret.w = text_width + (draw_info.pin_radius * 2);
 		ret.h = ImGui.GetTextLineHeight();
@@ -200,7 +210,7 @@ var NodeImGui = {
 		var node_title_size = draw_info.node_title_size;
 		var node_screen_pos = draw_info.screen_pos;
 
-		var pin_text =  node.output_pins[pin_idx].id;
+		var pin_text =  node.output_pins[pin_idx].name;
 		var text_width = ImGui.CalcTextSize(pin_text).x;
 		var title_height = node_title_size.y;
 		var node_inner_x = node_screen_pos.x + draw_info.node_border;
@@ -296,7 +306,7 @@ var NodeImGui = {
 			node.input_pins[i].x = pin_circle_pos.x;
 			node.input_pins[i].y = pin_circle_pos.y;
 
-			var pin_text =  node.input_pins[i].id;
+			var pin_text =  node.input_pins[i].name;
 			var pin_text_pos = {x:pin_rect.x + (draw_info.pin_radius * 2.0), y:pin_rect.y};
 			var pin_hovered = canvas.Hovered_Input_Node == node && canvas.Hovered_Input == i;
 			dl.AddText(pin_text_pos, pin_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), pin_text);
@@ -317,7 +327,7 @@ var NodeImGui = {
 			node.output_pins[i].x = pin_circle_pos.x;
 			node.output_pins[i].y = pin_circle_pos.y;
 			
-			var pin_text =  node.output_pins[i].id;
+			var pin_text =  node.output_pins[i].name;
 			var pin_text_pos = {x:pin_rect.x, y:pin_rect.y};
 			var pin_hovered = canvas.Hovered_Output_Node == node && canvas.Hovered_Output == i;
 			dl.AddText(pin_text_pos, pin_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), pin_text);
