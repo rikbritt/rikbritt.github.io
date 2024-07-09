@@ -461,8 +461,9 @@ var NodeImGui = {
 		if(canvas.Dragging_Node != null)
 		{
 			ImGui.GetForegroundDrawList().AddLine(ImGui.GetIO().MouseClickedPos[0], ImGui.GetIO().MousePos, ImGui.GetColorU32(ImGui.Col.Button), 4.0); // Draw a line between the button and the mouse cursor
-			canvas.Dragging_Node.x = 50;
-			canvas.Dragging_Node.y = 50;
+			var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, canvas.Dragging_Node.id);
+			node_layout.x = 50;
+			node_layout.y = 50;
 		}
 
 		NodeImGui.Current_Canvas = null;
