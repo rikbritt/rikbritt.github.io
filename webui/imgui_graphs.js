@@ -52,7 +52,7 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 
 			ImGui.Text("Links : ");
 			ImGui.Indent();
-			var links = selected_graph_node.inputs;
+			var links = generator.inputs;
 			for(var i=0; i<links.length; ++i)
 			{
 				var link = links[i];
@@ -439,6 +439,13 @@ function CreateExplorerGraphNode(project, graph)
 		{ 
 			var children = [];
 			return children; 
+		},
+		UpdateNodeValue:function()
+		{
+			if(ImGui.Button("Open..."))
+			{
+				OpenWindow(graph.id, UpdateGenGraphWindow, graph);
+			}
 		}
 	};
 }

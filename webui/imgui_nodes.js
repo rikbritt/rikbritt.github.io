@@ -9,6 +9,7 @@ var NodeImGui = {
 		var canvas = NodeImGui.Canvases[id];
 		if(canvas == null)
 		{
+			//Data in here will persist across frames
 			canvas =
 			{
 				Dragging_Node:null,
@@ -44,6 +45,12 @@ var NodeImGui = {
 		ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
 		NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
 		ImGui.SetCursorScreenPos(cusor_pos);
+
+		//When mouse is released, stop dragging
+		if(ImGui.IsMouseDown(0) == false)
+		{
+			NodeImGui.Current_Canvas.Dragging_Node = null;
+		}
 	},
 	BeginNode : function(id, name)
 	{
@@ -76,6 +83,12 @@ var NodeImGui = {
 		if(NodeImGui.Current_Canvas.Hovered && ImGui.IsMouseHoveringRect(node_screen_pos, {x:node_screen_pos.x + node_title_size.x, y:node_screen_pos.y + node_title_size.y}))
 		{
 			NodeImGui.Current_Canvas.Hovered_Node = canvas.Current_Node;
+
+			//First frame drag starts, set which node we're dragging
+			if(ImGui.IsMouseClicked(0))
+			{
+				NodeImGui.Current_Canvas.Dragging_Node = canvas.Current_Node;
+			}
 		}
 		//var mouse_screen_pos = ImGui.GetCursorPos();
 
@@ -291,7 +304,6 @@ var NodeImGui = {
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
 		dl.AddText({x:node_inner_x, y:node_y + draw_info.node_border}, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
 
-
 		for(var i=0; i<num_inputs;++i)
 		{
 			var pin_rect = NodeImGui.Internal_CalcInputPinHitRect(node, i);
@@ -443,6 +455,14 @@ var NodeImGui = {
 		{
 			var mp = NodeImGui.Internal_GetMousePos();
 			dl.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y + "\n" + canvas.context_menu_pos.x + " " + canvas.context_menu_pos.y);
+		}
+
+		//Debug Dragging
+		if(canvas.Dragging_Node != null)
+		{
+			ImGui.GetForegroundDrawList().AddLine(ImGui.GetIO().MouseClickedPos[0], ImGui.GetIO().MousePos, ImGui.GetColorU32(ImGui.Col.Button), 4.0); // Draw a line between the button and the mouse cursor
+			canvas.Dragging_Node.x = 50;
+			canvas.Dragging_Node.y = 50;
 		}
 
 		NodeImGui.Current_Canvas = null;
