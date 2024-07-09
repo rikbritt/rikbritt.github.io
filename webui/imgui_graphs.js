@@ -273,7 +273,7 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 				function(data_def)
 				{
 					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, data_def);
-					NodeImGui.SetNodePosToPopup(node.idx);
+					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);
 			ImGui.EndMenu();
