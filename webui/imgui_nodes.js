@@ -302,6 +302,14 @@ var NodeImGui = {
 		var node_inner_y = node_screen_pos.y + title_height + node.draw_info.node_border;
 		return {x:node_inner_x, y:node_inner_y};
 	},
+	Internal_AddPinTooltip : function(node, pin)
+	{
+		ImGui.BeginTooltip();
+		ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35.0);
+		ImGui.TextUnformatted(pin.name);
+		ImGui.PopTextWrapPos();
+		ImGui.EndTooltip();
+	},
 	Internal_DrawNode : function(node)
 	{
 		var node_x = node.x;
@@ -359,6 +367,11 @@ var NodeImGui = {
 			var pin_text_pos = {x:pin_rect.x + (draw_info.pin_radius * 2.0), y:pin_rect.y};
 			var pin_hovered = canvas.Hovered_Input_Node == node && canvas.Hovered_Input == i;
 			dl.AddText(pin_text_pos, pin_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), pin_text);
+
+			if(pin_hovered)
+			{
+				NodeImGui.Internal_AddPinTooltip(node, node.input_pins[i]);
+			}
 		}
 
 		for(var i=0; i<num_outputs;++i)
@@ -380,6 +393,11 @@ var NodeImGui = {
 			var pin_text_pos = {x:pin_rect.x, y:pin_rect.y};
 			var pin_hovered = canvas.Hovered_Output_Node == node && canvas.Hovered_Output == i;
 			dl.AddText(pin_text_pos, pin_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), pin_text);
+
+			if(pin_hovered)
+			{
+				NodeImGui.Internal_AddPinTooltip(node, node.output_pins[i]);
+			}
 		}
 	},
 	Internal_DrawLink : function(link)
