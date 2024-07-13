@@ -14,6 +14,7 @@ var NodeImGui = {
 			{
 				dragging_node:null,
 				dragging_node_offset:{x:0,y:0}, //Offset to where you clicked on the node
+				dragging_pin_connection:null,
 				context_menu_open:false,
 				context_menu_pos:{x:0,y:0},
 				selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
@@ -51,6 +52,7 @@ var NodeImGui = {
 		if(ImGui.IsMouseDown(0) == false)
 		{
 			NodeImGui.Current_Canvas.dragging_node = null;
+			NodeImGui.Current_Canvas.dragging_pin_connection = null;
 		}
 	},
 	BeginNode : function(id, name)
@@ -137,6 +139,16 @@ var NodeImGui = {
 		{
 			canvas.Hovered_Input = input_idx;
 			canvas.Hovered_Input_Node = node;
+
+			if(ImGui.IsMouseClicked(0))
+			{
+				NodeImGui.Current_Canvas.dragging_pin_connection = {
+					input_idx:input_idx,
+					input_node:node,
+					output_idx:-1,
+					output_node:null
+				};
+			}
 		}
 	},
 	OutputPin : function(pin_id, pin_name)
@@ -159,6 +171,16 @@ var NodeImGui = {
 		{
 			canvas.Hovered_Output = output_idx;
 			canvas.Hovered_Output_Node = node;
+
+			if(ImGui.IsMouseClicked(0))
+			{
+				NodeImGui.Current_Canvas.dragging_pin_connection = {
+					input_idx:-1,
+					input_node:null,
+					output_idx:output_idx,
+					output_node:node
+				};
+			}
 		}
 	},
 	LinkToCurrentNode : function(from_id, from_pin, to_pin)
@@ -196,6 +218,7 @@ var NodeImGui = {
 			y:title_height
 		};
 	},
+	//Top left coord for the pin
 	Internal_CalcInputPinPos : function(node, pin_idx)
 	{
 		var node_title_size = node.draw_info.node_title_size;
@@ -208,6 +231,12 @@ var NodeImGui = {
 		var pin_x = node_inner_x;
 		var pin_y = text_y;// + (ImGui.GetTextLineHeight() / 2.0);
 		return {x:pin_x, y:pin_y};
+	},
+	//Middle of the pin circle
+	Internal_CalcInputPinCentrePos : function(node, pin_idx)
+	{
+		var pin_pos = NodeImGui.Internal_CalcInputPinPos(node, pin_idx);
+		return {x:pin_pos.x + node.draw_info.pin_radius, y:pin_pos.y + node.draw_info.pin_radius};
 	},
 	Internal_CalcInputPinHitRect : function(node, pin_idx)
 	{
@@ -234,6 +263,12 @@ var NodeImGui = {
 		var pin_x = node_inner_x + draw_info.node_title_size.x - text_width - draw_info.node_border - (draw_info.pin_radius * 2);
 		var pin_y = text_y;
 		return {x:pin_x, y:pin_y};
+	},
+	//Middle of the pin circle
+	Internal_CalcOutputPinCentrePos : function(node, pin_idx)
+	{
+		var pin_rect = NodeImGui.Internal_CalcOutputPinHitRect(node, pin_idx);
+		return {x:pin_rect.x + pin_rect.w - node.draw_info.pin_radius, y:pin_rect.y + node.draw_info.pin_radius};
 	},
 	Internal_CalcOutputPinHitRect : function(node, pin_idx)
 	{
@@ -423,6 +458,15 @@ var NodeImGui = {
 		var canvas_sz = ImGui.GetContentRegionAvail();
 		var canvas_p0 = ImGui.GetCursorScreenPos();
 		var canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
+		var mp = NodeImGui.Internal_GetMousePos();
+
+		//Update Node Dragging
+		if(canvas.dragging_node != null)
+		{
+			var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, canvas.dragging_node.id);
+			node_layout.x = mp.x - canvas.dragging_node_offset.x;
+			node_layout.y = mp.y - canvas.dragging_node_offset.y;
+		}
 
 		//Draw BG
 		dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
@@ -455,16 +499,24 @@ var NodeImGui = {
 		//Draw Debug
 		if(NodeImGui.Debug)
 		{
-			var mp = NodeImGui.Internal_GetMousePos();
 			dl.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y + "\n" + canvas.context_menu_pos.x + " " + canvas.context_menu_pos.y);
 		}
 
-		//Debug Dragging
-		if(canvas.dragging_node != null)
+
+		//Draw Pin Linking
+		if(canvas.dragging_pin_connection != null)
 		{
-			var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, canvas.dragging_node.id);
-			node_layout.x = mp.x - canvas.dragging_node_offset.x;
-			node_layout.y = mp.y - canvas.dragging_node_offset.y;
+			var from_pos = {x:canvas_p0.x + mp.x, y:canvas_p0.y + mp.y};
+			var to_pos = {x:canvas_p0.x + mp.x, y:canvas_p0.y + mp.y};
+			if(canvas.dragging_pin_connection.input_node != null)
+			{
+				to_pos = NodeImGui.Internal_CalcInputPinCentrePos(canvas.dragging_pin_connection.input_node, canvas.dragging_pin_connection.input_idx);
+			}
+			if(canvas.dragging_pin_connection.output_node != null)
+			{
+				from_pos = NodeImGui.Internal_CalcOutputPinCentrePos(canvas.dragging_pin_connection.output_node, canvas.dragging_pin_connection.output_idx);
+			}
+			dl.AddLine(from_pos, to_pos, ImGui.COL32(255, 255, 255, 255));
 		}
 
 		NodeImGui.Current_Canvas = null;
