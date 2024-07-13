@@ -210,12 +210,12 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 			for(field of generator.inputs.fields)
 			{
-				NodeImGui.InputPin(field.id, field.name);
+				NodeImGui.InputPin(field.id, field.name, field.type);
 			}
 
 			for(field of generator.outputs.fields)
 			{
-				NodeImGui.OutputPin(field.id, field.name);
+				NodeImGui.OutputPin(field.id, field.name, field.type);
 			}
 
 			//Input Links
@@ -261,7 +261,7 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 				function(generator)
 				{
 					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, generator);
-					NodeImGui.SetNodePosToPopup(node.idx);
+					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);
 			ImGui.EndMenu();

@@ -118,7 +118,7 @@ var NodeImGui = {
 		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, id);
 		return node;
 	},
-	InputPin : function(pin_id, pin_name)
+	InputPin : function(pin_id, pin_name, pin_data_type = "")
 	{
 		if(pin_name == null)
 		{
@@ -128,7 +128,8 @@ var NodeImGui = {
 		node.input_pins.push(
 			{
 				id:pin_id,
-				name:pin_name
+				name:pin_name,
+				data_type:pin_data_type
 			}
 		);
 
@@ -151,7 +152,7 @@ var NodeImGui = {
 			}
 		}
 	},
-	OutputPin : function(pin_id, pin_name)
+	OutputPin : function(pin_id, pin_name, pin_data_type = "")
 	{
 		if(pin_name == null)
 		{
@@ -161,7 +162,8 @@ var NodeImGui = {
 		node.output_pins.push(
 			{
 				id:pin_id,
-				name:pin_name
+				name:pin_name,
+				data_type:pin_data_type
 			}
 		);
 		var output_idx = node.output_pins.length - 1;
@@ -307,6 +309,7 @@ var NodeImGui = {
 		ImGui.BeginTooltip();
 		ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35.0);
 		ImGui.TextUnformatted(pin.name);
+		ImGui.TextUnformatted(`<${pin.data_type}>`);
 		ImGui.PopTextWrapPos();
 		ImGui.EndTooltip();
 	},
