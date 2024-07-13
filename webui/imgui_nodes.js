@@ -12,7 +12,8 @@ var NodeImGui = {
 			//Data in here will persist across frames
 			canvas =
 			{
-				Dragging_Node:null,
+				dragging_node:null,
+				dragging_node_offset:{x:0,y:0}, //Offset to where you clicked on the node
 				context_menu_open:false,
 				context_menu_pos:{x:0,y:0},
 				selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
@@ -49,7 +50,7 @@ var NodeImGui = {
 		//When mouse is released, stop dragging
 		if(ImGui.IsMouseDown(0) == false)
 		{
-			NodeImGui.Current_Canvas.Dragging_Node = null;
+			NodeImGui.Current_Canvas.dragging_node = null;
 		}
 	},
 	BeginNode : function(id, name)
@@ -87,11 +88,12 @@ var NodeImGui = {
 			//First frame drag starts, set which node we're dragging
 			if(ImGui.IsMouseClicked(0))
 			{
-				NodeImGui.Current_Canvas.Dragging_Node = canvas.Current_Node;
+				NodeImGui.Current_Canvas.dragging_node = canvas.Current_Node;
+				var mp = NodeImGui.Internal_GetMousePos();
+				NodeImGui.Current_Canvas.dragging_node_offset.x = mp.x - canvas.Current_Node.x;
+				NodeImGui.Current_Canvas.dragging_node_offset.y = mp.y - canvas.Current_Node.y;
 			}
 		}
-		//var mouse_screen_pos = ImGui.GetCursorPos();
-
 	},
 	SetNodePosToPopup : function(id)
 	{
@@ -458,12 +460,11 @@ var NodeImGui = {
 		}
 
 		//Debug Dragging
-		if(canvas.Dragging_Node != null)
+		if(canvas.dragging_node != null)
 		{
-			ImGui.GetForegroundDrawList().AddLine(ImGui.GetIO().MouseClickedPos[0], ImGui.GetIO().MousePos, ImGui.GetColorU32(ImGui.Col.Button), 4.0); // Draw a line between the button and the mouse cursor
-			var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, canvas.Dragging_Node.id);
-			node_layout.x = mp.x;
-			node_layout.y = mp.y;
+			var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, canvas.dragging_node.id);
+			node_layout.x = mp.x - canvas.dragging_node_offset.x;
+			node_layout.y = mp.y - canvas.dragging_node_offset.y;
 		}
 
 		NodeImGui.Current_Canvas = null;
