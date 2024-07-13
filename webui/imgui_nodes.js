@@ -141,7 +141,12 @@ var NodeImGui = {
 			canvas.Hovered_Input = input_idx;
 			canvas.Hovered_Input_Node = node;
 
-			if(ImGui.IsMouseClicked(0))
+			if(NodeImGui.Current_Canvas.dragging_pin_connection != null
+				&& ImGui.IsMouseReleased(0))
+			{
+				//TODO : return info on connection
+			}
+			else if(ImGui.IsMouseClicked(0))
 			{
 				NodeImGui.Current_Canvas.dragging_pin_connection = {
 					input_idx:input_idx,
@@ -151,6 +156,8 @@ var NodeImGui = {
 				};
 			}
 		}
+
+		return null;
 	},
 	OutputPin : function(pin_id, pin_name, pin_data_type = "")
 	{
@@ -313,6 +320,55 @@ var NodeImGui = {
 		ImGui.PopTextWrapPos();
 		ImGui.EndTooltip();
 	},
+	Internal_CanConnectPins : function(out_pin, in_pin)
+	{
+		if(out_pin == null || in_pin == null)
+		{
+			return false;
+		}
+		return out_pin.data_type == in_pin.data_type;
+	},
+	Internal_GetPinTextColour : function(node, input_pin_idx, output_pin_idx)
+	{
+		var canvas = NodeImGui.Current_Canvas;
+		var pin_hovered = (canvas.Hovered_Input_Node == node && canvas.Hovered_Input == input_pin_idx)
+						|| (canvas.Hovered_Output_Node == node && canvas.Hovered_Output == output_pin_idx);
+
+		var pin_text_col = (new ImGui.ImColor(1.0, 1.0, 1.0, 1.00)).toImU32();
+		if(canvas.dragging_pin_connection != null)
+		{
+			var can_connect = false;
+			if(canvas.dragging_pin_connection.output_node != null && input_pin_idx >= 0)
+			{
+				var dragging_output_pin = canvas.dragging_pin_connection.output_node.output_pins[canvas.dragging_pin_connection.output_idx];
+				if(NodeImGui.Internal_CanConnectPins(dragging_output_pin, node.input_pins[input_pin_idx]))
+				{
+					can_connect = true;
+				}
+			}
+			else if(canvas.dragging_pin_connection.input_node != null && output_pin_idx >= 0)
+			{
+				var dragging_input_pin = canvas.dragging_pin_connection.input_node.input_pins[canvas.dragging_pin_connection.input_idx];
+				if(NodeImGui.Internal_CanConnectPins(node.output_pins[output_pin_idx], dragging_input_pin))
+				{
+					can_connect = true;
+				}
+			}
+			if(can_connect)
+			{
+				pin_text_col = (new ImGui.ImColor(0.00, 1.00, 0.25, 1.00)).toImU32();
+			}
+			else
+			{
+				pin_text_col = (new ImGui.ImColor(1.00, 0.15, 0.25, 1.00)).toImU32();
+			}
+		}
+		if(pin_hovered)
+		{
+			pin_text_col = (new ImGui.ImColor(1.0, 0.5, 0.5, 1.00)).toImU32();
+		}
+		return pin_text_col;
+	},
 	Internal_DrawNode : function(node)
 	{
 		var node_x = node.x;
@@ -369,7 +425,9 @@ var NodeImGui = {
 			var pin_text =  node.input_pins[i].name;
 			var pin_text_pos = {x:pin_rect.x + (draw_info.pin_radius * 2.0), y:pin_rect.y};
 			var pin_hovered = canvas.Hovered_Input_Node == node && canvas.Hovered_Input == i;
-			dl.AddText(pin_text_pos, pin_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), pin_text);
+
+			var pin_text_col = NodeImGui.Internal_GetPinTextColour(node, i, -1);
+			dl.AddText(pin_text_pos, pin_text_col, pin_text);
 
 			if(pin_hovered)
 			{
@@ -395,7 +453,8 @@ var NodeImGui = {
 			var pin_text =  node.output_pins[i].name;
 			var pin_text_pos = {x:pin_rect.x, y:pin_rect.y};
 			var pin_hovered = canvas.Hovered_Output_Node == node && canvas.Hovered_Output == i;
-			dl.AddText(pin_text_pos, pin_hovered ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), pin_text);
+			var pin_text_col = NodeImGui.Internal_GetPinTextColour(node, -1, i);
+			dl.AddText(pin_text_pos, pin_text_col, pin_text);
 
 			if(pin_hovered)
 			{
