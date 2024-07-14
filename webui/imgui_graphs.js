@@ -200,12 +200,16 @@ function TrySetupNewGraphConnection(graph, new_connection)
 	{
 		var output_graph_node = bg.GetGraphNodeById(graph, new_connection.output_node.id);
 		var input_graph_node = bg.GetGraphNodeById(graph, new_connection.input_node.id);
+
+		var output_pin_id = new_connection.output_node.output_pins[new_connection.output_idx].id;
+		var input_pin_id = new_connection.input_node.input_pins[new_connection.input_idx].id;
+
 		bg.CreateGenerationGraphLink(
 			graph, 
 			output_graph_node, 
-			new_connection.output_idx,
+			output_pin_id,
 			input_graph_node, 
-			new_connection.input_idx);
+			input_pin_id);
 	}
 }
 
