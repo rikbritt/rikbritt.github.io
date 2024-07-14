@@ -47,13 +47,6 @@ var NodeImGui = {
 		ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
 		NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
 		ImGui.SetCursorScreenPos(cusor_pos);
-
-		//When mouse is released, stop dragging
-		if(ImGui.IsMouseDown(0) == false)
-		{
-			NodeImGui.Current_Canvas.dragging_node = null;
-			NodeImGui.Current_Canvas.dragging_pin_connection = null;
-		}
 	},
 	BeginNode : function(id, name)
 	{
@@ -147,7 +140,7 @@ var NodeImGui = {
 				if( ImGui.IsMouseReleased(0))
 				{
 					var dragging_output_pin = canvas.dragging_pin_connection.output_node.output_pins[canvas.dragging_pin_connection.output_idx];
-					if(ImGui.Internal_CanConnectPins(dragging_output_pin, node.input_pins[input_idx]))
+					if(NodeImGui.Internal_CanConnectPins(dragging_output_pin, node.input_pins[input_idx]))
 					{
 						new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
 						NodeImGui.Current_Canvas.dragging_pin_connection = null;
@@ -197,7 +190,7 @@ var NodeImGui = {
 				if(ImGui.IsMouseReleased(0))
 				{
 					var dragging_input_pin = canvas.dragging_pin_connection.input_node.input_pins[canvas.dragging_pin_connection.input_idx];
-					if(ImGui.Internal_CanConnectPins(node.output_pins[output_idx], dragging_input_pin))
+					if(NodeImGui.Internal_CanConnectPins(node.output_pins[output_idx], dragging_input_pin))
 					{
 						new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
 						NodeImGui.Current_Canvas.dragging_pin_connection = null;
@@ -565,6 +558,13 @@ var NodeImGui = {
 		var canvas_p0 = ImGui.GetCursorScreenPos();
 		var canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 		var mp = NodeImGui.Internal_GetMousePos();
+
+		//When mouse is released, stop dragging
+		if(ImGui.IsMouseDown(0) == false)
+		{
+			canvas.dragging_node = null;
+			canvas.dragging_pin_connection = null;
+		}
 
 		//Update Node Dragging
 		if(canvas.dragging_node != null)
