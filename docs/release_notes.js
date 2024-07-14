@@ -1,7 +1,5 @@
 AddNotes("Next",
 `
-Inputs / Outputs for graphs
-
 Prob good to add some kind of 'info' struct that wraps name, category and id? Graphs, data defs and generators could all share code then.
 
 * Serialisation *
@@ -26,7 +24,6 @@ Data Map - A hashmap of field values, keyed by field name. Used by the generator
 * UI *
 Making async project loading blocking? With ui popup?
 Make error window a generic logging window? Or keep the console for that?
-Add a 3rd party code editor window.
 
 * Long Term *
 Split out project code managing a tree and links of objects with GUIDs from the generator lib itself.
@@ -35,6 +32,17 @@ That layer is abstract and could be re-used.
 
 AddNotes("Release Notes",
 `
+14//2024
+Graph editor - dragging nodes.
+Basics of adding links with the mouse between pins of the same data type.
+Next - for graph nodes.
+  - deleting
+  - resizing
+Next - for linking
+  - Don't link to own input
+  - sub types for data defs and other types.
+  - edit node - go straight to the right editor window
+
 3/6/2024
 Fixing up graphs and the imgui for them. Then will make sure they serialise too.
 Made the code window a seperate popup window.
