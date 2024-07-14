@@ -198,7 +198,12 @@ function TrySetupNewGraphConnection(graph_instance, new_connection)
 {
 	if(new_connection != null)
 	{
-		bg.AddGraphSubEdgeById(graph_instance, new_connection.output.id, new_connection.output_idx, new_connection.input_id, new_connection.input_idx);
+		bg.AddGraphSubEdgeById(
+			graph_instance, 
+			new_connection.output_node.id, 
+			new_connection.output_idx,
+			new_connection.input_node.id, 
+			new_connection.input_idx);
 	}
 }
 
