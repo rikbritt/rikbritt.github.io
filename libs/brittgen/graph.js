@@ -30,6 +30,18 @@ bg.AddGraphNode = function(graph, node_id, node_data)
     return node;
 }
 
+bg.GetGraphNodeById = function(graph, node_id)
+{
+    for(var node of graph.nodes)
+    {
+        if(node.id == node_id)
+        {
+            return node;
+        }
+    }
+    return null
+}
+
 //TODO: Inefficient but I think it has to store the edges by id and not index
 // bg.AddGraphEdgeByIdx = function(graph, from_idx, to_idx)
 // {

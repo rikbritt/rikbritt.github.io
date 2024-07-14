@@ -194,19 +194,22 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 //	}
 //}
 
-function TrySetupNewGraphConnection(graph_instance, new_connection)
+function TrySetupNewGraphConnection(graph, new_connection)
 {
 	if(new_connection != null)
 	{
-		bg.AddGraphSubEdgeById(
-			graph_instance, 
-			new_connection.output_node.id, 
+		var output_graph_node = bg.GetGraphNodeById(graph, new_connection.output_node.id);
+		var input_graph_node = bg.GetGraphNodeById(graph, new_connection.input_node.id);
+		bg.CreateGenerationGraphLink(
+			graph, 
+			output_graph_node, 
 			new_connection.output_idx,
-			new_connection.input_node.id, 
+			input_graph_node, 
 			new_connection.input_idx);
 	}
 }
 
+// Update an imgui node canvas specifically for a generator graph.
 function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height = -1)
 {
 	NodeImGui.BeginCanvas(graph_instance.id,  new ImGui.Vec2(canvas_width, canvas_height), graph_instance.layout);
