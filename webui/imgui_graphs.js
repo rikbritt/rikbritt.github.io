@@ -194,6 +194,14 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 //	}
 //}
 
+function TrySetupNewGraphConnection(graph_instance, new_connection)
+{
+	if(new_connection != null)
+	{
+		bg.AddGraphSubEdgeById(graph_instance, new_connection.output.id, new_connection.output_idx, new_connection.input_id, new_connection.input_idx);
+	}
+}
+
 function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height = -1)
 {
 	NodeImGui.BeginCanvas(graph_instance.id,  new ImGui.Vec2(canvas_width, canvas_height), graph_instance.layout);
@@ -210,12 +218,14 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 			for(field of generator.inputs.fields)
 			{
-				NodeImGui.InputPin(field.id, field.name, field.type);
+				var new_connection = NodeImGui.InputPin(field.id, field.name, field.type);
+				TrySetupNewGraphConnection(graph_instance, new_connection);
 			}
 
 			for(field of generator.outputs.fields)
 			{
-				NodeImGui.OutputPin(field.id, field.name, field.type);
+				var new_connection = NodeImGui.OutputPin(field.id, field.name, field.type);
+				TrySetupNewGraphConnection(graph_instance, new_connection);
 			}
 
 			//Input Links

@@ -136,6 +136,7 @@ var NodeImGui = {
 		var input_idx = node.input_pins.length - 1;
 		var pin_rect = NodeImGui.Internal_CalcInputPinHitRect(node, input_idx);
 		var canvas = NodeImGui.Current_Canvas;
+		var new_connection = null;
 		if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
 		{
 			canvas.Hovered_Input = input_idx;
@@ -144,7 +145,14 @@ var NodeImGui = {
 			if(NodeImGui.Current_Canvas.dragging_pin_connection != null
 				&& ImGui.IsMouseReleased(0))
 			{
-				//TODO : return info on connection
+				var dragging_output_pin = canvas.dragging_pin_connection.output_node.output_pins[canvas.dragging_pin_connection.output_idx];
+				if(ImGui.Internal_CanConnectPins(dragging_output_pin, node.input_pins[input_idx]))
+				{
+					new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
+					NodeImGui.Current_Canvas.dragging_pin_connection = null;
+					new_connection.input_idx = input_idx;
+					new_connection.input_node = node;
+				}
 			}
 			else if(ImGui.IsMouseClicked(0))
 			{
@@ -157,7 +165,7 @@ var NodeImGui = {
 			}
 		}
 
-		return null;
+		return new_connection;
 	},
 	OutputPin : function(pin_id, pin_name, pin_data_type = "")
 	{
@@ -176,12 +184,25 @@ var NodeImGui = {
 		var output_idx = node.output_pins.length - 1;
 		var pin_rect = NodeImGui.Internal_CalcOutputPinHitRect(node, output_idx);
 		var canvas = NodeImGui.Current_Canvas;
+		var new_connection = null;
 		if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
 		{
 			canvas.Hovered_Output = output_idx;
 			canvas.Hovered_Output_Node = node;
 
-			if(ImGui.IsMouseClicked(0))
+			if(NodeImGui.Current_Canvas.dragging_pin_connection != null
+				&& ImGui.IsMouseReleased(0))
+			{
+				var dragging_input_pin = canvas.dragging_pin_connection.input_node.input_pins[canvas.dragging_pin_connection.input_idx];
+				if(ImGui.Internal_CanConnectPins(node.output_pins[output_idx], dragging_input_pin))
+				{
+					new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
+					NodeImGui.Current_Canvas.dragging_pin_connection = null;
+					new_connection.output_idx = output_idx;
+					new_connection.output_node = node;
+				}
+			}
+			else if(ImGui.IsMouseClicked(0))
 			{
 				NodeImGui.Current_Canvas.dragging_pin_connection = {
 					input_idx:-1,
@@ -191,6 +212,7 @@ var NodeImGui = {
 				};
 			}
 		}
+		return new_connection;
 	},
 	LinkToCurrentNode : function(from_id, from_pin, to_pin)
 	{
