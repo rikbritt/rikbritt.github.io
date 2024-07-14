@@ -142,16 +142,18 @@ var NodeImGui = {
 			canvas.Hovered_Input = input_idx;
 			canvas.Hovered_Input_Node = node;
 
-			if(NodeImGui.Current_Canvas.dragging_pin_connection != null
-				&& ImGui.IsMouseReleased(0))
+			if(NodeImGui.Current_Canvas.dragging_pin_connection != null)
 			{
-				var dragging_output_pin = canvas.dragging_pin_connection.output_node.output_pins[canvas.dragging_pin_connection.output_idx];
-				if(ImGui.Internal_CanConnectPins(dragging_output_pin, node.input_pins[input_idx]))
+				if( ImGui.IsMouseReleased(0))
 				{
-					new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
-					NodeImGui.Current_Canvas.dragging_pin_connection = null;
-					new_connection.input_idx = input_idx;
-					new_connection.input_node = node;
+					var dragging_output_pin = canvas.dragging_pin_connection.output_node.output_pins[canvas.dragging_pin_connection.output_idx];
+					if(ImGui.Internal_CanConnectPins(dragging_output_pin, node.input_pins[input_idx]))
+					{
+						new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
+						NodeImGui.Current_Canvas.dragging_pin_connection = null;
+						new_connection.input_idx = input_idx;
+						new_connection.input_node = node;
+					}
 				}
 			}
 			else if(ImGui.IsMouseClicked(0))
@@ -190,16 +192,18 @@ var NodeImGui = {
 			canvas.Hovered_Output = output_idx;
 			canvas.Hovered_Output_Node = node;
 
-			if(NodeImGui.Current_Canvas.dragging_pin_connection != null
-				&& ImGui.IsMouseReleased(0))
+			if(NodeImGui.Current_Canvas.dragging_pin_connection != null)
 			{
-				var dragging_input_pin = canvas.dragging_pin_connection.input_node.input_pins[canvas.dragging_pin_connection.input_idx];
-				if(ImGui.Internal_CanConnectPins(node.output_pins[output_idx], dragging_input_pin))
+				if(ImGui.IsMouseReleased(0))
 				{
-					new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
-					NodeImGui.Current_Canvas.dragging_pin_connection = null;
-					new_connection.output_idx = output_idx;
-					new_connection.output_node = node;
+					var dragging_input_pin = canvas.dragging_pin_connection.input_node.input_pins[canvas.dragging_pin_connection.input_idx];
+					if(ImGui.Internal_CanConnectPins(node.output_pins[output_idx], dragging_input_pin))
+					{
+						new_connection = NodeImGui.Current_Canvas.dragging_pin_connection;
+						NodeImGui.Current_Canvas.dragging_pin_connection = null;
+						new_connection.output_idx = output_idx;
+						new_connection.output_node = node;
+					}
 				}
 			}
 			else if(ImGui.IsMouseClicked(0))
