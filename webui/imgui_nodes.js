@@ -349,7 +349,7 @@ var NodeImGui = {
 	Internal_CanConnectToInput : function(dragging_connection, input_node, input_idx)
 	{
 		// Don't link a node to itself
-		if(input_node == dragging_connection.output_node)
+		if(input_node.id == dragging_connection.output_node.id)
 		{
 			return false;
 		}
@@ -361,12 +361,12 @@ var NodeImGui = {
 	Internal_CanConnectToOutput : function(dragging_connection, output_node, output_idx)
 	{
 		// Don't link a node to itself
-		if(dragging_connection.input_node == output_node)
+		if(dragging_connection.input_node.id == output_node.id)
 		{
 			return false;
 		}
 		var in_pin = dragging_connection.input_node.output_pins[dragging_connection.input_idx];
-		var in_pin = output_node.output_pins[output_idx];
+		var out_pin = output_node.output_pins[output_idx];
 
 		return NodeImGui.Internal_CanConnectPins(out_pin, in_pin)
 	},
