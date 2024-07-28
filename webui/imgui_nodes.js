@@ -234,7 +234,7 @@ var NodeImGui = {
 	},
 	Internal_GetNodeWidth : function(node)
 	{
-		return 170;
+		return 270;
 	},
 	Internal_GetNodeTitleSize : function(node)
 	{
@@ -348,6 +348,11 @@ var NodeImGui = {
 	},
 	Internal_CanConnectToInput : function(dragging_connection, input_node, input_idx)
 	{
+		if(dragging_connection.output_node == null)
+		{
+			return false;
+		}
+
 		// Don't link a node to itself
 		if(input_node.id == dragging_connection.output_node.id)
 		{
@@ -360,6 +365,11 @@ var NodeImGui = {
 	},
 	Internal_CanConnectToOutput : function(dragging_connection, output_node, output_idx)
 	{
+		if(dragging_connection.input_node == null)
+		{
+			return false;
+		}
+
 		// Don't link a node to itself
 		if(dragging_connection.input_node.id == output_node.id)
 		{
