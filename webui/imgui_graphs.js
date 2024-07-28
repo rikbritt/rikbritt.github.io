@@ -194,22 +194,31 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 //	}
 //}
 
-function TrySetupNewGraphConnection(graph, new_connection)
+function ProcessGraphConnection(graph, connection)
 {
-	if(new_connection != null)
+	if(connection != null)
 	{
-		var output_graph_node = bg.GetGraphNodeById(graph, new_connection.output_node.id);
-		var input_graph_node = bg.GetGraphNodeById(graph, new_connection.input_node.id);
+		if(connection.break)
+		{
+			//TODO
+			bg.RemoveGenerationGraphLink();
+		}
+		else
+		{
+			var output_graph_node = bg.GetGraphNodeById(graph, connection.output_node.id);
+			var input_graph_node = bg.GetGraphNodeById(graph, connection.input_node.id);
 
-		var output_pin_id = new_connection.output_node.output_pins[new_connection.output_idx].id;
-		var input_pin_id = new_connection.input_node.input_pins[new_connection.input_idx].id;
+			var output_pin_id = connection.output_node.output_pins[connection.output_idx].id;
+			var input_pin_id = connection.input_node.input_pins[connection.input_idx].id;
 
-		bg.CreateGenerationGraphLink(
-			graph, 
-			output_graph_node, 
-			output_pin_id,
-			input_graph_node, 
-			input_pin_id);
+			bg.CreateGenerationGraphLink(
+				graph, 
+				output_graph_node, 
+				output_pin_id,
+				input_graph_node, 
+				input_pin_id
+			);
+		}
 	}
 }
 
@@ -230,14 +239,14 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 			for(field of generator.inputs.fields)
 			{
-				var new_connection = NodeImGui.InputPin(field.id, field.name, field.type);
-				TrySetupNewGraphConnection(graph_instance, new_connection);
+				var connection = NodeImGui.InputPin(field.id, field.name, field.type);
+				ProcessGraphConnection(graph_instance, connection);
 			}
 
 			for(field of generator.outputs.fields)
 			{
-				var new_connection = NodeImGui.OutputPin(field.id, field.name, field.type);
-				TrySetupNewGraphConnection(graph_instance, new_connection);
+				var connection = NodeImGui.OutputPin(field.id, field.name, field.type);
+				ProcessGraphConnection(graph_instance, connection);
 			}
 
 			//Input Links

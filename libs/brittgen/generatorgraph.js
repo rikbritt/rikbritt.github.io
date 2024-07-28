@@ -94,6 +94,11 @@ bg.CreateGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNod
 	}
 }
 
+bg.RemoveGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNode, toNodeInputId)
+{
+	//TODO
+}
+
 // //Generate a target node. Will trigger generation of all input nodes.
 // bg.GenerateGraphNode = function(targetNode, seed, nodeInputDataDef)
 // {

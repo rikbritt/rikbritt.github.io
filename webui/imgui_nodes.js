@@ -150,12 +150,25 @@ var NodeImGui = {
 			}
 			else if(ImGui.IsMouseClicked(0))
 			{
-				NodeImGui.Current_Canvas.dragging_pin_connection = {
-					input_idx:input_pin_idx,
-					input_node:node,
-					output_idx:-1,
-					output_node:null
-				};
+				// Actually need to work on the link itself, as the input pin may have multiple input connections
+				// and disconnecting all of them with this click would be a pain
+				// if(ImGui.IsKeyDown(ImGui.GetIO().KeyShift))
+				// {
+				// 	new_connection = {
+				// 		break:true,
+				// 		input_idx:input_pin_idx,
+				// 		input_node:node,
+				// 	}
+				// }
+				// else
+				// {
+					NodeImGui.Current_Canvas.dragging_pin_connection = {
+						input_idx:input_pin_idx,
+						input_node:node,
+						output_idx:-1,
+						output_node:null
+					};
+				//}
 			}
 		}
 
