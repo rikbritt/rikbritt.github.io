@@ -35,9 +35,11 @@ function UpdateNodeTestWindow(close_func)
 		NodeImGui.InputPin("frank_in_1", "Input", "data", can_link_func);
 		NodeImGui.OutputPin("frank_out_1", "Output", "data", can_link_func);
 
-		NodeImGui.LinkToCurrentNode(
+		// Do all linking after nodes are all defined
+		NodeImGui.LinkNodes(
 			"0",
 			"bob_out_1",
+			"1",
 			"frank_in_1"
 		);
 		NodeImGui.EndNode();

@@ -236,17 +236,18 @@ var NodeImGui = {
 		}
 		return new_connection;
 	},
-	LinkToCurrentNode : function(from_id, from_pin, to_pin)
+	LinkNodes : function(from_id, from_pin, to_id, to_pin)
 	{
 		var canvas = NodeImGui.Current_Canvas;
 		var from_imgui_id = ImGui.GetID(from_id);
+		var to_imgui_id = ImGui.GetID(to_id);
 
 		var link = 
 		{
 			from_imgui_id:from_imgui_id,
 			from_pin:from_pin,
 			to_pin:to_pin,
-			to_imgui_id:NodeImGui.Current_Canvas.Current_NodeImGuiId,
+			to_imgui_id:to_imgui_id,
 			hovered:false
 		};
 

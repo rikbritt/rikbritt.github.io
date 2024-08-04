@@ -254,30 +254,6 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 				var connection = NodeImGui.OutputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
 				ProcessGraphConnection(graph_instance, connection);
 			}
-
-			//Input Links
-			bg.ForEachGraphEdgeIntoNode(
-				graph_instance,
-				node.id,
-				function(from_node_id, sub_id, to_node_id, to_sub_id)
-				{
-					NodeImGui.LinkToCurrentNode(
-						from_node_id,
-						sub_id,
-						to_sub_id
-					);	
-				}
-
-			)
-			// for(var j=0; j<node.inputs.length; ++j)
-			// {
-			// 	var link = node.inputs[j];
-			// 	NodeImGui.LinkToCurrentNode(
-			// 		link.fromNodeIdx,
-			// 		link.fromNodeOutputName,
-			// 		link.toNodeInputName
-			// 	);
-			// }
 		}
 		else if(node.type == "data_def")
 		{
@@ -288,6 +264,34 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 		}
 
 		NodeImGui.EndNode();
+	}
+
+	// Do all links after nodes are defined
+	for(var i=0; i<graph_instance.nodes.length; ++i)
+	{
+		var node = graph_instance.nodes[i];	
+		if(node.type == "generator")
+		{
+
+			//Input Links
+			bg.ForEachGraphEdgeIntoNode(
+				graph_instance,
+				node.id,
+				function(from_node_id, sub_id, to_node_id, to_sub_id)
+				{
+					NodeImGui.LinkNodes(
+						from_node_id,
+						sub_id,
+						to_node_id,
+						to_sub_id
+					);	
+				}
+
+			)
+		}
+		else if(node.type == "data_def")
+		{
+		}
 	}
 	
 	if (NodeImGui.BeginPopupContextWindow())
