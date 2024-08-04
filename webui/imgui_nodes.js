@@ -576,7 +576,7 @@ var NodeImGui = {
 		dl.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), link_thickness, curve_segments);
 
 		var link_middle_pos = bg.CubicBezier2D( 0.5, cp4[0], cp4[1], cp4[2], cp4[3] );
-		dl.AddCircleFilled(link_middle_pos, 5.0f, link_col, 8);
+		dl.AddCircleFilled(link_middle_pos, 5.0, link_col, 8);
 	},
 	Internal_GetMousePos : function()
 	{
