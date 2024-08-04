@@ -10,6 +10,11 @@ var testGraphLayout = [];
 }
 function UpdateNodeTestWindow(close_func)
 {
+	var can_link_func = function(connection_data)
+	{
+		return true;
+	}
+
 	if(ImGui.Begin("Node Test", close_func))
 	{
 		NodeImGui.BeginCanvas("test_canvas",  new ImGui.Vec2(-1,-1), testGraphLayout );
@@ -18,8 +23,8 @@ function UpdateNodeTestWindow(close_func)
 			"0",
 			"Bobs Node"
 		);
-		NodeImGui.InputPin("bob_in_1", "Input", "data");
-		NodeImGui.OutputPin("bob_out_1", "Output", "data");
+		NodeImGui.InputPin("bob_in_1", "Input", "data", can_link_func);
+		NodeImGui.OutputPin("bob_out_1", "Output", "data", can_link_func);
 		NodeImGui.EndNode();
 
 		
@@ -27,8 +32,8 @@ function UpdateNodeTestWindow(close_func)
 			"1",
 			"Franks Node"
 		);
-		NodeImGui.InputPin("frank_in_1", "Input");
-		NodeImGui.OutputPin("frank_out_1", "Output");
+		NodeImGui.InputPin("frank_in_1", "Input", "data", can_link_func);
+		NodeImGui.OutputPin("frank_out_1", "Output", "data", can_link_func);
 
 		NodeImGui.LinkToCurrentNode(
 			"0",

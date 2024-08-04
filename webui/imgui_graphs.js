@@ -222,6 +222,12 @@ function ProcessGraphConnection(graph, connection)
 	}
 }
 
+
+var CanLinkGenGraphNodes = function(connection_data)
+{
+	return true;
+}
+
 // Update an imgui node canvas specifically for a generator graph.
 function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height = -1)
 {
@@ -239,13 +245,13 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 			for(field of generator.inputs.fields)
 			{
-				var connection = NodeImGui.InputPin(field.id, field.name, field.type);
+				var connection = NodeImGui.InputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
 				ProcessGraphConnection(graph_instance, connection);
 			}
 
 			for(field of generator.outputs.fields)
 			{
-				var connection = NodeImGui.OutputPin(field.id, field.name, field.type);
+				var connection = NodeImGui.OutputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
 				ProcessGraphConnection(graph_instance, connection);
 			}
 
