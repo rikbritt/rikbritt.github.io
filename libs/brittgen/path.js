@@ -40,7 +40,7 @@ bg.CubicBezier = function( t, p0, p1, p2, p3 ) {
 
 bg.CubicBezier2D = function( t, p0, p1, p2, p3 ) {
 	return {
-		x:bg.CubicBezier( t, p0.x, p1.x, p2.x, p3.x )
+		x:bg.CubicBezier( t, p0.x, p1.x, p2.x, p3.x ),
 		y:bg.CubicBezier( t, p0.y, p1.y, p2.y, p3.y )
 	}
 }
