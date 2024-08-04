@@ -553,6 +553,7 @@ var NodeImGui = {
 	},
 	Internal_GetLinkCPs : function(link)
 	{
+		var canvas = NodeImGui.Current_Canvas;
 		var from_node = canvas.Nodes[link.from_imgui_id];
 		var to_node = canvas.Nodes[link.to_imgui_id];
 
