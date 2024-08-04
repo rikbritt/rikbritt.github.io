@@ -32,7 +32,9 @@ var NodeImGui = {
 		title_txt_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
 		title_hovered_txt_col: ImGui.ImColor(1.0, 0.5, 0.5, 1.00),
 		pin_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
-		pin_inner_col: ImGui.ImColor(0.0, 0.0, 0.0, 1.00)
+		pin_inner_col: ImGui.ImColor(0.0, 0.0, 0.0, 1.00),
+		link_col: ImGui.ImColor(0.7, 0.7, 0.7, 1.00),
+		link_hovered_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00)
 	},
 	BeginCanvas : function(id, size, layout)
 	{
@@ -237,14 +239,24 @@ var NodeImGui = {
 	LinkToCurrentNode : function(from_id, from_pin, to_pin)
 	{
 		var from_imgui_id = ImGui.GetID(from_id);
-		NodeImGui.Current_Canvas.Links.push(
-			{
-				from_imgui_id:from_imgui_id,
-				from_pin:from_pin,
-				to_pin:to_pin,
-				to_imgui_id:NodeImGui.Current_Canvas.Current_NodeImGuiId
-			}
-		);
+
+		var link = 
+		{
+			from_imgui_id:from_imgui_id,
+			from_pin:from_pin,
+			to_pin:to_pin,
+			to_imgui_id:NodeImGui.Current_Canvas.Current_NodeImGuiId,
+			hovered:false
+		};
+
+		var cp4 = NodeImGui.Internal_GetLinkCPs(link);
+		var link_middle_pos = bg.CubicBezier2D( 0.5, cp4[0], cp4[1], cp4[2], cp4[3] );
+		if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:link_middle_pos.x - 2, y:link_middle_pos.y - 2}, {x:link_middle_pos.x + 2, y:link_middle_pos.y + 2}))
+		{
+			link.hovered = true;
+		}
+
+		NodeImGui.Current_Canvas.Links.push(link);
 	},
 	EndNode : function()
 	{
@@ -539,9 +551,8 @@ var NodeImGui = {
 			}
 		}
 	},
-	Internal_DrawLink : function(link)
+	Internal_GetLinkCPs : function(link)
 	{
-		var canvas = NodeImGui.Current_Canvas;
 		var from_node = canvas.Nodes[link.from_imgui_id];
 		var to_node = canvas.Nodes[link.to_imgui_id];
 
@@ -566,12 +577,6 @@ var NodeImGui = {
 				break;
 			}
 		}
-
-		var link_col = new ImGui.ImColor(0.7, 0.7, 0.7, 1.00);
-		var link_thickness = 2.0;
-		var sz = {value:150}
-		var x = ImGui.GetWindowPos().x + 50;
-		var y = ImGui.GetWindowPos().y + 50;
 		var cp4 = [    
 			{x:out_pin.x, y:out_pin.y},     
 			{x:out_pin.x + 60, y:out_pin.y},
@@ -579,12 +584,33 @@ var NodeImGui = {
 			{x:in_pin.x, y:in_pin.y}
 		];
 
+		return cp4;
+	},
+	Internal_DrawLink : function(link)
+	{
+		var canvas = NodeImGui.Current_Canvas;
+		var link_col = NodeImGui.Colours.link_col;
+		var link_hovered_col = NodeImGui.Colours.link_hovered_col;
+		var link_thickness = 2.0;
+		var sz = {value:150}
+		var x = ImGui.GetWindowPos().x + 50;
+		var y = ImGui.GetWindowPos().y + 50;
+
+		var cp4 = NodeImGui.Internal_GetLinkCPs(link);
+
 		var dl = ImGui.GetWindowDrawList();
 		var curve_segments = 32;
 		dl.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), link_thickness, curve_segments);
 
 		var link_middle_pos = bg.CubicBezier2D( 0.5, cp4[0], cp4[1], cp4[2], cp4[3] );
-		dl.AddCircleFilled(link_middle_pos, 5.0, link_col.toImU32(), 8);
+		if(link.hovered)
+		{
+			dl.AddCircleFilled(link_middle_pos, 5.0, link_hovered_col.toImU32(), 8);
+		}
+		else
+		{
+			dl.AddCircleFilled(link_middle_pos, 5.0, link_col.toImU32(), 8);
+		}
 	},
 	Internal_GetMousePos : function()
 	{
