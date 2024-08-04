@@ -26,6 +26,14 @@ var NodeImGui = {
 		}
 		return canvas;
 	},
+	Colours:{
+		bg_col: ImGui.ImColor(0.15, 0.15, 0.25, 1.00),
+		title_bg_col: ImGui.ImColor(0.3, 0.3, 0.4, 1.00),
+		title_txt_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
+		title_hovered_txt_col: ImGui.ImColor(1.0, 0.5, 0.5, 1.00),
+		pin_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
+		pin_inner_col: ImGui.ImColor(0.0, 0.0, 0.0, 1.00)
+	},
 	BeginCanvas : function(id, size, layout)
 	{
 		NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
@@ -464,12 +472,12 @@ var NodeImGui = {
 		var node_inner_y = node_inner_pos.y;
 		var node_h = (max_pins * draw_info.line_space) + title_height + (draw_info.node_border * 1);
 
-		var bg_col = new ImGui.ImColor(0.15, 0.15, 0.25, 1.00);
-		var title_bg_col = new ImGui.ImColor(0.3, 0.3, 0.4, 1.00);
-		var title_txt_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
-		var title_hovered_txt_col = new ImGui.ImColor(1.0, 0.5, 0.5, 1.00);
-		var pin_col = new ImGui.ImColor(1.0, 1.0, 1.0, 1.00);
-		var pin_inner_col = new ImGui.ImColor(0.0, 0.0, 0.0, 1.00);
+		var bg_col = NodeImGui.Colours.bg_col;
+		var title_bg_col = NodeImGui.Colours.title_bg_col;
+		var title_txt_col = NodeImGui.Colours.title_txt_col;
+		var title_hovered_txt_col = NodeImGui.Colours.title_hovered_txt_col;
+		var pin_col = NodeImGui.Colours.pin_col;
+		var pin_inner_col = NodeImGui.Colours.pin_inner_col;
 
 		//background
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
