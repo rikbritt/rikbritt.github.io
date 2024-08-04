@@ -266,7 +266,8 @@ var NodeImGui = {
 
 		var cp4 = NodeImGui.Internal_GetLinkCPs(link);
 		var link_middle_pos = bg.CubicBezier2D( 0.5, cp4[0], cp4[1], cp4[2], cp4[3] );
-		if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:link_middle_pos.x - 2, y:link_middle_pos.y - 2}, {x:link_middle_pos.x + 2, y:link_middle_pos.y + 2}))
+		if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:link_middle_pos.x - 4, y:link_middle_pos.y - 4},
+			 {x:link_middle_pos.x + 4, y:link_middle_pos.y + 4}))
 		{
 			link.hovered = true;
 		}
