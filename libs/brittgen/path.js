@@ -7,33 +7,33 @@ bg.CreatePath = function(pointArray)
 }
 
 
-function bg.CubicBezierP0( t, p ) {
+bg.CubicBezierP0 = function( t, p ) {
 
 	var k = 1 - t;
 	return k * k * k * p;
 
 }
 
-function bg.CubicBezierP1( t, p ) {
+bg.CubicBezierP1 = function( t, p ) {
 
 	var k = 1 - t;
 	return 3 * k * k * t * p;
 
 }
 
-function bg.CubicBezierP2( t, p ) {
+bg.CubicBezierP2 = function( t, p ) {
 
 	return 3 * ( 1 - t ) * t * t * p;
 
 }
 
-function bg.CubicBezierP3( t, p ) {
+bg.CubicBezierP3 = function( t, p ) {
 
 	return t * t * t * p;
 
 }
 
-function bg.CubicBezier( t, p0, p1, p2, p3 ) {
+bg.CubicBezier = function( t, p0, p1, p2, p3 ) {
 
 	return bg.CubicBezierP0( t, p0 ) + bg.CubicBezierP1( t, p1 ) + bg.CubicBezierP2( t, p2 ) + bg.CubicBezierP3( t, p3 );
 }
