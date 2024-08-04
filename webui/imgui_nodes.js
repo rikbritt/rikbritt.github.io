@@ -238,6 +238,7 @@ var NodeImGui = {
 	},
 	LinkToCurrentNode : function(from_id, from_pin, to_pin)
 	{
+		var canvas = NodeImGui.Current_Canvas;
 		var from_imgui_id = ImGui.GetID(from_id);
 
 		var link = 
