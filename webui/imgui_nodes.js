@@ -376,6 +376,14 @@ var NodeImGui = {
 		var in_pin = input_node.input_pins[input_idx];
 		var out_pin = dragging_connection.output_node.output_pins[dragging_connection.output_idx];
 
+		if(dragging_connection.can_connect_func)
+		{
+			if(dragging_connection.can_connect_func(dragging_connection) == false)
+			{
+				return false;
+			}
+		}
+
 		return NodeImGui.Internal_CanConnectPins(out_pin, in_pin)
 	},
 	Internal_CanConnectToOutput : function(dragging_connection, output_node, output_idx)
