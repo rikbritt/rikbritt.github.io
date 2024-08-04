@@ -128,16 +128,22 @@ var NodeImGui = {
 			pin_name = pin_id;
 		}
 		var node = NodeImGui.Current_Canvas.Current_Node;
-		node.input_pins.push(
-			{
-				id:pin_id,
-				name:pin_name,
-				data_type:pin_data_type
-			}
-		);
+		var input_pin = {
+			id:pin_id,
+			name:pin_name,
+			data_type:pin_data_type
+		};
+		node.input_pins.push(input_pin);
 
 		var input_pin_idx = node.input_pins.length - 1;
 		var pin_rect = NodeImGui.Internal_CalcInputPinHitRect(node, input_pin_idx);
+		input_pin.pin_rect = pin_rect;
+		
+		var pin_mid_y = pin_rect.y + (pin_rect.h / 2.0);
+		input_pin.pin_circle_pos = {x:pin_rect.x + node.draw_info.pin_radius, y:pin_mid_y};
+		input_pin.x = input_pin.pin_circle_pos.x;
+		input_pin.y = input_pin.pin_circle_pos.y;
+
 		var canvas = NodeImGui.Current_Canvas;
 		var new_connection = null;
 		if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
@@ -193,15 +199,22 @@ var NodeImGui = {
 			pin_name = pin_id;
 		}
 		var node = NodeImGui.Current_Canvas.Current_Node;
-		node.output_pins.push(
-			{
-				id:pin_id,
-				name:pin_name,
-				data_type:pin_data_type
-			}
-		);
+		var output_pin = 
+		{
+			id:pin_id,
+			name:pin_name,
+			data_type:pin_data_type
+		};
+		node.output_pins.push(output_pin);
 		var output_pin_idx = node.output_pins.length - 1;
 		var pin_rect = NodeImGui.Internal_CalcOutputPinHitRect(node, output_pin_idx);
+		output_pin.pin_rect = pin_rect;
+		
+		var pin_mid_y = pin_rect.y + (pin_rect.h / 2.0);
+		output_pin.pin_circle_pos = {x:pin_rect.x + pin_rect.w - node.draw_info.pin_radius, y:pin_mid_y};
+		output_pin.x = output_pin.pin_circle_pos.x;
+		output_pin.y = output_pin.pin_circle_pos.y;
+
 		var canvas = NodeImGui.Current_Canvas;
 		var new_connection = null;
 		if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
@@ -501,17 +514,14 @@ var NodeImGui = {
 
 		for(var i=0; i<num_inputs;++i)
 		{
-			var pin_rect = NodeImGui.Internal_CalcInputPinHitRect(node, i);
-			var pin_mid_y = pin_rect.y + (pin_rect.h / 2.0);
-			
+			var pin_rect = node.input_pins[i].pin_rect;
+			var pin_circle_pos = node.input_pins[i].pin_circle_pos;
+
 			//var c= canvas.Hovered_Node == node && canvas.Hovered_Input == i ? title_txt_col.toImU32() : title_bg_col.toImU32();
 			//dl.AddRectFilled(new ImGui.Vec2(pin_rect.x, pin_rect.y), new ImGui.Vec2(pin_rect.x + pin_rect.w, pin_rect.y + pin_rect.h), c);
 
-			var pin_circle_pos = {x:pin_rect.x + draw_info.pin_radius, y:pin_mid_y};
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
-			node.input_pins[i].x = pin_circle_pos.x;
-			node.input_pins[i].y = pin_circle_pos.y;
 
 			var pin_text =  node.input_pins[i].name;
 			var pin_text_pos = {x:pin_rect.x + (draw_info.pin_radius * 2.0), y:pin_rect.y};
@@ -528,18 +538,14 @@ var NodeImGui = {
 
 		for(var i=0; i<num_outputs;++i)
 		{
-			var pin_rect = NodeImGui.Internal_CalcOutputPinHitRect(node, i);
-			var pin_mid_y = pin_rect.y + (pin_rect.h / 2.0);
+			var pin_rect = node.output_pins[i].pin_rect;
+			var pin_circle_pos = node.output_pins[i].pin_circle_pos;
 			
 			//var c= canvas.Hovered_Node == node && canvas.Hovered_Output == i ? title_txt_col.toImU32() : title_bg_col.toImU32();
 			//dl.AddRectFilled(new ImGui.Vec2(pin_rect.x, pin_rect.y), new ImGui.Vec2(pin_rect.x + pin_rect.w, pin_rect.y + pin_rect.h), c);
 
-			var pin_circle_pos = {x:pin_rect.x + pin_rect.w - draw_info.pin_radius, y:pin_mid_y};
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
 			dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
-
-			node.output_pins[i].x = pin_circle_pos.x;
-			node.output_pins[i].y = pin_circle_pos.y;
 			
 			var pin_text =  node.output_pins[i].name;
 			var pin_text_pos = {x:pin_rect.x, y:pin_rect.y};
