@@ -27,14 +27,14 @@ var NodeImGui = {
 		return canvas;
 	},
 	Colours:{
-		bg_col: ImGui.ImColor(0.15, 0.15, 0.25, 1.00),
-		title_bg_col: ImGui.ImColor(0.3, 0.3, 0.4, 1.00),
-		title_txt_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
-		title_hovered_txt_col: ImGui.ImColor(1.0, 0.5, 0.5, 1.00),
-		pin_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
-		pin_inner_col: ImGui.ImColor(0.0, 0.0, 0.0, 1.00),
-		link_col: ImGui.ImColor(0.7, 0.7, 0.7, 1.00),
-		link_hovered_col: ImGui.ImColor(1.0, 1.0, 1.0, 1.00)
+		bg_col: new ImGui.ImColor(0.15, 0.15, 0.25, 1.00),
+		title_bg_col: new ImGui.ImColor(0.3, 0.3, 0.4, 1.00),
+		title_txt_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
+		title_hovered_txt_col: new ImGui.ImColor(1.0, 0.5, 0.5, 1.00),
+		pin_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
+		pin_inner_col: new ImGui.ImColor(0.0, 0.0, 0.0, 1.00),
+		link_col: new ImGui.ImColor(0.7, 0.7, 0.7, 1.00),
+		link_hovered_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00)
 	},
 	BeginCanvas : function(id, size, layout)
 	{
