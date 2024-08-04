@@ -18,8 +18,8 @@ function UpdateNodeTestWindow(close_func)
 			"0",
 			"Bobs Node"
 		);
-		NodeImGui.InputPin("Input");
-		NodeImGui.OutputPin("Output");
+		NodeImGui.InputPin("bob_in_1", "Input", "data");
+		NodeImGui.OutputPin("bob_out_1", "Output", "data");
 		NodeImGui.EndNode();
 
 		
@@ -27,13 +27,13 @@ function UpdateNodeTestWindow(close_func)
 			"1",
 			"Franks Node"
 		);
-		NodeImGui.InputPin("Input");
-		NodeImGui.OutputPin("Output");
+		NodeImGui.InputPin("frank_in_1", "Input");
+		NodeImGui.OutputPin("frank_out_1", "Output");
 
 		NodeImGui.LinkToCurrentNode(
 			"0",
-			"Output",
-			"Input"
+			"bob_out_1",
+			"frank_in_1"
 		);
 		NodeImGui.EndNode();
 
