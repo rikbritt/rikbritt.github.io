@@ -139,12 +139,13 @@ var NodeImGui = {
 			{
 				if( ImGui.IsMouseReleased(0))
 				{
-					if(NodeImGui.Internal_CanConnectToInput(canvas.dragging_pin_connection, node, input_pin_idx))
+					var potential_connection = {...canvas.dragging_pin_connection}; //clone
+					potential_connection.input_idx = input_pin_idx;
+					potential_connection.input_node = node;
+					if(NodeImGui.Internal_CanConnect(potential_connection))
 					{
-						new_connection = canvas.dragging_pin_connection;
+						new_connection = potential_connection;
 						NodeImGui.Current_Canvas.dragging_pin_connection = null;
-						new_connection.input_idx = input_pin_idx;
-						new_connection.input_node = node;
 					}
 				}
 			}
@@ -202,12 +203,13 @@ var NodeImGui = {
 			{
 				if(ImGui.IsMouseReleased(0))
 				{
-					if(NodeImGui.Internal_CanConnectToOutput(canvas.dragging_pin_connection, node, output_pin_idx))
+					var potential_connection = {...canvas.dragging_pin_connection}; //clone
+					potential_connection.output_idx = output_pin_idx;
+					potential_connection.output_node = node;
+					if(NodeImGui.Internal_CanConnect(potential_connection))
 					{
-						new_connection = canvas.dragging_pin_connection;
+						new_connection = potential_connection;
 						NodeImGui.Current_Canvas.dragging_pin_connection = null;
-						new_connection.output_idx = output_pin_idx;
-						new_connection.output_node = node;
 					}
 				}
 			}
@@ -361,53 +363,34 @@ var NodeImGui = {
 		}
 		return out_pin.data_type == in_pin.data_type;
 	},
-	Internal_CanConnectToInput : function(dragging_connection, input_node, input_idx)
+	Internal_CanConnect : function(connection)
 	{
-		if(dragging_connection.output_node == null)
+		if(connection.output_node == null)
+		{
+			return false;
+		}
+
+		if(connection.input_node == null)
 		{
 			return false;
 		}
 
 		// Don't link a node to itself
-		if(input_node.id == dragging_connection.output_node.id)
+		if(connection.input_node.id == connection.output_node.id)
 		{
 			return false;
 		}
-		var in_pin = input_node.input_pins[input_idx];
-		var out_pin = dragging_connection.output_node.output_pins[dragging_connection.output_idx];
+		var in_pin = connection.input_node.input_pins[connection.input_idx];
+		var out_pin = connection.output_node.output_pins[connection.output_idx];
 
-		if(dragging_connection.can_connect_func)
+		if(connection.can_connect_func)
 		{
-			if(dragging_connection.can_connect_func(dragging_connection) == false)
+			if(connection.can_connect_func(connection) == false)
 			{
 				return false;
 			}
 		}
 
-		return NodeImGui.Internal_CanConnectPins(out_pin, in_pin)
-	},
-	Internal_CanConnectToOutput : function(dragging_connection, output_node, output_idx)
-	{
-		if(dragging_connection.input_node == null)
-		{
-			return false;
-		}
-
-		// Don't link a node to itself
-		if(dragging_connection.input_node.id == output_node.id)
-		{
-			return false;
-		}
-		var in_pin = dragging_connection.input_node.output_pins[dragging_connection.input_idx];
-		var out_pin = output_node.output_pins[output_idx];
-
-		if(dragging_connection.can_connect_func)
-		{
-			if(dragging_connection.can_connect_func(dragging_connection) == false)
-			{
-				return false;
-			}
-		}
 		return NodeImGui.Internal_CanConnectPins(out_pin, in_pin)
 	},
 	Internal_GetPinTextColour : function(node, input_pin_idx, output_pin_idx)
@@ -422,14 +405,20 @@ var NodeImGui = {
 			var can_connect = false;
 			if(canvas.dragging_pin_connection.output_node != null && input_pin_idx >= 0)
 			{
-				if(NodeImGui.Internal_CanConnectToInput(canvas.dragging_pin_connection, node, input_pin_idx))
+				var potential_connection = {...canvas.dragging_pin_connection}; //clone
+				potential_connection.input_idx = input_pin_idx;
+				potential_connection.input_node = node;
+				if(NodeImGui.Internal_CanConnect(potential_connection))
 				{
 					can_connect = true;
 				}
 			}
 			else if(canvas.dragging_pin_connection.input_node != null && output_pin_idx >= 0)
 			{
-				if(NodeImGui.Internal_CanConnectToOutput(canvas.dragging_pin_connection, node, output_pin_idx))
+				var potential_connection = {...canvas.dragging_pin_connection}; //clone
+				potential_connection.output_idx = output_pin_idx;
+				potential_connection.output_node = node;
+				if(NodeImGui.Internal_CanConnect(potential_connection))
 				{
 					can_connect = true;
 				}
