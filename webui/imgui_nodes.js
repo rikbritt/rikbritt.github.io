@@ -261,7 +261,7 @@ var NodeImGui = {
 			link.hovered = true;
 			if(ImGui.IsMouseClicked(0))
 			{
-				if(ImGui.GetIO().KeysDownDuration[ImGui.GetIO().KeyShift] > 0)
+				if(ImGui.GetIO().KeyShift)
 				{
 					ret = false;
 				}

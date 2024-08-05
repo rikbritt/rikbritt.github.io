@@ -8,6 +8,7 @@ var testGraphLayout = [];
 	frank_layout.x = 450;
 	frank_layout.y = 50;
 }
+
 function UpdateNodeTestWindow(close_func)
 {
 	var can_link_func = function(connection_data)
@@ -36,12 +37,15 @@ function UpdateNodeTestWindow(close_func)
 		NodeImGui.OutputPin("frank_out_1", "Output", "data", can_link_func);
 
 		// Do all linking after nodes are all defined
-		NodeImGui.LinkNodes(
+		if(NodeImGui.LinkNodes(
 			"0",
 			"bob_out_1",
 			"1",
 			"frank_in_1"
-		);
+		) == false)
+		{
+			alert("Break Link");
+		}
 		NodeImGui.EndNode();
 
 		NodeImGui.EndCanvas();
