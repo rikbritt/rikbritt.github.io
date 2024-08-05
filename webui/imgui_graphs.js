@@ -272,22 +272,36 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 		var node = graph_instance.nodes[i];	
 		if(node.type == "generator")
 		{
-
 			//Input Links
+			var remove_link = {
+				do_remove:false
+			};
+
 			bg.ForEachGraphEdgeIntoNode(
 				graph_instance,
 				node.id,
 				function(from_node_id, sub_id, to_node_id, to_sub_id)
 				{
-					NodeImGui.LinkNodes(
+					if(NodeImGui.LinkNodes(
 						from_node_id,
 						sub_id,
 						to_node_id,
 						to_sub_id
-					);	
+					) == false)
+					{
+						remove_link.from_node_id = from_node_id;
+						remove_link.sub_id = sub_id;
+						remove_link.to_node_id = to_node_id;
+						remove_link.to_sub_id = to_sub_id;
+						remove_link.do_remove = true;
+					}	
 				}
-
 			)
+
+			if(remove_link.do_remove)
+			{
+				alert("remove");
+			}
 		}
 		else if(node.type == "data_def")
 		{
