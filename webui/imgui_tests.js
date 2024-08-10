@@ -68,13 +68,10 @@ function SetupGenGraphTestWindow()
 	b_layout.x = 450;
 	b_layout.y = 50;
 }
+
 function UpdateGenGraphTestWindow(close_func)
 {
-	if(ImGui.Begin("Gen Graph Test", close_func))
-	{
-		UpdateGenGraphCanvas(testGenGraph, -1, -1);
-	}
-	ImGui.End();
+	UpdateGenGraphWindow(testGenGraph);
 }
 
 function UpdateZipTestWindow(close_func)

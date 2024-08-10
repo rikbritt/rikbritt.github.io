@@ -228,6 +228,24 @@ var CanLinkGenGraphNodes = function(connection_data)
 	return true;
 }
 
+// Add to an imgui window imgui controls for viewing and using an generator graph
+function UpdateGenGraphWindow(graph_instance)
+{
+	if(ImGui.BeginTable("graph_view", 2, ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV))
+	{
+		ImGui.TableNextRow();
+		ImGui.TableNextColumn();
+		UpdateGenGraphCanvas(graph_instance, -1, -1);
+		ImGui.TableNextColumn();
+		ImGui.Button("Execute Graph");
+		ImGui.Text("Graph Info");
+		ImGui.Text("Id : " + graph_instance.id);
+		ImGui.Text("Output");
+
+		ImGui.EndTable();
+	}
+}
+
 // Update an imgui node canvas specifically for a generator graph.
 function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height = -1)
 {
