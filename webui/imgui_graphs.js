@@ -300,7 +300,7 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 
 			if(remove_link.do_remove)
 			{
-				bg.RemoveGenerationGraphLink(
+				bg.RemoveGenerationGraphLinkById(
 					graph_instance,
 					remove_link.from_node_id,
 					remove_link.sub_id,

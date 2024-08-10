@@ -94,13 +94,13 @@ bg.CreateGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNod
 	}
 }
 
-bg.RemoveGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNode, toNodeInputId)
+bg.RemoveGenerationGraphLinkById = function(graph, fromNodeId, fromNodeOutputId, toNodeId, toNodeInputId)
 {
 	bg.RemoveGraphSubEdgeById(
 		graph,
-		fromNode.id,
+		fromNodeId,
 		fromNodeOutputId,
-		toNode.id,
+		toNodeId,
 		toNodeInputId
 	);
 }
