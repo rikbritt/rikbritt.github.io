@@ -53,6 +53,11 @@ bg.AddGraphSubEdgeById = function(graph, from_id, from_sub_id, to_id, to_sub_id)
     graph.edges.push({a:from_id, a_sub:from_sub_id, b:to_id, b_sub:to_sub_id});
 }
 
+bg.RemoveGraphSubEdgeById = function(graph, from_id, from_sub_id, to_id, to_sub_id)
+{
+    graph.edges = graph.edges.filter( (edge) => !(edge.a == from_id && edge.a_sub == from_sub_id && edge.b == to_id && edge.b_sub == to_sub_id) );
+}
+
 bg.AddGraphEdgeById = function(graph, from_id, to_id)
 {
     var a_idx = graph.nodes.findIndex( n => n.id == from_id);

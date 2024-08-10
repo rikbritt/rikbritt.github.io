@@ -300,7 +300,13 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 
 			if(remove_link.do_remove)
 			{
-				alert("remove");
+				bg.RemoveGenerationGraphLink(
+					graph_instance,
+					remove_link.from_node_id,
+					remove_link.sub_id,
+					remove_link.to_node_id,
+					remove_link.to_sub_id
+				);
 			}
 		}
 		else if(node.type == "data_def")
