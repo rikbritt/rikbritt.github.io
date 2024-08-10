@@ -42,6 +42,11 @@ bg.GetGraphNodeById = function(graph, node_id)
     return null
 }
 
+bg.GetGraphNodesByType = function(graph, node_type)
+{
+    return graph.nodes.filter( (node) => node.type == node_type );
+}
+
 //TODO: Inefficient but I think it has to store the edges by id and not index
 // bg.AddGraphEdgeByIdx = function(graph, from_idx, to_idx)
 // {

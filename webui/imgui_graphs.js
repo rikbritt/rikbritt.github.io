@@ -261,7 +261,13 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			bg.GetGenerationGraphNodeName(node)
 		);
 
-		if(node.type == "generator")
+		if(node.type == "output")
+		{
+			// TODO check pin id
+			var connection = NodeImGui.InputPin(node.id, "Output", "Any", CanLinkGenGraphNodes);
+			ProcessGraphConnection(graph_instance, connection);
+		}
+		else if(node.type == "generator")
 		{
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 			for(field of generator.inputs.fields)

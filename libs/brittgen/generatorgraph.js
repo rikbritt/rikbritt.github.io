@@ -5,6 +5,12 @@ bg.UpgradeGeneratorGraph = function(graph)
 
 bg.ValidateGeneratorGraph = function(graph)
 {
+	var output_nodes = bg.GetGraphNodesByType(graph, "output");
+	if(output_nodes.length != 1)
+	{
+		// Wrong number of output nodes
+		return false;
+	}
 	return true;
 }
 
@@ -24,8 +30,8 @@ bg.CreateGenerationGraph = function(graphName = "New Graph")
 	graph.id = bg.CreateGUID();
 	graph.name = graphName;	
 
-	//Give gen graphs a start node by default
-	bg.CreateGenerationGraph_StartNode(graph);
+	//Give gen graphs a output node by default
+	bg.CreateGenerationGraph_OutputNode(graph);
 
 	return graph;
 }
@@ -38,6 +44,11 @@ bg.CreateGenerationGraphNode = function(graph)
 
 bg.GetGenerationGraphNodeName = function(node)
 {
+	if(node.type=="output")
+	{
+		return "Output";
+	}
+
 	var asset = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 	if(asset != null)
 	{
@@ -46,10 +57,10 @@ bg.GetGenerationGraphNodeName = function(node)
 	return "?";
 }
 
-bg.CreateGenerationGraph_StartNode = function(graph)
+bg.CreateGenerationGraph_OutputNode = function(graph)
 {
 	var node = bg.AddGraphNode(graph, bg.CreateGUID(), {});
-	node.type = "start";
+	node.type = "output";
 	return node;
 }
 
@@ -116,6 +127,12 @@ bg.RemoveGenerationGraphLinkById = function(graph, fromNodeId, fromNodeOutputId,
 	);
 }
 
+bg.CreateGenerationGraphExecutionList = function(graph)
+{
+	//Walk backwards from the output node
+	var output_nodes = bg.GetGraphNodesByType(graph);
+}
+
 bg.ExecuteGeneratorGraph = function(graph)
 {
 	if(bg.ValidateGeneratorGraph(graph) == false)
@@ -123,6 +140,7 @@ bg.ExecuteGeneratorGraph = function(graph)
 		return;
 	}
 
+	bg.CreateGenerationGraphExecutionList(graph);
 
 }
 
