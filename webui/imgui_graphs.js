@@ -229,7 +229,7 @@ var CanLinkGenGraphNodes = function(connection_data)
 }
 
 // Add to an imgui window imgui controls for viewing and using an generator graph
-function UpdateGenGraphWindow(graph_instance)
+function UpdateGenGraphEditor(graph_instance)
 {
 	if(ImGui.BeginTable("graph_view", 2, ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV))
 	{

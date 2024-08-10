@@ -71,7 +71,7 @@ function SetupGenGraphTestWindow()
 
 function UpdateGenGraphTestWindow(close_func)
 {
-	UpdateGenGraphWindow(testGenGraph);
+	UpdateGenGraphEditor(testGenGraph);
 }
 
 function UpdateZipTestWindow(close_func)
