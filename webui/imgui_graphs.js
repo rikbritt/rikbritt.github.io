@@ -264,7 +264,7 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 		if(node.type == "output")
 		{
 			// TODO check pin id
-			var connection = NodeImGui.InputPin(node.id, "Output", "Any", CanLinkGenGraphNodes);
+			var connection = NodeImGui.InputPin(node.id, "Output", "any", CanLinkGenGraphNodes);
 			ProcessGraphConnection(graph_instance, connection);
 		}
 		else if(node.type == "generator")

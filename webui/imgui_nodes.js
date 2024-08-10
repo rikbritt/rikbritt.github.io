@@ -395,6 +395,10 @@ var NodeImGui = {
 		{
 			return false;
 		}
+		if(in_pin.data_type == "any")
+		{
+			return true;
+		}
 		return out_pin.data_type == in_pin.data_type;
 	},
 	Internal_CanConnect : function(connection)
