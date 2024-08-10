@@ -23,6 +23,10 @@ bg.CreateGenerationGraph = function(graphName = "New Graph")
 	var graph = bg.CreateGraph();
 	graph.id = bg.CreateGUID();
 	graph.name = graphName;	
+
+	//Give gen graphs a start node by default
+	bg.CreateGenerationGraph_StartNode(graph);
+
 	return graph;
 }
 
@@ -40,6 +44,13 @@ bg.GetGenerationGraphNodeName = function(node)
 		return asset.name;
 	}
 	return "?";
+}
+
+bg.CreateGenerationGraph_StartNode = function(graph)
+{
+	var node = bg.AddGraphNode(graph, bg.CreateGUID(), {});
+	node.type = "start";
+	return node;
 }
 
 bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
@@ -103,6 +114,16 @@ bg.RemoveGenerationGraphLinkById = function(graph, fromNodeId, fromNodeOutputId,
 		toNodeId,
 		toNodeInputId
 	);
+}
+
+bg.ExecuteGeneratorGraph = function(graph)
+{
+	if(bg.ValidateGeneratorGraph(graph) == false)
+	{
+		return;
+	}
+
+
 }
 
 // //Generate a target node. Will trigger generation of all input nodes.

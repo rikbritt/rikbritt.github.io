@@ -237,7 +237,10 @@ function UpdateGenGraphWindow(graph_instance)
 		ImGui.TableNextColumn();
 		UpdateGenGraphCanvas(graph_instance, -1, -1);
 		ImGui.TableNextColumn();
-		ImGui.Button("Execute Graph");
+		if(ImGui.Button("Execute Graph"))
+		{
+			bg.ExecuteGeneratorGraph(graph_instance);
+		}
 		ImGui.Text("Graph Info");
 		ImGui.Text("Id : " + graph_instance.id);
 		ImGui.Text("Output");
