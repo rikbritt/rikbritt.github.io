@@ -83,37 +83,44 @@ bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
 
 bg.CreateGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNode, toNodeInputId)
 {
-	var toGen = AssetDb.GetAsset(gAssetDb, toNode.asset_id, "generator");
-	var fromGen = AssetDb.GetAsset(gAssetDb, fromNode.asset_id, "generator");
 
 	//Sanity check the link
-	if(bg.GetGeneratorInputById(toGen, toNodeInputId) == null)
+	if(toNode.type == "genertor")
 	{
-		//Error
-		console.error("Failed to make graph link " + 
-		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputId +"'" +
-		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputId + "'" +
-		" because '" + toNodeInputId + "' doesn't exist on the 'to' node."		
-		);
+		var toGen = AssetDb.GetAsset(gAssetDb, toNode.asset_id, "generator");
+		if(bg.GetGeneratorInputById(toGen, toNodeInputId) == null)
+		{
+			//Error
+			console.error("Failed to make graph link " + 
+			"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputId +"'" +
+			" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputId + "'" +
+			" because '" + toNodeInputId + "' doesn't exist on the 'to' node."		
+			);
+			return;
+		}
 	}
-	else if(bg.GetGeneratorOutputById(fromGen, fromNodeOutputId) == null)
+	
+	if(fromNode.type == "generator")
 	{
-		console.error("Failed to make graph link " + 
-		"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputId +"'" +
-		" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputId + "'" +
-		" because '" + fromNodeOutputId + "' doesn't exist on the 'from' node."
-		);
+		var fromGen = AssetDb.GetAsset(gAssetDb, fromNode.asset_id, "generator");
+		if(bg.GetGeneratorOutputById(fromGen, fromNodeOutputId) == null)
+		{
+			console.error("Failed to make graph link " + 
+			"'" + bg.GetGeneratorFullName(fromGen) + "':'" + fromNodeOutputId +"'" +
+			" -> '" + bg.GetGeneratorFullName(toGen) + "':'" + toNodeInputId + "'" +
+			" because '" + fromNodeOutputId + "' doesn't exist on the 'from' node."
+			);
+			return;
+		}
 	}
-	else
-	{
-		bg.AddGraphSubEdgeById(
-			graph,
-			fromNode.id,
-			fromNodeOutputId,
-			toNode.id,
-			toNodeInputId
-		);
-	}
+	
+	bg.AddGraphSubEdgeById(
+		graph,
+		fromNode.id,
+		fromNodeOutputId,
+		toNode.id,
+		toNodeInputId
+	);
 }
 
 bg.RemoveGenerationGraphLinkById = function(graph, fromNodeId, fromNodeOutputId, toNodeId, toNodeInputId)
