@@ -81,6 +81,19 @@ bg.ForEachGraphEdgeIntoNode = function(graph, node_id, func)
     }
 }
 
+bg.GetEdgesIntoNode = function(graph, node_id)
+{
+    var edges = [];
+    for(var e of graph.edges)
+    {
+        if(e.b == node_id)
+        {
+            edges.push(e);
+        }
+    }
+    return edges;
+}
+
 bg.AddGraphLayout = function(graph)
 {
     if(graph.layout == null)

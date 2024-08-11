@@ -138,6 +138,12 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 {
 	//Walk backwards from the output node
 	var output_nodes = bg.GetGraphNodesByType(graph);
+
+	// Execution List =
+	//		Prep node inputs 
+	// 		Node to be executed
+	//		Where to send the nodes outputs
+	//		
 }
 
 bg.ExecuteGeneratorGraph = function(graph)
