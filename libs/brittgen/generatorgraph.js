@@ -151,17 +151,17 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			node.id,
 			function(from_node_id, sub_id, to_node_id, to_sub_id)
 			{
-				var fromNode = bg.GetGraphNodeById(from_node_id);
+				var fromNode = bg.GetGraphNodeById(graph, from_node_id);
 				AddInputsToExecutionList(fromNode);
 			}
 		);
 	};
-	
+
 	//Walk backwards from the output node
 	var output_nodes = bg.GetGraphNodesByType(graph, "output");
 	for(var output_node of output_nodes)
 	{
-		AddInputsToExecutionList(graph, output_node);
+		AddInputsToExecutionList(output_node);
 	}	
 	return executionList;
 }
