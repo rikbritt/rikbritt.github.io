@@ -251,6 +251,13 @@ function UpdateGenGraphEditor(graph_instance)
 				if(ImGui.Button("Make Execution List"))
 				{
 					var executionList = bg.CreateGenerationGraphExecutionList(graph_instance);
+					graph_instance._tempExecutionList = executionList;
+
+				}
+
+				for(var exeNode of graph_instance._tempExecutionList)
+				{
+					ImGui.Text(exeNode);
 				}
 				ImGui.Unindent();
 			}

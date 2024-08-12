@@ -139,11 +139,12 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 	var executionList = [];
 	var AddInputsToExecutionList = function(node)
 	{
-		if(executionList.indexOf(node) != -1)
+		if(executionList.indexOf(node.id) != -1)
 		{
 			// Already in the list
 			return;
 		}
+		executionList.push(node.id);
 
 		//Recursively go up all inputs
 		bg.ForEachGraphEdgeIntoNode(
