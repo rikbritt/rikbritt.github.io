@@ -67,6 +67,14 @@ function SetupGenGraphTestWindow()
 	var b_layout = bg.FindOrCreateNodeLayout(testGenGraph.layout, nodeB.id);
 	b_layout.x = 450;
 	b_layout.y = 50;
+
+	var outputNode = bg.GetGraphNodesByType(testGenGraph, "output")[0];
+	var outputNode_layout = bg.FindOrCreateNodeLayout(testGenGraph.layout, outputNode.id);
+	outputNode_layout.x = 900;
+	outputNode_layout.y = 50;
+
+	// Note for now output nodes input pin is the same id as the node
+	bg.CreateGenerationGraphLink(testGenGraph, nodeB, "143e9520-87b5-4029-bd44-1c7a98ce9c0a", outputNode, outputNode.id);
 }
 
 function UpdateGenGraphTestWindow(close_func)
