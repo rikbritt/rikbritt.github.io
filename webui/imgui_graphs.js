@@ -255,9 +255,12 @@ function UpdateGenGraphEditor(graph_instance)
 
 				}
 
-				for(var exeNode of graph_instance._tempExecutionList)
+				if(graph_instance._tempExecutionList)
 				{
-					ImGui.Text(exeNode);
+					for(var exeNode of graph_instance._tempExecutionList)
+					{
+						ImGui.Text(exeNode);
+					}
 				}
 				ImGui.Unindent();
 			}
