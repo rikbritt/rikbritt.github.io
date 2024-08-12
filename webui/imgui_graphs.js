@@ -237,14 +237,24 @@ function UpdateGenGraphEditor(graph_instance)
 		ImGui.TableNextColumn();
 		UpdateGenGraphCanvas(graph_instance, -1, -1);
 		ImGui.TableNextColumn();
-		if(ImGui.Button("Execute Graph"))
 		{
-			bg.ExecuteGeneratorGraph(graph_instance);
+			if(ImGui.Button("Execute Graph"))
+			{
+				bg.ExecuteGeneratorGraph(graph_instance);
+			}
+			ImGui.Text("Graph Info");
+			ImGui.Text("Id : " + graph_instance.id);
+			ImGui.Text("Output");
+			if(ImGui.CollapsingHeader("Debug"))
+			{
+				ImGui.Indent();
+				if(ImGui.Button("Make Execution List"))
+				{
+					var executionList = bg.CreateGenerationGraphExecutionList(graph_instance);
+				}
+				ImGui.Unindent();
+			}
 		}
-		ImGui.Text("Graph Info");
-		ImGui.Text("Id : " + graph_instance.id);
-		ImGui.Text("Output");
-
 		ImGui.EndTable();
 	}
 }

@@ -136,14 +136,34 @@ bg.RemoveGenerationGraphLinkById = function(graph, fromNodeId, fromNodeOutputId,
 
 bg.CreateGenerationGraphExecutionList = function(graph)
 {
-	//Walk backwards from the output node
-	var output_nodes = bg.GetGraphNodesByType(graph);
+	var executionList = [];
+	var AddInputsToExecutionList = function(node)
+	{
+		if(executionList.indexOf(node) != -1)
+		{
+			// Already in the list
+			return;
+		}
 
-	// Execution List =
-	//		Prep node inputs 
-	// 		Node to be executed
-	//		Where to send the nodes outputs
-	//		
+		//Recursively go up all inputs
+		bg.ForEachGraphEdgeIntoNode(
+			graph,
+			node.id,
+			function(from_node_id, sub_id, to_node_id, to_sub_id)
+			{
+				var fromNode = bg.GetGraphNodeById(from_node_id);
+				AddInputsToExecutionList(fromNode);
+			}
+		);
+	};
+	
+	//Walk backwards from the output node
+	var output_nodes = bg.GetGraphNodesByType(graph, "output");
+	for(var output_node of output_nodes)
+	{
+		AddInputsToExecutionList(graph, output_node);
+	}	
+	return executionList;
 }
 
 bg.ExecuteGeneratorGraph = function(graph)
