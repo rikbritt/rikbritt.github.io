@@ -144,7 +144,7 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			// Already in the list
 			return;
 		}
-		executionList.push(node.id);
+		executionList.push({cmd:"gen", id:node.id});
 
 		//Recursively go up all inputs
 		bg.ForEachGraphEdgeIntoNode(
@@ -153,6 +153,7 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			function(from_node_id, sub_id, to_node_id, to_sub_id)
 			{
 				var fromNode = bg.GetGraphNodeById(graph, from_node_id);
+				executionList.push({cmd:"copy", from:sub_id, to:to_sub_id});
 				AddInputsToExecutionList(fromNode);
 			}
 		);
@@ -163,20 +164,27 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 	for(var output_node of output_nodes)
 	{
 		AddInputsToExecutionList(output_node);
-	}	
+	}
+
+	// Reverse it so earliest input nodes are done first
+	executionList.reverse();
+
 	return executionList;
 }
 
 bg.ExecuteGenerationGraphExecutionList = function(graph, executionListById, seed = 1)
 {
-	for(var exeNodeId of executionListById)
+	for(var step of executionListById)
 	{
-		var node = bg.GetGraphNodeById(graph, exeNodeId);
-		if(node.type == "generator")
+		if(step.cmd == "gen")
 		{
-			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
-			//todo - seed and inputs
-			bg.RunGenerator(generator, seed);
+			var node = bg.GetGraphNodeById(graph, exeNodeId);
+			if(node.type == "generator")
+			{
+				var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
+				//todo - seed and inputs
+				bg.RunGenerator(generator, seed);
+			}
 		}
 	}
 }

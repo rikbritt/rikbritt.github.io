@@ -260,18 +260,21 @@ function UpdateGenGraphEditor(graph_instance)
 						bg.ExecuteGenerationGraphExecutionList(graph_instance, graph_instance._tempExecutionList);
 					}
 
-					for(var exeNodeId of graph_instance._tempExecutionList)
+					for(var exeStep of graph_instance._tempExecutionList)
 					{
-						ImGui.Text(exeNodeId);
+						ImGui.Text(`$(exeStep.cmd)`);
 
-						var exeNode = bg.GetGraphNodeById(graph_instance, exeNodeId);
-						if(ImGui.IsItemHovered())
+						if(exeStep.cmd == "gen")
 						{
-							exeNode._highlighted = true;
-						}
-						else
-						{
-							exeNode._highlighted = false;
+							var exeNode = bg.GetGraphNodeById(graph_instance, exeNodeId);
+							if(ImGui.IsItemHovered())
+							{
+								exeNode._highlighted = true;
+							}
+							else
+							{
+								exeNode._highlighted = false;
+							}
 						}
 					}
 				}
