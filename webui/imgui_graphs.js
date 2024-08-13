@@ -281,6 +281,8 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			bg.GetGenerationGraphNodeName(node)
 		);
 
+		NodeImGui.HighlightNode();
+
 		if(node.type == "output")
 		{
 			// TODO check pin id

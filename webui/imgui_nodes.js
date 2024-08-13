@@ -100,6 +100,11 @@ var NodeImGui = {
 			}
 		}
 	},
+	HighlightNode : function()
+	{
+		var node = NodeImGui.Current_Canvas.Current_Node;
+		node.highlighted = true;
+	},
 	SetNodePosToPopup : function(id)
 	{
 		var canvas = NodeImGui.Current_Canvas;
@@ -509,6 +514,15 @@ var NodeImGui = {
 		var pin_col = NodeImGui.Colours.pin_col;
 		var pin_inner_col = NodeImGui.Colours.pin_inner_col;
 
+		//Highlight
+		if(node.highlighted)
+		{
+			var highlight_thickness = 5;
+			dl.AddRectFilled(new ImGui.Vec2(node_x - highlight_thickness, node_y - highlight_thickness),
+			 	new ImGui.Vec2(node_x + node_w + highlight_thickness, node_y + node_h + highlight_thickness),
+				 title_txt_col.toImU32()
+			);
+		}
 		//background
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
 		//title bar
