@@ -163,7 +163,17 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 	var output_nodes = bg.GetGraphNodesByType(graph, "output");
 	for(var output_node of output_nodes)
 	{
-		AddInputsToExecutionList(output_node);
+		executionList.push({cmd:"output", id:output_node.id});
+		bg.ForEachGraphEdgeIntoNode(
+			graph,
+			output_node.id,
+			function(from_node_id, sub_id, to_node_id, to_sub_id)
+			{
+				var fromNode = bg.GetGraphNodeById(graph, from_node_id);
+				executionList.push({cmd:"copy", from:sub_id, to:to_sub_id});
+				AddInputsToExecutionList(fromNode);
+			}
+		);
 	}
 
 	// Reverse it so earliest input nodes are done first

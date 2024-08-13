@@ -262,11 +262,11 @@ function UpdateGenGraphEditor(graph_instance)
 
 					for(var exeStep of graph_instance._tempExecutionList)
 					{
-						ImGui.Text(`$(exeStep.cmd)`);
-
 						if(exeStep.cmd == "gen")
 						{
-							var exeNode = bg.GetGraphNodeById(graph_instance, exeNodeId);
+							var exeNode = bg.GetGraphNodeById(graph_instance, exeStep.id);
+							var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
+							ImGui.Text(`${exeStep.cmd} ${generator.name} ${exeStep.id}`);
 							if(ImGui.IsItemHovered())
 							{
 								exeNode._highlighted = true;
@@ -275,6 +275,10 @@ function UpdateGenGraphEditor(graph_instance)
 							{
 								exeNode._highlighted = false;
 							}
+						}
+						else
+						{
+							ImGui.Text(`${exeStep.cmd}`);
 						}
 					}
 				}
