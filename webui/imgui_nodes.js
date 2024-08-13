@@ -745,6 +745,7 @@ NodeImGui.EndCanvas = function()
 	{
 		var node = canvas.NodesDrawOrder[i];
 		NodeImGui.Internal_DrawNode(node);
+		node.highlighted = false; //reset each frame
 	}
 
 	//Draw Links

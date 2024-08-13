@@ -260,6 +260,15 @@ function UpdateGenGraphEditor(graph_instance)
 					for(var exeNode of graph_instance._tempExecutionList)
 					{
 						ImGui.Text(exeNode);
+
+						if(ImGui.IsItemHovered())
+						{
+							exeNode.highlighted = true;
+						}
+						else
+						{
+							exeNode.highlighted = false;
+						}
 					}
 				}
 				ImGui.Unindent();
@@ -281,7 +290,10 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			bg.GetGenerationGraphNodeName(node)
 		);
 
-		NodeImGui.HighlightNode();
+		if(node.highlighted)
+		{
+			NodeImGui.HighlightNode();
+		}
 
 		if(node.type == "output")
 		{
