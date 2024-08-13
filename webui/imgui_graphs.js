@@ -252,22 +252,26 @@ function UpdateGenGraphEditor(graph_instance)
 				{
 					var executionList = bg.CreateGenerationGraphExecutionList(graph_instance);
 					graph_instance._tempExecutionList = executionList;
-
 				}
-
 				if(graph_instance._tempExecutionList)
 				{
-					for(var exeNode of graph_instance._tempExecutionList)
+					if(ImGui.Button("Execute List"))
 					{
-						ImGui.Text(exeNode);
+						bg.ExecuteGenerationGraphExecutionList(graph_instance, graph_instance._tempExecutionList);
+					}
 
+					for(var exeNodeId of graph_instance._tempExecutionList)
+					{
+						ImGui.Text(exeNodeId);
+
+						var exeNode = bg.GetGraphNodeById(graph_instance, exeNodeId);
 						if(ImGui.IsItemHovered())
 						{
-							exeNode.highlighted = true;
+							exeNode._highlighted = true;
 						}
 						else
 						{
-							exeNode.highlighted = false;
+							exeNode._highlighted = false;
 						}
 					}
 				}
@@ -290,7 +294,7 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			bg.GetGenerationGraphNodeName(node)
 		);
 
-		if(node.highlighted)
+		if(node._highlighted)
 		{
 			NodeImGui.HighlightNode();
 		}

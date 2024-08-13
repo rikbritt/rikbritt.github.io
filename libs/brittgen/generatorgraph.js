@@ -167,6 +167,20 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 	return executionList;
 }
 
+bg.ExecuteGenerationGraphExecutionList = function(graph, executionListById, seed = 1)
+{
+	for(var exeNodeId of executionListById)
+	{
+		var node = bg.GetGraphNodeById(exeNodeId);
+		if(node.type == "generator")
+		{
+			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
+			//todo - seed and inputs
+			bg.RunGenerator(generator, seed);
+		}
+	}
+}
+
 bg.ExecuteGeneratorGraph = function(graph)
 {
 	if(bg.ValidateGeneratorGraph(graph) == false)
