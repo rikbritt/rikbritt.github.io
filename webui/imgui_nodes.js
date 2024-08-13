@@ -514,6 +514,15 @@ var NodeImGui = {
 		//title bar
 		dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
 		dl.AddText({x:node_inner_x, y:node_y + draw_info.node_border}, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
+		if(canvas.Hovered_Node == node)
+		{
+			ImGui.BeginTooltip();
+			ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35.0);
+			ImGui.TextUnformatted(node.name);
+			ImGui.TextUnformatted(node.id);
+			ImGui.PopTextWrapPos();
+			ImGui.EndTooltip();
+		}
 
 		for(var i=0; i<num_inputs;++i)
 		{
