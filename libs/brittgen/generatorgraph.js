@@ -171,7 +171,7 @@ bg.ExecuteGenerationGraphExecutionList = function(graph, executionListById, seed
 {
 	for(var exeNodeId of executionListById)
 	{
-		var node = bg.GetGraphNodeById(exeNodeId);
+		var node = bg.GetGraphNodeById(graph, exeNodeId);
 		if(node.type == "generator")
 		{
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
