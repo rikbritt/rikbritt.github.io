@@ -200,17 +200,23 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 
 bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 {
+	var graph = context.graph;
+	if(context.nextStepToExecute >= context.executionList.length)
+	{
+		return;
+	}
+
 	var step = context.executionList[context.nextStepToExecute];
 	context.nextStepToExecute += 1;
 
 	if(step.cmd == "gen")
 	{
-		var node = bg.GetGraphNodeById(graph, exeNodeId);
+		var node = bg.GetGraphNodeById(graph, step.id);
 		if(node.type == "generator")
 		{
 			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
 			//todo - seed and inputs
-			bg.RunGenerator(generator, seed);
+			bg.RunGenerator(generator, context.seed);
 		}
 	}
 }
