@@ -144,7 +144,9 @@ bg.CreateGenerationGraphExecutionContext = function(graph, seed = 1)
 		graph:graph,
 		executionList:bg.CreateGenerationGraphExecutionList(graph),
 		nextStepToExecute:0,
-		seed:seed
+		seed:seed,
+        lastGenOutput:{},
+        nextGenInputs:{}
 	};
 
 	return context;
@@ -169,7 +171,7 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			function(from_node_id, sub_id, to_node_id, to_sub_id)
 			{
 				var fromNode = bg.GetGraphNodeById(graph, from_node_id);
-				executionList.push({cmd:"copy", from:sub_id, to:to_sub_id});
+				executionList.push({cmd:"copy", from:from_node_id, from_output:sub_id, to:to_node_id, to_input:to_sub_id});
 				AddInputsToExecutionList(fromNode);
 			}
 		);
@@ -186,7 +188,7 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			function(from_node_id, sub_id, to_node_id, to_sub_id)
 			{
 				var fromNode = bg.GetGraphNodeById(graph, from_node_id);
-				executionList.push({cmd:"copy", from:sub_id, to:to_sub_id});
+				executionList.push({cmd:"copy", from:from_node_id, from_output:sub_id, to:to_node_id, to_input:to_sub_id});
 				AddInputsToExecutionList(fromNode);
 			}
 		);
@@ -214,11 +216,31 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 		var node = bg.GetGraphNodeById(graph, step.id);
 		if(node.type == "generator")
 		{
-			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
-			//todo - seed and inputs
-			bg.RunGenerator(generator, context.seed);
+			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");            
+			var genResults = bg.RunGenerator(generator, context.seed, context.nextGenInputs);
+            context.lastGenOutput = genResults.outputs;
 		}
+
+        //Reset for next generator steps
+        context.nextGenInputs = {};
 	}
+    else if(step.cmd == "copy")
+    {
+        var from_node = bg.GetGraphNodeById(graph, step.from);
+		var to_node = bg.GetGraphNodeById(graph, step.to);
+		
+		if(from_node.type == "generator" && to_node.type == "generator")
+		{
+			// todo - error checking	
+			var from_generator = AssetDb.GetAsset(gAssetDb, from_node.asset_id, "generator");
+			var to_generator = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "generator");
+
+            var output = bg.GetGeneratorOutputById(from_generator, step.from_output);
+            var input = bg.GetGeneratorInputById(to_generator, step.to_input);
+
+            context.nextGenInputs[input.name] = context.lastGenOutput[output.name];            
+        }
+    }
 }
 
 bg.ExecuteGeneratorGraph = function(graph)

@@ -195,9 +195,9 @@ bg.GetGeneratorInputByName = function(generator, name)
 	return bg.GetDataDefFieldByName(generator.inputs, name);
 }
 
-bg.GetGeneratorInputById = function(generator, name)
+bg.GetGeneratorInputById = function(generator, id)
 {
-	return bg.GetDataDefFieldById(generator.inputs, name);
+	return bg.GetDataDefFieldById(generator.inputs, id);
 }
 
 bg.GetGeneratorOutputByName = function(generator, name)
@@ -205,9 +205,9 @@ bg.GetGeneratorOutputByName = function(generator, name)
 	return bg.GetDataDefFieldByName(generator.outputs, name);
 }
 
-bg.GetGeneratorOutputById = function(generator, name)
+bg.GetGeneratorOutputById = function(generator, id)
 {
-	return bg.GetDataDefFieldById(generator.outputs, name);
+	return bg.GetDataDefFieldById(generator.outputs, id);
 }
 
 //TODO - Write a description for this!
