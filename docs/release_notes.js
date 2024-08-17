@@ -32,7 +32,17 @@ That layer is abstract and could be re-used.
 
 AddNotes("Release Notes",
 `
-14//2024
+18/8/2024
+Graph editor 
+  - can now delete links
+  - can specify a func for whether links can be made.
+  - graphs now specify links after nodes when setting up imgui graph
+
+Adding code to create a gen graph execution context, and execution list.
+Adding debug code to step through the execution.
+Basics for graph gen and copy steps working.
+
+14/7/2024
 Graph editor - dragging nodes.
 Basics of adding links with the mouse between pins of the same data type.
 Next - for graph nodes.
