@@ -134,6 +134,22 @@ bg.RemoveGenerationGraphLinkById = function(graph, fromNodeId, fromNodeOutputId,
 	);
 }
 
+// Use this to execute a generation graph and get the output.
+// Creates an execution list for a graph and sets up the context
+// to execute the first step.
+// Goal is step by step debuggable exection, or fire and forget with a callback
+bg.CreateGenerationGraphExecutionContext = function(graph, seed = 1)
+{
+	var context = {
+		graph:graph,
+		executionList:bg.CreateGenerationGraphExecutionList(graph),
+		nextStepToExecute:0,
+		seed:seed
+	};
+
+	return context;
+}
+
 bg.CreateGenerationGraphExecutionList = function(graph)
 {
 	var executionList = [];
@@ -182,19 +198,19 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 	return executionList;
 }
 
-bg.ExecuteGenerationGraphExecutionList = function(graph, executionListById, seed = 1)
+bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 {
-	for(var step of executionListById)
+	var step = context.executionList[context.nextStepToExecute];
+	context.nextStepToExecute += 1;
+
+	if(step.cmd == "gen")
 	{
-		if(step.cmd == "gen")
+		var node = bg.GetGraphNodeById(graph, exeNodeId);
+		if(node.type == "generator")
 		{
-			var node = bg.GetGraphNodeById(graph, exeNodeId);
-			if(node.type == "generator")
-			{
-				var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
-				//todo - seed and inputs
-				bg.RunGenerator(generator, seed);
-			}
+			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
+			//todo - seed and inputs
+			bg.RunGenerator(generator, seed);
 		}
 	}
 }

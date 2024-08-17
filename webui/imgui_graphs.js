@@ -255,13 +255,48 @@ function UpdateGenGraphEditor(graph_instance)
 				}
 				if(graph_instance._tempExecutionList)
 				{
-					if(ImGui.Button("Execute List"))
-					{
-						bg.ExecuteGenerationGraphExecutionList(graph_instance, graph_instance._tempExecutionList);
-					}
-
 					for(var exeStep of graph_instance._tempExecutionList)
 					{
+						if(exeStep.cmd == "gen")
+						{
+							var exeNode = bg.GetGraphNodeById(graph_instance, exeStep.id);
+							var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
+							ImGui.Text(`${exeStep.cmd} ${generator.name} ${exeStep.id}`);
+							if(ImGui.IsItemHovered())
+							{
+								exeNode._highlighted = true;
+							}
+							else
+							{
+								exeNode._highlighted = false;
+							}
+						}
+						else
+						{
+							ImGui.Text(`${exeStep.cmd}`);
+						}
+					}
+				}
+
+				if(ImGui.Button("Make Execution Context"))
+				{
+					var context = bg.CreateGenerationGraphExecutionContext(graph_instance);
+					graph_instance._tempExecutionContext = context;
+				}
+				if(graph_instance._tempExecutionContext)
+				{
+					if(ImGui.Button("Execute Next Step"))
+					{
+						bg.ExecuteNextStepGenerationGraphExecutionContext(graph_instance._tempExecutionContext);
+					}
+					for(var i=0; i<graph_instance._tempExecutionContext.executionList.length; ++i)
+					{
+						var exeStep = graph_instance._tempExecutionContext.executionList[i];
+						if(i == graph_instance._tempExecutionContext.nextStepToExecute)
+						{
+							ImGui.Text(">>>");
+							ImGui.SameLine();
+						}
 						if(exeStep.cmd == "gen")
 						{
 							var exeNode = bg.GetGraphNodeById(graph_instance, exeStep.id);
