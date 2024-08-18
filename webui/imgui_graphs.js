@@ -316,7 +316,7 @@ function UpdateExecutionContext(graph_instance, execution_context)
 	UpdateExecutionList(graph_instance, execution_context.executionList, execution_context.nextStepToExecute);
 	if(execution_context.lastGenOutput)
 	{
-
+		UpdateObjectImGui(execution_context.lastGenOutput, "output");
 	}
 	else
 	{
