@@ -228,6 +228,38 @@ var CanLinkGenGraphNodes = function(connection_data)
 	return true;
 }
 
+function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
+{
+	for(var i=0; i<execution_list.length; ++i)
+	{
+		var exeStep = execution_list[i];
+		if(i == nextStep)
+		{
+			ImGui.Text(">>>");
+			ImGui.SameLine();
+		}
+		if(exeStep.cmd == "gen")
+		{
+			var exeNode = bg.GetGraphNodeById(graph_instance, exeStep.id);
+			var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
+			ImGui.Text(`${exeStep.cmd} ${generator.name} ${exeStep.id}`);
+			if(ImGui.IsItemHovered())
+			{
+				graph_instance._highlighted.push(exeStep.id);
+			}
+		}
+		else
+		{
+			ImGui.Text(`${exeStep.cmd}`);
+		}
+	}
+}
+
+function UpdateExecutionContext(graph_instance, execution_context)
+{
+	UpdateExecutionList(graph_instance, execution_context.executionList, execution_context.nextStepToExecute);
+}
+
 // Add to an imgui window imgui controls for viewing and using an generator graph
 function UpdateGenGraphEditor(graph_instance)
 {
@@ -235,13 +267,19 @@ function UpdateGenGraphEditor(graph_instance)
 	{
 		ImGui.TableNextRow();
 		ImGui.TableNextColumn();
-		UpdateGenGraphCanvas(graph_instance, -1, -1);
+		UpdateGenGraphCanvas(graph_instance, graph_instance._highlighted);
+		graph_instance._highlighted = {
+			nodes:[],
+			links:[]
+		};
+
 		ImGui.TableNextColumn();
 		{
 			if(ImGui.Button("Execute Graph"))
 			{
 				bg.ExecuteGeneratorGraph(graph_instance);
 			}
+
 			ImGui.Text("Graph Info");
 			ImGui.Text("Id : " + graph_instance.id);
 			ImGui.Text("Output");
@@ -255,27 +293,7 @@ function UpdateGenGraphEditor(graph_instance)
 				}
 				if(graph_instance._tempExecutionList)
 				{
-					for(var exeStep of graph_instance._tempExecutionList)
-					{
-						if(exeStep.cmd == "gen")
-						{
-							var exeNode = bg.GetGraphNodeById(graph_instance, exeStep.id);
-							var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
-							ImGui.Text(`${exeStep.cmd} ${generator.name} ${exeStep.id}`);
-							if(ImGui.IsItemHovered())
-							{
-								exeNode._highlighted = true;
-							}
-							else
-							{
-								exeNode._highlighted = false;
-							}
-						}
-						else
-						{
-							ImGui.Text(`${exeStep.cmd}`);
-						}
-					}
+					UpdateExecutionList(graph_instance, graph_instance._tempExecutionList);
 				}
 
 				if(ImGui.Button("Make Execution Context"))
@@ -289,33 +307,7 @@ function UpdateGenGraphEditor(graph_instance)
 					{
 						bg.ExecuteNextStepGenerationGraphExecutionContext(graph_instance._tempExecutionContext);
 					}
-					for(var i=0; i<graph_instance._tempExecutionContext.executionList.length; ++i)
-					{
-						var exeStep = graph_instance._tempExecutionContext.executionList[i];
-						if(i == graph_instance._tempExecutionContext.nextStepToExecute)
-						{
-							ImGui.Text(">>>");
-							ImGui.SameLine();
-						}
-						if(exeStep.cmd == "gen")
-						{
-							var exeNode = bg.GetGraphNodeById(graph_instance, exeStep.id);
-							var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
-							ImGui.Text(`${exeStep.cmd} ${generator.name} ${exeStep.id}`);
-							if(ImGui.IsItemHovered())
-							{
-								exeNode._highlighted = true;
-							}
-							else
-							{
-								exeNode._highlighted = false;
-							}
-						}
-						else
-						{
-							ImGui.Text(`${exeStep.cmd}`);
-						}
-					}
+					UpdateExecutionContext(graph_instance, graph_instance._tempExecutionContext);
 				}
 				ImGui.Unindent();
 			}
@@ -325,8 +317,14 @@ function UpdateGenGraphEditor(graph_instance)
 }
 
 // Update an imgui node canvas specifically for a generator graph.
-function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height = -1)
+// highlighted.nodes = list of node ids to highlght, highlighted.links = list of links to highlight
+function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -1, canvas_height = -1)
 {
+	if(highlighted == null)
+	{
+		highlighted = {};
+	}
+
 	NodeImGui.BeginCanvas(graph_instance.id,  new ImGui.Vec2(canvas_width, canvas_height), graph_instance.layout);
 	for(var i=0; i<graph_instance.nodes.length; ++i)
 	{
@@ -336,7 +334,7 @@ function UpdateGenGraphCanvas(graph_instance, canvas_width = -1, canvas_height =
 			bg.GetGenerationGraphNodeName(node)
 		);
 
-		if(node._highlighted)
+		if(highlighted.nodes && highlighted.nodes.includes(node.id) )
 		{
 			NodeImGui.HighlightNode();
 		}
@@ -517,7 +515,7 @@ function UpdateGenGraphWindow(close_func, graph_instance)
 
 		//current_canvas.Scrolling.x = current_canvas.c_x;
 		//current_canvas.Scrolling.y = current_canvas.c_y;
-		UpdateGenGraphCanvas(graph_instance, win_width - gens_width, win_height);
+		UpdateGenGraphCanvas(graph_instance, {}, win_width - gens_width, win_height);
 	}
 	ImGui.End();
 	ImGui.PopID();
