@@ -251,13 +251,8 @@ function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 			
 			ImGui.TableNextColumn();
 			ImGui.Text(`${step.cmd}`);
-
-			ImGui.TableNextColumn();
 			if(step.cmd == "gen")
 			{
-				var exeNode = bg.GetGraphNodeById(graph_instance, step.id);
-				var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
-				ImGui.Text(`${generator.name} ${step.id}`);
 				if(ImGui.IsItemHovered())
 				{
 					graph_instance._highlighted.nodes.push(step.id);
@@ -265,22 +260,50 @@ function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 			}
 			else if(step.cmd == "copy")
 			{
+				if(ImGui.IsItemHovered())
+				{
+					graph_instance._highlighted.links.push(
+						{
+							from_id:step.from,
+							from_sub_id:step.from_output,
+							to_id:step.to,
+							to_sub_id:step.to_input
+						}
+					);
+				}
+			}
+
+			ImGui.TableNextColumn();
+			if(step.cmd == "gen")
+			{
+				var exeNode = bg.GetGraphNodeById(graph_instance, step.id);
+				var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
+				ImGui.Text(`${generator.name} ${step.id}`);
+			}
+			else if(step.cmd == "copy")
+			{
 				var from_node = bg.GetGraphNodeById(graph_instance, step.from);
 				var to_node = bg.GetGraphNodeById(graph_instance, step.to);
 				
-				ImGui.Text(`From ${step.from}`);
-				ImGui.Text(`To ${step.to}`);
-				// if(from_node.type == "generator" && to_node.type == "generator")
-				// {
-				// 	// todo - error checking	
-				// 	var from_generator = AssetDb.GetAsset(gAssetDb, from_node.asset_id, "generator");
-				// 	var to_generator = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "generator");
-		
-				// 	var output = bg.GetGeneratorOutputById(from_generator, step.from_output);
-				// 	var input = bg.GetGeneratorInputById(to_generator, step.to_input);
-		
-				// 	context.nextGenInputs[input.name] = context.lastGenOutput[output.name];            
-				// }
+				ImGui.Text(`From : `);
+				if(from_node.type == "generator")
+				{
+					var generator = AssetDb.GetAsset(gAssetDb, from_node.asset_id, "generator"); 
+					ImGui.SameLine();
+					ImGui.Text(generator.name);      
+				}
+				ImGui.SameLine();
+				ImGui.Text(`${step.from}`);
+
+				ImGui.Text(`To : `);
+				if(to_node.type == "generator")
+				{
+					var generator = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "generator"); 
+					ImGui.SameLine();
+					ImGui.Text(generator.name);      
+				}
+				ImGui.SameLine();
+				ImGui.Text(`${step.to}`);
 			}
 		}
 		ImGui.EndTable();
@@ -431,7 +454,21 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 					remove_link.to_node_id = to_node_id;
 					remove_link.to_sub_id = to_sub_id;
 					remove_link.do_remove = true;
-				}	
+				}
+
+				if(highlighted.links)
+				{
+					var found = highlighted.links.find(
+						(element) => element.from_node_id == from_node_id
+							&& element.sub_id == sub_id
+							&& element.to_node_id == to_node_id
+							&& element.to_sub_id == to_sub_id
+					);
+					if(found)
+					{
+						NodeImGui.HighlightLink();
+					}
+				}
 			}
 		)
 

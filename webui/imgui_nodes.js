@@ -48,6 +48,7 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	NodeImGui.Current_Canvas.Nodes = {};
 	NodeImGui.Current_Canvas.NodesDrawOrder = [];
 	NodeImGui.Current_Canvas.Links = [];
+	NodeImGui.Current_Canvas.Current_Link = null;
 	NodeImGui.Current_Canvas.Current_NodeImGuiId = 0;
 	NodeImGui.Current_Canvas.Current_Node = null;
 	NodeImGui.Current_Canvas.Hovered_Node = null;
@@ -110,6 +111,12 @@ NodeImGui.HighlightNode = function()
 {
 	var node = NodeImGui.Current_Canvas.Current_Node;
 	node.highlighted = true;
+}
+
+NodeImGui.HighlightLink = function()
+{
+	var link = NodeImGui.Current_Canvas.Current_Link;
+	link.highlighted = true;
 }
 
 NodeImGui.SetNodePosToPopup = function(id)
@@ -285,6 +292,7 @@ NodeImGui.LinkNodes = function(from_id, from_pin, to_id, to_pin)
 	}
 
 	NodeImGui.Current_Canvas.Links.push(link);
+	NodeImGui.Current_Canvas.Current_Link = link;
 
 	return ret;
 }
@@ -655,7 +663,7 @@ NodeImGui.Internal_DrawLink = function(link)
 {
 	var canvas = NodeImGui.Current_Canvas;
 	var link_col = NodeImGui.Colours.link_col;
-	if(link.hovered)
+	if(link.hovered || link.highlighted)
 	{
 		link_col = NodeImGui.Colours.link_hovered_col;
 	}
@@ -752,6 +760,7 @@ NodeImGui.EndCanvas = function()
 	for(var i=0; i<canvas.Links.length; ++i)
 	{
 		NodeImGui.Internal_DrawLink(canvas.Links[i]);
+		canvas.Links[i].highlighted = false; //reset each frame
 	}
 
 	//Draw Debug
