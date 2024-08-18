@@ -231,12 +231,13 @@ var CanLinkGenGraphNodes = function(connection_data)
 function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 {
 	ImGui.PushID(graph_instance.id);
-	if(ImGui.BeginTable("exe_list", 3, ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV | ImGui.TableFlags.RowBg))
+	if(ImGui.BeginTable("exe_list", 4, ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV | ImGui.TableFlags.RowBg))
 	{
 		ImGui.SetColumnWidth(50);
 		ImGui.TableSetupColumn("Step");
 		ImGui.TableSetupColumn("Cmd");
 		ImGui.TableSetupColumn("Data");
+		ImGui.TableSetupColumn("Debug");
 		ImGui.TableHeadersRow();
 	
 		for(var i=0; i<execution_list.length; ++i)
@@ -304,6 +305,17 @@ function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 				}
 				ImGui.SameLine();
 				ImGui.Text(`${step.to}`);
+			}
+
+			ImGui.TableNextColumn();
+			if(step.cmd == "gen")
+			{
+				if(ImGui.Button("Open..."))
+				{
+					var exeNode = bg.GetGraphNodeById(graph_instance, step.id);
+					var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
+					OpenWindow(generator.id, UpdateGeneratorWindow, generator);
+				}
 			}
 		}
 		ImGui.EndTable();
