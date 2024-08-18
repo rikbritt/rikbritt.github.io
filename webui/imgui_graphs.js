@@ -314,6 +314,14 @@ function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 function UpdateExecutionContext(graph_instance, execution_context)
 {
 	UpdateExecutionList(graph_instance, execution_context.executionList, execution_context.nextStepToExecute);
+	if(execution_context.lastGenOutput)
+	{
+
+	}
+	else
+	{
+		ImGui.Text("No Last Generator Output");
+	}
 }
 
 // Add to an imgui window imgui controls for viewing and using an generator graph

@@ -4,18 +4,11 @@ var gGeneratorRenderTargetHeight = 1080 / 2;
 
 function RunGeneratorInstance(generatorInstance)
 {
-	if(generatorInstance.generatorGraph == null)
-	{
-		//Create an empty graph for the selected generator
-		generatorInstance.generatorGraph = bg.CreateGenerationGraph("Test Harness");
-		generatorInstance.targetGraphNode = bg.CreateGenerationGraph_GeneratorNode(generatorInstance.generatorGraph, generatorInstance.generator);
-	}
-	//RenderGraph();
-
-	generatorInstance.output = bg.GenerateGraphNode(
-		generatorInstance.targetGraphNode, 
-		generatorInstance.seed, 
-		generatorInstance.setInputs);
+	generatorInstance.output = bg.RunGenerator(
+		generatorInstance.generator, 
+		generatorInstance.seed,
+		generatorInstance.setInputs
+	);
 	
 	if(generatorInstance.output.outputs.model)
 	{

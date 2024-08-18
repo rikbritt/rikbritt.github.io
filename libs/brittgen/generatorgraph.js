@@ -254,24 +254,6 @@ bg.ExecuteGeneratorGraph = function(graph)
 
 }
 
-// //Generate a target node. Will trigger generation of all input nodes.
-// bg.GenerateGraphNode = function(targetNode, seed, nodeInputDataDef)
-// {
-// 	var targetAsset = AssetDb.GetAsset(gAssetDb, targetNode.asset_id, "generator");
-// 	if(nodeInputDataDef == null)
-// 	{
-// 		nodeInputDataDef = Array(targetAsset.inputs.length).fill(null);
-// 	}
-
-// 	//Gather the input nodes data that is required.
-// 	for(var i=0; i<targetNode.inputs.length; ++i)
-// 	{
-// 		var nodeInput = targetNode.inputs[i];
-// 		var inputResult = bg.GenerateGraphNode(nodeInput.fromNode, seed);
-// 		nodeInputDataDef[nodeInput.toNodeInputName] = inputResult.outputs[nodeInput.fromNodeOutputName];
-// 	}
-// 	return bg.RunGenerator(targetAsset, seed, nodeInputDataDef);
-// }
 
 
 // bg.SaveGraphToJSON = function(graph)
