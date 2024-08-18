@@ -26,6 +26,7 @@ function UpdateNodeTestWindow(close_func)
 		);
 		NodeImGui.InputPin("bob_in_1", "Input", "data", can_link_func);
 		NodeImGui.OutputPin("bob_out_1", "Output", "data", can_link_func);
+		NodeImGui.AddInfoText("Hello there");
 		NodeImGui.EndNode();
 
 		
