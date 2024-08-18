@@ -526,15 +526,22 @@ NodeImGui.Internal_GetPinTextColour = function(node, input_pin_idx, output_pin_i
 	return pin_text_col;
 }
 
+NodeImGui.Internal_CalcPinsHeight = function(node)
+{
+	var num_inputs = node.input_pins.length;
+	var num_outputs = node.output_pins.length;
+	var max_pins = num_inputs > num_outputs ? num_inputs : num_outputs;
+	var draw_info = node.draw_info;
+	return (max_pins * draw_info.line_space);
+}
+
 NodeImGui.Internal_CalcNodeHeight = function(node)
 {
 	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
 	var title_height = node_title_size.y;
 	var draw_info = node.draw_info;
-	var num_inputs = node.input_pins.length;
-	var num_outputs = node.output_pins.length;
-	var max_pins = num_inputs > num_outputs ? num_inputs : num_outputs;
-	var node_h = (max_pins * draw_info.line_space) + title_height + (draw_info.node_border * 1);
+	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
+	var node_h = pins_height + title_height + (draw_info.node_border * 1);
 	node_h += node.info_height;
 	return node_h;
 }
@@ -660,13 +667,17 @@ NodeImGui.Internal_DrawNodeInfo = function(node)
 {
 	var dl = ImGui.GetWindowDrawList();
 	var node_draw_pos = NodeImGui.Internal_CalcNodeDrawPos(node);
+	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
+	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
+	var title_height = node_title_size.y;
+	var info_start_pos = {x:node_draw_pos.x, y:node_draw_pos.y + pins_height + title_height};
 
 	for(var info of node.info)
 	{
 		if(info.type == "text")
 		{
 			var info_text_col = NodeImGui.Colours.title_txt_col;
-			dl.AddText(node_draw_pos, info_text_col.toImU32(), info.text);
+			dl.AddText(info_start_pos, info_text_col.toImU32(), info.text);
 		}
 	}
 }
