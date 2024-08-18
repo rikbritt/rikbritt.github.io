@@ -459,9 +459,9 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 				if(highlighted.links)
 				{
 					var found = highlighted.links.find(
-						(element) => element.from_node_id == from_node_id
+						(element) => element.from_id == from_node_id
 							&& element.from_sub_id == sub_id
-							&& element.to_node_id == to_node_id
+							&& element.to_id == to_node_id
 							&& element.to_sub_id == to_sub_id
 					);
 					if(found)
