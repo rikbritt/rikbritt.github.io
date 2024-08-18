@@ -230,29 +230,62 @@ var CanLinkGenGraphNodes = function(connection_data)
 
 function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 {
-	for(var i=0; i<execution_list.length; ++i)
+	ImGui.PushID(graph_instance.id);
+	if(ImGui.BeginTable("exe_list", 3, ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV | ImGui.TableFlags.RowBg))
 	{
-		var exeStep = execution_list[i];
-		if(i == nextStep)
+		ImGui.SetColumnWidth(50);
+		ImGui.TableSetupColumn("Step");
+		ImGui.TableSetupColumn("Cmd");
+		ImGui.TableSetupColumn("Data");
+		ImGui.TableHeadersRow();
+	
+		for(var i=0; i<execution_list.length; ++i)
 		{
-			ImGui.Text(">>>");
-			ImGui.SameLine();
-		}
-		if(exeStep.cmd == "gen")
-		{
-			var exeNode = bg.GetGraphNodeById(graph_instance, exeStep.id);
-			var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
-			ImGui.Text(`${exeStep.cmd} ${generator.name} ${exeStep.id}`);
-			if(ImGui.IsItemHovered())
+			ImGui.TableNextRow();
+			ImGui.TableNextColumn();
+			var step = execution_list[i];
+			if(i == nextStep)
 			{
-				graph_instance._highlighted.push(exeStep.id);
+				ImGui.Text(">");
+			}
+			
+			ImGui.TableNextColumn();
+			ImGui.Text(`${step.cmd}`);
+
+			ImGui.TableNextColumn();
+			if(step.cmd == "gen")
+			{
+				var exeNode = bg.GetGraphNodeById(graph_instance, step.id);
+				var generator = AssetDb.GetAsset(gAssetDb, exeNode.asset_id, "generator");
+				ImGui.Text(`${generator.name} ${step.id}`);
+				if(ImGui.IsItemHovered())
+				{
+					graph_instance._highlighted.nodes.push(step.id);
+				}
+			}
+			else if(step.cmd == "copy")
+			{
+				var from_node = bg.GetGraphNodeById(graph_instance, step.from);
+				var to_node = bg.GetGraphNodeById(graph_instance, step.to);
+				
+				ImGui.Text(`From ${step.from}`);
+				ImGui.Text(`To ${step.to}`);
+				// if(from_node.type == "generator" && to_node.type == "generator")
+				// {
+				// 	// todo - error checking	
+				// 	var from_generator = AssetDb.GetAsset(gAssetDb, from_node.asset_id, "generator");
+				// 	var to_generator = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "generator");
+		
+				// 	var output = bg.GetGeneratorOutputById(from_generator, step.from_output);
+				// 	var input = bg.GetGeneratorInputById(to_generator, step.to_input);
+		
+				// 	context.nextGenInputs[input.name] = context.lastGenOutput[output.name];            
+				// }
 			}
 		}
-		else
-		{
-			ImGui.Text(`${exeStep.cmd}`);
-		}
+		ImGui.EndTable();
 	}
+	ImGui.PopID();
 }
 
 function UpdateExecutionContext(graph_instance, execution_context)
