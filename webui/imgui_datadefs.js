@@ -18,7 +18,6 @@ function UpdateDataDefsListInternal( defs_list, selected_func )
 	// 	};
 	// }
 	
-	for([key, data] of Object.entries(category.children))
 	for(var i=0; i<defs_list.length; ++i)
 	{
 		var numOpen = 0;

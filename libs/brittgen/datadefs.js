@@ -11,6 +11,10 @@ bg.UpgradeDataDef = function(data_def)
 	{
 		data_def.fields = [];
 	}
+	if(data_def.category == null)
+	{
+		data_def.category = [];
+	}
 	for(var field of data_def.fields)
 	{
 		if(field.id == null)
