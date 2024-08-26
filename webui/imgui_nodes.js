@@ -592,7 +592,7 @@ NodeImGui.Internal_DrawNode = function(node)
 
 	if(node.col)
 	{
-		title_bg_col = node.col.toImU32();
+		title_bg_col = node.col;
 	}
 
 	//Highlight

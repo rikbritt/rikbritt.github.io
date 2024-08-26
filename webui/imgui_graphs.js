@@ -438,7 +438,7 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 		}
 		else if(node.type == "data_def")
 		{
-			ImGui.NodeColour(new ImGui.ImColor(0.8, 0.1, 0.1, 1.00));
+			NodeImGui.NodeColour(new ImGui.ImColor(0.1, 0.1, 0.8, 1.00));
 			var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 			for(var j=0; j<data_def.fields.length; ++j)
 			{
