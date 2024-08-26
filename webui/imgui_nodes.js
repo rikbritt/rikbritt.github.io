@@ -109,6 +109,12 @@ NodeImGui.BeginNode = function(id, name)
 	}
 }
 
+NodeImGui.NodeColour = function(col)
+{
+	var node = NodeImGui.Current_Canvas.Current_Node;
+	node.col = col;
+}
+
 NodeImGui.HighlightNode = function()
 {
 	var node = NodeImGui.Current_Canvas.Current_Node;
@@ -583,6 +589,11 @@ NodeImGui.Internal_DrawNode = function(node)
 	var title_hovered_txt_col = NodeImGui.Colours.title_hovered_txt_col;
 	var pin_col = NodeImGui.Colours.pin_col;
 	var pin_inner_col = NodeImGui.Colours.pin_inner_col;
+
+	if(node.col)
+	{
+		title_bg_col = node.col.toImU32();
+	}
 
 	//Highlight
 	if(node.highlighted)
