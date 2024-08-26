@@ -206,7 +206,7 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 			else if(file_name.startsWith("datadefs/"))
 			{
 				var data_def = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
-				loaded_project.dataDefs[data_def.id] = data_def;
+				bg.RegisterProjectDataDef(loaded_project, data_def);
 			}
 		}
 	}
