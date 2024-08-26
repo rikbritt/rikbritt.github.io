@@ -12,6 +12,7 @@
         "generators/lookattest.js",
         "generators/timeline_fixed.js",
         "generators/timeline_random.js",
-        "generators/voxeltests.js"
+        "generators/voxeltests.js",
+        "generators/test_gen_a.js"
     ]
 }
