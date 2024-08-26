@@ -61,10 +61,10 @@ function SetupGenGraphTestWindow()
 	testGenGraph = bg.CreateEmptyProjectGraph(bg.global_project);
 	bg.AddGraphLayout(testGenGraph);
 	
-	var generator = AssetDb.GetAsset(gAssetDb, "bae92d4e-3b90-4840-9ff7-1a6a88dad088", "generator");
+	var generator = AssetDb.GetAsset(gAssetDb, "5789e50e-b882-4cf6-8b1d-958784541060", "generator");
 	var nodeA = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
 	var nodeB = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
-	bg.CreateGenerationGraphLink(testGenGraph, nodeA, "143e9520-87b5-4029-bd44-1c7a98ce9c0a", nodeB, "175a26aa-15cc-43d6-979f-72546449e601");
+	bg.CreateGenerationGraphLink(testGenGraph, nodeA, "4f97075a-51a2-45c9-9825-b8279cb09842", nodeB, "add1d102-a471-4fab-ab9d-8d2a7eb99bb2");
 	var b_layout = bg.FindOrCreateNodeLayout(testGenGraph.layout, nodeB.id);
 	b_layout.x = 450;
 	b_layout.y = 50;
@@ -75,7 +75,7 @@ function SetupGenGraphTestWindow()
 	outputNode_layout.y = 50;
 
 	// Note for now output nodes input pin is the same id as the node
-	bg.CreateGenerationGraphLink(testGenGraph, nodeB, "143e9520-87b5-4029-bd44-1c7a98ce9c0a", outputNode, outputNode.id);
+	bg.CreateGenerationGraphLink(testGenGraph, nodeB, "4f97075a-51a2-45c9-9825-b8279cb09842", outputNode, outputNode.id);
 }
 
 function UpdateGenGraphTestWindow(close_func)
