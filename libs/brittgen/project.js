@@ -94,9 +94,9 @@ bg.SaveProjectAsJSONFiles = function(project)
 	};
 
 	//Save Data Defs
-	for([key, data] of Object.entries(project.dataDefs))
+	for(var i=0; i<project.dataDefs.length; ++i)
 	{
-		var data_def_json = bg.SaveDataDefToJSON(data);
+		var data_def_json = bg.SaveDataDefToJSON(project.dataDefs[i]);
 		var file_name = "datadefs/" + key + ".json";
 		project_data_files.files.push({
 			name:file_name,

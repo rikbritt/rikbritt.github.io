@@ -1,5 +1,5 @@
 
-bg.dataDefs = {};
+bg.dataDefs = [];
 
 bg.UpgradeDataDef = function(data_def)
 {
@@ -36,7 +36,7 @@ bg.RegisterProjectDataDef = function(project, data_def)
 	bg.UpgradeDataDef(data_def);
 	if(bg.ValidateDataDef(data_def))
 	{
-		project.dataDefs[data_def.id] = data_def;
+		project.dataDefs.push(data_def);
 		AssetDb.AddAsset(project.assetDb, data_def.id, "data_def", data_def);
 		return true;
 	}

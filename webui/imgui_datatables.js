@@ -71,15 +71,13 @@ function UpdateDataTablesList(selected_func)
 function UpdateDataTablesTreeForProject(project, selected_func)
 {
 	//TODO: Add categories to the data defs and display those in the tree
-	var sorted_def_ids = GetSortedObjectKeys(project.dataDefs);
 	var leaf_node_flags = ImGui.TreeNodeFlags.Leaf | ImGui.TreeNodeFlags.NoTreePushOnOpen | ImGui.TreeNodeFlags.SpanAvailWidth;
-	for(var i=0; i<sorted_def_ids.length; ++i)
+	for(var i=0; i<project.dataDefs.length; ++i)
 	{
-		var data_table_id = sorted_def_ids[i];
-		ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[data_table_id].name);
+		ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[i].name);
 		if(ImGui.IsItemClicked())
 		{
-			selected_func(project.dataDefs[data_table_id]);
+			selected_func(project.dataDefs[i]);
 		}
 	}
 }

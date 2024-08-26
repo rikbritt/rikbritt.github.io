@@ -18,15 +18,36 @@ function UpdateDataDefsListInternal( defs_list, selected_func )
 	// 	};
 	// }
 	
-	//for(var i=0; i<defs_list.length; ++i)
-	for([key, data] of Object.entries(defs_list))
+	for([key, data] of Object.entries(category.children))
+	for(var i=0; i<defs_list.length; ++i)
 	{
-		if(ImGui.MenuItem(key))
+		var numOpen = 0;
+		for(var c=0; c<defs_list[i].category.length; ++c)
 		{
-            if(selected_func)
-            {
-			    selected_func(data);
-            }
+			var category = defs_list[i].category[c];
+			if(ImGui.BeginMenu(category))
+			{
+				++numOpen;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if(numOpen == defs_list[i].category.length)
+		{
+			if(ImGui.MenuItem(defs_list[i].name))
+			{
+				selected_func(defs_list[i]);
+			}
+			if(defs_list[i].description != undefined && ImGui.IsItemHovered())
+			{
+				ImGui.SetTooltip(defs_list[i].description);
+			}
+		}
+		for(var c=0; c<numOpen; ++c)
+		{
+			ImGui.EndMenu();
 		}
 	}
 }
@@ -44,8 +65,12 @@ function UpdateDataDefsList(selected_func)
 	{
 		var project = bg.projects[i];
 		
-		if(ImGui.BeginMenu("Project Data Defs (todo)"))
+		if(ImGui.BeginMenu(project.name + " Data Defs"))
 		{
+			UpdateDataDefsListInternal(
+				project.dataDefs,
+				selected_func
+			);
 			ImGui.EndMenu();
 		}
 	}
@@ -71,15 +96,13 @@ function UpdateDataDefsList(selected_func)
 function UpdateDataDefsTreeForProject(project, selected_func)
 {
 	//TODO: Add categories to the data defs and display those in the tree
-	var sorted_def_ids = GetSortedObjectKeys(project.dataDefs);
 	var leaf_node_flags = ImGui.TreeNodeFlags.Leaf | ImGui.TreeNodeFlags.NoTreePushOnOpen | ImGui.TreeNodeFlags.SpanAvailWidth;
-	for(var i=0; i<sorted_def_ids.length; ++i)
+	for(var i=0; i<project.dataDefs.length; ++i)
 	{
-		var data_def_id = sorted_def_ids[i];
-		ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[data_def_id].name);
+		ImGui.TreeNodeEx(i, leaf_node_flags, project.dataDefs[i].name);
 		if(ImGui.IsItemClicked())
 		{
-			selected_func(project.dataDefs[data_def_id]);
+			selected_func(project.dataDefs[i]);
 		}
 	}
 }
