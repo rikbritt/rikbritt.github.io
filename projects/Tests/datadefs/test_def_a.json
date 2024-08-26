@@ -1,0 +1,19 @@
+{
+    "version": 1,
+    "id": "abc3b2ee-8934-4816-ab92-a546a7c36cbf",
+    "name": "Test Data Def A",
+    "fields": [
+        {
+            "name": "Field A",
+            "type": "bool"
+        },
+        {
+            "min": 0,
+            "max": 100,
+            "name": "Field B",
+            "type": "float"
+        }
+    ],
+    "description": "Example",
+    "category": []
+}

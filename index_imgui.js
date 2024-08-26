@@ -187,6 +187,7 @@ function OnPageLoaded()
 		OpenWindow("explorer", UpdateExplorerWindow, null);
 
 		LoadProjectFromURL("projects/global");
+		LoadProjectFromURL("projects/Tests");
 		
 		var clock = new THREE.Clock();
 

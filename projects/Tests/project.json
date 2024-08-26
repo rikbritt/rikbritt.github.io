@@ -3,6 +3,7 @@
     "name":"Tests Project",
     "files":[
         "datadefs/18a3b2ee-8934-4816-ab92-a546a7c36cbf.json",
+        "datadefs/test_def_a.json",
         "generators/debugtexttest.js",
         "generators/geomintersectiontests.js",
         "generators/hierarchytests.js",
