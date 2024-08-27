@@ -520,9 +520,9 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 		if(ImGui.BeginMenu("Add Generator..."))
 		{
 			UpdateGeneratorsList(
-				function(generator)
+				function(selected)
 				{
-					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, generator);
+					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, selected);
 					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);
@@ -532,9 +532,9 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 		if(ImGui.BeginMenu("Add Data Def..."))
 		{
 			UpdateDataDefsList(
-				function(data_def)
+				function(selected)
 				{
-					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, data_def);
+					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, selected);
 					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);
@@ -543,6 +543,13 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 
 		if(ImGui.MenuItem("Add Data Table"))
 		{
+			UpdateDataTablesList(
+				function(selected)
+				{
+					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, selected);
+					NodeImGui.SetNodePosToPopup(node.id);
+				}
+			);
 		}
 
 		if(ImGui.MenuItem("Add Value"))
