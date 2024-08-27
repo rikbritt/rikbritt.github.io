@@ -80,6 +80,23 @@ bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
 	return node;
 }
 
+bg.CreateGenerationGraph_DataTableNode = function(graph, data_table)
+{
+	var node = bg.CreateGenerationGraphNode(graph);
+	node.asset_id = data_table.id;
+	node.type = "data_table";
+	return node;
+}
+
+bg.CreateGenerationGraph_CommentNode = function(graph)
+{
+	var node = bg.CreateGenerationGraphNode(graph);
+	node.asset_id = null;
+	node.type = "comment";
+	node.comment = "Hello World";
+	return node;
+}
+
 
 bg.CreateGenerationGraphLink = function(graph, fromNode, fromNodeOutputId, toNode, toNodeInputId)
 {

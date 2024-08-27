@@ -541,15 +541,16 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 			ImGui.EndMenu();
 		}
 
-		if(ImGui.MenuItem("Add Data Table"))
+		if(ImGui.BeginMenu("Add Data Table"))
 		{
 			UpdateDataTablesList(
 				function(selected)
 				{
-					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, selected);
+					var node = bg.CreateGenerationGraph_DataTableNode(graph_instance, selected);
 					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);
+			ImGui.EndMenu();
 		}
 
 		if(ImGui.MenuItem("Add Value"))
@@ -558,6 +559,8 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 
 		if(ImGui.MenuItem("Add Note / Comment"))
 		{
+			var node = bg.CreateGenerationGraph_CommentNode(graph_instance, selected);
+			NodeImGui.SetNodePosToPopup(node.id);
 		}
 
 		NodeImGui.EndPopup();
