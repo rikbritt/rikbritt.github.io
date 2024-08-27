@@ -440,10 +440,18 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 		{
 			NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
 			var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+
+			NodeImGui.InputPin("", "This Data Def", "data_def");
 			for(var j=0; j<data_def.fields.length; ++j)
 			{
 				var field = data_def.fields[j];
 				NodeImGui.InputPin(field.id, field.name, field.type);
+			}
+			NodeImGui.OutputPin("", "", "data_def");
+			for(var j=0; j<data_def.fields.length; ++j)
+			{
+				var field = data_def.fields[j];
+				NodeImGui.OutputPin(field.id, "", field.type);
 			}
 		}
 
@@ -531,6 +539,14 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 				}
 			);
 			ImGui.EndMenu();
+		}
+
+		if(ImGui.MenuItem("Add Data Table"))
+		{
+		}
+
+		if(ImGui.MenuItem("Add Value"))
+		{
 		}
 
 		if(ImGui.MenuItem("Add Note / Comment"))
