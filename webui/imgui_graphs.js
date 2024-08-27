@@ -201,7 +201,15 @@ RegisterGraphEditorNodeType(
 	{
 		if(ImGui.BeginMenu("Add Value"))
 		{
-			ImGui.MenuItem("Number");
+			var fieldTypes = GetSortedObjectKeys(bg.fieldTypes);
+			for(var fieldTypeId of fieldTypes)
+			{
+				if(ImGui.MenuItem(fieldTypeId))
+				{
+					var node = bg.CreateGenerationGraph_ValueNode(graph_instance, bg.fieldTypes[fieldTypeId]);
+					NodeImGui.SetNodePosToPopup(node.id);
+				}
+			}
 			ImGui.EndMenu();
 		}
 	},
