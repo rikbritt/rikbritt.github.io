@@ -13,6 +13,17 @@ function CreateGraphEditor(graph_name)
 	);
 }
 
+// WIP
+var gGraphNodeTypes = {};
+function RegisterGraphEditorNodeType(node_type, func_update_node_info)
+{
+	var node_type_data = {
+		type:node_type,
+		update_node_info:func_update_node_info
+	};
+	gGraphNodeTypes[node_type] = node_type_data;
+}
+
 function UpdateSelectedNodeInfo(selected_node, graph_instance)
 {
 	ImGui.PushID(selected_node.name);
@@ -559,7 +570,7 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 
 		if(ImGui.MenuItem("Add Note / Comment"))
 		{
-			var node = bg.CreateGenerationGraph_CommentNode(graph_instance, selected);
+			var node = bg.CreateGenerationGraph_CommentNode(graph_instance);
 			NodeImGui.SetNodePosToPopup(node.id);
 		}
 
