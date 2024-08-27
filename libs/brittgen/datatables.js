@@ -14,7 +14,7 @@ bg.RegisterProjectDataTable = function(project, data_table)
 	bg.UpgradeDataTable(data_table);
 	if(bg.ValidateDataTable(data_table))
 	{
-		project.dataTables[data_table.id] = data_table;
+		project.dataTables.push(data_table);
 		AssetDb.AddAsset(project.assetDb, data_table.id, "data_table", data_table);
 		return true;
 	}
