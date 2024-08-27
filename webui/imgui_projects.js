@@ -277,3 +277,68 @@ function CreateExplorerNodeForProject(project)
     }
     return node;
 }
+
+
+
+
+function UpdateProjectItemsMenuListInternal( list, selected_func )
+{	
+	for(var i=0; i<list.length; ++i)
+	{
+		var numOpen = 0;
+		for(var c=0; c<list[i].category.length; ++c)
+		{
+			var category = list[i].category[c];
+			if(ImGui.BeginMenu(category))
+			{
+				++numOpen;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if(numOpen == list[i].category.length)
+		{
+			if(ImGui.MenuItem(list[i].name))
+			{
+				selected_func(list[i]);
+			}
+			if(list[i].description != undefined && ImGui.IsItemHovered())
+			{
+				ImGui.SetTooltip(list[i].description);
+			}
+		}
+		for(var c=0; c<numOpen; ++c)
+		{
+			ImGui.EndMenu();
+		}
+	}
+}
+
+// Generic imgui menu tree for items with categories and ids
+function UpdateProjectItemsMenuList(selected_func, item_name, project_field_name)
+{
+	for(var i=0; i<bg.projects.length; ++i)
+	{
+		var project = bg.projects[i];
+		
+		if(ImGui.BeginMenu(project.name + " " + item_name))
+		{
+			UpdateProjectItemsMenuListInternal(
+				project[project_field_name],
+				selected_func
+			);
+			ImGui.EndMenu();
+		}
+	}
+
+	// if(ImGui.BeginMenu("Global Data Defs (to remove)"))
+	// {
+	// 	UpdateDataDefsListInternal(
+	// 		bg.dataDefs,
+	// 		selected_func
+	// 	);
+	// 	ImGui.EndMenu();
+	// }
+}

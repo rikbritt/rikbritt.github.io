@@ -368,7 +368,7 @@ function CreateGeneratorInstance( generator )
 	);
 }
 
-function UpdateGeneratorsListInternal( generators_list, selected_func )
+function UpdateGeneratorsList( selected_func ) 
 {
 	//Default behaviour - add generator to instances list
 	if(selected_func == null)
@@ -378,64 +378,7 @@ function UpdateGeneratorsListInternal( generators_list, selected_func )
 			CreateGeneratorInstance(selected_generator);
 		};
 	}
-	
-	for(var i=0; i<generators_list.length; ++i)
-	{
-		var numOpen = 0;
-		for(var c=0; c<generators_list[i].category.length; ++c)
-		{
-			var category = generators_list[i].category[c];
-			if(ImGui.BeginMenu(category))
-			{
-				++numOpen;
-			}
-			else
-			{
-				break;
-			}
-		}
-		if(numOpen == generators_list[i].category.length)
-		{
-			if(ImGui.MenuItem(generators_list[i].name))
-			{
-				selected_func(generators_list[i]);
-			}
-			if(generators_list[i].description != undefined && ImGui.IsItemHovered())
-			{
-				ImGui.SetTooltip(generators_list[i].description);
-			}
-		}
-		for(var c=0; c<numOpen; ++c)
-		{
-			ImGui.EndMenu();
-		}
-	}
-}
-
-function UpdateGeneratorsList( selected_func ) 
-{
-	for(var i=0; i<bg.projects.length; ++i)
-	{
-		var project = bg.projects[i];
-		
-		if(ImGui.BeginMenu(project.name + " Generators"))
-		{
-			UpdateGeneratorsListInternal(
-				project.generators,
-				selected_func
-			);
-			ImGui.EndMenu();
-		}
-	}
-
-	if(ImGui.BeginMenu("Global Generators (to del from here)"))
-	{
-		UpdateGeneratorsListInternal(
-			bg.generators,
-			selected_func
-		);
-		ImGui.EndMenu();
-	}
+	UpdateProjectItemsMenuList(selected_func, "Generators", "generators");
 }
 
 var gLastScriptErrors = {};

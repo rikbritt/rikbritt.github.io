@@ -1,55 +1,5 @@
 
-function UpdateDataDefsListInternal( defs_list, selected_func )
-{
-	//Default behaviour - add generator to instances list
-	// if(selected_func == null)
-	// {
-	// 	selected_func = function(selected_generator)
-	// 	{
-	// 		gGeneratorInstances.push(
-	// 			{
-	// 				open:true,
-	// 				seed:0,
-	// 				generator:selected_generator,
-	// 				setInputs:{},
-	// 				output:{}
-	// 			}
-	// 		);
-	// 	};
-	// }
-	
-	for(var i=0; i<defs_list.length; ++i)
-	{
-		var numOpen = 0;
-		for(var c=0; c<defs_list[i].category.length; ++c)
-		{
-			var category = defs_list[i].category[c];
-			if(ImGui.BeginMenu(category))
-			{
-				++numOpen;
-			}
-			else
-			{
-				break;
-			}
-		}
-		if(numOpen == defs_list[i].category.length)
-		{
-			if(ImGui.MenuItem(defs_list[i].name))
-			{
-				selected_func(defs_list[i]);
-			}
-			if(defs_list[i].description != undefined && ImGui.IsItemHovered())
-			{
-				ImGui.SetTooltip(defs_list[i].description);
-			}
-		}
-		for(var c=0; c<numOpen; ++c)
-		{
-			ImGui.EndMenu();
-		}
-	}
-}
+
 
 function UpdateDataDefsList(selected_func)
 {
@@ -60,36 +10,7 @@ function UpdateDataDefsList(selected_func)
 			OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
 		};
 	}
-	for(var i=0; i<bg.projects.length; ++i)
-	{
-		var project = bg.projects[i];
-		
-		if(ImGui.BeginMenu(project.name + " Data Defs"))
-		{
-			UpdateDataDefsListInternal(
-				project.dataDefs,
-				selected_func
-			);
-			ImGui.EndMenu();
-		}
-	}
-
-	if(ImGui.BeginMenu("Global Data Defs (to remove)"))
-	{
-		UpdateDataDefsListInternal(
-			bg.dataDefs,
-			selected_func
-		);
-		ImGui.EndMenu();
-	}
-	// if(gCurrentProject && ImGui.BeginMenu("Project Param Types"))
-	// {
-	// 	UpdateDataDefsListInternal(
-	// 		gCurrentProject.generators,
-	// 		selected_func
-	// 	);
-	// 	ImGui.EndMenu();
-	// }
+	UpdateProjectItemsMenuList(selected_func, "Data Defs", "dataDefs");
 }
 
 function UpdateDataDefsTreeForProject(project, selected_func)
