@@ -208,6 +208,11 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 				var data_def = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
 				bg.RegisterProjectDataDef(loaded_project, data_def);
 			}
+			else if(file_name.startsWith("data_tables/"))
+			{
+				var data_table = bg.LoadDataDefFromJSON(project_data_files.files[i].content);
+				bg.RegisterProjectDataTable(loaded_project, data_table);
+			}
 		}
 	}
 	return loaded_project;
