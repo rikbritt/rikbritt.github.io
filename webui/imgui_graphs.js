@@ -150,11 +150,11 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, selected_graph_node)
 	{
-		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
-		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 	},
 	function(graph_instance, node)
 	{
+		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
+		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 	}
 );
 
@@ -204,9 +204,12 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, selected_graph_node)
 	{
+		ImGui.InputText("Comment", (_ = selected_graph_node.comment) => selected_graph_node.comment = _, 256);
 	},
 	function(graph_instance, node)
 	{
+		NodeImGui.NodeColour(new ImGui.ImColor(0.65, 0.58, 0.26, 1.00));
+		NodeImGui.AddInfoText(node.comment);
 	}
 );
 
