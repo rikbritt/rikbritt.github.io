@@ -92,6 +92,124 @@ RegisterGraphEditorNodeType(
 	}
 );
 
+
+RegisterGraphEditorNodeType(
+	"data_def",
+	function(graph_instance)
+	{
+		if(ImGui.BeginMenu("Add Data Def..."))
+		{
+			UpdateDataDefsList(
+				function(selected)
+				{
+					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, selected);
+					NodeImGui.SetNodePosToPopup(node.id);
+				}
+			);
+			ImGui.EndMenu();
+		}
+	},
+	function(graph_instance, selected_graph_node)
+	{
+	},
+	function(graph_instance, node)
+	{
+		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
+		var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+
+		NodeImGui.InputPin("", "This Data Def", "data_def");
+		for(var j=0; j<data_def.fields.length; ++j)
+		{
+			var field = data_def.fields[j];
+			NodeImGui.InputPin(field.id, field.name, field.type);
+		}
+		NodeImGui.OutputPin("", "", "data_def");
+		for(var j=0; j<data_def.fields.length; ++j)
+		{
+			var field = data_def.fields[j];
+			NodeImGui.OutputPin(field.id, "", field.type);
+		}
+	}
+);
+
+RegisterGraphEditorNodeType(
+	"data_table",
+	function(graph_instance)
+	{
+		if(ImGui.BeginMenu("Add Data Table"))
+		{
+			UpdateDataTablesList(
+				function(selected)
+				{
+					var node = bg.CreateGenerationGraph_DataTableNode(graph_instance, selected);
+					NodeImGui.SetNodePosToPopup(node.id);
+				}
+			);
+			ImGui.EndMenu();
+		}
+	},
+	function(graph_instance, selected_graph_node)
+	{
+		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
+		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+	},
+	function(graph_instance, node)
+	{
+	}
+);
+
+RegisterGraphEditorNodeType(
+	"output",
+	function(graph_instance)
+	{
+	},
+	function(graph_instance, selected_graph_node)
+	{
+	},
+	function(graph_instance, node)
+	{
+		// TODO check pin id
+		var connection = NodeImGui.InputPin(node.id, "Output", "any", CanLinkGenGraphNodes);
+		ProcessGraphConnection(graph_instance, connection);
+	}
+);
+
+RegisterGraphEditorNodeType(
+	"value",
+	function(graph_instance)
+	{
+		if(ImGui.BeginMenu("Add Value"))
+		{
+			ImGui.MenuItem("Number");
+			ImGui.EndMenu();
+		}
+	},
+	function(graph_instance, selected_graph_node)
+	{
+	},
+	function(graph_instance, node)
+	{
+	}
+);
+
+RegisterGraphEditorNodeType(
+	"comment",
+	function(graph_instance)
+	{
+		if(ImGui.MenuItem("Add Note / Comment"))
+		{
+			var node = bg.CreateGenerationGraph_CommentNode(graph_instance);
+			NodeImGui.SetNodePosToPopup(node.id);
+		}
+	},
+	function(graph_instance, selected_graph_node)
+	{
+	},
+	function(graph_instance, node)
+	{
+	}
+);
+
 function UpdateSelectedNodeInfo(selected_node, graph_instance)
 {
 	ImGui.PushID(selected_node.name);
@@ -113,37 +231,6 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 		{
 			nodeType.update_node_info(graph_instance, selected_graph_node);
 		}
-		// else if(selected_graph_node.type == "generator")
-		// {
-		// 	var generator = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
-		// 	var generator_inputs = generator.inputs;
-		// 	for(field of generator_inputs.fields)
-		// 	{
-		// 		ImGui.Text(field.name + " : " + field.type);
-		// 	}
-		// 	ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, generator_inputs.fields.length-1);
-		// 	ImGui.Unindent();
-
-		// 	ImGui.Text("Outputs : ");
-		// 	ImGui.Indent();
-		// 	var generator_outputs = generator.outputs;
-		// 	for(field of generator_outputs.fields)
-		// 	{
-		// 		ImGui.Text(field.name + " : " + field.type);
-		// 	}
-		// 	ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, generator_outputs.fields.length-1);
-		// 	ImGui.Unindent();
-
-		// 	ImGui.Text("Links : ");
-		// 	ImGui.Indent();
-		// 	var links = generator.inputs;
-		// 	for(var i=0; i<links.length; ++i)
-		// 	{
-		// 		var link = links[i];
-		// 		ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
-		// 	}
-		// 	ImGui.Unindent();
-		// }
 	}
 	else
 	{
@@ -504,45 +591,6 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 		{
 			nodeType.graph_add_pins(graph_instance, node);
 		}
-		else if(node.type == "output")
-		{
-			// TODO check pin id
-			var connection = NodeImGui.InputPin(node.id, "Output", "any", CanLinkGenGraphNodes);
-			ProcessGraphConnection(graph_instance, connection);
-		}
-		// else if(node.type == "generator")
-		// {
-		// 	var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
-		// 	for(field of generator.inputs.fields)
-		// 	{
-		// 		var connection = NodeImGui.InputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
-		// 		ProcessGraphConnection(graph_instance, connection);
-		// 	}
-
-		// 	for(field of generator.outputs.fields)
-		// 	{
-		// 		var connection = NodeImGui.OutputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
-		// 		ProcessGraphConnection(graph_instance, connection);
-		// 	}
-		// }
-		else if(node.type == "data_def")
-		{
-			NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
-			var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
-
-			NodeImGui.InputPin("", "This Data Def", "data_def");
-			for(var j=0; j<data_def.fields.length; ++j)
-			{
-				var field = data_def.fields[j];
-				NodeImGui.InputPin(field.id, field.name, field.type);
-			}
-			NodeImGui.OutputPin("", "", "data_def");
-			for(var j=0; j<data_def.fields.length; ++j)
-			{
-				var field = data_def.fields[j];
-				NodeImGui.OutputPin(field.id, "", field.type);
-			}
-		}
 
 		NodeImGui.EndNode();
 	}
@@ -612,52 +660,6 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 			{
 				value.add_node(graph_instance);
 			}
-		}
-
-		if(ImGui.BeginMenu("Add Generator..."))
-		{
-			UpdateGeneratorsList(
-				function(selected)
-				{
-					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, selected);
-					NodeImGui.SetNodePosToPopup(node.id);
-				}
-			);
-			ImGui.EndMenu();
-		}
-
-		if(ImGui.BeginMenu("Add Data Def..."))
-		{
-			UpdateDataDefsList(
-				function(selected)
-				{
-					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, selected);
-					NodeImGui.SetNodePosToPopup(node.id);
-				}
-			);
-			ImGui.EndMenu();
-		}
-
-		if(ImGui.BeginMenu("Add Data Table"))
-		{
-			UpdateDataTablesList(
-				function(selected)
-				{
-					var node = bg.CreateGenerationGraph_DataTableNode(graph_instance, selected);
-					NodeImGui.SetNodePosToPopup(node.id);
-				}
-			);
-			ImGui.EndMenu();
-		}
-
-		if(ImGui.MenuItem("Add Value"))
-		{
-		}
-
-		if(ImGui.MenuItem("Add Note / Comment"))
-		{
-			var node = bg.CreateGenerationGraph_CommentNode(graph_instance);
-			NodeImGui.SetNodePosToPopup(node.id);
 		}
 
 		NodeImGui.EndPopup();
