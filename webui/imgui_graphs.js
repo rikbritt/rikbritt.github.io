@@ -17,10 +17,11 @@ function CreateGraphEditor(graph_name)
 
 // func_graph_add_pins = Called when updating the graph canvas to add pins to the node
 var gGraphNodeTypes = {};
-function RegisterGraphEditorNodeType(node_type, func_add_node, func_update_node_info, func_graph_add_pins)
+function RegisterGraphEditorNodeType(node_type, func_get_node_title, func_add_node, func_update_node_info, func_graph_add_pins)
 {
 	var node_type_data = {
 		type:node_type,
+		get_node_title:func_get_node_title,
 		add_node:func_add_node,
 		update_node_info:func_update_node_info,
 		graph_add_pins:func_graph_add_pins
@@ -30,6 +31,10 @@ function RegisterGraphEditorNodeType(node_type, func_add_node, func_update_node_
 
 RegisterGraphEditorNodeType(
 	"generator",
+	function(graph_instance, node)
+	{
+		return `${bg.GetGenerationGraphNodeName(node)} (${node.type})`;
+	},
 	function(graph_instance)
 	{
 		if(ImGui.BeginMenu("Add Generator..."))
@@ -95,6 +100,10 @@ RegisterGraphEditorNodeType(
 
 RegisterGraphEditorNodeType(
 	"data_def",
+	function(graph_instance, node)
+	{
+		return `${bg.GetGenerationGraphNodeName(node)} (${node.type})`;
+	},
 	function(graph_instance)
 	{
 		if(ImGui.BeginMenu("Add Data Def..."))
@@ -134,6 +143,10 @@ RegisterGraphEditorNodeType(
 
 RegisterGraphEditorNodeType(
 	"data_table",
+	function(graph_instance, node)
+	{
+		return `${bg.GetGenerationGraphNodeName(node)} (${node.type})`;
+	},
 	function(graph_instance)
 	{
 		if(ImGui.BeginMenu("Add Data Table"))
@@ -160,6 +173,10 @@ RegisterGraphEditorNodeType(
 
 RegisterGraphEditorNodeType(
 	"output",
+	function(graph_instance, node)
+	{
+		return "Output";
+	},
 	function(graph_instance)
 	{
 	},
@@ -176,6 +193,10 @@ RegisterGraphEditorNodeType(
 
 RegisterGraphEditorNodeType(
 	"value",
+	function(graph_instance, node)
+	{
+		return "Value";
+	},
 	function(graph_instance)
 	{
 		if(ImGui.BeginMenu("Add Value"))
@@ -194,6 +215,10 @@ RegisterGraphEditorNodeType(
 
 RegisterGraphEditorNodeType(
 	"comment",
+	function(graph_instance, node)
+	{
+		return "Comment";
+	},
 	function(graph_instance)
 	{
 		if(ImGui.MenuItem("Add Note / Comment"))
@@ -453,9 +478,16 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 	for(var i=0; i<graph_instance.nodes.length; ++i)
 	{
 		var node = graph_instance.nodes[i];
+		var node_title = `? (${node.type})`;
+		var nodeType = gGraphNodeTypes[node.type];
+		if(nodeType != null && nodeType.get_node_title != null)
+		{
+			node_title = nodeType.get_node_title(graph_instance, node);
+		}
+		
 		NodeImGui.BeginNode(
 			node.id,
-			`${bg.GetGenerationGraphNodeName(node)} (${node.type})`
+			node_title
 		);
 
 		if(highlighted.nodes && highlighted.nodes.includes(node.id) )
@@ -463,7 +495,6 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 			NodeImGui.HighlightNode();
 		}
 
-		var nodeType = gGraphNodeTypes[node.type];
 		if(nodeType != null && nodeType.graph_add_pins)
 		{
 			nodeType.graph_add_pins(graph_instance, node);
