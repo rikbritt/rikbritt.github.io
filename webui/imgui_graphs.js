@@ -218,6 +218,7 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
+		NodeImGui.OutputPin(node.id, "Value", node.fieldType.fieldTypeId);
 	}
 );
 
