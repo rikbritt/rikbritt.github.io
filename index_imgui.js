@@ -23,9 +23,9 @@ function UpdateImgui(dt, timestamp)
 			UpdateTestsMenu();
 			ImGui.EndMenu();
 		}
-		if (ImGui.BeginMenu("Code Editor"))
+		if (ImGui.BeginMenu("Tools"))
 		{
-			UpdateCodeEditorOptions();
+			UpdateToolsMenu();
 			ImGui.EndMenu();
 		}
 		if (ImGui.BeginMenu("View Options"))
