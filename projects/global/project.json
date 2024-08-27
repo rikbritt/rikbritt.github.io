@@ -2,9 +2,9 @@
     "id":"e1763683-2d73-48ff-b886-513d71dc8b76",
     "name":"Global",
     "files":[
-        "data_tables/name_consonants.js",
-        "data_tables/name_pairs.js",
-        "data_tables/vowel_data_table.js",
+        "data_tables/name_consonants.json",
+        "data_tables/name_pairs.json",
+        "data_tables/vowel_data_table.json",
         "generators/name_v1_generator.js",
         "generators/name_v2_generator.js",
         "generators/geometricsphere.js",
