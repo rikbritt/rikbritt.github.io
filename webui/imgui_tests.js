@@ -80,7 +80,11 @@ function SetupGenGraphTestWindow()
 
 function UpdateGenGraphTestWindow(close_func)
 {
-	UpdateGenGraphEditor(testGenGraph);
+	if(ImGui.Begin("Gen Graph Test", close_func))
+	{
+		UpdateGenGraphEditor(testGenGraph);
+	}
+	ImGui.End();
 }
 
 function UpdateZipTestWindow(close_func)
