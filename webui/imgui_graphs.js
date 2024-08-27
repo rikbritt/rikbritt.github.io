@@ -606,7 +606,7 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 	
 	if (NodeImGui.BeginPopupContextWindow())
 	{
-		for(const [key, value] of gGraphNodeTypes.entries())
+		for(const [key, value] of Object.entries(gGraphNodeTypes))
 		{
 			if(value.add_node)
 			{
