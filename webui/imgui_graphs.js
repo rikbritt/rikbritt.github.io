@@ -166,7 +166,7 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
-		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
+		NodeImGui.NodeColour(new ImGui.ImColor(0.33, 0.48, 0.24, 1.00));
 		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 	}
 );
