@@ -14,15 +14,83 @@ function CreateGraphEditor(graph_name)
 }
 
 // WIP
+
+// func_graph_add_pins = Called when updating the graph canvas to add pins to the node
 var gGraphNodeTypes = {};
-function RegisterGraphEditorNodeType(node_type, func_update_node_info)
+function RegisterGraphEditorNodeType(node_type, func_add_node, func_update_node_info, func_graph_add_pins)
 {
 	var node_type_data = {
 		type:node_type,
-		update_node_info:func_update_node_info
+		add_node:func_add_node,
+		update_node_info:func_update_node_info,
+		graph_add_pins:func_graph_add_pins
 	};
 	gGraphNodeTypes[node_type] = node_type_data;
 }
+
+RegisterGraphEditorNodeType(
+	"generator",
+	function(graph_instance)
+	{
+		if(ImGui.BeginMenu("Add Generator..."))
+		{
+			UpdateGeneratorsList(
+				function(selected)
+				{
+					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, selected);
+					NodeImGui.SetNodePosToPopup(node.id);
+				}
+			);
+			ImGui.EndMenu();
+		}
+	},
+	function(graph_instance, selected_graph_node)
+	{
+		var generator = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
+		var generator_inputs = generator.inputs;
+		for(field of generator_inputs.fields)
+		{
+			ImGui.Text(field.name + " : " + field.type);
+		}
+		ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, generator_inputs.fields.length-1);
+		ImGui.Unindent();
+
+		ImGui.Text("Outputs : ");
+		ImGui.Indent();
+		var generator_outputs = generator.outputs;
+		for(field of generator_outputs.fields)
+		{
+			ImGui.Text(field.name + " : " + field.type);
+		}
+		ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, generator_outputs.fields.length-1);
+		ImGui.Unindent();
+
+		ImGui.Text("Links : ");
+		ImGui.Indent();
+		var links = generator.inputs;
+		for(var i=0; i<links.length; ++i)
+		{
+			var link = links[i];
+			ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
+		}
+		ImGui.Unindent();
+	},
+	function(graph_instance, node)
+	{
+		var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+		for(field of generator.inputs.fields)
+		{
+			var connection = NodeImGui.InputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
+			ProcessGraphConnection(graph_instance, connection);
+		}
+
+		for(field of generator.outputs.fields)
+		{
+			var connection = NodeImGui.OutputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
+			ProcessGraphConnection(graph_instance, connection);
+		}
+	}
+);
 
 function UpdateSelectedNodeInfo(selected_node, graph_instance)
 {
@@ -40,37 +108,42 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 		ImGui.Text("Inputs : ");
 		ImGui.Indent();
 
-		if(selected_graph_node.type == "generator")
+		var nodeType = gGraphNodeTypes[selected_graph_node.type];
+		if(nodeType != null && nodeType.update_node_info != null)
 		{
-			var generator = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
-			var generator_inputs = generator.inputs;
-			for(field of generator_inputs.fields)
-			{
-				ImGui.Text(field.name + " : " + field.type);
-			}
-			ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, generator_inputs.fields.length-1);
-			ImGui.Unindent();
-
-			ImGui.Text("Outputs : ");
-			ImGui.Indent();
-			var generator_outputs = generator.outputs;
-			for(field of generator_outputs.fields)
-			{
-				ImGui.Text(field.name + " : " + field.type);
-			}
-			ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, generator_outputs.fields.length-1);
-			ImGui.Unindent();
-
-			ImGui.Text("Links : ");
-			ImGui.Indent();
-			var links = generator.inputs;
-			for(var i=0; i<links.length; ++i)
-			{
-				var link = links[i];
-				ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
-			}
-			ImGui.Unindent();
+			nodeType.update_node_info(graph_instance, selected_graph_node);
 		}
+		// else if(selected_graph_node.type == "generator")
+		// {
+		// 	var generator = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
+		// 	var generator_inputs = generator.inputs;
+		// 	for(field of generator_inputs.fields)
+		// 	{
+		// 		ImGui.Text(field.name + " : " + field.type);
+		// 	}
+		// 	ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, generator_inputs.fields.length-1);
+		// 	ImGui.Unindent();
+
+		// 	ImGui.Text("Outputs : ");
+		// 	ImGui.Indent();
+		// 	var generator_outputs = generator.outputs;
+		// 	for(field of generator_outputs.fields)
+		// 	{
+		// 		ImGui.Text(field.name + " : " + field.type);
+		// 	}
+		// 	ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, generator_outputs.fields.length-1);
+		// 	ImGui.Unindent();
+
+		// 	ImGui.Text("Links : ");
+		// 	ImGui.Indent();
+		// 	var links = generator.inputs;
+		// 	for(var i=0; i<links.length; ++i)
+		// 	{
+		// 		var link = links[i];
+		// 		ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
+		// 	}
+		// 	ImGui.Unindent();
+		// }
 	}
 	else
 	{
@@ -426,27 +499,32 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 			NodeImGui.HighlightNode();
 		}
 
-		if(node.type == "output")
+		var nodeType = gGraphNodeTypes[node.type];
+		if(nodeType != null && nodeType.graph_add_pins)
+		{
+			nodeType.graph_add_pins(graph_instance, node);
+		}
+		else if(node.type == "output")
 		{
 			// TODO check pin id
 			var connection = NodeImGui.InputPin(node.id, "Output", "any", CanLinkGenGraphNodes);
 			ProcessGraphConnection(graph_instance, connection);
 		}
-		else if(node.type == "generator")
-		{
-			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
-			for(field of generator.inputs.fields)
-			{
-				var connection = NodeImGui.InputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
-				ProcessGraphConnection(graph_instance, connection);
-			}
+		// else if(node.type == "generator")
+		// {
+		// 	var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+		// 	for(field of generator.inputs.fields)
+		// 	{
+		// 		var connection = NodeImGui.InputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
+		// 		ProcessGraphConnection(graph_instance, connection);
+		// 	}
 
-			for(field of generator.outputs.fields)
-			{
-				var connection = NodeImGui.OutputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
-				ProcessGraphConnection(graph_instance, connection);
-			}
-		}
+		// 	for(field of generator.outputs.fields)
+		// 	{
+		// 		var connection = NodeImGui.OutputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
+		// 		ProcessGraphConnection(graph_instance, connection);
+		// 	}
+		// }
 		else if(node.type == "data_def")
 		{
 			NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
@@ -528,6 +606,14 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 	
 	if (NodeImGui.BeginPopupContextWindow())
 	{
+		for(const [key, value] of gGraphNodeTypes.entries())
+		{
+			if(value.add_node)
+			{
+				value.add_node(graph_instance);
+			}
+		}
+
 		if(ImGui.BeginMenu("Add Generator..."))
 		{
 			UpdateGeneratorsList(
