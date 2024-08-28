@@ -160,7 +160,7 @@ RegisterGraphEditorNodeType(
 			UpdateGeneratorGraphsList(
 				function(selected)
 				{
-					var node = bg.CreateGenerationGraph_GenGraphode(graph_instance, selected);
+					var node = bg.CreateGenerationGraph_GenGraphNode(graph_instance, selected);
 					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);
@@ -668,7 +668,7 @@ function UpdateGenGraphWindow(close_func, graph_instance)
 	ImGui.PopID();
 }
 
-function UpdateGeneratorGraphsList() 
+function UpdateGeneratorGraphsList(selected_func = null) 
 {
 	if(selected_func == null)
 	{
