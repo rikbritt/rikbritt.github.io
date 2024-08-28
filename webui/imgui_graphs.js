@@ -148,6 +148,35 @@ RegisterGraphEditorNodeType(
 );
 
 RegisterGraphEditorNodeType(
+	"gen_graph",
+	function(graph_instance, node)
+	{
+		return `${bg.GetGenerationGraphNodeName(node)} (${node.type})`;
+	},
+	function(graph_instance)
+	{
+		if(ImGui.BeginMenu("Add Generator Graph"))
+		{
+			UpdateGeneratorGraphsList(
+				function(selected)
+				{
+					var node = bg.CreateGenerationGraph_GenGraphode(graph_instance, selected);
+					NodeImGui.SetNodePosToPopup(node.id);
+				}
+			);
+			ImGui.EndMenu();
+		}
+	},
+	function(graph_instance, selected_graph_node)
+	{
+	},
+	function(graph_instance, node)
+	{
+		NodeImGui.NodeColour(new ImGui.ImColor(0.33, 0.48, 0.24, 1.00));
+	}
+);
+
+RegisterGraphEditorNodeType(
 	"output",
 	function(graph_instance, node)
 	{
@@ -641,22 +670,14 @@ function UpdateGenGraphWindow(close_func, graph_instance)
 
 function UpdateGeneratorGraphsList() 
 {
-	for(var i=0; i<bg.projects.length; ++i)
+	if(selected_func == null)
 	{
-		var project = bg.projects[i];
-		
-		if(ImGui.BeginMenu(project.name + " Graphs"))
+		selected_func = function(data_def)
 		{
-			for(var j=0; j<project.generatorGraphs.length; ++j)
-			{
-				if(ImGui.MenuItem(project.generatorGraphs[j].name))
-				{
-					//gChosenGenerator = bg.generators[j];
-				}
-			}
-			ImGui.EndMenu();
-		}
+			//OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+		};
 	}
+	UpdateProjectItemsMenuList(selected_func, "Generator Graphs", "generatorGraphs");
 }
 
 function SetupGraphView()

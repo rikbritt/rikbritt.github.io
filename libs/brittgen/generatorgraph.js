@@ -72,6 +72,14 @@ bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
 	return node;
 }
 
+bg.CreateGenerationGraph_GenGraphNode = function(graph, gen_graph)
+{
+	var node = bg.CreateGenerationGraphNode(graph);
+	node.asset_id = gen_graph.id;
+	node.type = "gen_graph";
+	return node;
+}
+
 bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
 {
 	var node = bg.CreateGenerationGraphNode(graph);
