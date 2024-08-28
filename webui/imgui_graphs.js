@@ -52,33 +52,9 @@ RegisterGraphEditorNodeType(
 	function(graph_instance, selected_graph_node)
 	{
 		var generator = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
-		var generator_inputs = generator.inputs;
-		for(field of generator_inputs.fields)
-		{
-			ImGui.Text(field.name + " : " + field.type);
-		}
-		ImGui.SliderInt("Selected Input", (_ = selected_node.input_pin) => selected_node.input_pin = _, 0, generator_inputs.fields.length-1);
-		ImGui.Unindent();
-
-		ImGui.Text("Outputs : ");
-		ImGui.Indent();
-		var generator_outputs = generator.outputs;
-		for(field of generator_outputs.fields)
-		{
-			ImGui.Text(field.name + " : " + field.type);
-		}
-		ImGui.SliderInt("Selected Output", (_ = selected_node.output_pin) => selected_node.output_pin = _, 0, generator_outputs.fields.length-1);
-		ImGui.Unindent();
-
-		ImGui.Text("Links : ");
-		ImGui.Indent();
-		var links = generator.inputs;
-		for(var i=0; i<links.length; ++i)
-		{
-			var link = links[i];
-			ImGui.Text(link.fromNodeOutputName + " > " + link.toNodeInputName);
-		}
-		ImGui.Unindent();
+		ImGui.Text("Node id : " + selected_graph_node.id);
+		ImGui.Text("Generator id : " + generator.id);
+		ImGui.Text("Generator Name : " + generator.name);
 	},
 	function(graph_instance, node)
 	{
@@ -182,6 +158,7 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, selected_graph_node)
 	{
+		ImGui.Text("Output Node");
 	},
 	function(graph_instance, node)
 	{
@@ -424,15 +401,28 @@ function UpdateGenGraphEditor(graph_instance)
 	if(ImGui.BeginTable("graph_view", 2, ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV))
 	{
 		ImGui.TableNextRow();
-		ImGui.TableNextColumn();
-		UpdateGenGraphCanvas(graph_instance, graph_instance._highlighted);
-		graph_instance._highlighted = {
-			nodes:[],
-			links:[]
-		};
 
+		ImGui.SetColumnWidth(200);
 		ImGui.TableNextColumn();
 		{
+			if(graph_instance._selected_node == null)
+			{
+				ImGui.Text("No Node Selected");
+			}
+			else
+			{
+				var nodeType = gGraphNodeTypes[graph_instance._selected_node.type];
+				if(nodeType && nodeType.update_node_info)
+				{
+					nodeType.update_node_info(graph_instance, graph_instance._selected_node);
+				}
+				else
+				{
+					ImGui.Text("Unknown Node Type");
+				}
+			}
+			ImGui.Separator();
+
 			if(ImGui.Button("Execute Graph"))
 			{
 				bg.ExecuteGeneratorGraph(graph_instance);
@@ -470,6 +460,14 @@ function UpdateGenGraphEditor(graph_instance)
 				ImGui.Unindent();
 			}
 		}
+		
+		ImGui.TableNextColumn();
+		UpdateGenGraphCanvas(graph_instance, graph_instance._highlighted);
+		graph_instance._highlighted = {
+			nodes:[],
+			links:[]
+		};
+
 		ImGui.EndTable();
 	}
 }
@@ -494,10 +492,13 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 			node_title = nodeType.get_node_title(graph_instance, node);
 		}
 		
-		NodeImGui.BeginNode(
+		if(NodeImGui.BeginNode(
 			node.id,
 			node_title
-		);
+		))
+		{
+			graph_instance._selected_node = node;
+		}
 
 		if(highlighted.nodes && highlighted.nodes.includes(node.id) )
 		{

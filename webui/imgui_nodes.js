@@ -105,8 +105,11 @@ NodeImGui.BeginNode = function(id, name)
 			var mp = NodeImGui.Internal_GetMousePos();
 			NodeImGui.Current_Canvas.dragging_node_offset.x = mp.x - canvas.Current_Node.x;
 			NodeImGui.Current_Canvas.dragging_node_offset.y = mp.y - canvas.Current_Node.y;
+
+			return true;
 		}
 	}
+	return false;
 }
 
 NodeImGui.NodeColour = function(col)
@@ -681,14 +684,15 @@ NodeImGui.Internal_DrawNodeInfo = function(node)
 	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
 	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
 	var title_height = node_title_size.y;
-	var info_start_pos = {x:node_draw_pos.x, y:node_draw_pos.y + pins_height + title_height};
+	var info_pos = {x:node_draw_pos.x + node.draw_info.node_border, y:node_draw_pos.y + pins_height + title_height + node.draw_info.node_border};
 
 	for(var info of node.info)
 	{
 		if(info.type == "text")
 		{
 			var info_text_col = NodeImGui.Colours.title_txt_col;
-			dl.AddText(info_start_pos, info_text_col.toImU32(), info.text);
+			dl.AddText(info_pos, info_text_col.toImU32(), info.text);
+			info_pos.y += ImGui.GetTextLineHeight();
 		}
 	}
 }
