@@ -79,7 +79,6 @@ NodeImGui.BeginNode = function(id, name)
 	canvas.Current_Node.input_pins = [];
 	canvas.Current_Node.output_pins = [];
 	canvas.Current_Node.info = [];
-	canvas.Current_Node.info_height = 0;
 
 	var draw_info = {
 		screen_pos: this.Internal_GetNodeScreenPos(canvas.Current_Node),
@@ -128,7 +127,6 @@ NodeImGui.AddInfoText = function(text)
 {
 	var node = NodeImGui.Current_Canvas.Current_Node;
 	node.info.push( {type:"text", text:text});
-	node.info_height = 100;
 }
 
 NodeImGui.HighlightLink = function()
@@ -551,7 +549,7 @@ NodeImGui.Internal_CalcNodeHeight = function(node)
 	var draw_info = node.draw_info;
 	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
 	var node_h = pins_height + title_height + (draw_info.node_border * 1);
-	node_h += node.info_height;
+	node_h += node.info.length * ImGui.GetTextLineHeight();
 	return node_h;
 }
 
