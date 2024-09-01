@@ -1,4 +1,11 @@
 
+//   ██████  ███████ ███    ██ ███████ ██████   █████  ████████  ██████  ██████  
+//  ██       ██      ████   ██ ██      ██   ██ ██   ██    ██    ██    ██ ██   ██ 
+//  ██   ███ █████   ██ ██  ██ █████   ██████  ███████    ██    ██    ██ ██████  
+//  ██    ██ ██      ██  ██ ██ ██      ██   ██ ██   ██    ██    ██    ██ ██   ██ 
+//   ██████  ███████ ██   ████ ███████ ██   ██ ██   ██    ██     ██████  ██   ██ 
+//                                                                               
+
 RegisterGraphEditorNodeType(
 	"generator",
 	function(graph_instance, node)
@@ -44,6 +51,13 @@ RegisterGraphEditorNodeType(
 );
 
 
+//  ██████   █████  ████████  █████  ██████  ███████ ███████ 
+//  ██   ██ ██   ██    ██    ██   ██ ██   ██ ██      ██      
+//  ██   ██ ███████    ██    ███████ ██   ██ █████   █████   
+//  ██   ██ ██   ██    ██    ██   ██ ██   ██ ██      ██      
+//  ██████  ██   ██    ██    ██   ██ ██████  ███████ ██      
+//                                                           
+
 RegisterGraphEditorNodeType(
 	"data_def",
 	function(graph_instance, node)
@@ -87,6 +101,14 @@ RegisterGraphEditorNodeType(
 	}
 );
 
+
+//  ██████   █████  ████████  █████  ████████  █████  ██████  ██      ███████ 
+//  ██   ██ ██   ██    ██    ██   ██    ██    ██   ██ ██   ██ ██      ██      
+//  ██   ██ ███████    ██    ███████    ██    ███████ ██████  ██      █████   
+//  ██   ██ ██   ██    ██    ██   ██    ██    ██   ██ ██   ██ ██      ██      
+//  ██████  ██   ██    ██    ██   ██    ██    ██   ██ ██████  ███████ ███████ 
+//                                                                            
+
 RegisterGraphEditorNodeType(
 	"data_table",
 	function(graph_instance, node)
@@ -116,6 +138,14 @@ RegisterGraphEditorNodeType(
 		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 	}
 );
+
+
+//   ██████  ███████ ███    ██  ██████  ██████   █████  ██████  ██   ██ 
+//  ██       ██      ████   ██ ██       ██   ██ ██   ██ ██   ██ ██   ██ 
+//  ██   ███ █████   ██ ██  ██ ██   ███ ██████  ███████ ██████  ███████ 
+//  ██    ██ ██      ██  ██ ██ ██    ██ ██   ██ ██   ██ ██      ██   ██ 
+//   ██████  ███████ ██   ████  ██████  ██   ██ ██   ██ ██      ██   ██ 
+//                                                                      
 
 RegisterGraphEditorNodeType(
 	"gen_graph",
@@ -147,6 +177,14 @@ RegisterGraphEditorNodeType(
 	}
 );
 
+
+//   ██████  ██    ██ ████████ ██████  ██    ██ ████████ 
+//  ██    ██ ██    ██    ██    ██   ██ ██    ██    ██    
+//  ██    ██ ██    ██    ██    ██████  ██    ██    ██    
+//  ██    ██ ██    ██    ██    ██      ██    ██    ██    
+//   ██████   ██████     ██    ██       ██████     ██    
+//                                                       
+
 RegisterGraphEditorNodeType(
 	"output",
 	function(graph_instance, node)
@@ -167,6 +205,13 @@ RegisterGraphEditorNodeType(
 		ProcessGraphConnection(graph_instance, connection);
 	}
 );
+
+//  ██    ██  █████  ██      ██    ██ ███████ 
+//  ██    ██ ██   ██ ██      ██    ██ ██      
+//  ██    ██ ███████ ██      ██    ██ █████   
+//   ██  ██  ██   ██ ██      ██    ██ ██      
+//    ████   ██   ██ ███████  ██████  ███████ 
+//                                            
 
 RegisterGraphEditorNodeType(
 	"value",
@@ -221,6 +266,15 @@ RegisterGraphEditorNodeType(
 		NodeImGui.AddInfoText(`Value : ${bg.FieldValueToString(node.fieldTypeId, node.value)}`);
 	}
 );
+
+
+// 
+//  ██████  ██████  ███    ███ ███    ███ ███████ ███    ██ ████████ 
+// ██      ██    ██ ████  ████ ████  ████ ██      ████   ██    ██    
+// ██      ██    ██ ██ ████ ██ ██ ████ ██ █████   ██ ██  ██    ██    
+// ██      ██    ██ ██  ██  ██ ██  ██  ██ ██      ██  ██ ██    ██    
+//  ██████  ██████  ██      ██ ██      ██ ███████ ██   ████    ██    
+//																   
 
 RegisterGraphEditorNodeType(
 	"comment",
