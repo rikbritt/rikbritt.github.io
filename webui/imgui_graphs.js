@@ -231,6 +231,7 @@ RegisterGraphEditorNodeType(
 			selected_graph_node.fieldData = bg.CreateDefaultFieldDef(selected_graph_node.fieldTypeId);
 		}
 		
+		ImGui.Text(bg.FieldValueToString(field_type_idx, selected_graph_node.value));
 		UpdateEditorForValue(
 			"Value", 
 			selected_graph_node.fieldTypeId,
@@ -240,6 +241,7 @@ RegisterGraphEditorNodeType(
 			}, 
 			function(v) {
 				 selected_graph_node.value = v;
+				 return v;
 			}
 		);
 	},

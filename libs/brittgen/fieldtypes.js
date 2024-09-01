@@ -12,7 +12,9 @@ bg.CreateFieldType = function(
 	field_type_id, 				//Unique id for this field type
 	generate_value_func, 		// Given a field def and a seed, make a value
 	default_instance_data_func,	// Make a default value, for an optional field def
-	default_def_data)
+	default_def_data,
+	to_string_func = null
+)
 {
 	if(bg.fieldTypes[field_type_id] != null)
 	{
@@ -20,12 +22,20 @@ bg.CreateFieldType = function(
 		bg.LogError(`Field Type with Id ${field_type_id} is already registered`);
 		return;
 	}
+	if(to_string_func == null)
+	{
+		to_string_func = function(v)
+		{
+			return `${v}`;
+		};
+	}
 	var field_type = 
 	{
 		fieldTypeId:field_type_id,
 		generateValueFunc:generate_value_func,
 		defaultInstanceDataFunc:default_instance_data_func,
-		defaultDefData:default_def_data
+		defaultDefData:default_def_data,
+		toString:to_string_func
 	};
 	
 	bg.fieldTypes[field_type_id] = field_type;
@@ -56,6 +66,17 @@ bg.CreateDefaultFieldDef = function(field_type_id)
 	return Object.assign({}, field_type.defaultDefData);
 }
 
+bg.FieldValueToString = function(field_type_id, val)
+{
+	var field_type = bg.fieldTypes[field_type_id];
+	if(field_type == null)
+	{
+		//error
+		return "";
+	}
+	return field_type.toString(val);
+}
+
 bg.GenerateFieldValue = function(field_def, seed)
 {
 	var field_type = bg.fieldTypes[field_def.type];
@@ -75,7 +96,11 @@ bg.CreateFieldType(
 	function(field_def) {
 		return false;
 	},
-	{}
+	{},
+	function(v)
+	{
+		return v ? "true" : "false";
+	}
 );
 
 bg.GenerateFloatBasedDataValue = function(field_def, seed) 
@@ -99,7 +124,8 @@ bg.CreateFieldType(
 	{
 		min:0,
 		max:100
-	}
+	},
+	null // default to string func
 );
 
 bg.CreateFieldType(
@@ -110,7 +136,8 @@ bg.CreateFieldType(
 	function(field_def) {
 		return 0;
 	},
-	{}
+	{},
+	null // default to string func
 );
 
 //"earths"	- How many Planet Earth's of mass.
@@ -131,7 +158,8 @@ bg.CreateFieldType(
 	{
 		min:0,
 		max:100
-	}
+	},
+	null // default to string func
 );
 
 //"m"		- Metres
@@ -144,7 +172,8 @@ bg.CreateFieldType(
 		min:0,
 		max:100,
 		units:"m"
-	}
+	},
+	null // default to string func
 );
 
 //"years"	- Years
@@ -156,7 +185,8 @@ bg.CreateFieldType(
 	{
 		min:0,
 		max:100
-	}
+	},
+	null // default to string func
 );
 
 //"m/s"		- Metres Per Second
@@ -167,7 +197,8 @@ bg.CreateFieldType(
 	{
 		min:0,
 		max:100
-	}
+	},
+	null // default to string func
 );
 
 bg.GenerateIntBasedDataValue = function(field_def, seed)
@@ -191,7 +222,8 @@ bg.CreateFieldType(
 	{
 		min:0,
 		max:100
-	}
+	},
+	null // default to string func
 );
 
 bg.CreateFieldType(
@@ -202,7 +234,8 @@ bg.CreateFieldType(
 	function(field_def) {
 		return "Red"; //todo
 	},
-	{}
+	{},
+	null // default to string func
 );
 
 bg.CreateFieldType(
@@ -232,6 +265,10 @@ bg.CreateFieldType(
 		elementType:"?", //todo
 		min:0,
 		max:10
+	},
+	function(v)
+	{
+		return "todo : list to string";
 	}
 )
 
@@ -243,7 +280,8 @@ bg.CreateFieldType(
 	function(field_def) {
 		return "Hi";
 	},
-	{}
+	{},
+	null // default to string func
 );
 
 bg.CreateFieldTypeDefInstance = function(field_type_id)
@@ -283,6 +321,10 @@ bg.CreateFieldType(
 	},
 	{
 		dataType:{} //todo
+	},
+	function(v)
+	{
+		return "todo : data_def to string";
 	}
 );
 
@@ -302,6 +344,10 @@ bg.CreateFieldType(
 	},
 	{
 		default_id:null
+	},
+	function(v)
+	{
+		return "todo : data_table to string";
 	}
 )
 
@@ -314,5 +360,9 @@ bg.CreateFieldType(
 		return null;
 	},
 	{
+	},
+	function(v)
+	{
+		return "todo : model to string";
 	}
 )
