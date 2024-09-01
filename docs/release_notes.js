@@ -32,6 +32,17 @@ That layer is abstract and could be re-used.
 
 AddNotes("Release Notes",
 `
+1/9/2024
+Graph editor
+  - Value nodes show a field value as string
+  - Clicking them shows a suitable field value editor
+
+Need to work on 
+  - linking for data defs
+  - fix some field value imgui edits
+  - make text wrap in nodes or clip
+  - make the node graph as a whole scrollable, or zoomable 
+
 18/8/2024
 Graph editor 
   - can now delete links
