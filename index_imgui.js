@@ -198,7 +198,7 @@ function OnPageLoaded()
 			var dt = clock.getDelta();
 			UpdateImgui(dt, timestamp);
 
-			if(gErrors.length > 0)
+			if(bg.errors.length > 0)
 			{
 				OpenWindow("errors", UpdateErrorsWindow, null);
 			}
