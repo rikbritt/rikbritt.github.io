@@ -14,7 +14,7 @@ function UpdateColourPickerWindow( close_func, data )
     if(ImGui.Begin("ColourPicker", close_func))
     {
         ImGui.ColorPicker4("##Colour", gPickerCol, ImGui.ColorEditFlags.AlphaBar | ImGui.ColorEditFlags.DisplayRGB | ImGui.ColorEditFlags.DisplayHex | ImGui.ColorEditFlags.DisplayHSV | ImGui.ColorEditFlags.NoSidePreview);
-
+        ImGui.InputFloat4("##norm RGBA", [gPickerCol.x, gPickerCol.y, gPickerCol.z, gPickerCol.w]);
         ImGui.End();
     }
 }
