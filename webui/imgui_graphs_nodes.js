@@ -131,11 +131,14 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, selected_graph_node)
 	{
+		var data_table = AssetDb.GetAsset(gAssetDb, selected_graph_node.asset_id, selected_graph_node.type);
+		UpdateDataTableImGuiTable(data_table);
 	},
 	function(graph_instance, node)
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.33, 0.48, 0.24, 1.00));
 		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+		NodeImGui.AddInfoText(data_table.name);
 	}
 );
 

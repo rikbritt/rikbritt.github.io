@@ -219,6 +219,8 @@ function UpdateGenGraphEditor(graph_instance)
 			}
 			else
 			{
+				ImGui.Text(`Node Id: ${graph_instance._selected_node.id}`);
+				ImGui.Text(`Type: ${graph_instance._selected_node.type}`);
 				var nodeType = gGraphNodeTypes[graph_instance._selected_node.type];
 				if(nodeType && nodeType.update_node_info)
 				{

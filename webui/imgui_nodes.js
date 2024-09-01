@@ -549,7 +549,11 @@ NodeImGui.Internal_CalcNodeHeight = function(node)
 	var draw_info = node.draw_info;
 	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
 	var node_h = pins_height + title_height + (draw_info.node_border * 1);
-	node_h += node.info.length * ImGui.GetTextLineHeight();
+	if(node.info.length > 0)
+	{
+		node_h += node.info.length * ImGui.GetTextLineHeight();
+		node_h += draw_info.node_border * 1;
+	}
 	return node_h;
 }
 

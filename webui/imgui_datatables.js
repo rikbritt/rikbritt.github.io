@@ -204,6 +204,43 @@ function UpdateDataTableField(fields, field_data)
 //     }
 // }
 
+function UpdateDataTableImGuiTable(data_table)
+{
+	var data_def = AssetDb.GetAsset(gAssetDb, data_table.data_def, "data_def");
+	if(data_def.fields.length > 16)
+	{
+		ImGui.Text("Too many fields in data def!");
+	}
+	else
+	{
+		ImGui.BeginTable("DataTableFields", data_def.fields.length, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
+	
+		for(var i=0; i<data_def.fields.length; ++i)
+		{
+			var field = data_def.fields[i];
+			ImGui.TableSetupColumn(field.name);
+		}
+		ImGui.TableHeadersRow();
+	
+		for(var i=0; i<data_table.data.length; ++i)
+		{
+			 var row_data = data_table.data[i];
+			 ImGui.PushID(i);
+			 ImGui.TableNextRow();
+			
+			for(var j=0; j<data_def.fields.length; ++j)
+			{
+				var field = data_def.fields[j];
+				ImGui.TableSetColumnIndex(j);
+				ImGui.Text( row_data[j] ); //will need more work
+			}
+			 ImGui.PopID();
+		}
+	
+		ImGui.EndTable();
+	}
+}
+
 function UpdateDataTableWindow(close_func, data_table)
 {
 	if(ImGui.Begin(`Data Table - ${data_table.name}###${data_table.id}`, close_func))
@@ -231,42 +268,14 @@ function UpdateDataTableWindow(close_func, data_table)
 
 		if(data_table.data_def != null)
 		{
-			var data_def = AssetDb.GetAsset(gAssetDb, data_table.data_def, "data_def");
-			if(data_def.fields.length > 16)
+			UpdateDataTableImGuiTable(data_table);
+			if(ImGui.Button("Add Row"))
 			{
-				ImGui.Text("Too many fields in data def!");
+				data_table.data.push( Array.from(''.repeat(data_def.fields.length) ) );
 			}
-			else
+			if(ImGui.Button("Add Row"))
 			{
-				ImGui.BeginTable("DataTableFields", data_def.fields.length, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable);
-
-				for(var i=0; i<data_def.fields.length; ++i)
-				{
-					var field = data_def.fields[i];
-					ImGui.TableSetupColumn(field.name);
-				}
-				ImGui.TableHeadersRow();
-
-				for(var i=0; i<data_table.data.length; ++i)
-				{
-				 	var row_data = data_table.data[i];
-				 	ImGui.PushID(i);
-				 	ImGui.TableNextRow();
-					
-					for(var j=0; j<data_def.fields.length; ++j)
-					{
-						var field = data_def.fields[j];
-						ImGui.TableSetColumnIndex(j);
-						ImGui.Text( row_data[j] ); //will need more work
-					}
-				 	ImGui.PopID();
-				}
-
-				ImGui.EndTable();
-				if(ImGui.Button("Add Row"))
-				{
-					data_table.data.push( Array.from(''.repeat(data_def.fields.length) ) );
-				}
+				data_table.data.push( Array.from(''.repeat(data_def.fields.length) ) );
 			}
 		}
 
