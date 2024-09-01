@@ -8,8 +8,18 @@
 
 
 bg.fieldTypes = {};
-bg.CreateFieldType = function(field_type_id, generate_value_func, default_instance_data_func, default_def_data)
+bg.CreateFieldType = function(
+	field_type_id, 				//Unique id for this field type
+	generate_value_func, 		// Given a field def and a seed, make a value
+	default_instance_data_func,	// Make a default value, for an optional field def
+	default_def_data)
 {
+	if(bg.fieldTypes[field_type_id] != null)
+	{
+		//Field already exists
+		bg.LogError(`Field Type with Id ${field_type_id} is already registered`);
+		return;
+	}
 	var field_type = 
 	{
 		fieldTypeId:field_type_id,
@@ -21,6 +31,18 @@ bg.CreateFieldType = function(field_type_id, generate_value_func, default_instan
 	bg.fieldTypes[field_type_id] = field_type;
 	
 	return field_type;
+}
+
+// Make a default value - Ignoring seeds and min/max
+bg.CreateDefaultFieldValue = function(field_type_id)
+{
+	var field_type = bg.fieldTypes[field_type_id];
+	if(field_type == null)
+	{
+		//error
+		return null;
+	}
+	return field_type.defaultInstanceDataFunc();
 }
 
 bg.GenerateFieldValue = function(field_def, seed)
@@ -133,8 +155,13 @@ bg.CreateFieldType(
 	}
 );
 
-bg.GenerateIntBasedDataValue = function(field_def, seed) {
-	return bg.GetRandomIntFromSeed(seed, field_def.min, field_def.max);
+bg.GenerateIntBasedDataValue = function(field_def, seed)
+{
+	if(field_def != null)
+	{
+		return bg.GetRandomIntFromSeed(seed, field_def.min, field_def.max);
+	}
+	return 0;
 };
 
 bg.GenerateIntBasedDefaultInstance = function(field_def)
@@ -232,8 +259,12 @@ bg.CreateFieldType(
 		return bg.BuildDataDefValues(data_def, seed, null, field_def.autoGenerate);
 	},
 	function(field_def) {
-		var data_def = AssetDb.GetAsset(gAssetDb, field_def.default_def, "data_def");
-		return Array(data_def.fields.length).fill(null);
+		if(field_def != null)
+		{
+			var data_def = AssetDb.GetAsset(gAssetDb, field_def.default_def, "data_def");
+			return Array(data_def.fields.length).fill(null);
+		}
+		return [];
 	},
 	{
 		dataType:{} //todo
@@ -247,8 +278,12 @@ bg.CreateFieldType(
 		return data_table;
 	},
 	function(field_def) {
-		var data_table = AssetDb.GetAsset(gAssetDb, field_def.default_id, "data_table");
-		return data_table;
+		if(field_def != null)
+		{
+			var data_table = AssetDb.GetAsset(gAssetDb, field_def.default_id, "data_table");
+			return data_table;
+		}
+		return {};
 	},
 	{
 		default_id:null

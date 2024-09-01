@@ -223,7 +223,11 @@ RegisterGraphEditorNodeType(
 	function(graph_instance, selected_graph_node)
 	{
 		var field_types_list = Object.keys(bg.fieldTypes);
-		ImGui.Combo("##Field Type To Make", (_ = selected_graph_node.fieldTypeId) => selected_graph_node.fieldTypeId = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length);
+		var field_type_idx = field_types_list.indexOf(selected_graph_node.fieldTypeId);
+		if(ImGui.Combo("##Field Type To Make", (_ = field_type_idx) => field_type_idx = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length))
+		{
+			selected_graph_node.value = bg.CreateDefaultFieldValue(selected_graph_node.fieldTypeId);
+		}
 	},
 	function(graph_instance, node)
 	{
