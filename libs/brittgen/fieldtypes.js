@@ -74,7 +74,11 @@ bg.GenerateFloatBasedDataValue = function(field_def, seed)
 
 bg.GenerateFloatBasedDefaultInstance = function(field_def)
 {
-	return field_def.min;
+	if(field_def)
+	{
+		return field_def.min;
+	}
+	return 0;
 }
 
 bg.CreateFieldType(

@@ -226,6 +226,7 @@ RegisterGraphEditorNodeType(
 		var field_type_idx = field_types_list.indexOf(selected_graph_node.fieldTypeId);
 		if(ImGui.Combo("##Field Type To Make", (_ = field_type_idx) => field_type_idx = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length))
 		{
+			selected_graph_node.fieldTypeId = field_types_list[field_type_idx];
 			selected_graph_node.value = bg.CreateDefaultFieldValue(selected_graph_node.fieldTypeId);
 		}
 	},
