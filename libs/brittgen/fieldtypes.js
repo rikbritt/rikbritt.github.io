@@ -45,6 +45,17 @@ bg.CreateDefaultFieldValue = function(field_type_id)
 	return field_type.defaultInstanceDataFunc();
 }
 
+bg.CreateDefaultFieldDef = function(field_type_id)
+{
+	var field_type = bg.fieldTypes[field_type_id];
+	if(field_type == null)
+	{
+		//error
+		return null;
+	}
+	return Object.assign({}, field_type.defaultDefData);
+}
+
 bg.GenerateFieldValue = function(field_def, seed)
 {
 	var field_type = bg.fieldTypes[field_def.type];

@@ -139,6 +139,8 @@ function RunGeneratorInstanceWithRandomSeed(generatorInstance)
 //TODO - Delete in favour of per field registered editors
 function UpdateParamEditorV2(field, getFunc, setFunc)
 {
+	// use this instead?
+	//UpdateEditorForFieldValue(field.name, field, getFunc, setFunc);
     var field_imgui = gFieldTypesImGui[field.type];
 	if(field_imgui != null)
 	{
@@ -148,37 +150,6 @@ function UpdateParamEditorV2(field, getFunc, setFunc)
 	{
 		ImGui.Text(`Unknown param type '${field.type}' for '${field.name}'`);
 	}
-
-	// if(field.type == "float" 
-	// || field.type == "distance"
-	// || field.type == "time")
-	// {
-	// 	ImGui.SliderFloat(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);		
-	// }
-	// else if(field.type == "int")
-	// {
-	// 	ImGui.SliderInt(field.name, (_ = getFunc()) => setFunc(_), field.min, field.max);
-	// }
-	// else if(field.type == "data")
-	// {
-	// 	//Not done here
-	// }
-	// else if(field.type == "bool")
-	// {
-	// 	ImGui.Checkbox(field.name, (_ = getFunc()) => setFunc(_));
-	// }
-	// else if(field.type == "text")
-	// {
-	// 	ImGui.InputText(field.name, (_ = getFunc()) => setFunc(_), 256);
-	// }
-	// else if(field.type == "list")
-	// {
-	// 	//Not done here
-	// }
-	// else
-	// {
-	// 	ImGui.Text(`Unknown param type '${field.type}' for '${field.name}'`);
-	// }
 }
 
 function UpdateFieldNameTooltip(field)

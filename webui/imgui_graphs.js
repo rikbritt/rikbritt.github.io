@@ -228,7 +228,10 @@ RegisterGraphEditorNodeType(
 		{
 			selected_graph_node.fieldTypeId = field_types_list[field_type_idx];
 			selected_graph_node.value = bg.CreateDefaultFieldValue(selected_graph_node.fieldTypeId);
+			selected_graph_node.fieldData = bg.CreateDefaultFieldDef(selected_graph_node.fieldTypeId);
 		}
+		
+		UpdateEditorForValue("Value", selected_graph_node.fieldData, function() { return selected_graph_node.value;}, function(v) { selected_graph_node.value = v;});
 	},
 	function(graph_instance, node)
 	{

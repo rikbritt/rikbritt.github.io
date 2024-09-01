@@ -112,6 +112,7 @@ bg.CreateGenerationGraph_ValueNode = function(graph, fieldType)
 	node.type = "value";
 	node.fieldTypeId = fieldType.fieldTypeId;
 	node.value = bg.CreateDefaultFieldValue(node.fieldTypeId);
+	node.fieldData = bg.CreateDefaultFieldDef(node.fieldTypeId);
 	return node;
 }
 

@@ -1,6 +1,19 @@
 //Editors for field types registered with bg.CreateFieldType
 gFieldTypesImGui = {};
 
+function UpdateEditorForValue(name, field_data, get_func, set_func)
+{
+    var field_imgui = gFieldTypesImGui[field_data.type];
+	if(field_imgui != null)
+	{
+		field_imgui.edit_value_imgui(name, field_data, get_func, set_func);
+	}
+	else
+	{
+		ImGui.Text(`Unknown value type '${field_data.type}' for '${name}'`);
+	}
+}
+
 //imgui_edit_field_func = add imgui controls to edit the field setup (min/max/etc)
 //imgui_edit_val_func = add imgui contrlols to edit a value of an instance of the field
 function SetupFieldTypeImGui(field_type, imgui_edit_field_func, imgui_edit_val_func)
