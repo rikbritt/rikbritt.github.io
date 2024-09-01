@@ -42,7 +42,7 @@ bg.CreateDefaultFieldValue = function(field_type_id)
 		//error
 		return null;
 	}
-	return field_type.defaultInstanceDataFunc();
+	return field_type.defaultInstanceDataFunc(field_type.defaultDefData);
 }
 
 bg.CreateDefaultFieldDef = function(field_type_id)

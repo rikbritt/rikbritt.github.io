@@ -1,9 +1,9 @@
 //Editors for field types registered with bg.CreateFieldType
 gFieldTypesImGui = {};
 
-function UpdateEditorForValue(name, field_data, get_func, set_func)
+function UpdateEditorForValue(name, field_type_id, field_data, get_func, set_func)
 {
-    var field_imgui = gFieldTypesImGui[field_data.type];
+    var field_imgui = gFieldTypesImGui[field_type_id];
 	if(field_imgui != null)
 	{
 		field_imgui.edit_value_imgui(name, field_data, get_func, set_func);
