@@ -451,11 +451,13 @@ function UpdateExecutionContext(graph_instance, execution_context)
 // Add to an imgui window imgui controls for viewing and using an generator graph
 function UpdateGenGraphEditor(graph_instance)
 {
-	if(ImGui.BeginTable("graph_view", 2, ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV))
+	if(ImGui.BeginTable("graph_view", 2, ImGui.TableFlags.SizingFixedFit | ImGui.TableFlags.Resizable | ImGui.TableFlags.BordersOuter | ImGui.TableFlags.BordersV))
 	{
+		ImGui.TableSetupColumn("##options", ImGui.TableColumnFlags.WidthFixed);
+		ImGui.TableSetupColumn("##canvas", ImGui.TableColumnFlags.WidthStretch);
+
 		ImGui.TableNextRow();
 
-		ImGui.SetColumnWidth(200);
 		ImGui.TableNextColumn();
 		{
 			if(graph_instance._selected_node == null)
