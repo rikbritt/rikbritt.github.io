@@ -169,6 +169,7 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, selected_graph_node)
 	{
+
 	},
 	function(graph_instance, node)
 	{
@@ -221,10 +222,12 @@ RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, selected_graph_node)
 	{
+		var field_types_list = Object.keys(bg.fieldTypes);
+		ImGui.Combo("##Field Type To Make", (_ = selected_graph_node.fieldTypeId) => selected_graph_node.fieldTypeId = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length);
 	},
 	function(graph_instance, node)
 	{
-		NodeImGui.OutputPin(node.id, "Value", node.fieldType.fieldTypeId);
+		NodeImGui.OutputPin(node.id, "Value", node.fieldTypeId);
 	}
 );
 
