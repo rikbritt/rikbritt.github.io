@@ -105,12 +105,12 @@ bg.CreateGenerationGraph_CommentNode = function(graph)
 	return node;
 }
 
-bg.CreateGenerationGraph_ValueNode = function(graph, fieldType)
+bg.CreateGenerationGraph_ValueNode = function(graph, fieldTypeId)
 {
 	var node = bg.CreateGenerationGraphNode(graph);
 	node.asset_id = null;
 	node.type = "value";
-	node.fieldTypeId = fieldType.fieldTypeId;
+	node.fieldTypeId = fieldTypeId;
 	node.value = bg.CreateDefaultFieldValue(node.fieldTypeId);
 	node.fieldData = bg.CreateDefaultFieldDef(node.fieldTypeId);
 	return node;

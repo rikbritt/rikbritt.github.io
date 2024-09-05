@@ -142,3 +142,10 @@ bg.FindOrCreateNodeLayout = function(graph_layout, node_id)
 
     return graph_layout[node_id];
 }
+
+bg.SetNodeLayoutPos = function(graph_layout, node_id, x, y)
+{
+    var layout = bg.FindOrCreateNodeLayout(graph_layout, node_id);
+    layout.x = x;
+    layout.y = y;    
+}

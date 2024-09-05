@@ -65,14 +65,17 @@ function SetupGenGraphTestWindow()
 	var nodeA = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
 	var nodeB = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
 	bg.CreateGenerationGraphLink(testGenGraph, nodeA, "4f97075a-51a2-45c9-9825-b8279cb09842", nodeB, "add1d102-a471-4fab-ab9d-8d2a7eb99bb2");
-	var b_layout = bg.FindOrCreateNodeLayout(testGenGraph.layout, nodeB.id);
-	b_layout.x = 450;
-	b_layout.y = 50;
+	bg.SetNodeLayoutPos(testGenGraph.layout, nodeB.id, 450, 50);
 
 	var outputNode = bg.GetGraphNodesByType(testGenGraph, "output")[0];
-	var outputNode_layout = bg.FindOrCreateNodeLayout(testGenGraph.layout, outputNode.id);
-	outputNode_layout.x = 900;
-	outputNode_layout.y = 50;
+	bg.SetNodeLayoutPos(testGenGraph.layout, outputNode.id, 900, 50);
+
+
+	//val nodes for the data def
+	var bool_node_a = bg.CreateGenerationGraph_ValueNode(testGenGraph, "bool");
+	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node_a.id, 50, 300);
+	var bool_node_b = bg.CreateGenerationGraph_ValueNode(testGenGraph, "bool");
+	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node_b.id, 50, 350);
 
 	// Note for now output nodes input pin is the same id as the node
 	bg.CreateGenerationGraphLink(testGenGraph, nodeB, "4f97075a-51a2-45c9-9825-b8279cb09842", outputNode, outputNode.id);

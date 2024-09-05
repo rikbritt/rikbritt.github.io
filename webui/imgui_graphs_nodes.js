@@ -231,7 +231,7 @@ RegisterGraphEditorNodeType(
 			{
 				if(ImGui.MenuItem(fieldTypeId))
 				{
-					var node = bg.CreateGenerationGraph_ValueNode(graph_instance, bg.fieldTypes[fieldTypeId]);
+					var node = bg.CreateGenerationGraph_ValueNode(graph_instance, fieldTypeId);
 					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			}
