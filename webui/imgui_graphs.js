@@ -282,6 +282,15 @@ function UpdateGenGraphEditor(graph_instance)
 	}
 }
 
+
+//   ██████  █████  ███    ██ ██    ██  █████  ███████ 
+//  ██      ██   ██ ████   ██ ██    ██ ██   ██ ██      
+//  ██      ███████ ██ ██  ██ ██    ██ ███████ ███████ 
+//  ██      ██   ██ ██  ██ ██  ██  ██  ██   ██      ██ 
+//   ██████ ██   ██ ██   ████   ████   ██   ██ ███████ 
+//                                                     
+//                                                     
+
 // Update an imgui node canvas specifically for a generator graph.
 // highlighted.nodes = list of node ids to highlght, highlighted.links = list of links to highlight
 function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -1, canvas_height = -1)

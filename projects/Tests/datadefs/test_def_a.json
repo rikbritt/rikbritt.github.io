@@ -4,10 +4,12 @@
     "name": "Test Data Def A",
     "fields": [
         {
+            "id": "c6ab5452-b887-4b38-8a66-ee7b6bc83fcd",
             "name": "Field A",
             "type": "bool"
         },
         {
+            "id": "14015de8-17af-4ffd-8c80-606a1dda0879",
             "min": 0,
             "max": 100,
             "name": "Field B",

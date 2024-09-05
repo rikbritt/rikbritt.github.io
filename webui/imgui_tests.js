@@ -66,7 +66,9 @@ function SetupGenGraphTestWindow()
 	var test_generator_a_output = "4f97075a-51a2-45c9-9825-b8279cb09842";
 
 	var test_data_def_a = "abc3b2ee-8934-4816-ab92-a546a7c36cbf";
-
+	var test_data_def_a_field_a = "c6ab5452-b887-4b38-8a66-ee7b6bc83fcd";
+	var test_data_def_a_field_b = "14015de8-17af-4ffd-8c80-606a1dda0879";
+	
 	var nodeA = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, test_generator_a);
 	var nodeB = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, test_generator_a);
 	bg.CreateGenerationGraphLink(testGenGraph, nodeA, test_generator_a_output, nodeB, test_generator_a_input);
@@ -82,8 +84,10 @@ function SetupGenGraphTestWindow()
 	//val nodes for the data def
 	var bool_node_a = bg.CreateGenerationGraph_ValueNode(testGenGraph, "bool");
 	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node_a.id, 50, 300);
+	bg.CreateGenerationGraphLink(testGenGraph, bool_node_a, bool_node_a, test_def_node, test_data_def_a_field_a);
 	var bool_node_b = bg.CreateGenerationGraph_ValueNode(testGenGraph, "bool");
 	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node_b.id, 50, 400);
+	bg.CreateGenerationGraphLink(testGenGraph, bool_node_b, bool_node_b, test_def_node, test_data_def_a_field_b);
 
 	// Note for now output nodes input pin is the same id as the node
 	bg.CreateGenerationGraphLink(testGenGraph, nodeB, test_generator_a_output, outputNode, outputNode.id);
