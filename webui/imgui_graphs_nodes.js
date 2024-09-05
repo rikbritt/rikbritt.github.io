@@ -86,17 +86,20 @@ RegisterGraphEditorNodeType(
 		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
 		var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 
-		NodeImGui.InputPin("", "This Data Def", "data_def");
+		var connection = NodeImGui.InputPin("", "This Data Def", "data_def");
+		ProcessGraphConnection(graph_instance, connection);
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
-			NodeImGui.InputPin(field.id, field.name, field.type);
+			connection = NodeImGui.InputPin(field.id, field.name, field.type);
+			ProcessGraphConnection(graph_instance, connection);
 		}
-		NodeImGui.OutputPin("", "", "data_def");
+		connection = NodeImGui.OutputPin("", "", "data_def");
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
-			NodeImGui.OutputPin(field.id, "", field.type);
+			connection = NodeImGui.OutputPin(field.id, "", field.type);
+			ProcessGraphConnection(graph_instance, connection);
 		}
 	}
 );
