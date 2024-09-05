@@ -71,7 +71,7 @@ RegisterGraphEditorNodeType(
 			UpdateDataDefsList(
 				function(selected)
 				{
-					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, selected);
+					var node = bg.CreateGenerationGraph_DataDefNode(graph_instance, selected.id);
 					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);

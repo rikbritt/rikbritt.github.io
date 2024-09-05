@@ -80,10 +80,10 @@ bg.CreateGenerationGraph_GenGraphNode = function(graph, gen_graph)
 	return node;
 }
 
-bg.CreateGenerationGraph_DataDefNode = function(graph, data_def)
+bg.CreateGenerationGraph_DataDefNode = function(graph, data_def_id)
 {
 	var node = bg.CreateGenerationGraphNode(graph);
-	node.asset_id = data_def.id;
+	node.asset_id = data_def_id;
 	node.type = "data_def";
 	return node;
 }
