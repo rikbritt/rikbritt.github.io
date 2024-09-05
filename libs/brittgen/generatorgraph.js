@@ -64,10 +64,10 @@ bg.CreateGenerationGraph_OutputNode = function(graph)
 	return node;
 }
 
-bg.CreateGenerationGraph_GeneratorNode = function(graph, generator)
+bg.CreateGenerationGraph_GeneratorNode = function(graph, generator_id)
 {
 	var node = bg.CreateGenerationGraphNode(graph);
-	node.asset_id = generator.id;
+	node.asset_id = generator_id;
 	node.type = "generator";
 	return node;
 }

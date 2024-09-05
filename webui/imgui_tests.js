@@ -61,17 +61,22 @@ function SetupGenGraphTestWindow()
 	testGenGraph = bg.CreateEmptyProjectGraph(bg.global_project);
 	bg.AddGraphLayout(testGenGraph);
 	
-	var generator = AssetDb.GetAsset(gAssetDb, "5789e50e-b882-4cf6-8b1d-958784541060", "generator");
-	var nodeA = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
-	var nodeB = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, generator);
-	bg.CreateGenerationGraphLink(testGenGraph, nodeA, "4f97075a-51a2-45c9-9825-b8279cb09842", nodeB, "add1d102-a471-4fab-ab9d-8d2a7eb99bb2");
+	var test_generator_a = "5789e50e-b882-4cf6-8b1d-958784541060";
+	var test_generator_a_input = "add1d102-a471-4fab-ab9d-8d2a7eb99bb2";
+	var test_generator_a_output = "4f97075a-51a2-45c9-9825-b8279cb09842";
+
+	var test_data_def_a = "abc3b2ee-8934-4816-ab92-a546a7c36cbf";
+
+	var nodeA = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, test_generator_a);
+	var nodeB = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, test_generator_a);
+	bg.CreateGenerationGraphLink(testGenGraph, nodeA, test_generator_a_output, nodeB, test_generator_a_input);
 	bg.SetNodeLayoutPos(testGenGraph.layout, nodeB.id, 450, 50);
 
 	var outputNode = bg.GetGraphNodesByType(testGenGraph, "output")[0];
 	bg.SetNodeLayoutPos(testGenGraph.layout, outputNode.id, 900, 50);
 
 	//data def
-	var test_def_node = bg.CreateGenerationGraph_DataDefNode(testGenGraph, "abc3b2ee-8934-4816-ab92-a546a7c36cbf");
+	var test_def_node = bg.CreateGenerationGraph_DataDefNode(testGenGraph, test_data_def_a);
 	bg.SetNodeLayoutPos(testGenGraph.layout, test_def_node.id, 500, 300);
 
 	//val nodes for the data def
@@ -81,7 +86,7 @@ function SetupGenGraphTestWindow()
 	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node_b.id, 50, 400);
 
 	// Note for now output nodes input pin is the same id as the node
-	bg.CreateGenerationGraphLink(testGenGraph, nodeB, "4f97075a-51a2-45c9-9825-b8279cb09842", outputNode, outputNode.id);
+	bg.CreateGenerationGraphLink(testGenGraph, nodeB, test_generator_a_output, outputNode, outputNode.id);
 }
 
 function UpdateGenGraphTestWindow(close_func)

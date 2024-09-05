@@ -19,7 +19,7 @@ RegisterGraphEditorNodeType(
 			UpdateGeneratorsList(
 				function(selected)
 				{
-					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, selected);
+					var node = bg.CreateGenerationGraph_GeneratorNode(graph_instance, selected.id);
 					NodeImGui.SetNodePosToPopup(node.id);
 				}
 			);
