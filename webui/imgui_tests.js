@@ -72,7 +72,7 @@ function SetupGenGraphTestWindow()
 
 	//data def
 	var test_def_node = bg.CreateGenerationGraph_DataDefNode(testGenGraph, "abc3b2ee-8934-4816-ab92-a546a7c36cbf");
-	bg.SetNodeLayoutPos(testGenGraph.layout, test_def_node.id, 150, 300);
+	bg.SetNodeLayoutPos(testGenGraph.layout, test_def_node.id, 500, 300);
 
 	//val nodes for the data def
 	var bool_node_a = bg.CreateGenerationGraph_ValueNode(testGenGraph, "bool");
