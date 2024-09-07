@@ -1,14 +1,11 @@
 // Wrapper over imgui draw list with 2d transform
 
 var DrawImGui = {};
-var s = 0.0;
 
 DrawImGui.Begin = function()
 {
     DrawImGui.dl = ImGui.GetWindowDrawList();
     DrawImGui.t = new paper.Matrix();
-    DrawImGui.t.translate(s, 0);
-    s += 0.001;
 }
 
 DrawImGui.TransformPoint = function(p)
