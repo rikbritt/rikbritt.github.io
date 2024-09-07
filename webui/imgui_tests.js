@@ -90,7 +90,7 @@ function SetupGenGraphTestWindow()
 	bg.CreateGenerationGraphLink(testGenGraph, float_node, float_node.id, test_def_node, test_data_def_a_field_b);
 
 	var comment_node = bg.CreateGenerationGraph_CommentNode(testGenGraph);
-	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node.id, 50, 600);
+	bg.SetNodeLayoutPos(testGenGraph.layout, comment_node.id, 50, 600);
 	comment_node.comment = "Test Comment";
 
 	// Note for now output nodes input pin is the same id as the node
