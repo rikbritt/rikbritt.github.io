@@ -17,7 +17,7 @@ GenGraphImGui.GetFieldPinType = function(field)
 {
 	if(field.type == "data_def")
 	{
-		var data_def = AssetDb.GetAsset(gAssetDb, field.id, field.type);
+		var data_def = AssetDb.GetAsset(gAssetDb, field.default_def, field.type);
 		return `data_def.${data_def.name}.${data_def.id}`;
 	}
 	else
