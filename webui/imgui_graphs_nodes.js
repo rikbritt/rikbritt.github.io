@@ -6,7 +6,7 @@
 //   ██████  ███████ ██   ████ ███████ ██   ██ ██   ██    ██     ██████  ██   ██ 
 //                                                                               
 
-RegisterGraphEditorNodeType(
+GenGraphImGui.RegisterGraphEditorNodeType(
 	"generator",
 	function(graph_instance, node)
 	{
@@ -38,14 +38,12 @@ RegisterGraphEditorNodeType(
 		var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 		for(field of generator.inputs.fields)
 		{
-			var connection = NodeImGui.InputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
-			ProcessGraphConnection(graph_instance, connection);
+			GenGraphImGui.InputPin(graph_instance, field.id, field.name, field.type);
 		}
 
 		for(field of generator.outputs.fields)
 		{
-			var connection = NodeImGui.OutputPin(field.id, field.name, field.type, CanLinkGenGraphNodes);
-			ProcessGraphConnection(graph_instance, connection);
+			GenGraphImGui.OutputPin(graph_instance, field.id, field.name, field.type);
 		}
 	}
 );
@@ -58,7 +56,7 @@ RegisterGraphEditorNodeType(
 //  ██████  ██   ██    ██    ██   ██ ██████  ███████ ██      
 //                                                           
 
-RegisterGraphEditorNodeType(
+GenGraphImGui.RegisterGraphEditorNodeType(
 	"data_def",
 	function(graph_instance, node)
 	{
@@ -86,20 +84,17 @@ RegisterGraphEditorNodeType(
 		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
 		var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 
-		var connection = NodeImGui.InputPin("", "This Data Def", "data_def");
-		ProcessGraphConnection(graph_instance, connection);
+		GenGraphImGui.InputPin(graph_instance, "", "This Data Def", "data_def");
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
-			connection = NodeImGui.InputPin(field.id, field.name, field.type);
-			ProcessGraphConnection(graph_instance, connection);
+			GenGraphImGui.InputPin(graph_instance, field.id, field.name, field.type);
 		}
 		connection = NodeImGui.OutputPin("", "", "data_def");
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
-			connection = NodeImGui.OutputPin(field.id, "", field.type);
-			ProcessGraphConnection(graph_instance, connection);
+			GenGraphImGui.OutputPin(graph_instance, field.id, "", field.type);
 		}
 	}
 );
@@ -112,7 +107,7 @@ RegisterGraphEditorNodeType(
 //  ██████  ██   ██    ██    ██   ██    ██    ██   ██ ██████  ███████ ███████ 
 //                                                                            
 
-RegisterGraphEditorNodeType(
+GenGraphImGui.RegisterGraphEditorNodeType(
 	"data_table",
 	function(graph_instance, node)
 	{
@@ -153,7 +148,7 @@ RegisterGraphEditorNodeType(
 //   ██████  ███████ ██   ████  ██████  ██   ██ ██   ██ ██      ██   ██ 
 //                                                                      
 
-RegisterGraphEditorNodeType(
+GenGraphImGui.RegisterGraphEditorNodeType(
 	"gen_graph",
 	function(graph_instance, node)
 	{
@@ -191,7 +186,7 @@ RegisterGraphEditorNodeType(
 //   ██████   ██████     ██    ██       ██████     ██    
 //                                                       
 
-RegisterGraphEditorNodeType(
+GenGraphImGui.RegisterGraphEditorNodeType(
 	"output",
 	function(graph_instance, node)
 	{
@@ -207,8 +202,7 @@ RegisterGraphEditorNodeType(
 	function(graph_instance, node)
 	{
 		// TODO check pin id
-		var connection = NodeImGui.InputPin(node.id, "Output", "any", CanLinkGenGraphNodes);
-		ProcessGraphConnection(graph_instance, connection);
+		GenGraphImGui.InputPin(graph_instance, node.id, "Output", "any");
 	}
 );
 
@@ -219,7 +213,7 @@ RegisterGraphEditorNodeType(
 //    ████   ██   ██ ███████  ██████  ███████ 
 //                                            
 
-RegisterGraphEditorNodeType(
+GenGraphImGui.RegisterGraphEditorNodeType(
 	"value",
 	function(graph_instance, node)
 	{
@@ -282,7 +276,7 @@ RegisterGraphEditorNodeType(
 //  ██████  ██████  ██      ██ ██      ██ ███████ ██   ████    ██    
 //																   
 
-RegisterGraphEditorNodeType(
+GenGraphImGui.RegisterGraphEditorNodeType(
 	"comment",
 	function(graph_instance, node)
 	{

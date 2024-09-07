@@ -1,32 +1,25 @@
-var gGraphInstances = [];
-
-
-function CreateGraphEditor(graph_name)
-{
-	gGraphInstances.push(
-		{
-			instance:bg.CreateGenerationGraph(graph_name),
-			node_positions:[],
-			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
-			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
-		} 
-	);
-}
+var GenGraphImGui = {
+	graphNodeTypes:{}
+};
 
 // WIP
 
 // func_graph_add_pins = Called when updating the graph canvas to add pins to the node
-var gGraphNodeTypes = {};
-function RegisterGraphEditorNodeType(node_type, func_get_node_title, func_add_node, func_update_node_info, func_graph_add_pins)
+GenGraphImGui.RegisterGraphEditorNodeType = function(node_type_id, func_get_node_title, func_add_node, func_update_node_info, func_graph_add_pins)
 {
 	var node_type_data = {
-		type:node_type,
+		type:node_type_id,
 		get_node_title:func_get_node_title,
 		add_node:func_add_node,
 		update_node_info:func_update_node_info,
 		graph_add_pins:func_graph_add_pins
 	};
-	gGraphNodeTypes[node_type] = node_type_data;
+	GenGraphImGui.graphNodeTypes[node_type_id] = node_type_data;
+}
+
+GenGraphImGui.GetGraphNodeType = function(node_type_id)
+{
+	return GenGraphImGui.graphNodeTypes[node_type_id];
 }
 
 
@@ -59,7 +52,19 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 	ImGui.PopID();
 }
 
-function ProcessGraphConnection(graph, connection)
+GenGraphImGui.InputPin = function(graph_instance, id, name, type)
+{
+	var connection = NodeImGui.InputPin(id, name, type, CanLinkGenGraphNodes);
+	GenGraphImGui.ProcessGraphConnection(graph_instance, connection);
+}
+
+GenGraphImGui.OutputPin = function(graph_instance, id, name, type)
+{
+	var connection = NodeImGui.OutputPin(id, name, type, CanLinkGenGraphNodes);
+	GenGraphImGui.ProcessGraphConnection(graph_instance, connection);
+}
+
+GenGraphImGui.ProcessGraphConnection = function(graph, connection)
 {
 	if(connection != null)
 	{
@@ -221,7 +226,7 @@ function UpdateGenGraphEditor(graph_instance)
 			{
 				ImGui.Text(`Node Id: ${graph_instance._selected_node.id}`);
 				ImGui.Text(`Type: ${graph_instance._selected_node.type}`);
-				var nodeType = gGraphNodeTypes[graph_instance._selected_node.type];
+				var nodeType = GenGraphImGui.GetGraphNodeType(graph_instance._selected_node.type);
 				if(nodeType && nodeType.update_node_info)
 				{
 					nodeType.update_node_info(graph_instance, graph_instance._selected_node);
@@ -305,7 +310,7 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 	{
 		var node = graph_instance.nodes[i];
 		var node_title = `? (${node.type})`;
-		var nodeType = gGraphNodeTypes[node.type];
+		var nodeType = GenGraphImGui.GetGraphNodeType(node.type);
 		if(nodeType != null && nodeType.get_node_title != null)
 		{
 			node_title = nodeType.get_node_title(graph_instance, node);
@@ -391,7 +396,7 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 	
 	if (NodeImGui.BeginPopupContextWindow())
 	{
-		for(const [key, value] of Object.entries(gGraphNodeTypes))
+		for(const [key, value] of Object.entries(GenGraphImGui.graphNodeTypes))
 		{
 			if(value.add_node)
 			{
