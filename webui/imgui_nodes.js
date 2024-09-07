@@ -576,7 +576,6 @@ NodeImGui.Internal_DrawNode = function(node)
 	var node_x = node_draw_pos.x;
 	var node_y = node_draw_pos.y;
 
-	var dl = ImGui.GetWindowDrawList();
 	var draw_info = node.draw_info;
 	var canvas = NodeImGui.Current_Canvas;
 
@@ -636,8 +635,8 @@ NodeImGui.Internal_DrawNode = function(node)
 		//var c= canvas.Hovered_Node == node && canvas.Hovered_Input == i ? title_txt_col.toImU32() : title_bg_col.toImU32();
 		//dl.AddRectFilled(new ImGui.Vec2(pin_rect.x, pin_rect.y), new ImGui.Vec2(pin_rect.x + pin_rect.w, pin_rect.y + pin_rect.h), c);
 
-		dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
-		dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
+		DrawImGui.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
+		DrawImGui.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
 
 		var pin_text =  node.input_pins[i].name;
 		var pin_text_pos = {x:pin_rect.x + (draw_info.pin_radius * 2.0), y:pin_rect.y};
@@ -661,8 +660,8 @@ NodeImGui.Internal_DrawNode = function(node)
 		//var c= canvas.Hovered_Node == node && canvas.Hovered_Output == i ? title_txt_col.toImU32() : title_bg_col.toImU32();
 		//dl.AddRectFilled(new ImGui.Vec2(pin_rect.x, pin_rect.y), new ImGui.Vec2(pin_rect.x + pin_rect.w, pin_rect.y + pin_rect.h), c);
 
-		dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
-		dl.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
+		DrawImGui.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.8, pin_col.toImU32(), 8);
+		DrawImGui.AddCircleFilled(pin_circle_pos, draw_info.pin_radius * 0.6, pin_inner_col.toImU32(), 8);
 		
 		var pin_text =  node.output_pins[i].name;
 		var pin_text_pos = {x:pin_rect.x, y:pin_rect.y};
@@ -738,25 +737,19 @@ NodeImGui.Internal_GetLinkCPs = function(link)
 
 NodeImGui.Internal_DrawLink = function(link)
 {
-	var canvas = NodeImGui.Current_Canvas;
 	var link_col = NodeImGui.Colours.link_col;
 	if(link.hovered || link.highlighted)
 	{
 		link_col = NodeImGui.Colours.link_hovered_col;
 	}
 	var link_thickness = 2.0;
-	var sz = {value:150}
-	var x = ImGui.GetWindowPos().x + 50;
-	var y = ImGui.GetWindowPos().y + 50;
-
 	var cp4 = NodeImGui.Internal_GetLinkCPs(link);
 
-	var dl = ImGui.GetWindowDrawList();
 	var curve_segments = 32;
-	dl.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), link_thickness, curve_segments);
+	DrawImGui.AddBezierCubic(cp4[0], cp4[1], cp4[2], cp4[3], link_col.toImU32(), link_thickness, curve_segments);
 
 	var link_middle_pos = bg.CubicBezier2D( 0.5, cp4[0], cp4[1], cp4[2], cp4[3] );
-	dl.AddCircleFilled(link_middle_pos, 5.0, link_col.toImU32(), 8);
+	DrawImGui.AddCircleFilled(link_middle_pos, 5.0, link_col.toImU32(), 8);
 }
 
 NodeImGui.Internal_GetMousePos = function()

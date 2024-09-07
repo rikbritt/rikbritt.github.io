@@ -11,24 +11,45 @@ DrawImGui.Begin = function()
     s += 0.001;
 }
 
+DrawImGui.TransformPoint = function(p)
+{
+    return DrawImGui.t.transform(new paper.Point(p.x, p.y));
+}
+
 DrawImGui.AddRectFilled = function(tl, br, col)
 {
-    var tl_t = DrawImGui.t.transform(new paper.Point(tl.x, tl.y));
-    var br_t = DrawImGui.t.transform(new paper.Point(br.x, br.y));
+    var tl_t = DrawImGui.TransformPoint(tl);
+    var br_t = DrawImGui.TransformPoint(br);
     
     DrawImGui.dl.AddRectFilled({x:tl_t.x, y:tl_t.y}, {x:br_t.x, y:br_t.y}, col);
 }
 
 DrawImGui.AddLine = function(p1, p2, col)
 {
-    var p1_t = DrawImGui.t.transform(new paper.Point(p1.x, p1.y));
-    var p2_t = DrawImGui.t.transform(new paper.Point(p2.x, p2.y));
+    var p1_t = DrawImGui.TransformPoint(p1);
+    var p2_t = DrawImGui.TransformPoint(p2);
     
     DrawImGui.dl.AddLine({x:p1_t.x, y:p1_t.y}, {x:p2_t.x, y:p2_t.y}, col);
 }
 
 DrawImGui.AddText = function(p, col, txt)
 {
-    var p_t = DrawImGui.t.transform(new paper.Point(p.x, p.y));    
+    var p_t = DrawImGui.TransformPoint(p);
     DrawImGui.dl.AddText({x:p_t.x, y:p_t.y}, col, txt);
+}
+
+DrawImGui.AddCircleFilled = function(p, radius, col, segments)
+{
+    var p_t = DrawImGui.TransformPoint(p);
+    // todo: scale radius
+    DrawImGui.dl.AddCircleFilled({x:p_t.x, y:p_t.y}, radius, col, segments);
+}
+
+DrawImGui.AddBezierCubic = function(cp1, cp2, cp3, cp4, col, thick, segments)
+{
+    var cp1_t = DrawImGui.TransformPoint(cp1);
+    var cp2_t = DrawImGui.TransformPoint(cp2);
+    var cp3_t = DrawImGui.TransformPoint(cp3);
+    var cp4_t = DrawImGui.TransformPoint(cp4);
+    DrawImGui.dl.AddBezierCubic(cp1_t, cp2_t, cp3_t, cp4_t, col, thick, segments);
 }
