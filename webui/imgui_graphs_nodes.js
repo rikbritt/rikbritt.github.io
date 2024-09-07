@@ -6,6 +6,26 @@
 //   ██████  ███████ ██   ████ ███████ ██   ██ ██   ██    ██     ██████  ██   ██ 
 //                                                                               
 
+
+GenGraphImGui.MakeDataDefPinType = function(data_def)
+{
+	return `data_def.${data_def.name}.${data_def.id}`;
+}
+
+
+GenGraphImGui.GetFieldPinType = function(field)
+{
+	if(field.type == "data_def")
+	{
+		var data_def = AssetDb.GetAsset(gAssetDb, field.id, field.type);
+		return `data_def.${data_def.name}.${data_def.id}`;
+	}
+	else
+	{
+		return field.type;
+	}
+}
+
 GenGraphImGui.RegisterGraphEditorNodeType(
 	"generator",
 	function(graph_instance, node)
@@ -38,12 +58,12 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 		var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 		for(field of generator.inputs.fields)
 		{
-			GenGraphImGui.InputPin(graph_instance, field.id, field.name, field.type);
+			GenGraphImGui.InputPin(graph_instance, field.id, field.name, GenGraphImGui.GetFieldPinType(field));
 		}
 
 		for(field of generator.outputs.fields)
 		{
-			GenGraphImGui.OutputPin(graph_instance, field.id, field.name, field.type);
+			GenGraphImGui.OutputPin(graph_instance, field.id, field.name, GenGraphImGui.GetFieldPinType(field));
 		}
 	}
 );
@@ -84,13 +104,15 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
 		var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 
-		GenGraphImGui.InputPin(graph_instance, "", "This Data Def", "data_def");
+		var data_def_type = GenGraphImGui.MakeDataDefPinType(data_def);
+
+		GenGraphImGui.InputPin(graph_instance, "", "This Data Def", data_def_type);
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
 			GenGraphImGui.InputPin(graph_instance, field.id, field.name, field.type);
 		}
-		connection = NodeImGui.OutputPin("", "", "data_def");
+		connection = NodeImGui.OutputPin("", "", data_def_type);
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
