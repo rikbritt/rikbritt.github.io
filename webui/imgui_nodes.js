@@ -56,6 +56,7 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	NodeImGui.Current_Canvas.Hovered_Output = -1;
 	NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 
+	DrawImGui.Begin();
 	ImGui.BeginChild(id, size);
 	var cusor_pos = ImGui.GetCursorScreenPos();
 	ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
@@ -604,17 +605,17 @@ NodeImGui.Internal_DrawNode = function(node)
 	if(node.highlighted)
 	{
 		var highlight_thickness = 5;
-		dl.AddRectFilled(new ImGui.Vec2(node_x - highlight_thickness, node_y - highlight_thickness),
+		DrawImGui.AddRectFilled(new ImGui.Vec2(node_x - highlight_thickness, node_y - highlight_thickness),
 			new ImGui.Vec2(node_x + node_w + highlight_thickness, node_y + node_h + highlight_thickness),
 				title_txt_col.toImU32()
 		);
 	}
 
 	// Background
-	dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
+	DrawImGui.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + node_h), bg_col.toImU32());
 
 	// Title bar
-	dl.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
+	DrawImGui.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
 	dl.AddText({x:node_inner_x, y:node_y + draw_info.node_border}, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
 	if(canvas.Hovered_Node == node)
 	{
@@ -811,7 +812,7 @@ NodeImGui.EndCanvas = function()
 	}
 
 	//Draw BG
-	dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
+	DrawImGui.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
 
 	//Draw BG Grid
 	var GRID_STEP = 64.0;
