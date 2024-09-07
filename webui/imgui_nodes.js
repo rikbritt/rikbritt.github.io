@@ -616,7 +616,7 @@ NodeImGui.Internal_DrawNode = function(node)
 
 	// Title bar
 	DrawImGui.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
-	dl.AddText({x:node_inner_x, y:node_y + draw_info.node_border}, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
+	DrawImGui.AddText({x:node_inner_x, y:node_y + draw_info.node_border}, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
 	if(canvas.Hovered_Node == node)
 	{
 		ImGui.BeginTooltip();
@@ -644,7 +644,7 @@ NodeImGui.Internal_DrawNode = function(node)
 		var pin_hovered = canvas.Hovered_Input_Node == node && canvas.Hovered_Input == i;
 
 		var pin_text_col = NodeImGui.Internal_GetPinTextColour(node, i, -1);
-		dl.AddText(pin_text_pos, pin_text_col, pin_text);
+		DrawImGui.AddText(pin_text_pos, pin_text_col, pin_text);
 
 		if(pin_hovered)
 		{
@@ -668,7 +668,7 @@ NodeImGui.Internal_DrawNode = function(node)
 		var pin_text_pos = {x:pin_rect.x, y:pin_rect.y};
 		var pin_hovered = canvas.Hovered_Output_Node == node && canvas.Hovered_Output == i;
 		var pin_text_col = NodeImGui.Internal_GetPinTextColour(node, -1, i);
-		dl.AddText(pin_text_pos, pin_text_col, pin_text);
+		DrawImGui.AddText(pin_text_pos, pin_text_col, pin_text);
 
 		if(pin_hovered)
 		{
@@ -682,7 +682,6 @@ NodeImGui.Internal_DrawNode = function(node)
 
 NodeImGui.Internal_DrawNodeInfo = function(node)
 {
-	var dl = ImGui.GetWindowDrawList();
 	var node_draw_pos = NodeImGui.Internal_CalcNodeDrawPos(node);
 	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
 	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
@@ -694,7 +693,7 @@ NodeImGui.Internal_DrawNodeInfo = function(node)
 		if(info.type == "text")
 		{
 			var info_text_col = NodeImGui.Colours.title_txt_col;
-			dl.AddText(info_pos, info_text_col.toImU32(), info.text);
+			DrawImGui.AddText(info_pos, info_text_col.toImU32(), info.text);
 			info_pos.y += ImGui.GetTextLineHeight();
 		}
 	}
@@ -818,12 +817,12 @@ NodeImGui.EndCanvas = function()
 	var GRID_STEP = 64.0;
 	for (var x = fmodf(canvas.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
 	{
-		dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
+		DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
 	}
 
 	for (let y = fmodf(canvas.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 	{
-		dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
+		DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
 	}
 
 	//Draw Nodes
@@ -844,7 +843,7 @@ NodeImGui.EndCanvas = function()
 	//Draw Debug
 	if(NodeImGui.Debug)
 	{
-		dl.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20),0xffffffff, "Node Debug Text " + mp.x + " " + mp.y + "\n" + canvas.context_menu_pos.x + " " + canvas.context_menu_pos.y);
+		DrawImGui.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20), 0xffffffff, "Node Debug Text " + mp.x + " " + mp.y + "\n" + canvas.context_menu_pos.x + " " + canvas.context_menu_pos.y);
 	}
 
 
@@ -861,7 +860,7 @@ NodeImGui.EndCanvas = function()
 		{
 			from_pos = NodeImGui.Internal_CalcOutputPinCentrePos(canvas.dragging_pin_connection.output_node, canvas.dragging_pin_connection.output_idx);
 		}
-		dl.AddLine(from_pos, to_pos, ImGui.COL32(255, 255, 255, 255));
+		DrawImGui.AddLine(from_pos, to_pos, ImGui.COL32(255, 255, 255, 255));
 	}
 
 	NodeImGui.Current_Canvas = null;
