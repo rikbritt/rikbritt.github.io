@@ -822,12 +822,12 @@ NodeImGui.EndCanvas = function()
 	}
 
 	//Check for dragging canvas
-	if(dragging_pin_connection == null 
+	if(canvas.dragging_pin_connection == null 
 		&& canvas.dragging_node == null
 		&& ImGui.IsMouseClicked(0))
 	{
 		canvas.dragging_canvas = true;
-		canvas.dragging_canvas_start = mp_node;
+		canvas.dragging_canvas_start = mp;
 	}
 
 	//Draw BG
