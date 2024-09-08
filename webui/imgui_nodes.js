@@ -94,7 +94,7 @@ NodeImGui.BeginNode = function(id, name)
 	var node_title_size = draw_info.node_title_size;
 
 	//Check if mouse is over the title bar area
-	if(NodeImGui.Current_Canvas.Hovered && ImGui.IsMouseHoveringRect(node_screen_pos, {x:node_screen_pos.x + node_title_size.x, y:node_screen_pos.y + node_title_size.y}))
+	if(NodeImGui.Current_Canvas.Hovered && DrawImGui.IsMouseHoveringRect(node_screen_pos, {x:node_screen_pos.x + node_title_size.x, y:node_screen_pos.y + node_title_size.y}))
 	{
 		NodeImGui.Current_Canvas.Hovered_Node = canvas.Current_Node;
 
@@ -184,7 +184,7 @@ NodeImGui.InputPin = function(pin_id, pin_name, pin_data_type = "", can_connect_
 
 	var canvas = NodeImGui.Current_Canvas;
 	var new_connection = null;
-	if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
+	if(canvas.Hovered && DrawImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
 	{
 		canvas.Hovered_Input = input_pin_idx;
 		canvas.Hovered_Input_Node = node;
@@ -243,7 +243,7 @@ NodeImGui.OutputPin = function(pin_id, pin_name, pin_data_type = "", can_connect
 
 	var canvas = NodeImGui.Current_Canvas;
 	var new_connection = null;
-	if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
+	if(canvas.Hovered && DrawImGui.IsMouseHoveringRect({x:pin_rect.x, y:pin_rect.y}, {x:pin_rect.x + pin_rect.w, y:pin_rect.y + pin_rect.h}))
 	{
 		canvas.Hovered_Output = output_pin_idx;
 		canvas.Hovered_Output_Node = node;
@@ -295,7 +295,7 @@ NodeImGui.LinkNodes = function(from_id, from_pin, to_id, to_pin)
 
 	var cp4 = NodeImGui.Internal_GetLinkCPs(link);
 	var link_middle_pos = bg.CubicBezier2D( 0.5, cp4[0], cp4[1], cp4[2], cp4[3] );
-	if(canvas.Hovered && ImGui.IsMouseHoveringRect({x:link_middle_pos.x - 4, y:link_middle_pos.y - 4},
+	if(canvas.Hovered && DrawImGui.IsMouseHoveringRect({x:link_middle_pos.x - 4, y:link_middle_pos.y - 4},
 			{x:link_middle_pos.x + 4, y:link_middle_pos.y + 4}))
 	{
 		link.hovered = true;

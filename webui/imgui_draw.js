@@ -13,6 +13,13 @@ DrawImGui.TransformPoint = function(p)
     return DrawImGui.t.transform(new paper.Point(p.x, p.y));
 }
 
+DrawImGui.IsMouseHoveringRect = function(tl, br)
+{
+    var tl_t = DrawImGui.TransformPoint(tl);
+    var br_t = DrawImGui.TransformPoint(br);
+    return ImGui.IsMouseHoveringRect({x:tl_t.x, y:tl_t.y}, {x:br_t.x, y:br_t.y});
+}
+
 DrawImGui.AddRectFilled = function(tl, br, col)
 {
     var tl_t = DrawImGui.TransformPoint(tl);
