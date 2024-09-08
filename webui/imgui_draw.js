@@ -6,6 +6,13 @@ DrawImGui.Begin = function()
 {
     DrawImGui.dl = ImGui.GetWindowDrawList();
     DrawImGui.t = new paper.Matrix();
+    DrawImGui.scale = 1.0;
+}
+
+DrawImGui.Scale = function(s)
+{
+    DrawImGui.scale = s;
+    DrawImGui.t.scale(s, s);
 }
 
 DrawImGui.TransformPoint = function(p)

@@ -13,6 +13,9 @@ var NodeImGui = {
 		pin_inner_col: new ImGui.ImColor(0.0, 0.0, 0.0, 1.00),
 		link_col: new ImGui.ImColor(0.7, 0.7, 0.7, 1.00),
 		link_hovered_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00)
+	},
+	Constants:{
+		max_zoom:100
 	}
 }
 
@@ -32,7 +35,8 @@ NodeImGui.GetOrCreateCanvas = function(id)
 			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
 			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
 			c_x:0,
-			c_y:0
+			c_y:0,
+			zoom:0
 		};
 		NodeImGui.Canvases[id] = canvas;
 	}
@@ -57,11 +61,24 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 
 	DrawImGui.Begin();
+
+	// Zoom level to transform scale
+	// Zoom 0 = Scale 1
+	// Zoom -inf = Scale 0.00001
+	// Zoom inf = Scale 100
+	var scale = NodeImGui.Current_Canvas.zoom;
+	scale /= NodeImGui.Constants.max_zoom;
+	scale *= 100.0;
+	
+	DrawImGui.Scale(scale);
 	ImGui.BeginChild(id, size);
 	var cusor_pos = ImGui.GetCursorScreenPos();
 	ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
 	NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
 	ImGui.SetCursorScreenPos(cusor_pos);
+
+	NodeImGui.Current_Canvas.zoom += ImGui.GetIO().MouseWheel;
+	NodeImGui.Current_Canvas.zoom = Math.max(-NodeImGui.Constants.max_zoom, Math.min(NodeImGui.Constants.max_zoom, NodeImGui.Current_Canvas.zoom) );
 };
 
 
