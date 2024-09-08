@@ -20,6 +20,12 @@ DrawImGui.TransformPoint = function(p)
     return DrawImGui.t.transform(new paper.Point(p.x, p.y));
 }
 
+DrawImGui.ScreenToDrawList = function(p)
+{
+    var inv_p = DrawImGui.t.inverted().transform(new paper.Point(p.x, p.y));
+    return {x:inv_p.x, y:inv_p.y};
+}
+
 DrawImGui.IsMouseHoveringRect = function(tl, br)
 {
     var tl_t = DrawImGui.TransformPoint(tl);

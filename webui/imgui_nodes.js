@@ -68,8 +68,9 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	// Zoom inf = Scale 100
 	var scale = NodeImGui.Current_Canvas.zoom;
 	scale /= NodeImGui.Constants.max_zoom;
-	scale *= 100.0;
-	
+    scale += 1.0;
+	scale *= 5;
+
 	DrawImGui.Scale(scale);
 	ImGui.BeginChild(id, size);
 	var cusor_pos = ImGui.GetCursorScreenPos();
@@ -799,11 +800,11 @@ NodeImGui.EndPopup = function()
 NodeImGui.EndCanvas = function()
 {
 	var canvas = NodeImGui.Current_Canvas;
-	var dl = ImGui.GetWindowDrawList();
 	var canvas_sz = ImGui.GetContentRegionAvail();
 	var canvas_p0 = ImGui.GetCursorScreenPos();
 	var canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 	var mp = NodeImGui.Internal_GetMousePos();
+	var mp_node = DrawImGui.ScreenToDrawList(mp);
 
 	//When mouse is released, stop dragging
 	if(ImGui.IsMouseDown(0) == false)
@@ -818,6 +819,15 @@ NodeImGui.EndCanvas = function()
 		var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, canvas.dragging_node.id);
 		node_layout.x = mp.x - canvas.dragging_node_offset.x;
 		node_layout.y = mp.y - canvas.dragging_node_offset.y;
+	}
+
+	//Check for dragging canvas
+	if(dragging_pin_connection == null 
+		&& canvas.dragging_node == null
+		&& ImGui.IsMouseClicked(0))
+	{
+		canvas.dragging_canvas = true;
+		canvas.dragging_canvas_start = mp_node;
 	}
 
 	//Draw BG
@@ -860,8 +870,8 @@ NodeImGui.EndCanvas = function()
 	//Draw Pin Linking
 	if(canvas.dragging_pin_connection != null)
 	{
-		var from_pos = {x:canvas_p0.x + mp.x, y:canvas_p0.y + mp.y};
-		var to_pos = {x:canvas_p0.x + mp.x, y:canvas_p0.y + mp.y};
+		var from_pos = {x:canvas_p0.x + mp_node.x, y:canvas_p0.y + mp_node.y};
+		var to_pos = {x:canvas_p0.x + mp_node.x, y:canvas_p0.y + mp_node.y};
 		if(canvas.dragging_pin_connection.input_node != null)
 		{
 			to_pos = NodeImGui.Internal_CalcInputPinCentrePos(canvas.dragging_pin_connection.input_node, canvas.dragging_pin_connection.input_idx);
@@ -871,6 +881,15 @@ NodeImGui.EndCanvas = function()
 			from_pos = NodeImGui.Internal_CalcOutputPinCentrePos(canvas.dragging_pin_connection.output_node, canvas.dragging_pin_connection.output_idx);
 		}
 		DrawImGui.AddLine(from_pos, to_pos, ImGui.COL32(255, 255, 255, 255));
+	}
+
+	if(canvas.dragging_canvas)
+	{
+		DrawImGui.AddLine(mp_node, canvas.dragging_canvas_start, ImGui.COL32(255, 255, 255, 255));
+		if(ImGui.IsMouseReleased(0))
+		{
+			canvas.dragging_canvas = false;
+		}
 	}
 
 	NodeImGui.Current_Canvas = null;
