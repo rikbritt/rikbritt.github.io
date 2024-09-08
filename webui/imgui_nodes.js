@@ -69,7 +69,7 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	var scale = NodeImGui.Current_Canvas.zoom;
 	scale /= NodeImGui.Constants.max_zoom;
     scale += 1.0;
-	scale *= 5;
+	//scale *= 5;
 
 	DrawImGui.Scale(scale);
 	ImGui.BeginChild(id, size);
