@@ -73,10 +73,10 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 
 	DrawImGui.Scale(scale);
 	ImGui.BeginChild(id, size);
-	var cusor_pos = ImGui.GetCursorScreenPos();
+	var cursor_pos = ImGui.GetCursorScreenPos();
 	ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
 	NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
-	ImGui.SetCursorScreenPos(cusor_pos);
+	ImGui.SetCursorScreenPos(cursor_pos);
 
 	NodeImGui.Current_Canvas.zoom += ImGui.GetIO().MouseWheel;
 	NodeImGui.Current_Canvas.zoom = Math.max(-NodeImGui.Constants.max_zoom, Math.min(NodeImGui.Constants.max_zoom, NodeImGui.Current_Canvas.zoom) );
@@ -885,7 +885,10 @@ NodeImGui.EndCanvas = function()
 
 	if(canvas.dragging_canvas)
 	{
-		DrawImGui.AddLine(mp_node, canvas.dragging_canvas_start, ImGui.COL32(255, 255, 255, 255));
+		var drag_off = {x: mp_node.x - canvas.dragging_canvas_start.x, y: mp_node.y - canvas.dragging_canvas_start.y};
+		var mouse_screen_pos = ImGui.GetMousePos();
+		var draw_drag_pos = {x:mouse_screen_pos.x - drag_off.x, y:mouse_screen_pos.y - drag_off.y};
+		ImGui.GetWindowDrawList().AddLine(mouse_screen_pos, draw_drag_pos, ImGui.COL32(255, 255, 255, 255));
 		if(ImGui.IsMouseReleased(0))
 		{
 			canvas.dragging_canvas = false;
