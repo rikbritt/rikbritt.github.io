@@ -825,7 +825,8 @@ NodeImGui.EndCanvas = function()
 	//Check for dragging canvas
 	if(canvas.dragging_pin_connection == null 
 		&& canvas.dragging_node == null
-		&& ImGui.IsMouseClicked(0))
+		&& ImGui.IsMouseClicked(0)
+		&& NodeImGui.Current_Canvas.Hovered)
 	{
 		canvas.dragging_canvas = true;
 		canvas.dragging_screen_start = ImGui.GetMousePos();
