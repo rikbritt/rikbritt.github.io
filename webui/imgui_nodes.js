@@ -58,8 +58,10 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	NodeImGui.Current_Canvas.Hovered_Input = -1;
 	NodeImGui.Current_Canvas.Hovered_Output = -1;
 
-	DrawImGui.Begin();
+	ImGui.BeginChild(id, size);
 
+	DrawImGui.Begin();
+	
 	// Zoom level to transform scale
 	// Zoom 0 = Scale 1
 	// Zoom -inf = Scale 0.00001
@@ -68,10 +70,9 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	scale /= NodeImGui.Constants.max_zoom;
     scale += 1.0;
 	//scale *= 5;
-
 	DrawImGui.Translate(NodeImGui.Current_Canvas.translation);
 	DrawImGui.Scale(scale);
-	ImGui.BeginChild(id, size);
+
 	var cursor_pos = ImGui.GetCursorScreenPos();
 	ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
 	NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
@@ -339,8 +340,8 @@ NodeImGui.EndNode = function()
 NodeImGui.Internal_GetNodeScreenPos = function(node)
 {
 	return {
-		x : node.x + ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Scrolling.x,
-		y : node.y + ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Scrolling.y,
+		x : node.x + ImGui.GetWindowPos().x,
+		y : node.y + ImGui.GetWindowPos().y,
 	};
 }
 
@@ -433,8 +434,8 @@ NodeImGui.Internal_CalcNodeScreenPos = function(node)
 {
 	var node_x = node.x;
 	var node_y = node.y;
-	var x = ImGui.GetWindowPos().x + NodeImGui.Current_Canvas.Scrolling.x;
-	var y = ImGui.GetWindowPos().y + NodeImGui.Current_Canvas.Scrolling.y;
+	var x = ImGui.GetWindowPos().x;
+	var y = ImGui.GetWindowPos().y;
 	node_x += x;
 	node_y += y;
 	return {x:node_x, y:node_y};
@@ -580,8 +581,8 @@ NodeImGui.Internal_CalcNodeDrawPos = function(node)
 	var node_x = node.x;
 	var node_y = node.y;
 	var canvas = NodeImGui.Current_Canvas;
-	var x = ImGui.GetWindowPos().x + canvas.Scrolling.x;
-	var y = ImGui.GetWindowPos().y + canvas.Scrolling.y;
+	var x = ImGui.GetWindowPos().x;
+	var y = ImGui.GetWindowPos().y;
 	node_x += x;
 	node_y += y;
 	return {x:node_x, y:node_y};
@@ -804,6 +805,7 @@ NodeImGui.EndCanvas = function()
 	var canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 	var mp = NodeImGui.Internal_GetMousePos();
 	var mp_node = DrawImGui.ScreenToDrawList(mp);
+	var dl = ImGui.GetWindowDrawList();
 
 	//When mouse is released, stop dragging
 	if(ImGui.IsMouseDown(0) == false)
@@ -831,18 +833,18 @@ NodeImGui.EndCanvas = function()
 	}
 
 	//Draw BG
-	DrawImGui.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
+	dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
 
 	//Draw BG Grid
 	var GRID_STEP = 64.0;
-	for (var x = fmodf(canvas.Scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+	for (var x = fmodf(canvas.translation.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
 	{
-		DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
+		dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
 	}
 
-	for (let y = fmodf(canvas.Scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
+	for (let y = fmodf(canvas.translation.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 	{
-		DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
+		dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
 	}
 
 	//Draw Nodes
@@ -889,7 +891,7 @@ NodeImGui.EndCanvas = function()
 		var mouse_screen_pos = ImGui.GetMousePos();
 		var draw_drag_pos = {x:mouse_screen_pos.x - canvas.dragging_screen_start.x, y:mouse_screen_pos.y - canvas.dragging_screen_start.y};
 		canvas.translation = {x:canvas.dragging_translation_start.x + draw_drag_pos.x, y:canvas.dragging_translation_start.y + draw_drag_pos.y};
-		ImGui.GetWindowDrawList().AddLine(mouse_screen_pos, draw_drag_pos, ImGui.COL32(255, 255, 255, 255));
+		//ImGui.GetWindowDrawList().AddLine(mouse_screen_pos, draw_drag_pos, ImGui.COL32(255, 255, 255, 255));
 		if(ImGui.IsMouseReleased(0))
 		{
 			canvas.dragging_canvas = false;
