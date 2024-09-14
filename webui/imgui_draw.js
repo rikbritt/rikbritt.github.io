@@ -57,7 +57,7 @@ DrawImGui.AddLine = function(p1, p2, col)
 DrawImGui.AddText = function(p, col, txt)
 {
     var p_t = DrawImGui.TransformPoint(p);
-    DrawImGui.dl.AddText({x:p_t.x, y:p_t.y}, col, txt);
+    DrawImGui.dl.AddText(ImGui.GetFont(), DrawImGui.scale * 14.0, {x:p_t.x, y:p_t.y}, col, txt);
 }
 
 DrawImGui.AddCircleFilled = function(p, radius, col, segments)
