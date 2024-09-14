@@ -34,8 +34,7 @@ NodeImGui.GetOrCreateCanvas = function(id)
 			context_menu_pos:{x:0,y:0},
 			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
 			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
-			c_x:0,
-			c_y:0,
+			translation:{x:0,y:0},
 			zoom:0
 		};
 		NodeImGui.Canvases[id] = canvas;
@@ -58,7 +57,6 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	NodeImGui.Current_Canvas.Hovered_Node = null;
 	NodeImGui.Current_Canvas.Hovered_Input = -1;
 	NodeImGui.Current_Canvas.Hovered_Output = -1;
-	NodeImGui.Current_Canvas.Scrolling = {x:0, y:0};
 
 	DrawImGui.Begin();
 
@@ -71,6 +69,7 @@ NodeImGui.BeginCanvas = function(id, size, layout)
     scale += 1.0;
 	//scale *= 5;
 
+	DrawImGui.Translate(NodeImGui.Current_Canvas.translation);
 	DrawImGui.Scale(scale);
 	ImGui.BeginChild(id, size);
 	var cursor_pos = ImGui.GetCursorScreenPos();
@@ -827,7 +826,8 @@ NodeImGui.EndCanvas = function()
 		&& ImGui.IsMouseClicked(0))
 	{
 		canvas.dragging_canvas = true;
-		canvas.dragging_canvas_start = mp;
+		canvas.dragging_screen_start = ImGui.GetMousePos();
+		canvas.dragging_translation_start = canvas.translation;
 	}
 
 	//Draw BG
@@ -885,9 +885,10 @@ NodeImGui.EndCanvas = function()
 
 	if(canvas.dragging_canvas)
 	{
-		var drag_off = {x: mp_node.x - canvas.dragging_canvas_start.x, y: mp_node.y - canvas.dragging_canvas_start.y};
+		//var drag_off = {x: mp_node.x - canvas.dragging_canvas_start.x, y: mp_node.y - canvas.dragging_canvas_start.y};
 		var mouse_screen_pos = ImGui.GetMousePos();
-		var draw_drag_pos = {x:mouse_screen_pos.x - drag_off.x, y:mouse_screen_pos.y - drag_off.y};
+		var draw_drag_pos = {x:mouse_screen_pos.x - canvas.dragging_screen_start.x, y:mouse_screen_pos.y - canvas.dragging_screen_start.y};
+		canvas.translation = {x:canvas.dragging_translation_start.x + draw_drag_pos.x, y:canvas.dragging_translation_start.y + draw_drag_pos.y};
 		ImGui.GetWindowDrawList().AddLine(mouse_screen_pos, draw_drag_pos, ImGui.COL32(255, 255, 255, 255));
 		if(ImGui.IsMouseReleased(0))
 		{

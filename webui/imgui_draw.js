@@ -15,6 +15,11 @@ DrawImGui.Scale = function(s)
     DrawImGui.t.scale(s, s);
 }
 
+DrawImGui.Translate = function(translation)
+{
+    DrawImGui.t.translate(new paper.Point(translation.x, translation.y));
+}
+
 DrawImGui.TransformPoint = function(p)
 {
     return DrawImGui.t.transform(new paper.Point(p.x, p.y));
