@@ -35,13 +35,14 @@ NodeImGui.GetOrCreateCanvas = function(id)
 			selected_node_a:{name:"A", idx:0, input_pin:0,output_pin:0},
 			selected_node_b:{name:"B", idx:0, input_pin:0,output_pin:0},
 			translation:{x:0,y:0},
-			zoom:0
+			zoom:0,
+			scale:1
 		};
 		NodeImGui.Canvases[id] = canvas;
 	}
 	return canvas;
 }
-	
+
 NodeImGui.BeginCanvas = function(id, size, layout)
 {
 	NodeImGui.Current_CanvasImGuiId = ImGui.GetID(id);
@@ -70,8 +71,10 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	scale /= NodeImGui.Constants.max_zoom;
     scale += 1.0;
 	//scale *= 5;
-	DrawImGui.Translate(NodeImGui.Current_Canvas.translation);
+	var win_pos = ImGui.GetWindowPos();
+	DrawImGui.Translate({x:win_pos.x + NodeImGui.Current_Canvas.translation.x, y:win_pos.y + NodeImGui.Current_Canvas.translation.y});
 	DrawImGui.Scale(scale);
+	NodeImGui.Current_Canvas.scale = scale;
 
 	var cursor_pos = ImGui.GetCursorScreenPos();
 	ImGui.InvisibleButton("canvas", size, ImGui.ButtonFlags.MouseButtonLeft | ImGui.ButtonFlags.MouseButtonRight);
@@ -340,8 +343,8 @@ NodeImGui.EndNode = function()
 NodeImGui.Internal_GetNodeScreenPos = function(node)
 {
 	return {
-		x : node.x + ImGui.GetWindowPos().x,
-		y : node.y + ImGui.GetWindowPos().y,
+		x : node.x,
+		y : node.y
 	};
 }
 
@@ -434,10 +437,6 @@ NodeImGui.Internal_CalcNodeScreenPos = function(node)
 {
 	var node_x = node.x;
 	var node_y = node.y;
-	var x = ImGui.GetWindowPos().x;
-	var y = ImGui.GetWindowPos().y;
-	node_x += x;
-	node_y += y;
 	return {x:node_x, y:node_y};
 }
 
@@ -580,11 +579,6 @@ NodeImGui.Internal_CalcNodeDrawPos = function(node)
 {
 	var node_x = node.x;
 	var node_y = node.y;
-	var canvas = NodeImGui.Current_Canvas;
-	var x = ImGui.GetWindowPos().x;
-	var y = ImGui.GetWindowPos().y;
-	node_x += x;
-	node_y += y;
 	return {x:node_x, y:node_y};
 }
 
@@ -797,15 +791,56 @@ NodeImGui.EndPopup = function()
 	ImGui.EndPopup();
 }
 
-NodeImGui.EndCanvas = function()
+NodeImGui.Internal_DrawGrid = function()
 {
 	var canvas = NodeImGui.Current_Canvas;
 	var canvas_sz = ImGui.GetContentRegionAvail();
 	var canvas_p0 = ImGui.GetCursorScreenPos();
 	var canvas_p1 = new ImGui.Vec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
+	var scale = canvas.scale;
+	var dl = ImGui.GetWindowDrawList();
+
+	//Draw BG using the normal draw list.
+	dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
+
+	//Draw BG Grid
+	//var GRID_STEP = 64.0;
+	// console.log("canvas.translation.x " + canvas.translation.x);
+	// for (var x = GRID_STEP; x < canvas_sz.x / canvas.scale; x += GRID_STEP)
+	// {
+	// 	DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x + x - canvas.translation.x, canvas_p0.y - canvas.translation.y), 
+	// 		new ImGui.Vec2(canvas_p0.x + x - canvas.translation.x, canvas_p1.y - canvas.translation.y), ImGui.COL32(200, 200, 200, 40));
+	// }
+
+	// for (let y = GRID_STEP; y < canvas_sz.y / canvas.scale; y += GRID_STEP)
+	// {
+	// 	DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x - canvas.translation.x, canvas_p0.y + y - canvas.translation.y), 
+	// 		new ImGui.Vec2(canvas_p1.x - canvas.translation.x, canvas_p0.y + y - canvas.translation.y), ImGui.COL32(200, 200, 200, 40));
+	// }
+
+	var GRID_STEP = 64.0 * scale;
+	var can_x_scaled = canvas.translation.x * scale;
+	var x_start = Math.ceil(can_x_scaled / GRID_STEP) - can_x_scaled;
+	//for (var x = fmodf(canvas.translation.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+	for (var x = x_start; x < canvas_sz.x; x += GRID_STEP)
+	{
+		dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
+	}
+
+	var y_start = (canvas.translation.y * scale) - Math.ceil((canvas.translation.y * scale) / GRID_STEP);
+	//for (var y = fmodf(canvas.translation.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
+	for (var y = y_start; y < canvas_sz.y; y += GRID_STEP)
+	{
+		dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
+	}
+}
+
+NodeImGui.EndCanvas = function()
+{
+	var canvas = NodeImGui.Current_Canvas;
+	var canvas_p0 = ImGui.GetCursorScreenPos();
 	var mp = NodeImGui.Internal_GetMousePos();
 	var mp_node = DrawImGui.ScreenToDrawList(mp);
-	var dl = ImGui.GetWindowDrawList();
 
 	//When mouse is released, stop dragging
 	if(ImGui.IsMouseDown(0) == false)
@@ -833,20 +868,7 @@ NodeImGui.EndCanvas = function()
 		canvas.dragging_translation_start = canvas.translation;
 	}
 
-	//Draw BG
-	dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
-
-	//Draw BG Grid
-	var GRID_STEP = 64.0;
-	for (var x = fmodf(canvas.translation.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
-	{
-		dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
-	}
-
-	for (let y = fmodf(canvas.translation.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
-	{
-		dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
-	}
+	NodeImGui.Internal_DrawGrid();
 
 	//Draw Nodes
 	for(var i=0; i<canvas.NodesDrawOrder.length; ++i)
@@ -866,7 +888,7 @@ NodeImGui.EndCanvas = function()
 	//Draw Debug
 	if(NodeImGui.Debug)
 	{
-		DrawImGui.AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20), 0xffffffff, "Node Debug Text " + mp.x + " " + mp.y + "\n" + canvas.context_menu_pos.x + " " + canvas.context_menu_pos.y);
+		ImGui.GetWindowDrawList().AddText(new ImGui.Vec2(canvas_p0.x + 20, canvas_p0.y + 20), 0xffffffff, "Node Debug Text " + mp.x + " " + mp.y + "\n" + canvas.context_menu_pos.x + " " + canvas.context_menu_pos.y);
 	}
 
 

@@ -64,7 +64,7 @@ DrawImGui.AddCircleFilled = function(p, radius, col, segments)
 {
     var p_t = DrawImGui.TransformPoint(p);
     // todo: scale radius
-    DrawImGui.dl.AddCircleFilled({x:p_t.x, y:p_t.y}, radius, col, segments);
+    DrawImGui.dl.AddCircleFilled({x:p_t.x, y:p_t.y}, radius * DrawImGui.scale, col, segments);
 }
 
 DrawImGui.AddBezierCubic = function(cp1, cp2, cp3, cp4, col, thick, segments)
