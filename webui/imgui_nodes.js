@@ -641,7 +641,7 @@ NodeImGui.Internal_DrawNode = function(node)
 		ImGui.PushFont(gIconFont);
 		DrawImGui.AddText(title_txt_pos, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.icon);
 		ImGui.PopFont();
-		title_txt_pos.x += ImGui.GetTextLineHeight();
+		title_txt_pos.x += ImGui.GetTextLineHeight() + draw_info.node_border;
 	}
 	DrawImGui.AddText(title_txt_pos, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
 	if(canvas.Hovered_Node == node)

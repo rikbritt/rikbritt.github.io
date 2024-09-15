@@ -103,6 +103,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	function(graph_instance, node)
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.25, 0.38, 0.55, 1.00));
+		NodeImGui.NodeIcon("q");
 		var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 
 		var data_def_type = GenGraphImGui.MakeDataDefPinType(data_def);
@@ -158,6 +159,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	function(graph_instance, node)
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.33, 0.48, 0.24, 1.00));
+		NodeImGui.NodeIcon("q");
 		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 		NodeImGui.OutputPin(data_table.id, data_table.name, "data_table");
 	}
@@ -198,6 +200,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	function(graph_instance, node)
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.33, 0.48, 0.24, 1.00));
+		NodeImGui.NodeIcon("z");
 	}
 );
 
@@ -320,6 +323,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	function(graph_instance, node)
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.65, 0.58, 0.26, 1.00));
+		NodeImGui.NodeIcon("f");
 		NodeImGui.AddInfoText(node.comment);
 	}
 );
