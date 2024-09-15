@@ -132,3 +132,90 @@ bg.LoadDataDefFromJSON = function(json_str)
 	var loaded_data = JSON.parse(json_str);
 	return loaded_data;
 }
+
+bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden)
+{
+	if(seed == undefined)
+	{
+		seed = 1;
+	}
+	
+	if(autoGenerate == undefined)
+	{
+		autoGenerate = true;
+	}
+	
+	var builtData = {};
+	var fieldName = ""; //Required because this func is recursive and JS is weird with scope.
+	var fieldDef = "";
+	builtData.seed = seed;
+
+	//Keep track of which fields were actually overriden
+	if(overidden == undefined)
+	{
+		overidden = this.CreateEmptyOveriddenTables(data_def, {});
+		builtData._overidden = overidden;
+	}
+	//builtData._def = data_def;
+	
+	for(var i=0; i<data_def.fields.length; ++i)
+	{
+		var fieldDef = data_def.fields[i];
+		var fieldName = fieldDef.name;
+		var fieldValue = null;
+		
+		if(fieldDef.value != undefined)
+		{
+			//If a value has already been generated/set, then use it
+			fieldValue = fieldDef.value;
+		}
+		else if(autoGenerate)
+		{
+			if(inputs != undefined && (inputs[i] != undefined || inputs[fieldName] != undefined))
+			{
+				if(Array.isArray(inputs))
+				{
+					fieldValue = inputs[i];
+				}
+				else
+				{
+					fieldValue = inputs[fieldName];
+				}
+
+				if(fieldDef.type == "data_data") //TODO - do this with field types
+				{
+					var paramSeed = bg.SeedFromString(fieldName) + seed;
+					var field_data_def = AssetDb.GetAsset(gAssetDb, fieldDef.default_def, "data_def");
+					fieldValue = bg.BuildDataDefValues(field_data_def.fields, paramSeed, fieldValue, fieldDef.autoGenerate, overidden[fieldName]);
+				}
+				else
+				{
+					overidden[fieldName] = true;
+				}
+			}
+			else if(fieldDef.default != undefined)
+			{
+				fieldValue = fieldDef.default; //If there's a default value, use it. Otherwise this is undefined.
+			}
+			else if(fieldDef.script != undefined)
+			{
+				fieldValue = fieldDef.script(builtData);
+			}
+
+			else
+			{
+				//We need to generate the param value. Use the name as part of the seed
+				var paramSeed = bg.SeedFromString(fieldName) + seed;
+				fieldValue = bg.GenerateFieldValue(fieldDef, paramSeed);
+			}
+		}
+		
+		//#TODO: Check fieldValue is set.
+		if(fieldValue != undefined)
+		{
+			builtData[fieldName] = fieldValue;
+		}
+	}
+	
+	return builtData;
+}

@@ -190,6 +190,11 @@ bg.CreateGenerationGraphExecutionContext = function(graph, seed = 1)
 bg.CreateGenerationGraphExecutionList = function(graph)
 {
 	var executionList = [];
+	var MakeCopyCmd = function(from_node_id, sub_id, to_node_id, to_sub_id)
+	{
+		var cmd = {cmd:"copy", from:from_node_id, from_output:sub_id, to:to_node_id, to_input:to_sub_id};
+		return cmd;
+	};
 	var AddInputsToExecutionList = function(node)
 	{
 		if(executionList.indexOf(node.id) != -1)
@@ -197,7 +202,18 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			// Already in the list
 			return;
 		}
-		executionList.push({cmd:"gen", id:node.id});
+		if(node.type == "generator")
+		{
+			executionList.push({cmd:"gen", id:node.id});
+		}
+		else if(node.type == "data_def")
+		{
+			executionList.push({cmd:"def", id:node.id});
+		}
+		else
+		{
+			return;
+		}
 
 		//Recursively go up all inputs
 		bg.ForEachGraphEdgeIntoNode(
@@ -206,7 +222,7 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			function(from_node_id, sub_id, to_node_id, to_sub_id)
 			{
 				var fromNode = bg.GetGraphNodeById(graph, from_node_id);
-				executionList.push({cmd:"copy", from:from_node_id, from_output:sub_id, to:to_node_id, to_input:to_sub_id});
+				executionList.push(MakeCopyCmd(from_node_id, sub_id, to_node_id, to_sub_id));
 				AddInputsToExecutionList(fromNode);
 			}
 		);
@@ -223,7 +239,7 @@ bg.CreateGenerationGraphExecutionList = function(graph)
 			function(from_node_id, sub_id, to_node_id, to_sub_id)
 			{
 				var fromNode = bg.GetGraphNodeById(graph, from_node_id);
-				executionList.push({cmd:"copy", from:from_node_id, from_output:sub_id, to:to_node_id, to_input:to_sub_id});
+				executionList.push(MakeCopyCmd(from_node_id, sub_id, to_node_id, to_sub_id));
 				AddInputsToExecutionList(fromNode);
 			}
 		);
@@ -259,22 +275,46 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
         //Reset for next generator steps
         context.nextGenInputs = {};
 	}
+	else if(step.cmd == "def")
+	{
+		//todo
+		//bg.BuildDataDefValues
+	}
     else if(step.cmd == "copy")
     {
         var from_node = bg.GetGraphNodeById(graph, step.from);
 		var to_node = bg.GetGraphNodeById(graph, step.to);
-		
-		if(from_node.type == "generator" && to_node.type == "generator")
+
+		// Get the val
+		var val = null;
+		if(from_node.type == "generator")
 		{
 			// todo - error checking	
 			var from_generator = AssetDb.GetAsset(gAssetDb, from_node.asset_id, "generator");
-			var to_generator = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "generator");
+			var output = bg.GetGeneratorOutputById(from_generator, step.from_output);
+			val = context.lastGenOutput[output.name];
+		}
+		else if(from_node.type == "value")
+		{
+			val = from_node.value;
+		}
 
-            var output = bg.GetGeneratorOutputById(from_generator, step.from_output);
+		// Assign the val
+		if(to_node.type == "generator")
+		{
+			// todo - error checking	
+			var to_generator = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "generator");
             var input = bg.GetGeneratorInputById(to_generator, step.to_input);
 
-            context.nextGenInputs[input.name] = context.lastGenOutput[output.name];            
+            context.nextGenInputs[input.name] = val;        
         }
+		else if(to_node.type == "data_def")
+		{
+			var to_def = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "data_def");
+            var field = bg.GetDataDefFieldById(to_def, step.to_input);
+
+            context.nextGenInputs[field.name] = val; 
+		}
     }
 }
 

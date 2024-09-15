@@ -13,7 +13,7 @@ var NodeImGui = {
 		pin_inner_col: new ImGui.ImColor(0.0, 0.0, 0.0, 1.00),
 		link_col: new ImGui.ImColor(0.7, 0.7, 0.7, 1.00),
 		link_hovered_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
-		highlighted_col: new ImGui.ImColor(0.0, 1.0, 1.0, 1.00),
+		highlighted_col: new ImGui.ImColor(1.0, 1.0, 0.0, 1.00),
 	},
 	Constants:{
 		max_zoom:100
@@ -619,6 +619,7 @@ NodeImGui.Internal_DrawNode = function(node)
 	var title_hovered_txt_col = NodeImGui.Colours.title_hovered_txt_col;
 	var pin_col = NodeImGui.Colours.pin_col;
 	var pin_inner_col = NodeImGui.Colours.pin_inner_col;
+	var highlighted_col = NodeImGui.Colours.highlighted_col;
 
 	if(node.col)
 	{
