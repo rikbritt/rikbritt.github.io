@@ -25,6 +25,17 @@ function UpdateColourPickerWindow( close_func, data )
 
 function UpdateIconsWindow( close_func )
 {
+    var AddRowForCharacter = function ( c )
+    {
+        ImGui.TableNextRow();
+        ImGui.TableNextColumn();
+        ImGui.Text(c);
+        ImGui.TableNextColumn();
+        ImGui.PushFont(gIconFont);
+        ImGui.Text(c);
+        ImGui.PopFont();
+    }
+
     if(ImGui.Begin("Icons", close_func))
     {
         var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
@@ -34,18 +45,24 @@ function UpdateIconsWindow( close_func )
             ImGui.TableSetupColumn("Icon");
             ImGui.TableHeadersRow();
     
+            // a to z
             for (var i = 97; i <= 122; i++)
             {
-                var chr = String.fromCharCode(i);
-                ImGui.TableNextRow();
-                ImGui.TableNextColumn();
-                ImGui.Text(chr);
-                ImGui.TableNextColumn();
-                ImGui.PushFont(gIconFont);
-                ImGui.Text(chr);
-                ImGui.PopFont();
+                AddRowForCharacter(String.fromCharCode(i));
             }
             
+            // A to Z
+            for (var i = 65; i <= 90; i++)
+            {
+                AddRowForCharacter(String.fromCharCode(i));
+            }
+
+            // 0 to 9
+            for (var i = 48; i <= 57; i++)
+            {
+                AddRowForCharacter(String.fromCharCode(i));
+            }
+
             ImGui.EndTable();
         }
         ImGui.End();
