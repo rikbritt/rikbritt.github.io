@@ -81,8 +81,12 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	NodeImGui.Current_Canvas.Hovered = ImGui.IsItemHovered();
 	ImGui.SetCursorScreenPos(cursor_pos);
 
-	NodeImGui.Current_Canvas.zoom += ImGui.GetIO().MouseWheel;
-	NodeImGui.Current_Canvas.zoom = Math.max(-NodeImGui.Constants.max_zoom, Math.min(NodeImGui.Constants.max_zoom, NodeImGui.Current_Canvas.zoom) );
+	// Mouse wheel for zoom
+	if(NodeImGui.Current_Canvas.Hovered)
+	{ 
+		NodeImGui.Current_Canvas.zoom += ImGui.GetIO().MouseWheel;
+		NodeImGui.Current_Canvas.zoom = Math.max(-NodeImGui.Constants.max_zoom, Math.min(NodeImGui.Constants.max_zoom, NodeImGui.Current_Canvas.zoom) );
+	}
 };
 
 
