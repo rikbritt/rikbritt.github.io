@@ -133,6 +133,12 @@ NodeImGui.BeginNode = function(id, name)
 	return false;
 }
 
+NodeImGui.NodeIcon = function(icon)
+{
+	var node = NodeImGui.Current_Canvas.Current_Node;
+	node.icon = icon;
+}
+
 NodeImGui.NodeColour = function(col)
 {
 	var node = NodeImGui.Current_Canvas.Current_Node;
@@ -173,7 +179,9 @@ NodeImGui.GetOrCreateNode = function(id)
 	var node = canvas.Nodes[node_imgui_id];
 	if(node == null)
 	{
-		node = {};
+		node = {
+			icon:""
+		};
 		canvas.Nodes[node_imgui_id] = node;
 	}
 	var node_layout = bg.FindOrCreateNodeLayout(canvas.Layout, id);
@@ -627,7 +635,15 @@ NodeImGui.Internal_DrawNode = function(node)
 
 	// Title bar
 	DrawImGui.AddRectFilled(new ImGui.Vec2(node_x, node_y), new ImGui.Vec2(node_x + node_w, node_y + title_height), title_bg_col.toImU32());
-	DrawImGui.AddText({x:node_inner_x, y:node_y + draw_info.node_border}, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
+	var title_txt_pos = {x:node_inner_x, y:node_y + draw_info.node_border};
+	if(node.icon != "")
+	{
+		ImGui.PushFont(gIconFont);
+		DrawImGui.AddText(title_txt_pos, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.icon);
+		ImGui.PopFont();
+		title_txt_pos.x += ImGui.GetTextLineHeight();
+	}
+	DrawImGui.AddText(title_txt_pos, canvas.Hovered_Node == node ? title_hovered_txt_col.toImU32() : title_txt_col.toImU32(), node.name);
 	if(canvas.Hovered_Node == node)
 	{
 		ImGui.BeginTooltip();

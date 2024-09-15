@@ -55,6 +55,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
+		NodeImGui.NodeIcon("w");
 		var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 		for(field of generator.inputs.fields)
 		{
