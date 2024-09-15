@@ -172,7 +172,7 @@ function OnPageLoaded()
         ImGui.CreateContext();
         ImGui.StyleColorsDark();
 		ImGui.GetIO().Fonts.AddFontDefault();
-		var icon_glyph_ranges = ImGui.GetGlyphRangesChineseFull();
+		var icon_glyph_ranges = ImGui.GetIO().Fonts.GetGlyphRangesChineseFull();
 		gIconFont = await AddFontFromFileTTF("icomoon.ttf", 16.0, null, icon_glyph_ranges);
 		
         //ImGui.StyleColorsClassic();
