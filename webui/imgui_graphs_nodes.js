@@ -227,7 +227,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
-		// TODO check pin id
+		NodeImGui.NodeIcon("");		
 		GenGraphImGui.InputPin(graph_instance, node.id, "Output", "any");
 	}
 );
