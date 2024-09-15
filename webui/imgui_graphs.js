@@ -122,16 +122,17 @@ function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 			
 			ImGui.TableNextColumn();
 			ImGui.Text(`${step.cmd}`);
-			if(step.cmd == "gen")
+
+			if(ImGui.IsItemHovered())
 			{
-				if(ImGui.IsItemHovered())
+				// If step has a node id, highlight it
+				if(step.id)
 				{
 					graph_instance._highlighted.nodes.push(step.id);
 				}
-			}
-			else if(step.cmd == "copy")
-			{
-				if(ImGui.IsItemHovered())
+
+				// If step has a link, highlight it
+				if(step.from)
 				{
 					graph_instance._highlighted.links.push(
 						{

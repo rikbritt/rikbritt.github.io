@@ -12,7 +12,8 @@ var NodeImGui = {
 		pin_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
 		pin_inner_col: new ImGui.ImColor(0.0, 0.0, 0.0, 1.00),
 		link_col: new ImGui.ImColor(0.7, 0.7, 0.7, 1.00),
-		link_hovered_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00)
+		link_hovered_col: new ImGui.ImColor(1.0, 1.0, 1.0, 1.00),
+		highlighted_col: new ImGui.ImColor(0.0, 1.0, 1.0, 1.00),
 	},
 	Constants:{
 		max_zoom:100
@@ -630,7 +631,7 @@ NodeImGui.Internal_DrawNode = function(node)
 		var highlight_thickness = 5;
 		DrawImGui.AddRectFilled(new ImGui.Vec2(node_x - highlight_thickness, node_y - highlight_thickness),
 			new ImGui.Vec2(node_x + node_w + highlight_thickness, node_y + node_h + highlight_thickness),
-				title_txt_col.toImU32()
+			highlighted_col.toImU32()
 		);
 	}
 
@@ -770,9 +771,13 @@ NodeImGui.Internal_GetLinkCPs = function(link)
 NodeImGui.Internal_DrawLink = function(link)
 {
 	var link_col = NodeImGui.Colours.link_col;
-	if(link.hovered || link.highlighted)
+	if(link.hovered)
 	{
 		link_col = NodeImGui.Colours.link_hovered_col;
+	}
+	if(link.highlighted)
+	{
+		link_col = NodeImGui.Colours.highlighted_col;
 	}
 	var link_thickness = 2.0;
 	var cp4 = NodeImGui.Internal_GetLinkCPs(link);
