@@ -227,7 +227,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
-		NodeImGui.NodeIcon("");		
+		NodeImGui.NodeIcon("t");		
 		GenGraphImGui.InputPin(graph_instance, node.id, "Output", "any");
 	}
 );
@@ -288,6 +288,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	function(graph_instance, node)
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.15, 0.2, 0.55, 1.00));
+		NodeImGui.NodeIcon("c");	
 		NodeImGui.OutputPin(node.id, "Value", node.fieldTypeId);
 		NodeImGui.AddInfoText(`Value : ${bg.FieldValueToString(node.fieldTypeId, node.value)}`);
 	}
