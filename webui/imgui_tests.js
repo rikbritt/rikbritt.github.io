@@ -70,23 +70,25 @@ function SetupGenGraphTestWindow()
 	var test_data_def_a_field_b = "14015de8-17af-4ffd-8c80-606a1dda0879";
 	
 	var nodeA = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, test_generator_a);
+	bg.SetNodeLayoutPos(testGenGraph.layout, nodeA.id, 650, 300);
 	var nodeB = bg.CreateGenerationGraph_GeneratorNode(testGenGraph, test_generator_a);
 	bg.CreateGenerationGraphLink(testGenGraph, nodeA, test_generator_a_output, nodeB, test_generator_a_input);
-	bg.SetNodeLayoutPos(testGenGraph.layout, nodeB.id, 450, 50);
+	bg.SetNodeLayoutPos(testGenGraph.layout, nodeB.id, 1000, 300);
 
 	var outputNode = bg.GetGraphNodesByType(testGenGraph, "output")[0];
-	bg.SetNodeLayoutPos(testGenGraph.layout, outputNode.id, 900, 50);
+	bg.SetNodeLayoutPos(testGenGraph.layout, outputNode.id, 1300, 300);
 
 	//data def
 	var test_def_node = bg.CreateGenerationGraph_DataDefNode(testGenGraph, test_data_def_a);
-	bg.SetNodeLayoutPos(testGenGraph.layout, test_def_node.id, 500, 300);
+	bg.SetNodeLayoutPos(testGenGraph.layout, test_def_node.id, 350, 300);
+	bg.CreateGenerationGraphLink(testGenGraph, test_def_node, test_def_node.id, nodeA, test_generator_a_input);
 
 	//val nodes for the data def
 	var bool_node = bg.CreateGenerationGraph_ValueNode(testGenGraph, "bool");
-	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node.id, 50, 300);
+	bg.SetNodeLayoutPos(testGenGraph.layout, bool_node.id, 20, 300);
 	bg.CreateGenerationGraphLink(testGenGraph, bool_node, bool_node.id, test_def_node, test_data_def_a_field_a);
 	var float_node = bg.CreateGenerationGraph_ValueNode(testGenGraph, "float");
-	bg.SetNodeLayoutPos(testGenGraph.layout, float_node.id, 50, 400);
+	bg.SetNodeLayoutPos(testGenGraph.layout, float_node.id, 20, 400);
 	bg.CreateGenerationGraphLink(testGenGraph, float_node, float_node.id, test_def_node, test_data_def_a_field_b);
 
 	var comment_node = bg.CreateGenerationGraph_CommentNode(testGenGraph);

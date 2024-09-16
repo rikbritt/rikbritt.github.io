@@ -28,27 +28,9 @@ function UpdateSelectedNodeInfo(selected_node, graph_instance)
 	ImGui.PushID(selected_node.name);
 	ImGui.Separator();
 	ImGui.Text(selected_node.name);
-	// ImGui.SliderInt("Selected Node " + selected_node.name, (_ = selected_node.idx) => selected_node.idx = _, 0, graph_instance.nodes.length-1);
-	// if(selected_node.idx >= 0 && selected_node.idx < graph_instance.nodes.length)
-	// {
-	// 	var selected_graph_node = graph_instance.nodes[selected_node.idx];
-	// 	var selected_node_layout = bg.FindOrCreateNodeLayout(graph_instance.layout, selected_node.idx);
-	// 	ImGui.Text("Name : " + bg.GetGenerationGraphNodeName(selected_graph_node));
-	// 	ImGui.SliderInt("X", (_ = selected_node_layout.x) => selected_node_layout.x = _, -100, 500);
-	// 	ImGui.SliderInt("Y", (_ = selected_node_layout.y) => selected_node_layout.y = _, -100, 500);
-	// 	ImGui.Text("Inputs : ");
-	// 	ImGui.Indent();
 
-	// 	var nodeType = gGraphNodeTypes[selected_graph_node.type];
-	// 	if(nodeType != null && nodeType.update_node_info != null)
-	// 	{
-	// 		nodeType.update_node_info(graph_instance, selected_graph_node);
-	// 	}
-	// }
-	// else
-	// {
-	// 	ImGui.Text("Invalid Node");
-	// }
+	var layout = bg.FindOrCreateNodeLayout(graph_instance.layout, selected_node.id);
+	ImGui.Text(`x:${layout.x} y:${layout.y}`);
 	ImGui.PopID();
 }
 
@@ -227,6 +209,10 @@ function UpdateGenGraphEditor(graph_instance)
 			{
 				ImGui.Text(`Node Id: ${graph_instance._selected_node.id}`);
 				ImGui.Text(`Type: ${graph_instance._selected_node.type}`);
+
+				var layout = bg.FindOrCreateNodeLayout(graph_instance.layout, graph_instance._selected_node.id);
+				ImGui.Text(`x:${layout.x} y:${layout.y}`);
+
 				var nodeType = GenGraphImGui.GetGraphNodeType(graph_instance._selected_node.type);
 				if(nodeType && nodeType.update_node_info)
 				{
