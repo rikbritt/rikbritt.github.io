@@ -108,13 +108,13 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 
 		var data_def_type = GenGraphImGui.MakeDataDefPinType(data_def);
 
-		GenGraphImGui.InputPin(graph_instance, data_def.id, "This Data Def", data_def_type);
+		GenGraphImGui.InputPin(graph_instance, node.id, "This Data Def", data_def_type);
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
 			GenGraphImGui.InputPin(graph_instance, field.id, field.name, field.type);
 		}
-		GenGraphImGui.OutputPin(graph_instance, data_def.id, "", data_def_type);
+		GenGraphImGui.OutputPin(graph_instance, node.id, "", data_def_type);
 		for(var j=0; j<data_def.fields.length; ++j)
 		{
 			var field = data_def.fields[j];
