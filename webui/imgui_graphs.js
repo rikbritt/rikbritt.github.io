@@ -182,9 +182,9 @@ function UpdateExecutionContext(graph_instance, execution_context)
 	
 	UpdateObjectImGui(execution_context, "context", false /* open by default*/);
 
-	if(execution_context.lastGenOutput)
+	if(execution_context.lastNodeOutput)
 	{
-		UpdateObjectImGui(execution_context.lastGenOutput, "output");
+		UpdateObjectImGui(execution_context.lastNodeOutput, "output");
 	}
 	else
 	{
