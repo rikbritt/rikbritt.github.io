@@ -63,34 +63,44 @@ function UpdateViewOptions()
 	ImGui.Checkbox("Construction Info", (value = gRenderOptions.showConstructionInfo) => gRenderOptions.showConstructionInfo = value);
 }
 
-function UpdateObjectImGui(object, name)
+function UpdateObjectImGui(object, name, open_by_default = true, skip_hidden = true)
 {
-	ImGui.PushID(name);
-	if(Array.isArray(object))
+	if(skip_hidden && name.startsWidth("_"))
 	{
-		if(ImGui.TreeNodeEx(name + "[" + object.length + "]", ImGui.TreeNodeFlags.DefaultOpen))
+		return;
+	}
+
+	var flags = open_by_default ? ImGui.TreeNodeFlags.DefaultOpen : ImGui.TreeNodeFlags.None;
+	ImGui.PushID(name);
+	if(object == null)
+	{
+		ImGui.Text(name + " : null");
+	}
+	else if(Array.isArray(object))
+	{
+		if(ImGui.TreeNodeEx(name + "[" + object.length + "]", flags))
 		{
 			for(var i=0; i<object.length; ++i)
 			{
-				UpdateObjectImGui(object[i], name + "[" + i + "]");
+				UpdateObjectImGui(object[i], name + "[" + i + "]", open_by_default, skip_hidden);
 			}
 			ImGui.TreePop();
 		}
 	}
 	else if(object instanceof Map)
 	{
-		if(ImGui.TreeNodeEx(name, ImGui.TreeNodeFlags.DefaultOpen))
+		if(ImGui.TreeNodeEx(name, flags))
 		{
 			for([key, val] of object) 
 			{
-				UpdateObjectImGui(val, key);
+				UpdateObjectImGui(val, key, open_by_default, skip_hidden);
 			}
 			ImGui.TreePop();
 		}
 	}
 	else if(typeof(object) == 'object')
 	{
-		if(ImGui.TreeNodeEx(name, ImGui.TreeNodeFlags.DefaultOpen))
+		if(ImGui.TreeNodeEx(name, flags))
 		{
 			if(object.data_type == "timeline")
 			{
@@ -102,7 +112,7 @@ function UpdateObjectImGui(object, name)
 			}
 			for([key, val] of Object.entries(object)) 
 			{
-				UpdateObjectImGui(val, key);
+				UpdateObjectImGui(val, key, open_by_default, skip_hidden);
 			}
 			ImGui.TreePop();
 		}

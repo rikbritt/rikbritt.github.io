@@ -179,6 +179,9 @@ function UpdateExecutionList(graph_instance, execution_list, nextStep = -1)
 function UpdateExecutionContext(graph_instance, execution_context)
 {
 	UpdateExecutionList(graph_instance, execution_context.executionList, execution_context.nextStepToExecute);
+	
+	UpdateObjectImGui(execution_context, "context", false /* open by default*/);
+
 	if(execution_context.lastGenOutput)
 	{
 		UpdateObjectImGui(execution_context.lastGenOutput, "output");
