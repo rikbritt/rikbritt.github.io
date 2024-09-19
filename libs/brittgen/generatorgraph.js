@@ -267,7 +267,7 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 		var node = bg.GetGraphNodeById(graph, step.id);
 		if(node.type == "generator")
 		{
-			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");            
+			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, "generator");
 			var genResults = bg.RunGenerator(generator, context.seed, context.nextGenInputs);
             context.lastGenOutput = genResults.outputs;
 		}
@@ -277,8 +277,9 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 	}
 	else if(step.cmd == "def")
 	{
-		//todo
-		//bg.BuildDataDefValues
+		var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, "data_def");
+		var built_data = bg.BuildDataDefValues(data_def, context.seed, context.nextGenInputs);
+		// todo - use the built data
 	}
     else if(step.cmd == "copy")
     {

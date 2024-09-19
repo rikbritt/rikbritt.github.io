@@ -133,17 +133,16 @@ bg.LoadDataDefFromJSON = function(json_str)
 	return loaded_data;
 }
 
-bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden)
+// Make a list of actual values for a data_def
+//data_def = data_def asset containing a list of fields
+//seed = seed number to use.
+//inputs = can be array of values matching the data_def, or a dictionary with keys that match field names
+//autogenerate = make values for all the data_def fields
+//overridden = values to use for data_def fields
+
+// Notes: are 'inputs' and 'overriden' the same thing?
+bg.BuildDataDefValues = function(data_def, seed = 1, inputs, autoGenerate = true, overidden = null)
 {
-	if(seed == undefined)
-	{
-		seed = 1;
-	}
-	
-	if(autoGenerate == undefined)
-	{
-		autoGenerate = true;
-	}
 	
 	var builtData = {};
 	var fieldName = ""; //Required because this func is recursive and JS is weird with scope.
@@ -151,7 +150,7 @@ bg.BuildDataDefValues = function(data_def, seed, inputs, autoGenerate, overidden
 	builtData.seed = seed;
 
 	//Keep track of which fields were actually overriden
-	if(overidden == undefined)
+	if(overidden == null)
 	{
 		overidden = this.CreateEmptyOveriddenTables(data_def, {});
 		builtData._overidden = overidden;
