@@ -306,8 +306,16 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 		{
 			// todo - error checking	
 			var from_data_def = AssetDb.GetAsset(gAssetDb, from_node.asset_id, "data_def");
-			var field = bg.GetDataDefFieldById(from_data_def, step.from_output);
-			val = context.lastNodeOutput[field.name];
+			if(step.from_output == step.from)
+			{
+				//copy all data def fields
+				val = context.lastNodeOutput;
+			}
+			else
+			{
+				var field = bg.GetDataDefFieldById(from_data_def, step.from_output);
+				val = context.lastNodeOutput[field.name];
+			}
 		}
 		else if(from_node.type == "value")
 		{
@@ -328,7 +336,15 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 			var to_def = AssetDb.GetAsset(gAssetDb, to_node.asset_id, "data_def");
             var field = bg.GetDataDefFieldById(to_def, step.to_input);
 
-            context.nextNodeInputs[field.name] = val; 
+			if(step.to_input == step.to)
+			{
+				//copy all data def fields
+				context.nextNodeInputs = val;
+			}
+			else
+			{
+            	context.nextNodeInputs[field.name] = val; 
+			}
 		}
     }
 }
