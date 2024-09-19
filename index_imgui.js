@@ -65,7 +65,7 @@ function UpdateViewOptions()
 
 function UpdateObjectImGui(object, name, open_by_default = true, skip_hidden = true)
 {
-	if(skip_hidden && name.startsWidth("_"))
+	if(skip_hidden && name.startsWith("_"))
 	{
 		return;
 	}
