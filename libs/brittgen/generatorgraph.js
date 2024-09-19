@@ -277,9 +277,13 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
 	}
 	else if(step.cmd == "def")
 	{
-		var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, "data_def");
-		var built_data = bg.BuildDataDefValues(data_def, context.seed, context.nextGenInputs);
-		// todo - use the built data
+		var node = bg.GetGraphNodeById(graph, step.id);
+		if(node.type == "data_def")
+		{
+			var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, "data_def");
+			var built_data = bg.BuildDataDefValues(data_def, context.seed, context.nextGenInputs);
+			context.lastGenOutput = built_data;
+		}
 	}
     else if(step.cmd == "copy")
     {
