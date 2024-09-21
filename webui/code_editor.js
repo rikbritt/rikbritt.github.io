@@ -13,6 +13,14 @@ function SetupCodeEditor()
         (window.attachEvent && "on" || "") + "message", 
         function (evt) 
         {
+            if(evt.data == undefined)
+            {
+                return;
+            }
+            if(evt.data.code == undefined)
+            {
+                return;
+            }
             var data = evt.data; // this is the data sent to the window
             gCurrentCodeProp(data.code);            
         },
