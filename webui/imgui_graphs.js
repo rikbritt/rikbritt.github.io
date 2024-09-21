@@ -437,16 +437,10 @@ function UpdateGenGraphWindow(close_func, graph_instance)
 		UpdateSelectedNodeInfo(current_canvas.selected_node_a, graph_instance);
 		UpdateSelectedNodeInfo(current_canvas.selected_node_b, graph_instance);
 		
-
-		ImGui.SliderInt("Canvas X", (_ = current_canvas.c_x) => current_canvas.c_x = _, 0, 1000);
-		ImGui.SliderInt("Canvas Y", (_ = current_canvas.c_y) => current_canvas.c_y = _, 0, 1000);
 		ImGui.EndChild();
 
 		ImGui.SameLine();
 
-
-		//current_canvas.Scrolling.x = current_canvas.c_x;
-		//current_canvas.Scrolling.y = current_canvas.c_y;
 		UpdateGenGraphCanvas(graph_instance, {}, win_width - gens_width, win_height);
 	}
 	ImGui.End();
