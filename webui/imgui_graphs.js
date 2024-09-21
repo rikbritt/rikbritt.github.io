@@ -230,7 +230,7 @@ function UpdateGenGraphEditor(graph_instance)
 
 			if(ImGui.Button("Save As JS To Clipboard"))
 			{
-				var js = bg.bg.SaveGeneratorGraphToJSON(graph_instance);
+				var js = bg.SaveGeneratorGraphToJSON(graph_instance);
 				ImGui.SetClipboardText(js);
 			}
 
