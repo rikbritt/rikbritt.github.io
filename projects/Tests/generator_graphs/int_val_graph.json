@@ -1,0 +1,34 @@
+{
+    "id": "b8d42fa6-45e0-402d-ac02-6b9f8110a2f9",
+    "name": "New Graph",
+    "description": "",
+    "category": [],
+    "nodes": [
+        {
+            "id": "90e3229b-c6d6-44b0-8d0f-c8e03807d804",
+            "data": {},
+            "type": "output"
+        },
+        {
+            "id": "118d0d9f-778f-4f0a-92ad-8dc192972e6a",
+            "data": {},
+            "asset_id": "7ada4aec-790b-4d04-8af2-fbd049134668",
+            "type": "generator"
+        }
+    ],
+    "edges": [
+        {
+            "a": "118d0d9f-778f-4f0a-92ad-8dc192972e6a",
+            "a_sub": "983e8045-c978-3633-9613-24612c163d78",
+            "b": "90e3229b-c6d6-44b0-8d0f-c8e03807d804",
+            "b_sub": "90e3229b-c6d6-44b0-8d0f-c8e03807d804"
+        }
+    ],
+    "layout": [
+        {
+            "node_id": "90e3229b-c6d6-44b0-8d0f-c8e03807d804",
+            "x": 0,
+            "y": 0
+        }
+    ]
+}
