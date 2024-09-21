@@ -260,6 +260,10 @@ function UpdateGenGraphEditor(graph_instance)
 					{
 						bg.ExecuteNextStepGenerationGraphExecutionContext(graph_instance._tempExecutionContext);
 					}
+					if(ImGui.Button("Execute Context (all steps)"))
+					{
+						bg.ExecuteGenerationGraphExecutionContext(graph_instance._tempExecutionContext);
+					}
 					UpdateExecutionContext(graph_instance, graph_instance._tempExecutionContext);
 				}
 				ImGui.Unindent();

@@ -349,6 +349,15 @@ bg.ExecuteNextStepGenerationGraphExecutionContext = function(context)
     }
 }
 
+bg.ExecuteGenerationGraphExecutionContext = function(context)
+{
+	var graph = context.graph;
+	while(context.nextStepToExecute < context.executionList.length)
+	{
+		bg.ExecuteNextStepGenerationGraphExecutionContext(context);
+	}
+}
+
 bg.ExecuteGeneratorGraph = function(graph)
 {
 	if(bg.ValidateGeneratorGraph(graph) == false)
