@@ -14,7 +14,7 @@ export var generator = {
 		name:"outputs",
 		version:1,
 		fields:[
-			{ name:"int_out",	type:"int"	}
+			{ name:"int_out",	type:"int",             min:0,  max:10	}
 		],
 	},
 	script:function(inputs, outputs)
