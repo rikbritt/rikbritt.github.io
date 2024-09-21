@@ -830,31 +830,16 @@ NodeImGui.Internal_DrawGrid = function()
 	dl.AddRectFilled(canvas_p0, canvas_p1, ImGui.COL32(50, 50, 50, 255));
 
 	//Draw BG Grid
-	//var GRID_STEP = 64.0;
-	// console.log("canvas.translation.x " + canvas.translation.x);
-	// for (var x = GRID_STEP; x < canvas_sz.x / canvas.scale; x += GRID_STEP)
-	// {
-	// 	DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x + x - canvas.translation.x, canvas_p0.y - canvas.translation.y), 
-	// 		new ImGui.Vec2(canvas_p0.x + x - canvas.translation.x, canvas_p1.y - canvas.translation.y), ImGui.COL32(200, 200, 200, 40));
-	// }
-
-	// for (let y = GRID_STEP; y < canvas_sz.y / canvas.scale; y += GRID_STEP)
-	// {
-	// 	DrawImGui.AddLine(new ImGui.Vec2(canvas_p0.x - canvas.translation.x, canvas_p0.y + y - canvas.translation.y), 
-	// 		new ImGui.Vec2(canvas_p1.x - canvas.translation.x, canvas_p0.y + y - canvas.translation.y), ImGui.COL32(200, 200, 200, 40));
-	// }
-
 	var GRID_STEP = 64.0 * scale;
 	var can_x_scaled = canvas.translation.x * scale;
-	var x_start = Math.ceil(can_x_scaled / GRID_STEP) - can_x_scaled;
-	//for (var x = fmodf(canvas.translation.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+	var x_start = can_x_scaled % GRID_STEP;
 	for (var x = x_start; x < canvas_sz.x; x += GRID_STEP)
 	{
 		dl.AddLine(new ImGui.Vec2(canvas_p0.x + x, canvas_p0.y), new ImGui.Vec2(canvas_p0.x + x, canvas_p1.y), ImGui.COL32(200, 200, 200, 40));
 	}
 
-	var y_start = (canvas.translation.y * scale) - Math.ceil((canvas.translation.y * scale) / GRID_STEP);
-	//for (var y = fmodf(canvas.translation.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
+	var can_y_scaled = canvas.translation.y * scale;
+	var y_start = can_y_scaled % GRID_STEP;
 	for (var y = y_start; y < canvas_sz.y; y += GRID_STEP)
 	{
 		dl.AddLine(new ImGui.Vec2(canvas_p0.x, canvas_p0.y + y), new ImGui.Vec2(canvas_p1.x, canvas_p0.y + y), ImGui.COL32(200, 200, 200, 40));
