@@ -10,6 +10,12 @@ function UpdateToolsMenu()
     {
 		OpenWindow("icons", UpdateIconsWindow, null);
     }
+    if(ImGui.MenuItem("Generate GUID"))
+    {
+        ImGui.LogToClipboard();
+        ImGui.LogText(bg.CreateGUID());
+        ImGui.LogFinish();
+    }
 }
 
 var gPickerCol = new ImGui.Vec4(1.0, 1.0, 1.0, 1.0);
@@ -68,3 +74,4 @@ function UpdateIconsWindow( close_func )
         ImGui.End();
     }
 }
+
