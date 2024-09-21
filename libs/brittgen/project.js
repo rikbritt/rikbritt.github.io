@@ -198,11 +198,11 @@ bg.LoadProjectFromJSONFiles = async function(project_data_files, project_root = 
 					//loaded_project.generators.push(generator);
 				}
 			}
-			// else if(file_name.startsWith("graphs/"))
-			// {
-			// 	var graph = bg.LoadGraphFromJSON(project_data_files.files[i].content);
-			// 	loaded_project.generatorGraphs.push(graph);
-			// }
+			else if(file_name.startsWith("generator_graphs/"))
+			{
+				var gen_graph = bg.LoadGeneratorGraphFromJSON(project_data_files.files[i].content);
+				bg.RegisterProjectGeneratorGraph(loaded_project, gen_graph);
+			}
 			else if(file_name.startsWith("datadefs/"))
 			{
 				var data_def = bg.LoadDataDefFromJSON(project_data_files.files[i].content);

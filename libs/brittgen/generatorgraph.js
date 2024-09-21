@@ -371,12 +371,14 @@ bg.ExecuteGeneratorGraph = function(graph)
 
 
 
-// bg.SaveGraphToJSON = function(graph)
-// {
-//     return "";
-// }
+bg.SaveGeneratorGraphToJSON = function(graph)
+{
+    var json_str = bg.ToJson(graph);
+	return json_str;
+}
 
-// bg.LoadGraphFromJSON = function(json_str)
-// {
-// 	return {};
-// }
+bg.LoadGeneratorGraphFromJSON = function(json_str)
+{
+	var loaded_data = JSON.parse(json_str);
+	return loaded_data;
+}

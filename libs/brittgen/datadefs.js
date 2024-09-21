@@ -123,7 +123,7 @@ bg.GetDataDefFieldById = function(data_def, id)
 
 bg.SaveDataDefToJSON = function(data_def)
 {
-	var data_json = JSON.stringify(data_def, null, 4);
+	var data_json = bg.ToJson(data_def);
 	return data_json;
 }
 
