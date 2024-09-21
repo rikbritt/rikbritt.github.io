@@ -409,39 +409,7 @@ function UpdateGenGraphWindow(close_func, graph_instance)
 	ImGui.PushID(graph_instance.id);
 	if(ImGui.Begin(`Graph Instance - ${graph_instance.name}###${graph_instance.id}`, close_func))
 	{
-		var win_width = ImGui.GetContentRegionAvail().x;
-		var win_height = ImGui.GetContentRegionAvail().y;
-		var gens_width = Math.min(200, win_width * 0.5);
-
-		ImGui.BeginChild("GraphProperties", new ImGui.Vec2(gens_width, win_height))
-		ImGui.Text(graph_instance.id);
-		ImGui.InputText("Name", (_ = graph_instance.name) => graph_instance.name = _, 256);
-		ImGui.InputText("Description", (_ = graph_instance.description) => graph_instance.description = _, 256);
-
-		var category_str = graph_instance.category.join("/");
-		if(ImGui.InputText("Categories", (_ = category_str) => category_str = _, 256))
-		{
-			graph_instance.category = category_str.split("/");
-		}
-
-		ImGui.Text("Num Nodes : " + graph_instance.nodes.length);
-		ImGui.Indent();
-		for(var i=0; i<graph_instance.nodes.length; ++i)
-		{
-			var node = graph_instance.nodes[i];
-			ImGui.Text(bg.GetGenerationGraphNodeName(node));
-		}
-		ImGui.Unindent();
-
-		var current_canvas = NodeImGui.GetOrCreateCanvas(graph_instance.id);
-		UpdateSelectedNodeInfo(current_canvas.selected_node_a, graph_instance);
-		UpdateSelectedNodeInfo(current_canvas.selected_node_b, graph_instance);
-		
-		ImGui.EndChild();
-
-		ImGui.SameLine();
-
-		UpdateGenGraphCanvas(graph_instance, {}, win_width - gens_width, win_height);
+		UpdateGenGraphEditor(graph_instance);
 	}
 	ImGui.End();
 	ImGui.PopID();
