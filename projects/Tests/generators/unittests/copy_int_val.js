@@ -2,7 +2,7 @@ export var generator = {
 	version:1,
 	name:"Copy Int A",
 	description:"For Unit tests.",
-	category:["Test"],
+	category:["Test","Unit Tests"],
 	inputs:{
 		name:"inputs",
 		version:1,
