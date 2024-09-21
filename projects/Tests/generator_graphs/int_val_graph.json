@@ -1,8 +1,8 @@
 {
     "id": "b8d42fa6-45e0-402d-ac02-6b9f8110a2f9",
-    "name": "New Graph",
+    "name": "Int Val Input Test",
     "description": "",
-    "category": [],
+    "category": ["Tests"],
     "nodes": [
         {
             "id": "90e3229b-c6d6-44b0-8d0f-c8e03807d804",
