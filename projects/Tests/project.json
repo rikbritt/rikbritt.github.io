@@ -13,6 +13,7 @@
         "generators/timeline_fixed.js",
         "generators/timeline_random.js",
         "generators/voxeltests.js",
-        "generators/test_gen_a.js"
+        "generators/test_gen_a.js",
+        "generators/unittests/copy_int_val.js"
     ]
 }
