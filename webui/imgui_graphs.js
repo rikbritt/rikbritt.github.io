@@ -262,6 +262,7 @@ function UpdateGenGraphEditor(graph_instance)
 				}
 				if(graph_instance._tempExecutionContext)
 				{
+					ImGui.SliderInt("Seed", (_ = graph_instance._tempExecutionContext.seed) => graph_instance._tempExecutionContext.seed = _, 0, 10000000);
 					if(ImGui.Button("Execute Next Step"))
 					{
 						bg.ExecuteNextStepGenerationGraphExecutionContext(graph_instance._tempExecutionContext);
