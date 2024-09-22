@@ -365,8 +365,10 @@ bg.ExecuteGeneratorGraph = function(graph)
 		return;
 	}
 
-	bg.CreateGenerationGraphExecutionList(graph);
+	var execution_context = bg.CreateGenerationGraphExecutionList(graph);
+	bg.ExecuteGenerationGraphExecutionContext(execution_context);
 
+	// TODO - return outputs?
 }
 
 
