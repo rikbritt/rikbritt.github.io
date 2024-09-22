@@ -20,7 +20,7 @@ bg.RegisterProjectGeneratorGraph = function(project, graph)
 	if(bg.ValidateGeneratorGraph(graph))
 	{
 		project.generatorGraphs.push(graph);
-		AssetDb.AddAsset(project.assetDb, graph.id, "graph", graph);
+		AssetDb.AddAsset(project.assetDb, graph.id, "gen_graph", graph);
 	}
 }
 
