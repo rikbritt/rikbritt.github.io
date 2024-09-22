@@ -133,10 +133,78 @@ function UpdateZipTestWindow(close_func)
 	}
 }
 
+var gTests = [
+	{
+		name:"Basic Test",
+		description:"Test that does a thing",
+		result:"-",
+		type:"gen_graph",
+		asset_id:"b8d42fa6-45e0-402d-ac02-6b9f8110a2f9"
+	},
+	{
+		name:"Basic Test 2",
+		description:"Test that does a thing",
+		result:"-",
+		type:"gen_graph",
+		asset_id:"b8d42fa6-45e0-402d-ac02-6b9f8110a2f9"
+	}
+];
+
+function RunTest(test)
+{
+	if(test.type == "gen_graph")
+	{
+		var gen_graph = AssetDb.GetAsset(gAssetDb, test.asset_id, "gen_graph");
+		//todo - run it
+		test.result = "RUN IT";
+	}
+	test.result = "OK";
+}
+
 function UpdateTestsWindow(close_func)
 {
 	if(ImGui.Begin(`Tests`, close_func))
 	{
+		if(ImGui.Button("Run All Tests"))
+		{
+			for(var i=0; i<gTests.length; ++i)
+			{
+				var test = gTests[i];
+				RunTest(test);
+			}
+		}
+		if(ImGui.BeginTable("tests_table", 5, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable))
+		{
+			ImGui.TableSetupColumn("Result");
+			ImGui.TableSetupColumn("Control");
+			ImGui.TableSetupColumn("Test");
+			ImGui.TableSetupColumn("Description");
+			ImGui.TableSetupColumn("Type");
+			ImGui.TableHeadersRow();
+		
+			for(var i=0; i<gTests.length; ++i)
+			{
+				var test = gTests[i];
+				ImGui.PushID(i);
+				ImGui.TableNextRow();
+				ImGui.TableNextColumn();
+				ImGui.Text(test.result);
+				ImGui.TableNextColumn();
+				if(ImGui.SmallButton("Run"))
+				{
+					RunTest(test);
+				}
+				ImGui.TableNextColumn();
+				ImGui.Text(test.name);
+				ImGui.TableNextColumn();
+				ImGui.Text(test.description);
+				ImGui.TableNextColumn();
+				ImGui.Text(test.type);
+				ImGui.PopID();
+			}
+		
+			ImGui.EndTable();
+		}
 	}
 	ImGui.End();
 }
