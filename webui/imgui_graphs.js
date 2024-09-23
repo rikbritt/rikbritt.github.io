@@ -5,14 +5,15 @@ var GenGraphImGui = {
 // WIP
 
 // func_graph_add_pins = Called when updating the graph canvas to add pins to the node
-GenGraphImGui.RegisterGraphEditorNodeType = function(node_type_id, func_get_node_title, func_add_node, func_update_node_info, func_graph_add_pins)
+GenGraphImGui.RegisterGraphEditorNodeType = function(node_type_id, func_get_node_title, func_add_node, func_update_node_info, func_graph_add_pins, func_node_context_menu)
 {
 	var node_type_data = {
 		type:node_type_id,
 		get_node_title:func_get_node_title,
 		add_node:func_add_node,
 		update_node_info:func_update_node_info,
-		graph_add_pins:func_graph_add_pins
+		graph_add_pins:func_graph_add_pins,
+		node_context_menu:func_node_context_menu
 	};
 	GenGraphImGui.graphNodeTypes[node_type_id] = node_type_data;
 }
@@ -410,7 +411,11 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 		}
 		else
 		{
-			ImGui.MenuItem("Node Menu");
+			var nodeType = GenGraphImGui.GetGraphNodeType(node.type);
+			if(nodeType.node_context_menu)
+			{
+				nodeType.node_context_menu();
+			}
 		}
 
 		NodeImGui.EndPopup();

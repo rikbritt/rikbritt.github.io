@@ -66,6 +66,10 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 		{
 			GenGraphImGui.OutputPin(graph_instance, field.id, field.name, GenGraphImGui.GetFieldPinType(field));
 		}
+	},
+	function(graph_instance, node)
+	{
+		ImGui.MenuItem("TODO - Open Generator");
 	}
 );
 
@@ -120,6 +124,10 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 			var field = data_def.fields[j];
 			GenGraphImGui.OutputPin(graph_instance, field.id, "", field.type);
 		}
+	},
+	function(graph_instance, node)
+	{
+		ImGui.MenuItem("TODO - Open Data Def");
 	}
 );
 
@@ -162,6 +170,10 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 		NodeImGui.NodeIcon("q");
 		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
 		NodeImGui.OutputPin(data_table.id, data_table.name, "data_table");
+	},
+	function(graph_instance, node)
+	{
+		ImGui.MenuItem("TODO - Open Data Table");
 	}
 );
 
@@ -201,6 +213,10 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.33, 0.48, 0.24, 1.00));
 		NodeImGui.NodeIcon("z");
+	},
+	function(graph_instance, node)
+	{
+		ImGui.MenuItem("TODO - Open Gen Graph");
 	}
 );
 
@@ -229,6 +245,10 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	{
 		NodeImGui.NodeIcon("t");		
 		GenGraphImGui.InputPin(graph_instance, node.id, "Output", "any");
+	},
+	function(graph_instance, node)
+	{
+		ImGui.MenuItem("TODO - Copy output maybe?");
 	}
 );
 
@@ -291,6 +311,10 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 		NodeImGui.NodeIcon("c");	
 		NodeImGui.OutputPin(node.id, "Value", node.fieldTypeId);
 		NodeImGui.AddInfoText(`Value : ${bg.FieldValueToString(node.fieldTypeId, node.value)}`);
+	},
+	function(graph_instance, node)
+	{
+		
 	}
 );
 
@@ -326,5 +350,9 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 		NodeImGui.NodeColour(new ImGui.ImColor(0.65, 0.58, 0.26, 1.00));
 		NodeImGui.NodeIcon("f");
 		NodeImGui.AddInfoText(node.comment);
+	},
+	function(graph_instance, node)
+	{
+		
 	}
 );

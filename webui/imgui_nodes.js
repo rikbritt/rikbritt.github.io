@@ -355,9 +355,14 @@ NodeImGui.EndNode = function()
 
 NodeImGui.GetHoveredNodeId = function()
 {
-	if(NodeImGui.Current_Canvas && NodeImGui.Current_Canvas.Hovered_Node)
+	var canvas = NodeImGui.Current_Canvas;
+	if(canvas.context_menu_open && canvas.context_menu_node != null)
 	{
-		return NodeImGui.Current_Canvas.Hovered_Node.id;
+		return canvas.context_menu_node;
+	}
+	if(canvas && canvas.Hovered_Node)
+	{
+		return canvas.Hovered_Node.id;
 	}
 	return null;
 }
@@ -816,6 +821,11 @@ NodeImGui.BeginPopupContextWindow = function()
 	if(open && canvas.context_menu_open != open)
 	{
 		canvas.context_menu_pos = mp;
+		canvas.context_menu_node = NodeImGui.GetHoveredNodeId();
+	}
+	else if(!open)
+	{
+		canvas.context_menu_node = null;
 	}
 	canvas.context_menu_open = open;
 	return open;
