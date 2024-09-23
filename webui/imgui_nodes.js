@@ -353,6 +353,15 @@ NodeImGui.EndNode = function()
 	NodeImGui.Current_Canvas.Current_Node = null;
 }
 
+NodeImGui.GetHoveredNodeId = function()
+{
+	if(NodeImGui.Current_Canvas && NodeImGui.Current_Canvas.Hovered_Node)
+	{
+		return NodeImGui.Current_Canvas.Hovered_Node.id;
+	}
+	return null;
+}
+
 NodeImGui.Internal_GetNodeScreenPos = function(node)
 {
 	return {

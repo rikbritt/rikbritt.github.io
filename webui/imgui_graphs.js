@@ -394,15 +394,23 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 			);
 		}
 	}
-	
+
 	if (NodeImGui.BeginPopupContextWindow())
 	{
-		for(const [key, value] of Object.entries(GenGraphImGui.graphNodeTypes))
+		var highlighted_node_id = NodeImGui.GetHoveredNodeId();
+		if(highlighted_node_id == null)
 		{
-			if(value.add_node)
+			for(const [key, value] of Object.entries(GenGraphImGui.graphNodeTypes))
 			{
-				value.add_node(graph_instance);
+				if(value.add_node)
+				{
+					value.add_node(graph_instance);
+				}
 			}
+		}
+		else
+		{
+			ImGui.MenuItem("Node Menu");
 		}
 
 		NodeImGui.EndPopup();
