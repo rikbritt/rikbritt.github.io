@@ -98,38 +98,19 @@ bg.AddGraphLayout = function(graph)
 {
     if(graph.layout == null)
     {
-        graph.layout = [];
+        graph.layout = {};
         for(var i=0; i<graph.nodes.length; ++i)
         {
-            graph.layout.push(
-                {
-                    node_id:graph.nodes[i].id,
-                    x:i*10,
-                    y:0
-                }
-            );
+            var node = graph.nodes[i];
+            var node_layout = bg.FindOrCreateNodeLayout(graph.layout, node.id);
+            node_layout.x = i*10;
+            node_layout.y = 0;
         }
     }
 }
 
 bg.FindOrCreateNodeLayout = function(graph_layout, node_id)
 {
-    // for(var i=0; i<graph_layout.length; ++i)
-    // {
-    //     if(graph_layout[i].node_id == node_id)
-    //     {
-    //         return graph_layout[i];
-    //     }
-    // }
-
-    // var new_node_layout =
-    // {
-    //     node_id:node_id,
-    //     x:10,
-    //     y:10
-    // }
-    // graph_layout.push(new_node_layout);
-
     if(graph_layout[node_id] == undefined)
     {
         var new_node_layout =
