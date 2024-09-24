@@ -69,7 +69,11 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
-		ImGui.MenuItem("TODO - Open Generator");
+		if(ImGui.MenuItem("Open Generator"))
+		{
+			var generator = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+			OpenWindow(generator.id, UpdateGeneratorWindow, generator);
+		}
 	}
 );
 
@@ -127,7 +131,11 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
-		ImGui.MenuItem("TODO - Open Data Def");
+		if(ImGui.MenuItem("Open Data Def"))
+		{
+			var data_def = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+			OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+		}
 	}
 );
 
@@ -173,7 +181,11 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
-		ImGui.MenuItem("TODO - Open Data Table");
+		if(ImGui.MenuItem("Open Data Table"))
+		{
+			var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+			OpenWindow(data_table.id, UpdateDataTableWindow, data_table);
+		}
 	}
 );
 
@@ -216,7 +228,11 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	},
 	function(graph_instance, node)
 	{
-		ImGui.MenuItem("TODO - Open Gen Graph");
+		if(ImGui.MenuItem("Open Generator Graph"))
+		{
+			var gen_graph = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
+			OpenWindow(gen_graph.id, UpdateGenGraphWindow, gen_graph);
+		}
 	}
 );
 
