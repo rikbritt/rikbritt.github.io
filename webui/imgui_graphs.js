@@ -415,7 +415,7 @@ function UpdateGenGraphCanvas(graph_instance, highlighted = {}, canvas_width = -
 			var nodeType = GenGraphImGui.GetGraphNodeType(context_node.type);
 			if(nodeType.node_context_menu)
 			{
-				nodeType.node_context_menu();
+				nodeType.node_context_menu(graph_instance, context_node);
 			}
 		}
 
