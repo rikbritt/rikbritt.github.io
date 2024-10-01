@@ -32,6 +32,12 @@ That layer is abstract and could be re-used.
 
 AddNotes("Release Notes",
 `
+1/10/2024
+Graph editor
+  - Basic scrolling. Start of zooming.
+  - Start of Tests window
+  - Basic V1 fully working graph execution. (*^_^*)
+  
 1/9/2024
 Graph editor
   - Value nodes show a field value as string
