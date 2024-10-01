@@ -156,6 +156,7 @@ function RunTest(test)
 	{
 		var gen_graph = AssetDb.GetAsset(gAssetDb, test.asset_id, "gen_graph");
 		//todo - run it
+		var output = bg.ExecuteGeneratorGraph(gen_graph);
 		test.result = "RUN IT";
 	}
 	test.result = "OK";
