@@ -45,6 +45,28 @@ AssetDb.GetAssetName = function(asset_id, asset = null)
     } 
 }
     
+AssetDb.GetAssetShortName = function(asset_id, asset = null)
+{
+    if(asset == null)
+    {
+        asset = gAssetDb.assets[asset_id];
+    }
+
+    if(asset == null)
+    {
+        return `BROKEN ASSET`;
+    }
+
+    if(asset.data.name)
+    {
+        return `${asset.data.name}`;
+    }
+    else
+    {
+        return `${asset_id}`;
+    } 
+}
+
 AssetDb.AddAsset = function(db, guid, type_str, data)
 {
     var existing = AssetDb.GetAsset(db, guid, type_str);

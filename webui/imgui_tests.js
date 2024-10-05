@@ -138,15 +138,19 @@ var gTests = [
 		name:"Basic Test",
 		description:"Test that does a thing",
 		result:"-",
+		output:null,
 		type:"gen_graph",
-		asset_id:"b8d42fa6-45e0-402d-ac02-6b9f8110a2f9"
+		asset_id:"b8d42fa6-45e0-402d-ac02-6b9f8110a2f9",
+		expected:6
 	},
 	{
 		name:"Basic Test 2",
 		description:"Test that does a thing",
 		result:"-",
+		output:null,
 		type:"gen_graph",
-		asset_id:"b8d42fa6-45e0-402d-ac02-6b9f8110a2f9"
+		asset_id:"b8d42fa6-45e0-402d-ac02-6b9f8110a2f9",
+		expected:8
 	}
 ];
 
@@ -156,8 +160,15 @@ function RunTest(test)
 	{
 		var gen_graph = AssetDb.GetAsset(gAssetDb, test.asset_id, "gen_graph");
 		//todo - run it
-		var output = bg.ExecuteGeneratorGraph(gen_graph);
-		test.result = output.toString();
+		test.output = bg.ExecuteGeneratorGraph(gen_graph);
+		if(test.output == test.expected)
+		{
+			test.result = "OK";
+		}
+		else
+		{
+			test.result = "FAIL";
+		}
 	}
 }
 
@@ -173,13 +184,14 @@ function UpdateTestsWindow(close_func)
 				RunTest(test);
 			}
 		}
-		if(ImGui.BeginTable("tests_table", 5, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable))
+		if(ImGui.BeginTable("tests_table", 6, ImGui.ImGuiTableFlags.Borders | ImGui.ImGuiTableFlags.RowBg | ImGui.ImGuiTableFlags.Resizable))
 		{
 			ImGui.TableSetupColumn("Result");
+			ImGui.TableSetupColumn("Output");
 			ImGui.TableSetupColumn("Control");
 			ImGui.TableSetupColumn("Test");
 			ImGui.TableSetupColumn("Description");
-			ImGui.TableSetupColumn("Type");
+			ImGui.TableSetupColumn("Test Asset");
 			ImGui.TableHeadersRow();
 		
 			for(var i=0; i<gTests.length; ++i)
@@ -190,6 +202,15 @@ function UpdateTestsWindow(close_func)
 				ImGui.TableNextColumn();
 				ImGui.Text(test.result);
 				ImGui.TableNextColumn();
+				if(test.output == null)
+				{
+					ImGui.Text("null");
+				}
+				else
+				{
+					ImGui.Text(test.output.toString());
+				}
+				ImGui.TableNextColumn();
 				if(ImGui.SmallButton("Run"))
 				{
 					RunTest(test);
@@ -199,7 +220,17 @@ function UpdateTestsWindow(close_func)
 				ImGui.TableNextColumn();
 				ImGui.Text(test.description);
 				ImGui.TableNextColumn();
-				ImGui.Text(test.type);
+				ImGui.Text(AssetDb.GetAssetShortName(test.asset_id));
+				if(ImGui.IsItemHovered())
+				{
+					ImGui.SetTooltip("Asset:" + test.asset_id);
+				}
+				ImGui.SameLine();
+				if(ImGui.Button("Open"))
+				{
+					var gen_graph = AssetDb.GetAsset(gAssetDb, test.asset_id, "gen_graph");
+					OpenWindow(test.asset_id, UpdateGenGraphWindow, gen_graph);
+				}
 				ImGui.PopID();
 			}
 		
