@@ -177,7 +177,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 		NodeImGui.NodeColour(new ImGui.ImColor(0.33, 0.48, 0.24, 1.00));
 		NodeImGui.NodeIcon("q");
 		var data_table = AssetDb.GetAsset(gAssetDb, node.asset_id, node.type);
-		NodeImGui.OutputPin(data_table.id, data_table.name, "data_table");
+		GenGraphImGui.OutputPin(graph_instance, data_table.id, data_table.name, "data_table");
 	},
 	function(graph_instance, node)
 	{
@@ -325,7 +325,7 @@ GenGraphImGui.RegisterGraphEditorNodeType(
 	{
 		NodeImGui.NodeColour(new ImGui.ImColor(0.15, 0.2, 0.55, 1.00));
 		NodeImGui.NodeIcon("c");	
-		NodeImGui.OutputPin(node.id, "Value", node.fieldTypeId);
+		GenGraphImGui.OutputPin(graph_instance, node.id, "Value", node.fieldTypeId);
 		NodeImGui.AddInfoText(`Value : ${bg.FieldValueToString(node.fieldTypeId, node.value)}`);
 	},
 	function(graph_instance, node)
