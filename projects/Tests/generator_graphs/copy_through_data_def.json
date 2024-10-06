@@ -29,7 +29,7 @@
             "asset_id": null,
             "type": "value",
             "fieldTypeId": "int",
-            "value": 0,
+            "value": 123,
             "fieldData": {
                 "min": 0,
                 "max": 100
@@ -42,24 +42,36 @@
             "a_sub": "983e8045-c978-3633-9613-24612c163d78",
             "b": "8a2a933c-ba34-4acd-bc99-96aa1bf76e40",
             "b_sub": "8a2a933c-ba34-4acd-bc99-96aa1bf76e40"
+        },
+        {
+            "a": "f9adacc4-c5d2-4044-9850-5c3536f8a7ce",
+            "a_sub": "f9adacc4-c5d2-4044-9850-5c3536f8a7ce",
+            "b": "d0271fdb-443f-4f86-bf14-3570ddf089d1",
+            "b_sub": "fa7153f7-ed1c-b6c0-fcf2-ffb2fac21748"
+        },
+        {
+            "a": "d0271fdb-443f-4f86-bf14-3570ddf089d1",
+            "a_sub": "fa7153f7-ed1c-b6c0-fcf2-ffb2fac21748",
+            "b": "fea2fd69-ab01-4a9c-96ab-63c397d04797",
+            "b_sub": "20b161be-2bd8-8aa0-7188-1a01b3197aeb"
         }
     ],
     "layout": {
         "8a2a933c-ba34-4acd-bc99-96aa1bf76e40": {
-            "x": 632,
-            "y": 169
+            "x": 721,
+            "y": 41
         },
         "d0271fdb-443f-4f86-bf14-3570ddf089d1": {
-            "x": -20,
-            "y": 108
+            "x": 17,
+            "y": 43
         },
         "fea2fd69-ab01-4a9c-96ab-63c397d04797": {
-            "x": 335,
-            "y": 57
+            "x": 402,
+            "y": 32
         },
         "f9adacc4-c5d2-4044-9850-5c3536f8a7ce": {
-            "x": -193,
-            "y": 271
+            "x": -330,
+            "y": 101
         }
     }
 }

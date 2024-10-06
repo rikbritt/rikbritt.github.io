@@ -1,0 +1,75 @@
+{
+    "id": "a2c535d3-26b0-444c-b997-3fa3065bb784",
+    "name": "Read Data Def Int",
+    "description": "",
+    "category": [
+        "Tests"
+    ],
+    "nodes": [
+        {
+            "id": "e0bd6fcf-6c0f-47f4-85e8-2f7f845ce26e",
+            "data": {},
+            "type": "output"
+        },
+        {
+            "id": "63061bc4-495f-470d-8ff7-8954fe4b6ef7",
+            "data": {},
+            "asset_id": "81461a5d-5a1c-4d2d-ac4b-d912c7917c71",
+            "type": "generator"
+        },
+        {
+            "id": "30115cec-a938-4b06-b34b-da0a46ef3615",
+            "data": {},
+            "asset_id": "659baaad-ecff-4e2c-b3a8-8334792be835",
+            "type": "data_def"
+        },
+        {
+            "id": "79efe835-5640-4330-ad0b-7d484b4dfe0b",
+            "data": {},
+            "asset_id": null,
+            "type": "value",
+            "fieldTypeId": "int",
+            "value": 42,
+            "fieldData": {
+                "min": 0,
+                "max": 100
+            }
+        }
+    ],
+    "edges": [
+        {
+            "a": "63061bc4-495f-470d-8ff7-8954fe4b6ef7",
+            "b": "e0bd6fcf-6c0f-47f4-85e8-2f7f845ce26e",
+            "b_sub": "e0bd6fcf-6c0f-47f4-85e8-2f7f845ce26e"
+        },
+        {
+            "a": "30115cec-a938-4b06-b34b-da0a46ef3615",
+            "a_sub": "30115cec-a938-4b06-b34b-da0a46ef3615",
+            "b": "63061bc4-495f-470d-8ff7-8954fe4b6ef7"
+        },
+        {
+            "a": "79efe835-5640-4330-ad0b-7d484b4dfe0b",
+            "a_sub": "79efe835-5640-4330-ad0b-7d484b4dfe0b",
+            "b": "30115cec-a938-4b06-b34b-da0a46ef3615",
+            "b_sub": "fa7153f7-ed1c-b6c0-fcf2-ffb2fac21748"
+        }
+    ],
+    "layout": {
+        "e0bd6fcf-6c0f-47f4-85e8-2f7f845ce26e": {
+            "x": 345,
+            "y": 34
+        },
+        "63061bc4-495f-470d-8ff7-8954fe4b6ef7": {
+            "x": 10,
+            "y": 30
+        },
+        "30115cec-a938-4b06-b34b-da0a46ef3615": {
+            "x": -346,
+            "y": 11
+        },
+        "79efe835-5640-4330-ad0b-7d484b4dfe0b": {
+            "x": -691,
+            "y": 47
+        }
+    }
+}

@@ -154,12 +154,21 @@ var gTests = [
 	},
 	{
 		name:"Copy Through Data Def Test",
-		description:"Copy a float value through a data def",
+		description:"Copy an int value through a data def",
 		result:"-",
 		output:null,
 		type:"gen_graph",
 		asset_id:"dc3435f1-17a8-455f-86d6-d0898d706b52",
-		expected:1.23
+		expected:123
+	},
+	{
+		name:"Read Data Def Int Test",
+		description:"Copy an int value through a data def",
+		result:"-",
+		output:null,
+		type:"gen_graph",
+		asset_id:"81461a5d-5a1c-4d2d-ac4b-d912c7917c71",
+		expected:42
 	}
 ];
 
