@@ -4,6 +4,7 @@
     "files":[
         "datadefs/18a3b2ee-8934-4816-ab92-a546a7c36cbf.json",
         "datadefs/test_def_a.json",
+        "datadefs/basic_values.json",
         "generators/debugtexttest.js",
         "generators/geomintersectiontests.js",
         "generators/hierarchytests.js",
@@ -17,6 +18,7 @@
         "generators/unittests/copy_int_val.js",
         "generators/unittests/copy_float_val.js",
         "generator_graphs/int_val_graph.json",
-        "generator_graphs/float_val_graph.json"
+        "generator_graphs/float_val_graph.json",
+        "generator_graphs/copy_through_data_def.json"
     ]
 }

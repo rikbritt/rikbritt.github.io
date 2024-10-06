@@ -151,6 +151,15 @@ var gTests = [
 		type:"gen_graph",
 		asset_id:"89200431-6c57-4f47-9674-60818c10cabc",
 		expected:1.23
+	},
+	{
+		name:"Copy Through Data Def Test",
+		description:"Copy a float value through a data def",
+		result:"-",
+		output:null,
+		type:"gen_graph",
+		asset_id:"dc3435f1-17a8-455f-86d6-d0898d706b52",
+		expected:1.23
 	}
 ];
 

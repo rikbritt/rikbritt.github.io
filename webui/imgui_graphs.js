@@ -242,6 +242,19 @@ function UpdateGenGraphEditor(graph_instance)
 
 			ImGui.Text("Graph Info");
 			ImGui.Text("Id : " + graph_instance.id);
+			ImGui.InputText("Name", (_ = graph_instance.name) => graph_instance.name = _, 256);
+			if(graph_instance.description == undefined)
+			{
+				graph_instance.description = "";
+			}
+			ImGui.InputText("Description", (_ = graph_instance.description) => graph_instance.description = _, 256);
+			
+			var category_str = graph_instance.category.join("/");
+			if(ImGui.InputText("Categories", (_ = category_str) => category_str = _, 256))
+			{
+				graph_instance.category = category_str.split("/");
+			}
+
 			ImGui.Text("Output");
 			if(ImGui.CollapsingHeader("Debug"))
 			{

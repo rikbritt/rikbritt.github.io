@@ -1,0 +1,27 @@
+{
+    "version": 1,
+    "id": "659baaad-ecff-4e2c-b3a8-8334792be835",
+    "name": "Basic Values",
+    "fields": [
+        {
+            "name": "bool",
+            "type": "bool"
+        },
+        {
+            "min": 0,
+            "max": 10,
+            "name": "float",
+            "type": "float"
+        },
+        {
+            "min": 0,
+            "max": 10,
+            "name": "int",
+            "type": "int"
+        }
+    ],
+    "category": [
+        "Tests"
+    ],
+    "description": ""
+}

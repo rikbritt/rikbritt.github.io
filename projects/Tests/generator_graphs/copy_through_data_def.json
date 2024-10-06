@@ -1,0 +1,65 @@
+{
+    "id": "dc3435f1-17a8-455f-86d6-d0898d706b52",
+    "name": "Basic Data Def Copy",
+    "description": "",
+    "category": [
+        "Tests"
+    ],
+    "nodes": [
+        {
+            "id": "8a2a933c-ba34-4acd-bc99-96aa1bf76e40",
+            "data": {},
+            "type": "output"
+        },
+        {
+            "id": "d0271fdb-443f-4f86-bf14-3570ddf089d1",
+            "data": {},
+            "asset_id": "659baaad-ecff-4e2c-b3a8-8334792be835",
+            "type": "data_def"
+        },
+        {
+            "id": "fea2fd69-ab01-4a9c-96ab-63c397d04797",
+            "data": {},
+            "asset_id": "7ada4aec-790b-4d04-8af2-fbd049134668",
+            "type": "generator"
+        },
+        {
+            "id": "f9adacc4-c5d2-4044-9850-5c3536f8a7ce",
+            "data": {},
+            "asset_id": null,
+            "type": "value",
+            "fieldTypeId": "int",
+            "value": 0,
+            "fieldData": {
+                "min": 0,
+                "max": 100
+            }
+        }
+    ],
+    "edges": [
+        {
+            "a": "fea2fd69-ab01-4a9c-96ab-63c397d04797",
+            "a_sub": "983e8045-c978-3633-9613-24612c163d78",
+            "b": "8a2a933c-ba34-4acd-bc99-96aa1bf76e40",
+            "b_sub": "8a2a933c-ba34-4acd-bc99-96aa1bf76e40"
+        }
+    ],
+    "layout": {
+        "8a2a933c-ba34-4acd-bc99-96aa1bf76e40": {
+            "x": 632,
+            "y": 169
+        },
+        "d0271fdb-443f-4f86-bf14-3570ddf089d1": {
+            "x": -20,
+            "y": 108
+        },
+        "fea2fd69-ab01-4a9c-96ab-63c397d04797": {
+            "x": 335,
+            "y": 57
+        },
+        "f9adacc4-c5d2-4044-9850-5c3536f8a7ce": {
+            "x": -193,
+            "y": 271
+        }
+    }
+}
