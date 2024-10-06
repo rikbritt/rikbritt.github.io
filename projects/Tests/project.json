@@ -16,6 +16,7 @@
         "generators/test_gen_a.js",
         "generators/unittests/copy_int_val.js",
         "generators/unittests/copy_float_val.js",
-        "generator_graphs/int_val_graph.json"
+        "generator_graphs/int_val_graph.json",
+        "generator_graphs/float_val_graph.json"
     ]
 }

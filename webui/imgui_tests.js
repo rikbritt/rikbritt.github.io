@@ -135,8 +135,8 @@ function UpdateZipTestWindow(close_func)
 
 var gTests = [
 	{
-		name:"Basic Test",
-		description:"Test that does a thing",
+		name:"Copy Int Value Test",
+		description:"Copy an int value through a graph",
 		result:"-",
 		output:null,
 		type:"gen_graph",
@@ -144,13 +144,13 @@ var gTests = [
 		expected:6
 	},
 	{
-		name:"Basic Test 2",
-		description:"Test that does a thing",
+		name:"Copy Float Value Test",
+		description:"Copy a float value through a graph",
 		result:"-",
 		output:null,
 		type:"gen_graph",
-		asset_id:"b8d42fa6-45e0-402d-ac02-6b9f8110a2f9",
-		expected:8
+		asset_id:"89200431-6c57-4f47-9674-60818c10cabc",
+		expected:1.23
 	}
 ];
 

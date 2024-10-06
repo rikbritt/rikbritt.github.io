@@ -1,0 +1,61 @@
+{
+    "id": "89200431-6c57-4f47-9674-60818c10cabc",
+    "name": "Float Val Input Test",
+    "description": "",
+    "category": [
+        "Tests"
+    ],
+    "nodes": [
+        {
+            "id": "739e4356-1671-460c-8313-1a63bf7c443a",
+            "data": {},
+            "type": "output"
+        },
+        {
+            "id": "fb2816dc-8795-4f6c-87c2-92712704127f",
+            "data": {},
+            "asset_id": "5ea609b0-f5dd-4fb8-b753-a4665248ffc3",
+            "type": "generator"
+        },
+        {
+            "id": "bef43a4b-5383-477f-9f5a-6bdd3aa6c62b",
+            "data": {},
+            "asset_id": null,
+            "type": "value",
+            "fieldTypeId": "float",
+            "value": 1.2300000190734863,
+            "fieldData": {
+                "min": 0,
+                "max": 100
+            }
+        }
+    ],
+    "edges": [
+        {
+            "a": "fb2816dc-8795-4f6c-87c2-92712704127f",
+            "a_sub": "c68271a6-3ddb-c431-c307-beb7d2918275",
+            "b": "739e4356-1671-460c-8313-1a63bf7c443a",
+            "b_sub": "739e4356-1671-460c-8313-1a63bf7c443a"
+        },
+        {
+            "a": "bef43a4b-5383-477f-9f5a-6bdd3aa6c62b",
+            "a_sub": "bef43a4b-5383-477f-9f5a-6bdd3aa6c62b",
+            "b": "fb2816dc-8795-4f6c-87c2-92712704127f",
+            "b_sub": "3a6d0284-e743-dc4a-9b86-f97d6dd1a3bf"
+        }
+    ],
+    "layout": {
+        "739e4356-1671-460c-8313-1a63bf7c443a": {
+            "x": 673,
+            "y": 70
+        },
+        "fb2816dc-8795-4f6c-87c2-92712704127f": {
+            "x": 366,
+            "y": 68
+        },
+        "bef43a4b-5383-477f-9f5a-6bdd3aa6c62b": {
+            "x": 51,
+            "y": 65
+        }
+    }
+}
