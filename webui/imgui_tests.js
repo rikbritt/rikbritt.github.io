@@ -154,6 +154,22 @@ var gTests = [
 	}
 ];
 
+function IsOutputMeetingExpectation(output, expected)
+{
+	if(typeof(output) != typeof(expected))
+	{
+		return false;
+	}
+	if(typeof(expected) == "number")
+	{
+		return Math.abs( output - expected ) < 0.0000001;
+	}
+	else
+	{
+		return output == expected;
+	}
+}
+
 function RunTest(test)
 {
 	if(test.type == "gen_graph")
@@ -161,7 +177,7 @@ function RunTest(test)
 		var gen_graph = AssetDb.GetAsset(gAssetDb, test.asset_id, "gen_graph");
 		//todo - run it
 		test.output = bg.ExecuteGeneratorGraph(gen_graph);
-		if(test.output == test.expected)
+		if(IsOutputMeetingExpectation(test.output, test.expected))
 		{
 			test.result = "OK";
 		}
