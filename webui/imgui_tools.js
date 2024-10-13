@@ -12,9 +12,7 @@ function UpdateToolsMenu()
     }
     if(ImGui.MenuItem("Generate GUID"))
     {
-        ImGui.LogToClipboard();
-        ImGui.LogText(bg.CreateGUID());
-        ImGui.LogFinish();
+        ImGui.SetClipboardText(bg.CreateGUID());
     }
 }
 
