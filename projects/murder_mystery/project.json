@@ -4,6 +4,9 @@
     "files":[
         "datadefs/name_data_def.json",
         "datadefs/person_data_def.json",
+        "data_tables/male_names.json",
+        "data_tables/female_names.json",
+        "data_tables/surnames.json",
         "generators/example.json",
         "generators/name.js"
     ]
