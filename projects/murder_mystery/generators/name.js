@@ -7,7 +7,9 @@ var generator = {
 		name:"inputs",
 		version:1,
 		fields:[
-			{ name:"male",		type:"bool" }
+			{ name:"male",		type:"bool" },
+			{ name:"male_names", type:"data_table", default_id:"6d8979e3-9fa3-4684-b92f-a15aee11038c", id:"df4325fa-6a46-4e57-975e-686e1c4b9006" },
+			{ name:"female_names", type:"data_table", default_id:"eee4679b-06e1-4929-9ff6-bdc28fec2194", id:"c10e941e-9001-4411-a33e-7bfdc9fc2928" },
 		],
 	},
 	outputs:{
@@ -22,11 +24,11 @@ var generator = {
 		var namePool = null;
 		if(inputs.male)
 		{
-			namePool = mm_data_maleNames;
+			namePool = inputs.male_names.data;// mm_data_maleNames;
 		}
 		else
 		{
-			namePool = mm_data_femaleNames;
+			namePool = inputs.female_names.data;// mm_data_femaleNames;
 		}
 
 		outputs.data = bg.BuildDataDefValues(mm_nameDataDef.fields, inputs.seed);
