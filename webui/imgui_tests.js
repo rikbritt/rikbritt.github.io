@@ -167,7 +167,7 @@ var gTests = [
 		result:"-",
 		output:null,
 		type:"gen_graph",
-		asset_id:"81461a5d-5a1c-4d2d-ac4b-d912c7917c71",
+		asset_id:"a2c535d3-26b0-444c-b997-3fa3065bb784",
 		expected:42
 	}
 ];
