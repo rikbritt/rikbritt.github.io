@@ -112,7 +112,7 @@ function UpdateAssetDbWindow( close_func, data )
 		else
 		{
 			ImGui.Text(AssetDb.GetAssetName(gAsssetDbSearch));
-			ImGui.Text(asset.type);
+			ImGui.Text(AssetDb.GetAssetType(gAsssetDbSearch));
 		}
         ImGui.End();
     }
