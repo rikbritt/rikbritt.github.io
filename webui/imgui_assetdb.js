@@ -96,3 +96,24 @@ function UpdateAssetDBPicker(label, v, type)
 		ImGui.EndPopup();
 	}
 }
+
+var gAsssetDbSearch = "";
+function UpdateAssetDbWindow( close_func, data )
+{        
+    if(ImGui.Begin("Asset Db", close_func))
+    {
+		ImGui.InputText("Search Id", (_ = gAsssetDbSearch) => gAsssetDbSearch = _, 256);
+
+		var asset = AssetDb.GetAsset(gAssetDb, gAsssetDbSearch);
+		if(asset == null)
+		{
+			ImGui.Text("No Asset Found");
+		}
+		else
+		{
+			ImGui.Text(AssetDb.GetAssetName(gAsssetDbSearch));
+			ImGui.Text(asset.type);
+		}
+        ImGui.End();
+    }
+}

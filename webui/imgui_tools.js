@@ -14,6 +14,10 @@ function UpdateToolsMenu()
     {
         ImGui.SetClipboardText(bg.CreateGUID());
     }
+    if(ImGui.MenuItem("Asset Db"))
+    {
+        OpenWindow("asset_db", UpdateAssetDbWindow, null);
+    }
 }
 
 var gPickerCol = new ImGui.Vec4(1.0, 1.0, 1.0, 1.0);
