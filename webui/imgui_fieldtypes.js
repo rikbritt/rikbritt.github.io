@@ -118,7 +118,7 @@ SetupFieldTypeImGui("list",
 				for(var i=0; i<list.length; ++i)
 				{
 					ImGui.PushID(i);
-					if(ImGui.Button("Del"))
+					if(ImGui.DeleteButton("Del"))
 					{
 						list.splice(i, 1);
 						--i;

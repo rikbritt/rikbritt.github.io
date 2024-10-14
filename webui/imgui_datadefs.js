@@ -132,7 +132,7 @@ function UpdateDataDefFields(fields)
 
 	var field_types_list = Object.keys(bg.fieldTypes);
 	
-    if(ImGui.Button("Add Field"))
+    if(ImGui.CreateButton("Add Field"))
     {
 		var chosen_field = bg.fieldTypes[field_types_list[g_new_field_type]];
 		var field_entry = Object.assign({}, chosen_field.defaultDefData);
@@ -251,7 +251,7 @@ function CreateExplorerDataDefsNode(project)
 		},
 		UpdateContextMenu:function()
 		{
-			if(ImGui.Button("Create New Data Def..."))
+			if(ImGui.CreateButton("Create New Data Def..."))
 			{
 				var data_def = bg.CreateEmptyDataDef(project);
 				OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
@@ -260,7 +260,7 @@ function CreateExplorerDataDefsNode(project)
 		},
 		UpdateNodeValue:function()
 		{
-			if(ImGui.Button("Create..."))
+			if(ImGui.CreateButton("Create..."))
 			{
 				var data_def = bg.CreateEmptyDataDef(project);
 				OpenWindow(data_def.id, UpdateDataDefWindow, data_def);

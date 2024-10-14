@@ -363,7 +363,7 @@ function CreateExplorerDataTablesNode(project)
 		},
 		UpdateContextMenu:function()
 		{
-			if(ImGui.Button("Create New Data Table..."))
+			if(ImGui.CreateButton("Create New Data Table..."))
 			{
 				var data_table = bg.CreateEmptyDataTable(project);
 				OpenWindow(data_table.id, UpdateDataTableWindow, data_table);
@@ -372,7 +372,7 @@ function CreateExplorerDataTablesNode(project)
 		},
 		UpdateNodeValue:function()
 		{
-			if(ImGui.Button("Create..."))
+			if(ImGui.CreateButton("Create..."))
 			{
 				var data_table = bg.CreateEmptyDataTable(project);
 				OpenWindow(data_table.id, UpdateDataTableWindow, data_table);

@@ -588,7 +588,7 @@ function CreateExplorerGraphsNode(project)
 		},
 		UpdateContextMenu:function()
 		{
-			if(ImGui.Button("Create New Graph..."))
+			if(ImGui.CreateButton("Create New Graph..."))
 			{
 				var graph = bg.CreateEmptyProjectGraph(project);
 				OpenWindow(graph.id, UpdateGenGraphWindow, graph);
@@ -597,7 +597,7 @@ function CreateExplorerGraphsNode(project)
 		},
 		UpdateNodeValue:function()
 		{
-			if(ImGui.Button("Create..."))
+			if(ImGui.CreateButton("Create..."))
 			{
 				var graph = bg.CreateEmptyProjectGraph(project);
 				OpenWindow(graph.id, UpdateGenGraphWindow, graph);

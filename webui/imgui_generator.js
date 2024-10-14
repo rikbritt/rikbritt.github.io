@@ -625,7 +625,7 @@ function CreateExplorerGeneratorsNode(project)
 		},
 		UpdateContextMenu:function()
 		{
-			if(ImGui.Button("Create New Generator..."))
+			if(ImGui.CreateButton("Create New Generator..."))
 			{
 				//This is double registering if you do it with the global project
 				var gen = bg.CreateEmptyProjectGenerator(project);
@@ -635,7 +635,7 @@ function CreateExplorerGeneratorsNode(project)
 		},
 		UpdateNodeValue:function()
 		{
-			if(ImGui.Button("Create..."))
+			if(ImGui.CreateButton("Create..."))
 			{
 				//This is double registering if you do it with the global project
 				var gen = bg.CreateEmptyProjectGenerator(project);

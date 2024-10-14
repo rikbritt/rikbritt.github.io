@@ -27,3 +27,13 @@ ImGui.DeleteButton = function(id)
     ImGui.PopStyleColor(3);
     return clicked;    
 }
+
+ImGui.CreateButton = function(id)
+{
+    ImGui.PushStyleColor(ImGui.Col.Button, new ImGui.Vec4(0.20587322115898132, 0.6795580387115479, 0.18396873772144318, 0.4000000059604645));
+    ImGui.PushStyleColor(ImGui.Col.ButtonHovered, new ImGui.Vec4(0.20587322115898132, 0.6795580387115479, 0.18396873772144318, 1));
+    ImGui.PushStyleColor(ImGui.Col.ButtonActive, new ImGui.Vec4(0.20587322115898132, 0.6795580387115479, 0.18396873772144318, 1));
+    var clicked = ImGui.Button(id);
+    ImGui.PopStyleColor(3);
+    return clicked;    
+}
