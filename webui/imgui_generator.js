@@ -430,6 +430,11 @@ function UpdateGeneratorWindow(close_func, generator)
 	
 				SetCodeToEdit((_ =generator.script_str) => SetGeneratorScript(generator, _), generator.name);
 			}
+			ImGui.SameLine();
+			if(ImGui.Button("Reopen Code Editor Window"))
+			{
+				ReopenCodeEditor();
+			}
 			
 			ImGui.SetNextItemWidth(-1);
 			if(generator.script_str == null)
