@@ -13,7 +13,8 @@ bg.CreateFieldType = function(
 	generate_value_func, 		// Given a field def and a seed, make a value
 	default_instance_data_func,	// Make a default value, for an optional field def
 	default_def_data,
-	to_string_func = null
+	to_string_func = null,
+	description = null
 )
 {
 	if(bg.fieldTypes[field_type_id] != null)
@@ -35,7 +36,8 @@ bg.CreateFieldType = function(
 		generateValueFunc:generate_value_func,
 		defaultInstanceDataFunc:default_instance_data_func,
 		defaultDefData:default_def_data,
-		toString:to_string_func
+		toString:to_string_func,
+		description:description
 	};
 	
 	bg.fieldTypes[field_type_id] = field_type;
