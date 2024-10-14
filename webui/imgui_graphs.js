@@ -594,6 +594,15 @@ function CreateExplorerGraphsNode(project)
 				OpenWindow(graph.id, UpdateGenGraphWindow, graph);
                 ImGui.CloseCurrentPopup();
 			}
+		},
+		UpdateNodeValue:function()
+		{
+			if(ImGui.Button("Create..."))
+			{
+				var graph = bg.CreateEmptyProjectGraph(project);
+				OpenWindow(graph.id, UpdateGenGraphWindow, graph);
+                ImGui.CloseCurrentPopup();
+			}
 		}
 	};
 }

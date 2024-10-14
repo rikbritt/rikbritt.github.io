@@ -632,6 +632,16 @@ function CreateExplorerGeneratorsNode(project)
 				OpenWindow(gen.id, UpdateGeneratorWindow, gen);
                 ImGui.CloseCurrentPopup();
 			}
+		},
+		UpdateNodeValue:function()
+		{
+			if(ImGui.Button("Create..."))
+			{
+				//This is double registering if you do it with the global project
+				var gen = bg.CreateEmptyProjectGenerator(project);
+				OpenWindow(gen.id, UpdateGeneratorWindow, gen);
+                ImGui.CloseCurrentPopup();
+			}
 		}
 	};
 }

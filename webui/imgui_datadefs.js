@@ -257,6 +257,15 @@ function CreateExplorerDataDefsNode(project)
 				OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
                 ImGui.CloseCurrentPopup();
 			}
+		},
+		UpdateNodeValue:function()
+		{
+			if(ImGui.Button("Create..."))
+			{
+				var data_def = bg.CreateEmptyDataDef(project);
+				OpenWindow(data_def.id, UpdateDataDefWindow, data_def);
+                ImGui.CloseCurrentPopup();
+			}
 		}
 	};
 }

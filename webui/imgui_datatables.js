@@ -369,6 +369,15 @@ function CreateExplorerDataTablesNode(project)
 				OpenWindow(data_table.id, UpdateDataTableWindow, data_table);
                 ImGui.CloseCurrentPopup();
 			}
+		},
+		UpdateNodeValue:function()
+		{
+			if(ImGui.Button("Create..."))
+			{
+				var data_table = bg.CreateEmptyDataTable(project);
+				OpenWindow(data_table.id, UpdateDataTableWindow, data_table);
+                ImGui.CloseCurrentPopup();
+			}
 		}
 	};
 }
