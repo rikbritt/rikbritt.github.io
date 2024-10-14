@@ -369,42 +369,68 @@ function UpdateGeneratorWindow(close_func, generator)
 	if(ImGui.Begin(`Generator Def - ${bg.GetGeneratorFullName(generator)}###${generator.id}`, close_func))
 	{
 		ImGui.Text("Id : " + generator.id);
+		ImGui.SameLine();
+		if(ImGui.SmallButton("Copy##copy_gen_id"))
+		{
+			ImGui.SetClipboardText(generator.id);
+		}
+
 		ImGui.InputText("Name", (_ = generator.name) => generator.name = _, 256);
 		if(generator.description == undefined)
 		{
 			generator.description = "";
 		}
 		ImGui.InputText("Description", (_ = generator.description) => generator.description = _, 256);
-		
+		ImGui.SameLine(); ImGui.HelpMarker("Use / define folders in the category text");
+
 		var category_str = generator.category.join("/");
 		if(ImGui.InputText("Categories", (_ = category_str) => category_str = _, 256))
 		{
 			generator.category = category_str.split("/");
 		}
 
+		if(ImGui.Button("Create Temporary Test Instance"))
+		{
+			CreateGeneratorInstance(generator);
+		}
+
+		if(ImGui.Button("Save As JS To Clipboard"))
+		{
+			var js = bg.SaveGeneratorToJS(generator);
+			ImGui.SetClipboardText(js);
+		}
+
 		if(ImGui.CollapsingHeader("Inputs"))
 		{
+			ImGui.Indent();
+			ImGui.PushID("inputs");
 			//Generator inputs are an inplace data def, so can be edited the same way as a data def window does.
 			UpdateDataDefFields(generator.inputs.fields);
+			ImGui.PopID();
+			ImGui.Unindent();
 		}
 		if(ImGui.CollapsingHeader("Outputs"))
 		{
+			ImGui.Indent();
+			ImGui.PushID("outputs");
 			UpdateDataDefFields(generator.outputs.fields);
+			ImGui.PopID();
+			ImGui.Unindent();
 		}
 
-		//TODO - Work on this
-		if(ImGui.Button("Edit Script"))
-		{
-			if(generator.script_str == null)
-			{
-				generator.script_str = generator.script.toString();
-			}
-
-			SetCodeToEdit((_ =generator.script_str) => SetGeneratorScript(generator, _), generator.name);
-		}
-		
 		if(ImGui.CollapsingHeader("Script"))
 		{
+			//TODO - Work on this
+			if(ImGui.Button("Edit Script"))
+			{
+				if(generator.script_str == null)
+				{
+					generator.script_str = generator.script.toString();
+				}
+	
+				SetCodeToEdit((_ =generator.script_str) => SetGeneratorScript(generator, _), generator.name);
+			}
+			
 			ImGui.SetNextItemWidth(-1);
 			if(generator.script_str == null)
 			{
@@ -424,17 +450,6 @@ function UpdateGeneratorWindow(close_func, generator)
 				ImGui.Text("No Script Errors Found");
 			}
 			
-		}
-
-		if(ImGui.Button("Create Temporary Test Instance"))
-		{
-			CreateGeneratorInstance(generator);
-		}
-
-		if(ImGui.Button("Save As JS To Clipboard"))
-		{
-			var js = bg.SaveGeneratorToJS(generator);
-			ImGui.SetClipboardText(js);
 		}
 	}
 	ImGui.End();

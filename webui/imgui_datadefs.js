@@ -37,7 +37,7 @@ function GetFieldTypeName(data, i, out_str)
 function UpdateDataDefField(fields, field_data)
 {
 	var delete_field = false;
-	if(ImGui.SmallButton("X"))
+	if(ImGui.DeleteButton("X"))
 	{
 		delete_field = true;
 	}
@@ -131,7 +131,6 @@ function UpdateDataDefFields(fields)
 	ImGui.EndTable();
 
 	var field_types_list = Object.keys(bg.fieldTypes);
-	ImGui.Combo("##Field Type To Make", (_ = g_new_field_type) => g_new_field_type = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length);
 	
     if(ImGui.Button("Add Field"))
     {
@@ -141,6 +140,8 @@ function UpdateDataDefFields(fields)
 		field_entry.type = field_types_list[g_new_field_type];
 		fields.push(field_entry);
     }
+	ImGui.SameLine();
+	ImGui.Combo("##Field Type To Make", (_ = g_new_field_type) => g_new_field_type = _, GetFieldTypeName, bg.fieldTypes, field_types_list.length);
 }
 
 function UpdateDataDefWindow(close_func, data_def)

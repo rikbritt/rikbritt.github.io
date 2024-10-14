@@ -98,7 +98,7 @@ function GetFieldTypeName(data, i, out_str)
 function UpdateDataTableField(fields, field_data)
 {
 	var delete_field = false;
-	if(ImGui.SmallButton("X"))
+	if(ImGui.DeleteButton("X"))
 	{
 		delete_field = true;
 	}
