@@ -437,7 +437,10 @@ function UpdateGeneratorWindow(close_func, generator)
 				generator.script_str = generator.script.toString();
 			}
 			
+			ImGui.PushStyleColor(ImGui.Col.FrameBg, new ImGui.Vec4(0, 0, 0, 0.5));
+			ImGui.PushStyleColor(ImGui.Col.Text, new ImGui.Vec4(0.85, 0.85, 0.85, 1));
 			ImGui.InputTextMultiline("##Script", (_ = generator.script_str) => SetGeneratorScript(generator, _), 1024 * 32);
+			ImGui.PopStyleColor(2);
 
 			ImGui.Text("Script Compile:");
 			if(gLastScriptErrors[generator.id] != null)
