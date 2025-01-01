@@ -114,6 +114,8 @@ function UpdateGraphEditorWindow(close_func)
             }
 
             // New Edge - From
+            ImGui.PushID("new_edge_from");
+            ImGui.Text("New Edge From:");
             bg.ForEachGraphNode(
                 gGraphEditorData.graph,
                 function(node)
@@ -124,8 +126,11 @@ function UpdateGraphEditorWindow(close_func)
                     }
                 }
             )
+            ImGui.PopID();
             
             // New Edge - To
+            ImGui.PushID("new_edge_to");
+            ImGui.Text("New Edge To:");
             bg.ForEachGraphNode(
                 gGraphEditorData.graph,
                 function(node)
@@ -136,6 +141,7 @@ function UpdateGraphEditorWindow(close_func)
                     }
                 }
             )
+            ImGui.PopID();
 
             if(ImGui.Button("Make Edge"))
             {
