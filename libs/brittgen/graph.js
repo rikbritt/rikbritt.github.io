@@ -22,6 +22,13 @@ bg.CreateGraphFromList = function(list)
 
 bg.AddGraphNode = function(graph, node_id, node_data)
 {
+    //validate
+    var existing = bg.GetGraphNodeById(graph, node_id);
+    if(existing != null)
+    {
+        return existing;
+    }
+
     var node = {
         id:node_id,
         data:node_data
@@ -39,7 +46,7 @@ bg.GetGraphNodeById = function(graph, node_id)
             return node;
         }
     }
-    return null
+    return null;
 }
 
 bg.GetGraphNodesByType = function(graph, node_type)
@@ -67,11 +74,32 @@ bg.AddGraphEdgeById = function(graph, from_id, to_id)
 {
     var a_idx = graph.nodes.findIndex( n => n.id == from_id);
     var b_idx = graph.nodes.findIndex( n => n.id == to_id);
+    if(a_idx || -1 || b_idx == -1)
+    {
+        //error
+        return;
+    }
     graph.edges.push({a:a_idx, a_sub:-1, b:b_idx, b_sub:-1});
+}
+
+bg.ForEachGraphNode = function(graph, func)
+{
+    if(!graph || !graph.nodes)
+    {
+        return;
+    }
+    for(var n of graph.nodes)
+    {
+        func(n);
+    }
 }
 
 bg.ForEachGraphEdgeIntoNode = function(graph, node_id, func)
 {
+    if(!graph || !graph.edges)
+    {
+        return;
+    }
     for(var e of graph.edges)
     {
         if(e.b == node_id)

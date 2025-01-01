@@ -85,8 +85,11 @@ function UpdateIconsWindow( close_func )
 var gGraphEditorData = {
     graph:null,
     uml:"",
-    newNodeId:""
+    newNodeId:"",
+    newEdgeFromId:"",
+    newEdgeToId:""
 };
+
 function UpdateGraphEditorWindow(close_func)
 {
     if(ImGui.Begin("GraphEditor", close_func))
@@ -96,20 +99,51 @@ function UpdateGraphEditorWindow(close_func)
             gGraphEditorData.graph = bg.CreateGraph();
         }
 
-		ImGui.InputText("New Node Id", (_ = gGraphEditorData.newNodeId) => gGraphEditorData.newNodeId = _, 256);
-        if(ImGui.Button("Add Node"))
+        if(gGraphEditorData.graph)
         {
-            bg.AddGraphNode(gGraphEditorData.graph, gGraphEditorData.newNodeId);
+            ImGui.InputText("New Node Id", (_ = gGraphEditorData.newNodeId) => gGraphEditorData.newNodeId = _, 256);
+            if(ImGui.Button("Add Node"))
+            {
+                bg.AddGraphNode(gGraphEditorData.graph, gGraphEditorData.newNodeId);
+            }
+
+            if(ImGui.Button("Generate & Copy UML"))
+            {
+                gGraphEditorData.uml = bg.DiGraphToUML(gGraphEditorData.graph);
+                ImGui.SetClipboardText(gGraphEditorData.uml);
+            }
+
+            // New Edge - From
+            bg.ForEachGraphNode(
+                gGraphEditorData.graph,
+                function(node)
+                {
+                    if(ImGui.Selectable(node.id, node.id == gGraphEditorData.newEdgeFromId))
+                    {
+                        gGraphEditorData.newEdgeFromId = node.id;
+                    }
+                }
+            )
+            
+            // New Edge - To
+            bg.ForEachGraphNode(
+                gGraphEditorData.graph,
+                function(node)
+                {
+                    if(ImGui.Selectable(node.id, node.id == gGraphEditorData.newEdgeToId))
+                    {
+                        gGraphEditorData.newEdgeToId = node.id;
+                    }
+                }
+            )
+
+            if(ImGui.Button("Make Edge"))
+            {
+                bg.AddGraphEdgeById(gGraphEditorData.graph, gGraphEditorData.newEdgeFromId, gGraphEditorData.newEdgeToId);
+            }
+
+            ImGui.Text(gGraphEditorData.uml);
         }
-
-        if(ImGui.Button("Generate & Copy UML"))
-        {
-            gGraphEditorData.uml = bg.DiGraphToUML(gGraphEditorData.graph);
-            ImGui.SetClipboardText(gGraphEditorData.uml);
-        }
-
-        ImGui.Text(gGraphEditorData.uml);
-
         ImGui.End();
     }
 }
