@@ -232,4 +232,5 @@ bg.DeserializeGraph = function(graph_json)
         );
     }
     graph.edges = edges;
+    return graph;
 }

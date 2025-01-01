@@ -87,7 +87,8 @@ var gGraphEditorData = {
     uml:"",
     newNodeId:"",
     newEdgeFromId:"",
-    newEdgeToId:""
+    newEdgeToId:"",
+    graph_json:""
 };
 
 function UpdateGraphEditorWindow(close_func)
@@ -146,12 +147,20 @@ function UpdateGraphEditorWindow(close_func)
             {
                 var clipboardText = bg.SerializeGraph(gGraphEditorData.graph);
                 ImGui.SetClipboardText(clipboardText);
+                gGraphEditorData.graph_json = clipboardText;
             }
 
             if(ImGui.Button("Deserialize Graph from Clipboard JSON"))
             {
                 var clipboardText = ImGui.GetClipboardText();
                 gGraphEditorData.graph = bg.DeserializeGraph(clipboardText);
+            }
+
+            ImGui.InputTextMultiline("GraphJSON", (_ = gGraphEditorData.graph_json) => gGraphEditorData.graph_json = _, 1024 * 16);
+
+            if(ImGui.Button("Deserialize Graph from Field"))
+            {
+                gGraphEditorData.graph = bg.DeserializeGraph(gGraphEditorData.graph_json);
             }
 
             if(ImGui.Button("Generate & Copy UML"))
