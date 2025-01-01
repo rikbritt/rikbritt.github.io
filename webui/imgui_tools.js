@@ -107,12 +107,6 @@ function UpdateGraphEditorWindow(close_func)
                 bg.AddGraphNode(gGraphEditorData.graph, gGraphEditorData.newNodeId);
             }
 
-            if(ImGui.Button("Generate & Copy UML"))
-            {
-                gGraphEditorData.uml = bg.DiGraphToUML(gGraphEditorData.graph);
-                ImGui.SetClipboardText(gGraphEditorData.uml);
-            }
-
             // New Edge - From
             ImGui.PushID("new_edge_from");
             ImGui.Text("New Edge From:");
@@ -148,6 +142,23 @@ function UpdateGraphEditorWindow(close_func)
                 bg.AddGraphEdgeById(gGraphEditorData.graph, gGraphEditorData.newEdgeFromId, gGraphEditorData.newEdgeToId);
             }
 
+            if(ImGui.Button("Serialize Graph To JSON"))
+            {
+                var clipboardText = bg.SerializeGraph(gGraphEditorData.graph);
+                ImGui.SetClipboardText(clipboardText);
+            }
+
+            if(ImGui.Button("Deserialize Graph from Clipboard JSON"))
+            {
+                var clipboardText = ImGui.GetClipboardText();
+                gGraphEditorData.graph = bg.DeserializeGraph(clipboardText);
+            }
+
+            if(ImGui.Button("Generate & Copy UML"))
+            {
+                gGraphEditorData.uml = bg.DiGraphToUML(gGraphEditorData.graph);
+                ImGui.SetClipboardText(gGraphEditorData.uml);
+            }
             ImGui.Text(gGraphEditorData.uml);
         }
         ImGui.End();

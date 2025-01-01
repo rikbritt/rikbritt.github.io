@@ -74,7 +74,7 @@ bg.AddGraphEdgeById = function(graph, from_id, to_id)
 {
     var a_idx = graph.nodes.findIndex( n => n.id == from_id);
     var b_idx = graph.nodes.findIndex( n => n.id == to_id);
-    if(a_idx || -1 || b_idx == -1)
+    if(a_idx == -1 || b_idx == -1)
     {
         //error
         return;
@@ -191,4 +191,45 @@ bg.DiGraphToUML = function(graph)
 	uml += "}\n";
 	uml += "@enduml\n";
 	return uml;
+}
+
+// Converts edge node idx to ids
+bg.SerializeGraph = function(graph)
+{
+    var edgesById = [];
+    for(var edge of graph.edges)
+    {
+        edgesById.push(
+            {
+                a:graph.nodes[edge.a].id,
+                a_sub:edge.a_sub, 
+                b:graph.nodes[edge.b].id,
+                b_sub:edge.b_sub
+            }
+        );
+    }
+
+    var original_edges = graph.edges;
+    graph.edges = edgesById;
+    var serialized = JSON.stringify(graph);
+    graph.edges = original_edges;
+    return serialized;
+}
+
+bg.DeserializeGraph = function(graph_json)
+{
+    var graph = JSON.parse(graph_json);
+    var edges = [];
+    for(var edge of graph.edges)
+    {
+        edges.push(
+            {
+                a:graph.nodes.findIndex( n => n.id == edge.a),
+                a_sub:edge.a_sub, 
+                b:graph.nodes.findIndex( n => n.id == edge.b),
+                b_sub:edge.b_sub
+            }
+        );
+    }
+    graph.edges = edges;
 }
