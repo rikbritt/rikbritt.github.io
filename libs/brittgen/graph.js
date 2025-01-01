@@ -130,3 +130,37 @@ bg.SetNodeLayoutPos = function(graph_layout, node_id, x, y)
     layout.x = x;
     layout.y = y;    
 }
+
+bg.GraphToUML = function(graph)
+{
+	var uml = "";
+	uml += "@startuml\n";
+	uml += "graph G {\n";
+	for(var e=0; e<graph.edges.length; ++e)
+	{
+		var edge = graph.edges[e];
+		var a = graph.nodes[edge.a].id;
+		var b = graph.nodes[edge.b].id;
+		uml += `    "${a}" -- "${b}"\n`;
+	}
+	uml += "}\n";
+	uml += "@enduml\n";
+	return uml;
+}
+
+bg.DiGraphToUML = function(graph)
+{
+	var uml = "";
+	uml += "@startuml\n";
+	uml += "digraph G {\n";
+	for(var e=0; e<graph.edges.length; ++e)
+	{
+		var edge = graph.edges[e];
+		var a = graph.nodes[edge.a].id;
+		var b = graph.nodes[edge.b].id;
+		uml += `    "${a}" -> "${b}"\n`;
+	}
+	uml += "}\n";
+	uml += "@enduml\n";
+	return uml;
+}

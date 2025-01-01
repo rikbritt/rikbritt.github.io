@@ -56,37 +56,3 @@ var mm_GraphDataDef = {
 	]
 }
 bg.RegisterProjectDataDef(bg.global_project, mm_GraphDataDef);
-
-function MM_GraphToUML(graph)
-{
-	var uml = "";
-	uml += "@startuml\n";
-	uml += "graph G {\n";
-	for(var e=0; e<graph.edges.length; ++e)
-	{
-		var edge = graph.edges[e];
-		var a = graph.nodes[edge.a].id;
-		var b = graph.nodes[edge.b].id;
-		uml += `    "${a}" -- "${b}"\n`;
-	}
-	uml += "}\n";
-	uml += "@enduml\n";
-	return uml;
-}
-
-function MM_DiGraphToUML(graph)
-{
-	var uml = "";
-	uml += "@startuml\n";
-	uml += "digraph G {\n";
-	for(var e=0; e<graph.edges.length; ++e)
-	{
-		var edge = graph.edges[e];
-		var a = graph.nodes[edge.a].id;
-		var b = graph.nodes[edge.b].id;
-		uml += `    "${a}" -> "${b}"\n`;
-	}
-	uml += "}\n";
-	uml += "@enduml\n";
-	return uml;
-}

@@ -67,7 +67,7 @@ var mm_scenarioGenerator3 = {
 				}
 				bio_graph_seed += 1;
 			}
-			outputs.bio_graph_uml = MM_DiGraphToUML(outputs.bio_graph);
+			outputs.bio_graph_uml = bg.DiGraphToUML(outputs.bio_graph);
 		}
 	}
 }
@@ -115,7 +115,7 @@ var mm_scenarioGenerator2 = {
 		outputs.data.relationships = relationships.outputs.relationships;
 		outputs.data.relationshipsUML = relationships.outputs.uml;
 		outputs.data.bio_graph = relationships.outputs.bio_graph;
-		outputs.data.bio_graph_uml = MM_DiGraphToUML(outputs.data.bio_graph);
+		outputs.data.bio_graph_uml = bg.DiGraphToUML(outputs.data.bio_graph);
 	}
 }
 bg.RegisterProjectGenerator(bg.global_project, mm_scenarioGenerator2);

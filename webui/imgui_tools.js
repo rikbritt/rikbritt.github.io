@@ -18,7 +18,7 @@ function UpdateToolsMenu()
     {
         OpenWindow("asset_db", UpdateAssetDbWindow, null);
     }
-    if(ImGui.MenuItem("Asset Db"))
+    if(ImGui.MenuItem("Graph Editor"))
     {
         OpenWindow("graph_editor", UpdateGraphEditorWindow, null);
     }
@@ -104,7 +104,7 @@ function UpdateGraphEditorWindow(close_func)
 
         if(ImGui.Button("Generate & Copy UML"))
         {
-            gGraphEditorData.uml = MM_DiGraphToUML(gGraphEditorData.graph);
+            gGraphEditorData.uml = bg.DiGraphToUML(gGraphEditorData.graph);
             ImGui.SetClipboardText(gGraphEditorData.uml);
         }
 

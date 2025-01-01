@@ -242,7 +242,7 @@ var mm_relationshipsGenerator = {
 		// }
 
 		// //Graph UML
-		// outputs.uml = MM_GraphToUML(outputs.relationshipGraph);
+		// outputs.uml = bg.GraphToUML(outputs.relationshipGraph);
 	}
 }
 bg.RegisterProjectGenerator(bg.global_project, mm_relationshipsGenerator);
