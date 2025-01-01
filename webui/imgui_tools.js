@@ -18,6 +18,10 @@ function UpdateToolsMenu()
     {
         OpenWindow("asset_db", UpdateAssetDbWindow, null);
     }
+    if(ImGui.MenuItem("Asset Db"))
+    {
+        OpenWindow("graph_editor", UpdateGraphEditorWindow, null);
+    }
 }
 
 var gPickerCol = new ImGui.Vec4(1.0, 1.0, 1.0, 1.0);
@@ -77,3 +81,35 @@ function UpdateIconsWindow( close_func )
     }
 }
 
+// Not a generation graph
+var gGraphEditorData = {
+    graph:null,
+    uml:"",
+    newNodeId:""
+};
+function UpdateGraphEditorWindow(close_func)
+{
+    if(ImGui.Begin("GraphEditor", close_func))
+    {
+        if(ImGui.Button("Create Graph"))
+        {
+            gGraphEditorData.graph = bg.CreateGraph();
+        }
+
+		ImGui.InputText("New Node Id", (_ = gGraphEditorData.newNodeId) => gGraphEditorData.newNodeId = _, 256);
+        if(ImGui.Button("Add Node"))
+        {
+            bg.AddGraphNode(gGraphEditorData.graph, gGraphEditorData.newNodeId);
+        }
+
+        if(ImGui.Button("Generate & Copy UML"))
+        {
+            gGraphEditorData.uml = MM_DiGraphToUML(gGraphEditorData.graph);
+            ImGui.SetClipboardText(gGraphEditorData.uml);
+        }
+
+        ImGui.Text(gGraphEditorData.uml);
+
+        ImGui.End();
+    }
+}
