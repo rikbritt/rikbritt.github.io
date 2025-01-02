@@ -193,6 +193,35 @@ bg.DiGraphToUML = function(graph)
 	return uml;
 }
 
+bg.DiGraphToUMLWithNodeData = function(graph, node_data_func)
+{
+	var uml = "";
+	uml += "@startuml\n";
+	uml += "digraph G {\n";
+    for(var n of graph.nodes)
+    {
+        var node_data = node_data_func(n);
+        if(node_data.length > 0)
+        {
+            uml += `    "${n.id}"[ label="${n.id} |${node_data.join("|")}", shape = "record"]\n`;
+        }
+        else
+        {
+            // nothing?
+        }
+    }
+	for(var e=0; e<graph.edges.length; ++e)
+	{
+		var edge = graph.edges[e];
+		var a = graph.nodes[edge.a].id;
+		var b = graph.nodes[edge.b].id;
+		uml += `    "${a}" -> "${b}"\n`;
+	}
+	uml += "}\n";
+	uml += "@enduml\n";
+	return uml;
+}
+
 // Converts edge node idx to ids
 bg.SerializeGraph = function(graph)
 {
