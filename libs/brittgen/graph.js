@@ -193,22 +193,26 @@ bg.DiGraphToUML = function(graph)
 	return uml;
 }
 
-bg.DiGraphToUMLWithNodeData = function(graph, node_data_func)
+bg.DiGraphToUMLWithNodeData = function(graph, node_data_func, node_style_func)
 {
 	var uml = "";
 	uml += "@startuml\n";
 	uml += "digraph G {\n";
+    uml += `    graph [ rankdir = "LR" ];`;
     for(var n of graph.nodes)
     {
         var node_data = node_data_func(n);
+        var node_style = node_style_func(n);
+        uml += `    "${n.id}"[shape = "record"`;
         if(node_data.length > 0)
         {
-            uml += `    "${n.id}"[ label="${n.id} |${node_data.join("|")}", shape = "record"]\n`;
+            uml += `, label="${n.id} |${node_data.join("|")}"`;
         }
-        else
+        if(node_style != "")
         {
-            // nothing?
+            uml += ", " + node_style;
         }
+        uml += `]\n`;
     }
 	for(var e=0; e<graph.edges.length; ++e)
 	{
