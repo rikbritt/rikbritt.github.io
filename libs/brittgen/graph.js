@@ -130,6 +130,25 @@ bg.GetEdgesIntoNode = function(graph, node_id)
     return edges;
 }
 
+bg.ForEachGraphNodeOfTypeIntoNode = function(graph, to_node_id, type, func)
+{
+    if(!graph || !graph.edges)
+    {
+        return;
+    }
+    for(var e of graph.edges)
+    {
+        if(e.b == to_node_id)
+        {
+            var in_node = bg.GetGraphNodeById(graph, e.a);
+            if(in_node.data.type == type)
+            {
+                func(in_node);
+            }
+        }
+    }
+}
+
 // Each node connected outwardly from the start node, by the type of connected node
 bg.ForEachGraphNodeOfTypeOutOfNode = function(graph, start_node_id, type, func)
 {
