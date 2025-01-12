@@ -109,6 +109,21 @@ bg.ForEachGraphEdgeIntoNode = function(graph, node_id, func)
     }
 }
 
+bg.ForEachGraphEdgeOutOfNode = function(graph, node_id, func)
+{
+    if(!graph || !graph.edges)
+    {
+        return;
+    }
+    for(var e of graph.edges)
+    {
+        if(e.a == node_id)
+        {
+            func(e.a, e.a_sub, e.b, e.b_sub);
+        }
+    }
+}
+
 bg.GetEdgesIntoNode = function(graph, node_id)
 {
     var edges = [];
@@ -120,6 +135,39 @@ bg.GetEdgesIntoNode = function(graph, node_id)
         }
     }
     return edges;
+}
+
+// Each node connected outwardly from the start node, by the type of connected node
+bg.ForEachGraphNodeOfTypeOutOfNode = function(graph, start_node_id, type, func)
+{
+    if(!graph || !graph.edges)
+    {
+        return;
+    }
+    for(var e of graph.edges)
+    {
+        if(e.a == start_node_id)
+        {
+            var out_node = bg.GetGraphNodeById(e.b);
+            if(out_node.data.type == type)
+            {
+                func(out_node);
+            }
+        }
+    }
+}
+
+bg.GetFirstNodeOfTypeOutOfNode = function(graph, start_node_id, type)
+{
+    var out_node = null;
+    bg.ForEachGraphNodeOfTypeOutOfNode(graph, start_node_id, type, function(n)
+    {
+        if(out_node == null)
+        {
+            out_node = n;
+        }
+    });
+    return out_node;
 }
 
 bg.AddGraphLayout = function(graph)
