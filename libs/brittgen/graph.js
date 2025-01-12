@@ -72,14 +72,7 @@ bg.RemoveGraphSubEdgeById = function(graph, from_id, from_sub_id, to_id, to_sub_
 
 bg.AddGraphEdgeById = function(graph, from_id, to_id)
 {
-    var a_idx = graph.nodes.findIndex( n => n.id == from_id);
-    var b_idx = graph.nodes.findIndex( n => n.id == to_id);
-    if(a_idx == -1 || b_idx == -1)
-    {
-        //error
-        return;
-    }
-    graph.edges.push({a:a_idx, a_sub:-1, b:b_idx, b_sub:-1});
+    graph.edges.push({a:from_id, a_sub:-1, b:to_id, b_sub:-1});
 }
 
 bg.ForEachGraphNode = function(graph, func)
@@ -148,7 +141,7 @@ bg.ForEachGraphNodeOfTypeOutOfNode = function(graph, start_node_id, type, func)
     {
         if(e.a == start_node_id)
         {
-            var out_node = bg.GetGraphNodeById(e.b);
+            var out_node = bg.GetGraphNodeById(graph, e.b);
             if(out_node.data.type == type)
             {
                 func(out_node);
@@ -215,8 +208,8 @@ bg.GraphToUML = function(graph)
 	for(var e=0; e<graph.edges.length; ++e)
 	{
 		var edge = graph.edges[e];
-		var a = graph.nodes[edge.a].id;
-		var b = graph.nodes[edge.b].id;
+		var a = edge.a;
+		var b = edge.b;
 		uml += `    "${a}" -- "${b}"\n`;
 	}
 	uml += "}\n";
@@ -232,8 +225,8 @@ bg.DiGraphToUML = function(graph)
 	for(var e=0; e<graph.edges.length; ++e)
 	{
 		var edge = graph.edges[e];
-		var a = graph.nodes[edge.a].id;
-		var b = graph.nodes[edge.b].id;
+		var a = edge.a;
+		var b = edge.b;
 		uml += `    "${a}" -> "${b}"\n`;
 	}
 	uml += "}\n";
@@ -265,8 +258,8 @@ bg.DiGraphToUMLWithNodeData = function(graph, node_data_func, node_style_func)
 	for(var e=0; e<graph.edges.length; ++e)
 	{
 		var edge = graph.edges[e];
-		var a = graph.nodes[edge.a].id;
-		var b = graph.nodes[edge.b].id;
+		var a = edge.a;
+		var b = edge.b;
 		uml += `    "${a}" -> "${b}"\n`;
 	}
 	uml += "}\n";
@@ -282,9 +275,9 @@ bg.SerializeGraph = function(graph)
     {
         edgesById.push(
             {
-                a:graph.nodes[edge.a].id,
+                a:edge.a,
                 a_sub:edge.a_sub, 
-                b:graph.nodes[edge.b].id,
+                b:edge.b,
                 b_sub:edge.b_sub
             }
         );
