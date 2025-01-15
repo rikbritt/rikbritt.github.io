@@ -87,6 +87,21 @@ bg.ForEachGraphNode = function(graph, func)
     }
 }
 
+bg.ForEachGraphNodeOfType = function(graph, type, func)
+{
+    if(!graph || !graph.nodes)
+    {
+        return;
+    }
+    for(var n of graph.nodes)
+    {
+        if(n.data.type == type)
+        {
+            func(n);
+        }
+    }
+}
+
 bg.ForEachGraphEdgeIntoNode = function(graph, node_id, func)
 {
     if(!graph || !graph.edges)
