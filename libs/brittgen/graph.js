@@ -268,10 +268,9 @@ bg.DiGraphToUML = function(graph)
 	return uml;
 }
 
-bg.DiGraphToUMLWithNodeData = function(graph, node_data_func, node_style_func)
+bg.DiGraphToWithNodeData = function(graph, node_data_func, node_style_func)
 {
 	var uml = "";
-	uml += "@startuml\n";
 	uml += "digraph G {\n";
     uml += `    graph [ rankdir = "LR" ];`;
     for(var n of graph.nodes)
@@ -297,6 +296,14 @@ bg.DiGraphToUMLWithNodeData = function(graph, node_data_func, node_style_func)
 		uml += `    "${a}" -> "${b}"\n`;
 	}
 	uml += "}\n";
+	return uml;
+}
+
+bg.DiGraphToUMLWithNodeData = function(graph, node_data_func, node_style_func)
+{
+	var uml = "";
+	uml += "@startuml\n";
+	uml += bg.DiGraphToWithNodeData(graph, node_data_func, node_style_func);
 	uml += "@enduml\n";
 	return uml;
 }
