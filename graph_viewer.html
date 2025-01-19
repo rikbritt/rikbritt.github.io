@@ -1,0 +1,55 @@
+<html>
+<meta charset="utf-8">
+<title>Graph Viewer</title>
+<div id="root">
+	
+</div>
+<script>
+
+function ViewGraph(graphData)
+{
+    var gWorker = new Worker("/libs/thirdparty/graphviz.js");
+    gWorker.addEventListener(
+        "message", 
+        function(e) {
+            //e.data.id;
+            //e.data.error
+            //e.data.result;
+
+            var rendered = (new DOMParser).parseFromString(e.data.result, "image/svg+xml").documentElement;
+            document.getElementById("root").appendChild(rendered);
+        }
+    );
+
+    var options = 
+    {
+        "format": "svg",
+        "engine": "dot",
+        "files": [],
+        "images": [],
+        "yInvert": false,
+        "nop": 0
+    };
+
+    gWorker.postMessage(
+    {
+        id: 2, //?
+        src: graphData,
+        options: options
+    }
+    );
+}
+window.onload = function()
+{
+    (window.addEventListener || window.attachEvent)(
+        (window.attachEvent && "on" || "") + "message", 
+        function (evt) 
+        {
+            var data = evt.data; // this is the data sent to the window
+            ViewGraph(data);
+        },
+        false
+    );
+}
+</script>
+</html>
