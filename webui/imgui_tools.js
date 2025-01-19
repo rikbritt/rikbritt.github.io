@@ -88,6 +88,7 @@ var gGraphEditorData = {
     newNodeId:"",
     newEdgeFromId:"",
     newEdgeToId:"",
+    nodeIdToEdit:"",
     graph_json:""
 };
 
@@ -100,7 +101,7 @@ function UpdateGraphEditorWindow(close_func)
             var graphData = bg.DiGraphToWithNodeData(gGraphEditorData.graph);
             CreateGraphViewerWindow(graphData);
         }
-        if(ImGui.Button("Create Graph"))
+        if(ImGui.Button("Create New Graph"))
         {
             gGraphEditorData.graph = bg.CreateGraph();
         }
@@ -113,39 +114,66 @@ function UpdateGraphEditorWindow(close_func)
                 bg.AddGraphNode(gGraphEditorData.graph, gGraphEditorData.newNodeId);
             }
 
-            // New Edge - From
-            ImGui.PushID("new_edge_from");
-            ImGui.Text("New Edge From:");
-            bg.ForEachGraphNode(
-                gGraphEditorData.graph,
-                function(node)
-                {
-                    if(ImGui.Selectable(node.id, node.id == gGraphEditorData.newEdgeFromId))
-                    {
-                        gGraphEditorData.newEdgeFromId = node.id;
-                    }
-                }
-            )
-            ImGui.PopID();
-            
-            // New Edge - To
-            ImGui.PushID("new_edge_to");
-            ImGui.Text("New Edge To:");
-            bg.ForEachGraphNode(
-                gGraphEditorData.graph,
-                function(node)
-                {
-                    if(ImGui.Selectable(node.id, node.id == gGraphEditorData.newEdgeToId))
-                    {
-                        gGraphEditorData.newEdgeToId = node.id;
-                    }
-                }
-            )
-            ImGui.PopID();
-
-            if(ImGui.Button("Make Edge"))
+            if(ImGui.CollapsingHeader("Add Edge.."))
             {
-                bg.AddGraphEdgeById(gGraphEditorData.graph, gGraphEditorData.newEdgeFromId, gGraphEditorData.newEdgeToId);
+                var addEdgeWidth = ImGui.GetContentRegionAvail().x;
+                ImGui.BeginChild("ChildFromNode", new ImGui.Vec2(addEdgeWidth * 0.5, 100), false, 0);
+                ImGui.PushID("new_edge_from");
+                bg.ForEachGraphNode(
+                    gGraphEditorData.graph,
+                    function(node)
+                    {
+                        if(ImGui.Selectable(node.id, node.id == gGraphEditorData.newEdgeFromId))
+                        {
+                            gGraphEditorData.newEdgeFromId = node.id;
+                        }
+                    }
+                )
+                ImGui.PopID();
+                ImGui.EndChild();
+
+                ImGui.SameLine();
+
+                ImGui.BeginChild("ChildToNode", new ImGui.Vec2(addEdgeWidth * 0.5, 100), false, 0);
+                ImGui.PushID("new_edge_to");
+                bg.ForEachGraphNode(
+                    gGraphEditorData.graph,
+                    function(node)
+                    {
+                        if(ImGui.Selectable(node.id, node.id == gGraphEditorData.newEdgeToId))
+                        {
+                            gGraphEditorData.newEdgeToId = node.id;
+                        }
+                    }
+                )
+                ImGui.PopID();
+                ImGui.EndChild();
+
+                if(ImGui.Button("Add Edge", {x:addEdgeWidth, y:0}))
+                {
+                    bg.AddGraphEdgeById(gGraphEditorData.graph, gGraphEditorData.newEdgeFromId, gGraphEditorData.newEdgeToId);
+                }
+            }
+            if(ImGui.CollapsingHeader("Edit Node.."))
+            {
+                ImGui.BeginChild("ChildNodes", new ImGui.Vec2(addEdgeWidth, 100), false, 0);
+                ImGui.PushID("nodes");
+                bg.ForEachGraphNode(
+                    gGraphEditorData.graph,
+                    function(node)
+                    {
+                        if(ImGui.Selectable(node.id, node.id == gGraphEditorData.nodeIdToEdit))
+                        {
+                            gGraphEditorData.nodeIdToEdit = node.id;
+                        }
+                    }
+                )
+                ImGui.PopID();
+                ImGui.EndChild();
+
+                var nodeToEdit = bg.GetGraphNodeById(gGraphEditorData.graph, gGraphEditorData.nodeIdToEdit);
+                // TODO - Data
+                // TODO - Edges
             }
 
             if(ImGui.Button("Serialize Graph To JSON"))
