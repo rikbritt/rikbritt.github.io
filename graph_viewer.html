@@ -39,17 +39,15 @@ function ViewGraph(graphData)
     }
     );
 }
-window.onload = function()
-{
-    (window.addEventListener || window.attachEvent)(
-        (window.attachEvent && "on" || "") + "message", 
-        function (evt) 
-        {
-            var data = evt.data; // this is the data sent to the window
-            ViewGraph(data);
-        },
-        false
-    );
-}
+
+(window.addEventListener || window.attachEvent)(
+    (window.attachEvent && "on" || "") + "message", 
+    function (evt) 
+    {
+        var data = evt.data; // this is the data sent to the window
+        ViewGraph(data);
+    },
+    false
+);
 </script>
 </html>
