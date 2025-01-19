@@ -97,25 +97,7 @@ function UpdateGraphEditorWindow(close_func)
     {
         if(ImGui.Button("Graph Viewer Window"))
         {
-            var graphData = `# Place the cursor inside "graph" to get some refactoring options
-          
-            graph {
-          
-                # To refactor nodes, place the cursor left to a node name
-                a -- b
-                a -- c;
-                a -- d;
-          
-                # Hover over color names to get a color picker
-                b -- b [color=blue]
-                b -- d [color="#ff0100"];
-          
-                # Get completion when assigning a shape or color
-                b [shape=box, color=yellow];
-          
-                a; # You can remove optional ; by placing the cursor left to a semicolon
-            }
-            `;
+            var graphData = bg.DiGraphToWithNodeData(gGraphEditorData.graph);
             CreateGraphViewerWindow(graphData);
         }
         if(ImGui.Button("Create Graph"))
