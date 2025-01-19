@@ -275,8 +275,8 @@ bg.DiGraphToWithNodeData = function(graph, node_data_func, node_style_func)
     uml += `    graph [ rankdir = "LR" ];`;
     for(var n of graph.nodes)
     {
-        var node_data = node_data_func(n);
-        var node_style = node_style_func(n);
+        var node_data = node_data_func ? node_data_func(n) : {};
+        var node_style = node_style_func ? node_style_func(n) : "";
         uml += `    "${n.id}"[shape = "record"`;
         if(node_data.length > 0)
         {
