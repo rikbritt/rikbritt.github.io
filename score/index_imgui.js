@@ -66,8 +66,8 @@ function OnPageLoaded()
         //ImGui.StyleColorsClassic();
       
         const clear_color = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
-		gRenderer = new THREE.WebGLRenderer({canvas:canvas});
-		gRenderer.setSize( renderWidth, renderHeight );
+		//gRenderer = new THREE.WebGLRenderer({canvas:canvas});
+		//gRenderer.setSize( renderWidth, renderHeight );
         //gRenderer = bg.CreateRenderer(renderWidth, renderHeight, canvas);
 		//gRenderScene = bg.CreateScene(renderWidth, renderHeight, canvas, function() {}, function() {});
 
