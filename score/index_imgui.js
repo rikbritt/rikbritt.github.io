@@ -1,4 +1,5 @@
 
+var gRenderer = null;
 
 
 function UpdateImgui(dt, timestamp)
@@ -20,7 +21,7 @@ function UpdateImgui(dt, timestamp)
 	ImGui.EndFrame();
 }
 
-gRenderImGui = true;
+var gRenderImGui = true;
 
 
 async function LoadArrayBuffer(url)
