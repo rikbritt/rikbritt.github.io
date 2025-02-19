@@ -74,14 +74,14 @@ function OnPageLoaded()
         ImGui_Impl.Init(canvas);
 
 
-		var clock = new THREE.Clock();
+		//var clock = new THREE.Clock();
 
 		var animate = function (timestamp) 
 		{
 			requestAnimationFrame( animate );
 
-			var dt = clock.getDelta();
-			UpdateImgui(dt, timestamp);
+			//var dt = clock.getDelta();
+			UpdateImgui(0.03, timestamp);
 
 			
 /*
