@@ -7,15 +7,9 @@ function UpdateImgui(dt, timestamp)
 	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
 
-	if (ImGui.BeginMainMenuBar())
-	{
-		if(ImGui.BeginMenu("Tests"))
-		{
-			ImGui.EndMenu();
-		}
-		
-		ImGui.EndMainMenuBar();
-	}
+	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
+
+	ImGui.Button("hi");
 	ImGui.End();
 
 	ImGui.EndFrame();
