@@ -23,7 +23,7 @@ function AddPlayer(name)
 	var p ={
 		name:name
 	}
-	gPlayers.push(player);
+	gPlayers.push(p);
 }
 
 AddPlayer("rik");
