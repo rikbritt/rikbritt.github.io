@@ -41,10 +41,12 @@ function AddScore(pl, sc)
 function AddScoreButton(pl, amt)
 {
 	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:10,y:10});
+	ImGui.PushID(pl);
 	if(ImGui.Button("+" + amt))
 	{
 		AddScore(pl, amt);
 	}
+	ImGui.PopID();
 	ImGui.PopStyleVar();
 	
 }
