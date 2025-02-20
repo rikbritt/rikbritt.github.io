@@ -104,7 +104,7 @@ function UpdateImgui(dt, timestamp)
 
 	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
 	ImGui.SetWindowPos({x:0,y:0});
-	
+	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		var p = gPlayers[i];
