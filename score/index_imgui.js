@@ -4,6 +4,7 @@ var gScores = [
 
 ];
 var gPlayers = [];
+var cRecent = 2000;
 
 function GetScore(pl)
 {
@@ -18,6 +19,19 @@ function GetScore(pl)
 	return sc;
 }
 
+function GetLastScoreIndex(pl)
+{
+	var out=-1;
+	for(var i=0; i<gScores.length; ++i)
+	{
+		if(gScores[i].player == pl)
+		{
+			out=i;
+		}
+	}
+	return out;
+}
+
 function AddPlayer(name)
 {
 	var p ={
@@ -29,14 +43,23 @@ function AddPlayer(name)
 function GetTimeSinceScore(pl)
 {
   var latest = 0;
-  for(var s of gScores)
+  var i = GetLastScoreIndex(pl);
+  if(i!=-1)
+  {
+    latest = gScores[i].time;
+  }
+  return Date.now() - latest;
+}
+
+function GetRecentScoreChange(pl)
+{
+	var timeSince = GetTimeSinceScore(pl);
+	if(timeSince < cRecent)
 	{
-		if(s.player==pl)
-		{
-			latest = s.time;
-		}
+        var si = GetLastScoreIndex(pl);
+		return gScores[si].score;
 	}
-	return Date.now() - latest;
+	return 0;
 }
 
 AddPlayer("rik");
@@ -44,13 +67,23 @@ AddPlayer("Kieran");
 
 function AddScore(pl, sc)
 {
-	var entry ={
-		score:sc,
-		player:pl,
-		time:Date.now()
-	};
-    gScores.push(entry);
+	var timeSince = GetTimeSinceScore(pl);
+	if(timeSince < cRecent)
+	{
+        var si = GetLastScoreIndex(pl);
+		gScores[si].score += sc;
+	}
+	else
+	{
+        var entry ={
+			score:sc,
+			player:pl,
+			time:Date.now()
+		};
+		gScores.push(entry);
+	}
 }
+
 function AddScoreButton(pl, amt)
 {
 	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:10,y:10});
@@ -83,7 +116,7 @@ function UpdateImgui(dt, timestamp)
     	AddScoreButton(i, -5);
 	    AddScoreButton(i, -10);
 	
-		ImGui.Text(p.name + " " +GetScore(i) + " "+ GetTimeSinceScore(i));
+		ImGui.Text(p.name + " " +GetScore(i) + " "+ GetRecentScoreChange(i));
 	}
 	ImGui.End();
 
