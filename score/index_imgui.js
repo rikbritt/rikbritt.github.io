@@ -62,6 +62,20 @@ function GetRecentScoreChange(pl)
 	return 0;
 }
 
+function GetRecentScoreChangeStr(pl)
+{
+	var change = GetRecentScoreChange(pl);
+	if(change == 0)
+	{
+		return "";
+	}
+	if(change > 0)
+	{
+		return "+" + change;
+	}
+	return "" + change;
+}
+
 AddPlayer("rik");
 AddPlayer("Kieran");
 
@@ -124,7 +138,7 @@ function UpdateImgui(dt, timestamp)
 	    ImGui.SameLine();
 	    AddScoreButton(i, -10);
 	
-		ImGui.Text(p.name + " " +GetScore(i) + " "+ GetRecentScoreChange(i));
+		ImGui.Text(p.name + " " +GetScore(i) + " "+ GetRecentScoreChangeStr(i));
 	
 	    for(var s of gScores)
 		{
