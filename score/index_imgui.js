@@ -3,6 +3,17 @@ var gRenderer = null;
 var gScores = [
 
 ];
+var gPlayers = [];
+
+function AddPlayer(name)
+{
+	var p ={
+		name:name
+	}
+	gPlayers.push(player);
+}
+
+AddPlayer("rik");
 
 function AddScore(pl, sc)
 {
