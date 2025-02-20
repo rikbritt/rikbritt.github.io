@@ -65,6 +65,10 @@ function UpdateImgui(dt, timestamp)
 	    AddScoreButton(i, 2);
     	AddScoreButton(i, 5);
 	    AddScoreButton(i, 10);
+		AddScoreButton(i, -1);
+	    AddScoreButton(i, -2);
+    	AddScoreButton(i, -5);
+	    AddScoreButton(i, -10);
 	
 		ImGui.Text(p.name + " " +GetScore(i));
 	}
