@@ -27,6 +27,7 @@ function AddPlayer(name)
 }
 
 AddPlayer("rik");
+AddPlayer("Kieran");
 
 function AddScore(pl, sc)
 {
@@ -55,13 +56,15 @@ function UpdateImgui(dt, timestamp)
 	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
 	ImGui.SetWindowPos({x:0,y:0});
 	
-	AddScoreButton(0, 1);
-	AddScoreButton(0, 2);
-	AddScoreButton(0, 5);
-	AddScoreButton(0, 10);
-	for(var p of gPlayers)
+	for(var i=0; i<gPlayers.length; ++i)
 	{
-		ImGui.Text(""+GetScore(0));
+		var p = gPlayers[i];
+		AddScoreButton(i, 1);
+	    AddScoreButton(i, 2);
+    	AddScoreButton(i, 5);
+	    AddScoreButton(i, 10);
+	
+		ImGui.Text(p.name + " " +GetScore(i));
 	}
 	ImGui.End();
 
