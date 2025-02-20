@@ -1,15 +1,29 @@
 
 var gRenderer = null;
+var gScoreHis = [
 
+];
 
+function AddScoreButton(amt)
+{
+	ImGui.PushStyleVar(ImGui.Style.FramePadding, {x:10,y:10});
+	ImGui.Button("+" + amt);
+	ImGui.PopStyleVar();
+	
+}
 function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
 
 	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
-
-	ImGui.Button("hi");
+	ImGui.SetWindowPos({x:0,y:0});
+	
+	AddScoreButton(1);
+	AddScoreButton(2);
+	AddScoreButton(5);
+	AddScoreButton(10);
+	
 	ImGui.End();
 
 	ImGui.EndFrame();
