@@ -5,6 +5,19 @@ var gScores = [
 ];
 var gPlayers = [];
 
+function GetScore(pl)
+{
+	var sc =0;
+	for(var s of gScores)
+	{
+		if(s.player==pl)
+		{
+			sc += s.score;
+		}
+	}
+	return sc;
+}
+
 function AddPlayer(name)
 {
 	var p ={
@@ -46,7 +59,10 @@ function UpdateImgui(dt, timestamp)
 	AddScoreButton(0, 2);
 	AddScoreButton(0, 5);
 	AddScoreButton(0, 10);
-	
+	for(var p of gPlayers)
+	{
+		ImGui.Text(""+GetScore(0));
+	}
 	ImGui.End();
 
 	ImGui.EndFrame();
