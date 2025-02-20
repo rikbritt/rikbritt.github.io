@@ -72,6 +72,7 @@ function AddScore(pl, sc)
 	{
         var si = GetLastScoreIndex(pl);
 		gScores[si].score += sc;
+		gScores[si].time = Date.now();
 	}
 	else
 	{
