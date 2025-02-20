@@ -109,15 +109,30 @@ function UpdateImgui(dt, timestamp)
 	{
 		var p = gPlayers[i];
 		AddScoreButton(i, 1);
+		ImGui.SameLine();
 	    AddScoreButton(i, 2);
+		ImGui.SameLine();
     	AddScoreButton(i, 5);
+		ImGui.SameLine();
 	    AddScoreButton(i, 10);
+		
 		AddScoreButton(i, -1);
-	    AddScoreButton(i, -2);
-    	AddScoreButton(i, -5);
+	    ImGui.SameLine();
+		AddScoreButton(i, -2);
+    	ImGui.SameLine();
+	    AddScoreButton(i, -5);
+	    ImGui.SameLine();
 	    AddScoreButton(i, -10);
 	
 		ImGui.Text(p.name + " " +GetScore(i) + " "+ GetRecentScoreChange(i));
+	
+	    for(var s of gScores)
+		{
+			if(s.player==i)
+			{
+				ImGui.Text("" + s.score);
+			}
+		}
 	}
 	ImGui.End();
 
