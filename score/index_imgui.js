@@ -26,6 +26,19 @@ function AddPlayer(name)
 	gPlayers.push(p);
 }
 
+function GetTimeSinceScore(pl)
+{
+  var latest = 0;
+  for(var s of gScores)
+	{
+		if(s.player==pl)
+		{
+			latest = s.time;
+		}
+	}
+	return Date.now() - latest;
+}
+
 AddPlayer("rik");
 AddPlayer("Kieran");
 
@@ -70,7 +83,7 @@ function UpdateImgui(dt, timestamp)
     	AddScoreButton(i, -5);
 	    AddScoreButton(i, -10);
 	
-		ImGui.Text(p.name + " " +GetScore(i));
+		ImGui.Text(p.name + " " +GetScore(i) + " "+ GetTimeSinceScore(i));
 	}
 	ImGui.End();
 
