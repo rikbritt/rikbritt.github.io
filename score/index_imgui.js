@@ -180,7 +180,7 @@ function UpdateImgui(dt, timestamp)
 				ImGui.Text("" + s.score);
 			}
 		}
-		ImGui.Seperator();
+		ImGui.Separator();
 	}
 	ImGui.End();
 
