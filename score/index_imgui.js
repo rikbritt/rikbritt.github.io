@@ -178,16 +178,30 @@ function UpdateScores()
 		ImGui.PopStyleColor();
 		ImGui.SetWindowFontScale(1);
 	
-	
+		ImGui.Separator();
+	}	
+}
+
+function UpdateHistory()
+{
+	for(var i=0; i<gPlayers.length; ++i)
+	{
+		var p = gPlayers[i];
+			
+		ImGui.SetWindowFontScale(2);
+		ImGui.Text(p.name + " " +GetScore(i));
+		ImGui.SetWindowFontScale(1);
+		
+		
 		for(var s of gScores)
 		{
 			if(s.player==i)
 			{
 				ImGui.Text("" + s.score);
-			}
+			}	
 		}
 		ImGui.Separator();
-	}	
+	}
 }
 
 function UpdateImgui(dt, timestamp)
@@ -218,6 +232,7 @@ function UpdateImgui(dt, timestamp)
 		}
 		if(ImGui.BeginTabItem("History"))
 		{
+			UpdateHistory();
 			ImGui.EndTabItem();
 		}
 	  
