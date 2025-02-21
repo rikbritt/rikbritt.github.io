@@ -184,6 +184,36 @@ function UpdateScores()
 
 function UpdateHistory()
 {
+	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+	if (ImGui.BeginTable("sctb", 3, flags))
+	{
+		ImGui.TableSetupColumn("Name");
+		ImGui.TableSetupColumn("Total");
+		ImGui.TableSetupColumn("Change");
+		ImGui.TableHeadersRow();
+
+		var totals=[];
+		for(var i=0; i<gPlayers.length; ++i)
+		{
+			totals.push(0);
+		}
+
+		for(var s of gScores)
+		{
+			totals[s.player] += s.score;
+			
+			ImGui.TableNextRow();
+			ImGui.Text(gPlayers[s.player].name);
+			ImGui.TableNextColumn();
+			ImGui.Text("" + totals[s.player]);
+			ImGui.TableNextColumn();
+			ImGui.Text(s.score);
+			ImGui.TableNextColumn();
+		}
+		ImGui.EndTable();
+	}
+
+	/*
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		var p = gPlayers[i];
@@ -201,7 +231,7 @@ function UpdateHistory()
 			}	
 		}
 		ImGui.Separator();
-	}
+	}*/
 }
 
 function UpdateImgui(dt, timestamp)
