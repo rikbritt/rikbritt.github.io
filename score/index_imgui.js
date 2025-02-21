@@ -16,6 +16,11 @@ catch(e)
   
 }
 
+if(!Array.isArray(gScores))
+{
+	gScores=[];
+}
+
 function GetScore(pl)
 {
 	var sc =0;
