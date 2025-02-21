@@ -185,11 +185,15 @@ function UpdateScores()
 function UpdateHistory()
 {
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
-	if (ImGui.BeginTable("sctb", 3, flags))
+	if (ImGui.BeginTable("sctb", 3 + gPlayers.length, flags))
 	{
 		ImGui.TableSetupColumn("Name");
 		ImGui.TableSetupColumn("Total");
 		ImGui.TableSetupColumn("Change");
+		for(var i=0; i<gPlayers.length; ++i)
+		{
+			ImGui.TableSetupColumn(gPlayers[i].name);
+		}
 		ImGui.TableHeadersRow();
 
 		var totals=[];
@@ -210,6 +214,11 @@ function UpdateHistory()
 			ImGui.TableNextColumn();
 			ImGui.Text("" + s.score);
 			
+			for(var i=0; i<gPlayers.length; ++i)
+			{
+				ImGui.TableNextColumn();
+			    ImGui.Text("" + totals[i]);
+			}
 		}
 		ImGui.EndTable();
 	}
