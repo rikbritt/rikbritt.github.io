@@ -76,8 +76,20 @@ function GetRecentScoreChangeStr(pl)
 	return "" + change;
 }
 
-AddPlayer("rik");
+function GetRecentScoreChangeT(pl)
+{
+	var timeSince = GetTimeSinceScore(pl);
+	if(timeSince >= cRecent)
+	{
+		return 0;
+	}
+	return timeSince / cRecent;
+}
+
+AddPlayer("Rik");
 AddPlayer("Kieran");
+AddPlayer("Elin");
+AddPlayer("Cathryn");
 
 function AddScore(pl, sc)
 {
@@ -149,7 +161,8 @@ function UpdateImgui(dt, timestamp)
 	    ImGui.SetWindowFontScale(1);
 
 		ImGui.SameLine();
-		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255, 0, 255) )
+		var recentT = GetRecentScoreChangeT(i);
+		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255 * recentT, 0, 255) )
         ImGui.Text(GetRecentScoreChangeStr(i));
 		ImGui.PopStyleColor();
 
