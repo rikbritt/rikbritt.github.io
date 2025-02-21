@@ -144,8 +144,10 @@ function UpdateImgui(dt, timestamp)
 	    ImGui.SameLine();
 	    AddScoreButton(i, -10);
 	
+		ImGui.SetWindowFontScale(2);
 		ImGui.Text(p.name + " " +GetScore(i));
-	
+	    ImGui.SetWindowFontScale(1);
+
 		ImGui.SameLine();
 		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255, 0, 255) )
         ImGui.Text(GetRecentScoreChangeStr(i));
