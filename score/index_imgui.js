@@ -147,6 +147,49 @@ function AddScoreButton(pl, amt)
 	
 }
 
+function UpdateScores()
+{
+	for(var i=0; i<gPlayers.length; ++i)
+	{
+		var p = gPlayers[i];
+		AddScoreButton(i, 1);
+		ImGui.SameLine();
+		AddScoreButton(i, 2);
+		ImGui.SameLine();
+		AddScoreButton(i, 5);
+		ImGui.SameLine();
+		AddScoreButton(i, 10);
+			
+		AddScoreButton(i, -1);
+		ImGui.SameLine();
+		AddScoreButton(i, -2);
+		ImGui.SameLine();
+		AddScoreButton(i, -5);
+		ImGui.SameLine();
+		AddScoreButton(i, -10);
+		
+		ImGui.SetWindowFontScale(2);
+		ImGui.Text(p.name + " " +GetScore(i));
+			
+		ImGui.SameLine();
+		var recentT = GetRecentScoreChangeT(i);
+		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255 * recentT, 0, 255) )
+		ImGui.Text(GetRecentScoreChangeStr(i));
+		ImGui.PopStyleColor();
+		ImGui.SetWindowFontScale(1);
+	
+	
+		for(var s of gScores)
+		{
+			if(s.player==i)
+			{
+				ImGui.Text("" + s.score);
+			}
+		}
+		ImGui.Separator();
+	}	
+}
+
 function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
@@ -157,10 +200,11 @@ function UpdateImgui(dt, timestamp)
 	ImGui.SetWindowPos({x:0,y:0});
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
 	
-	if (ImGui.BeginTabBar("##tabs", 0))
+	if (ImGui.BeginTabBar("##tabs", ImGui.TabBarFlags.None))
     {
 		if(ImGui.BeginTabItem("Scores"))
 		{
+			UpdateScores();
 			ImGui.EndTabItem();
 		}
 		if(ImGui.BeginTabItem("Settings"))
@@ -178,45 +222,6 @@ function UpdateImgui(dt, timestamp)
 		}
 	  
 		ImGui.EndTabBar();
-	}
-	for(var i=0; i<gPlayers.length; ++i)
-	{
-		var p = gPlayers[i];
-		AddScoreButton(i, 1);
-		ImGui.SameLine();
-	    AddScoreButton(i, 2);
-		ImGui.SameLine();
-    	AddScoreButton(i, 5);
-		ImGui.SameLine();
-	    AddScoreButton(i, 10);
-		
-		AddScoreButton(i, -1);
-	    ImGui.SameLine();
-		AddScoreButton(i, -2);
-    	ImGui.SameLine();
-	    AddScoreButton(i, -5);
-	    ImGui.SameLine();
-	    AddScoreButton(i, -10);
-	
-		ImGui.SetWindowFontScale(2);
-		ImGui.Text(p.name + " " +GetScore(i));
-	    
-		ImGui.SameLine();
-		var recentT = GetRecentScoreChangeT(i);
-		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255 * recentT, 0, 255) )
-        ImGui.Text(GetRecentScoreChangeStr(i));
-		ImGui.PopStyleColor();
-		ImGui.SetWindowFontScale(1);
-
-
-	    for(var s of gScores)
-		{
-			if(s.player==i)
-			{
-				ImGui.Text("" + s.score);
-			}
-		}
-		ImGui.Separator();
 	}
 	ImGui.End();
 
