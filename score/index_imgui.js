@@ -83,7 +83,7 @@ function GetRecentScoreChangeT(pl)
 	{
 		return 0;
 	}
-	return timeSince / cRecent;
+	return 1 - (timeSince / cRecent);
 }
 
 AddPlayer("Rik");
@@ -134,9 +134,15 @@ function UpdateImgui(dt, timestamp)
 	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
 
+	
 	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
 	ImGui.SetWindowPos({x:0,y:0});
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
+	
+	window.localStorage.setItem("scores","qwe");
+	var k =window.localStorage.getItem("scores");
+	ImGui.Text(k);
+	
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		var p = gPlayers[i];
@@ -158,13 +164,13 @@ function UpdateImgui(dt, timestamp)
 	
 		ImGui.SetWindowFontScale(2);
 		ImGui.Text(p.name + " " +GetScore(i));
-	    ImGui.SetWindowFontScale(1);
-
+	    
 		ImGui.SameLine();
 		var recentT = GetRecentScoreChangeT(i);
 		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255 * recentT, 0, 255) )
         ImGui.Text(GetRecentScoreChangeStr(i));
 		ImGui.PopStyleColor();
+		ImGui.SetWindowFontScale(1);
 
 
 	    for(var s of gScores)
@@ -174,6 +180,7 @@ function UpdateImgui(dt, timestamp)
 				ImGui.Text("" + s.score);
 			}
 		}
+		ImGui.Seperator();
 	}
 	ImGui.End();
 
