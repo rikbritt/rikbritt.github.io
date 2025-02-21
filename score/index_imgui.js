@@ -101,14 +101,14 @@ function AddScore(pl, sc)
 
 function AddScoreButton(pl, amt)
 {
-	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:15,y:15});
+	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:20,y:20});
 	ImGui.PushID(pl);
 	var txt = "" + amt;
 	if(amt >0)
 	{
 		txt = "+" + txt;
 	}
-	ImGui.SetNextItemWidth(100);
+	ImGui.SetNextItemWidth(150);
 	if(ImGui.Button(txt))
 	{
 		AddScore(pl, amt);
