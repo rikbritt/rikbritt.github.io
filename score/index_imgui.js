@@ -6,6 +6,16 @@ var gScores = [
 var gPlayers = [];
 var cRecent = 2000;
 
+var prevScores = window.localStorage.getItem("scores");
+try
+{
+  gScores = JSON.parse(prevScores);
+}
+catch(e)
+{
+  
+}
+
 function GetScore(pl)
 {
 	var sc =0;
@@ -109,11 +119,13 @@ function AddScore(pl, sc)
 		};
 		gScores.push(entry);
 	}
+
+	window.localStorage.setItem("scores", JSON.stringify(gScores));
 }
 
 function AddScoreButton(pl, amt)
 {
-	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:20,y:20});
+	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:30,y:30});
 	ImGui.PushID(pl);
 	var txt = "" + amt;
 	if(amt >0)
@@ -129,6 +141,7 @@ function AddScoreButton(pl, amt)
 	ImGui.PopStyleVar();
 	
 }
+
 function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
@@ -138,10 +151,6 @@ function UpdateImgui(dt, timestamp)
 	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
 	ImGui.SetWindowPos({x:0,y:0});
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
-	
-	window.localStorage.setItem("scores","qwe");
-	var k =window.localStorage.getItem("scores");
-	ImGui.Text(k);
 	
 	for(var i=0; i<gPlayers.length; ++i)
 	{
