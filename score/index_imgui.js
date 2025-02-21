@@ -130,7 +130,7 @@ function AddScore(pl, sc)
 
 function AddScoreButton(pl, amt)
 {
-	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:30,y:30});
+	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:30,y:20});
 	ImGui.PushID(pl);
 	var txt = "" + amt;
 	if(amt >0)
