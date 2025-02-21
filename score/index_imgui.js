@@ -203,12 +203,13 @@ function UpdateHistory()
 			totals[s.player] += s.score;
 
 			ImGui.TableNextRow();
+			ImGui.TableNextColumn();
 			ImGui.Text(gPlayers[s.player].name);
 			ImGui.TableNextColumn();
 			ImGui.Text("" + totals[s.player]);
 			ImGui.TableNextColumn();
 			ImGui.Text("" + s.score);
-			ImGui.TableNextColumn();
+			
 		}
 		ImGui.EndTable();
 	}
