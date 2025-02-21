@@ -152,6 +152,28 @@ function UpdateImgui(dt, timestamp)
 	ImGui.SetWindowPos({x:0,y:0});
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
 	
+	if (ImGui.BeginTabBar("##tabs", 0))
+    {
+		if(ImGui.BeginTabItem("Scores"))
+		{
+			ImGui.EndTabItem();
+		}
+		if(ImGui.BeginTabItem("Settings"))
+		{
+			if(ImGui.Button("Restart Game"))
+			{
+				gScores=[];
+				window.localStorage.clear();
+			}
+			ImGui.EndTabItem();
+		}
+		if(ImGui.BeginTabItem("History"))
+		{
+			ImGui.EndTabItem();
+		}
+	  
+		ImGui.EndTabBar();
+	}
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		var p = gPlayers[i];
