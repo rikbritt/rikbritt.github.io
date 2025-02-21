@@ -144,8 +144,14 @@ function UpdateImgui(dt, timestamp)
 	    ImGui.SameLine();
 	    AddScoreButton(i, -10);
 	
-		ImGui.Text(p.name + " " +GetScore(i) + " "+ GetRecentScoreChangeStr(i));
+		ImGui.Text(p.name + " " +GetScore(i));
 	
+		ImGui.SameLine();
+		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255, 0, 255) )
+        ImGui.Text(GetRecentScoreChangeStr(i));
+		ImGui.PopStyleColor();
+
+
 	    for(var s of gScores)
 		{
 			if(s.player==i)
