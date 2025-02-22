@@ -47,6 +47,31 @@ function GetLastScoreIndex(pl)
 	return out;
 }
 
+function GetMostEntries()
+{
+	var entries=[];
+	for(var i=0; i<gPlayers.length; ++i)
+	{
+		entries.push(0);
+	}
+
+	for(var i=0; i<gScores.length; ++i)
+	{
+		entries[gScores[i].player]++;
+	}
+
+	var biggest=0;
+	for(var i=0; i<entries.length; ++i)
+	{
+		if(entries[i] > biggest)
+		{
+			biggest = entries[i];
+		}
+	}
+
+	return biggest;
+}
+
 function AddPlayer(name)
 {
 	var p ={
@@ -186,8 +211,27 @@ function UpdateGraph()
 {
 	var w=400;
 	var h=400;
+	var biggestScore = 50;
+	var numEntries = gScores.length;// GetMostEntries();
+	var entX = w / numEntries;
 	var dl = ImGui.GetWindowDrawList();
-	dl.AddLine({x:0,y:0},{x:100,y:100}, ImGui.COL32_WHITE);
+	var totals=[];
+	for(var i=0; i<gPlayers.length; ++i)
+	{
+		totals.push(0);
+	}
+
+	var x = 0;
+	for(var score of gScores)
+	{
+		var prevY = 0;
+		var y = totals[score.y] / biggestScore;
+ 
+		dl.AddLine({x:x-entX,y:0},{x:x,y:y}, ImGui.COL32_WHITE);
+
+		x += entX;
+	}
+	//dl.AddLine({x:0,y:0},{x:100,y:100}, ImGui.COL32_WHITE);
 }
 
 function UpdateHistory()
