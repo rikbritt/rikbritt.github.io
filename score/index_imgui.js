@@ -182,6 +182,11 @@ function UpdateScores()
 	}	
 }
 
+function UpdateGraph()
+{
+	ImGui.GetWindowDrawList().AddLine({x:0,y:0},{x:100,y:100}, ImGui.COL32_WHITE);
+}
+
 function UpdateHistory()
 {
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
@@ -275,7 +280,11 @@ function UpdateImgui(dt, timestamp)
 			UpdateHistory();
 			ImGui.EndTabItem();
 		}
-	  
+		if(ImGui.BeginTabItem("Graph"))
+		{
+			UpdateGraph();
+			ImGui.EndTabItem();
+		}
 		ImGui.EndTabBar();
 	}
 	ImGui.End();
