@@ -184,7 +184,10 @@ function UpdateScores()
 
 function UpdateGraph()
 {
-	ImGui.GetWindowDrawList().AddLine({x:0,y:0},{x:100,y:100}, ImGui.COL32_WHITE);
+	var w=400;
+	var h=400;
+	var dl = ImGui.GetWindowDrawList();
+	dl.AddLine({x:0,y:0},{x:100,y:100}, ImGui.COL32_WHITE);
 }
 
 function UpdateHistory()
