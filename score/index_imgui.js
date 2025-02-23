@@ -176,6 +176,11 @@ function UpdateScores()
 {
 	for(var i=0; i<gPlayers.length; ++i)
 	{
+		ImGui.PushID(i);
+		if(ImGui.BeginChild("pl"+i))
+		{
+
+		
 		var p = gPlayers[i];
 		AddScoreButton(i, 1);
 		ImGui.SameLine();
@@ -203,7 +208,9 @@ function UpdateScores()
 		ImGui.PopStyleColor();
 		ImGui.SetWindowFontScale(1);
 	
-		ImGui.Separator();
+		ImGui.EndChild();
+		}
+		ImGui.PopID();
 	}	
 }
 
