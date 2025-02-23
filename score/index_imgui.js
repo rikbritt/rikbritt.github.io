@@ -72,10 +72,11 @@ function GetMostEntries()
 	return biggest;
 }
 
-function AddPlayer(name)
+function AddPlayer(name, col)
 {
 	var p ={
-		name:name
+		name:name,
+		colour:col
 	}
 	gPlayers.push(p);
 }
@@ -126,10 +127,10 @@ function GetRecentScoreChangeT(pl)
 	return 1 - (timeSince / cRecent);
 }
 
-AddPlayer("Rik");
-AddPlayer("Kieran");
-AddPlayer("Elin");
-AddPlayer("Cathryn");
+AddPlayer("Rik", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
+AddPlayer("Kieran", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
+AddPlayer("Elin", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
+AddPlayer("Cathryn", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
 
 function AddScore(pl, sc)
 {
