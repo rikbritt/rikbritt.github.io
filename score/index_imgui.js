@@ -259,6 +259,10 @@ function UpdateHistory()
 
 		for(var s of gScores)
 		{
+			if(s.score == 0)
+			{
+				continue;
+			}
 			totals[s.player] += s.score;
 
 			ImGui.TableNextRow();
