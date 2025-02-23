@@ -236,7 +236,7 @@ function UpdateGraph()
 
 function UpdateHistory()
 {
-	if(ImGui.BeginChild())
+	if(ImGui.BeginChild("scorhis"))
 	{
 		
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
