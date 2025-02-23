@@ -236,6 +236,9 @@ function UpdateGraph()
 
 function UpdateHistory()
 {
+	if(ImGui.BeginChild())
+	{
+		
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
 	if (ImGui.BeginTable("sctb", 3 + gPlayers.length, flags))
 	{
@@ -273,6 +276,8 @@ function UpdateHistory()
 			}
 		}
 		ImGui.EndTable();
+	 }
+	 ImGui.EndChild();
 	}
 
 	/*
