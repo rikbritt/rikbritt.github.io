@@ -5,6 +5,9 @@ var gScores = [
 ];
 var gPlayers = [];
 var cRecent = 2000;
+var gChosenTab = "Scores";
+var cButtonHeight = 20;
+var gCanvasWidth = 0;
 
 var prevScores = window.localStorage.getItem("scores");
 try
@@ -154,9 +157,9 @@ function AddScore(pl, sc)
 	window.localStorage.setItem("scores", JSON.stringify(gScores));
 }
 
-function AddScoreButton(pl, amt)
+function AddScoreButton(pl, amt, width)
 {
-	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:30,y:20});
+	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:width,y:cButtonHeight});
 	ImGui.PushID(pl);
 	var txt = "" + amt;
 	if(amt >0)
@@ -175,6 +178,7 @@ function AddScoreButton(pl, amt)
 
 function UpdateScores()
 {
+	var scoreButtonWidth = (gCanvasWidth / 4) - 10;
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		ImGui.PushID(i);
@@ -183,21 +187,21 @@ function UpdateScores()
 
 		
 		var p = gPlayers[i];
-		AddScoreButton(i, 1);
+		AddScoreButton(i, 1, scoreButtonWidth);
 		ImGui.SameLine();
-		AddScoreButton(i, 2);
+		AddScoreButton(i, 2, scoreButtonWidth);
 		ImGui.SameLine();
-		AddScoreButton(i, 5);
+		AddScoreButton(i, 5, scoreButtonWidth);
 		ImGui.SameLine();
-		AddScoreButton(i, 10);
+		AddScoreButton(i, 10, scoreButtonWidth);
 			
-		AddScoreButton(i, -1);
+		AddScoreButton(i, -1, scoreButtonWidth);
 		ImGui.SameLine();
-		AddScoreButton(i, -2);
+		AddScoreButton(i, -2), scoreButtonWidth;
 		ImGui.SameLine();
-		AddScoreButton(i, -5);
+		AddScoreButton(i, -5, scoreButtonWidth);
 		ImGui.SameLine();
-		AddScoreButton(i, -10);
+		AddScoreButton(i, -10, scoreButtonWidth);
 		
 		ImGui.SetWindowFontScale(2);
 		ImGui.Text(p.name + " " +GetScore(i));
@@ -313,27 +317,34 @@ function UpdateHistory()
 	}*/
 }
 
-var chosenTab = "Scores";
+function UpdateSettings()
+{
+	if(ImGui.Button("Restart Game"))
+	{
+		gScores=[];
+		window.localStorage.clear();
+	}
+}
 
 function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
 	ImGui.NewFrame();
 
+	const canvas = document.getElementById("output");
+	gCanvasWidth = canvas.clientWidth;
 	
 	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
 	ImGui.SetWindowPos({x:0,y:0});
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
 	
-	const canvas = document.getElementById("output");
-	var renderWidth = canvas.clientWidth;
 	var tabs = [
 		{ name:"Scores", func:function() { UpdateScores(); } },
 		{ name:"Settings", func:function() { UpdateSettings(); } },
 		{ name:"History", func:function() { UpdateHistory(); } },
 		{ name:"Graph", func:function() { UpdateGraph(); } },
 	];
-	var tabButtonWidth = (renderWidth / tabs.length) - 10;
+	var tabButtonWidth = (gCanvasWidth / tabs.length) - 10;
 	var firstButton = true;
 	for(var tab of tabs)
 	{
@@ -345,14 +356,14 @@ function UpdateImgui(dt, timestamp)
 		{
 			ImGui.SameLine();
 		}
-		if(ImGui.Button(tab.name, {x:tabButtonWidth, y:0}))
+		if(ImGui.Button(tab.name, {x:tabButtonWidth, y:cButtonHeight}))
 		{
-			chosenTab = tab.name;
+			gChosenTab = tab.name;
 		}
 	}
 	for(var tab of tabs)
 	{
-		if(chosenTab == tab.name)
+		if(gChosenTab == tab.name)
 		{
 			tab.func();
 		}
