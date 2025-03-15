@@ -157,21 +157,36 @@ function AddScore(pl, sc)
 	window.localStorage.setItem("scores", JSON.stringify(gScores));
 }
 
+function TouchButton(label, width = 0, col = null)
+{
+	if(col != null)
+	{
+		ImGui.PushStyleColor(ImGui.Col.Button, col);
+	}
+	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:10,y:cButtonHeight/3});
+	var ret = ImGui.Button(label, {x:width,y:cButtonHeight});
+	ImGui.PopStyleVar();
+	if(col != null)
+	{
+		ImGui.PopStyleColor();
+	}
+	return ret;
+}
+
 function AddScoreButton(pl, amt, width)
 {
-	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:10,y:cButtonHeight/3});
 	ImGui.PushID(pl);
+	var player = gPlayers[pl];
 	var txt = "" + amt;
 	if(amt >0)
 	{
 		txt = "+" + txt;
 	}
-	if(ImGui.Button(txt, {x:width,y:cButtonHeight}))
+	if(TouchButton(txt, width, player.colour))
 	{
 		AddScore(pl, amt);
 	}
 	ImGui.PopID();
-	ImGui.PopStyleVar();
 	
 }
 
@@ -184,6 +199,7 @@ function UpdateScores()
 		ImGui.PushID(i);
 		
 		var p = gPlayers[i];
+		ImGui.PushStyleColor(ImGui.Col.Button, p.colour);
 		AddScoreButton(i, 1, scoreButtonWidth);
 		ImGui.SameLine();
 		AddScoreButton(i, 2, scoreButtonWidth);
@@ -199,6 +215,7 @@ function UpdateScores()
 		AddScoreButton(i, -5, scoreButtonWidth);
 		ImGui.SameLine();
 		AddScoreButton(i, -10, scoreButtonWidth);
+		ImGui.PopStyleColor();
 		
 		ImGui.SetWindowFontScale(2);
 		ImGui.Text(p.name + " " +GetScore(i));
@@ -314,10 +331,17 @@ function UpdateHistory()
 
 function UpdateSettings()
 {
-	if(ImGui.Button("Restart Game"))
+	if(TouchButton("Restart Game"))
 	{
 		gScores=[];
 		window.localStorage.clear();
+	}
+
+	ImGui.Separator();
+
+	if(TouchButton("Add Player"))
+	{
+		
 	}
 }
 
@@ -351,7 +375,7 @@ function UpdateImgui(dt, timestamp)
 		{
 			ImGui.SameLine();
 		}
-		if(ImGui.Button(tab.name, {x:tabButtonWidth, y:cButtonHeight}))
+		if(TouchButton(tab.name, tabButtonWidth))
 		{
 			gChosenTab = tab.name;
 		}
