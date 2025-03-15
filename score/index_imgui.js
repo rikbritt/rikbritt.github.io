@@ -159,15 +159,14 @@ function AddScore(pl, sc)
 
 function AddScoreButton(pl, amt, width)
 {
-	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:width,y:cButtonHeight});
+	ImGui.PushStyleVar(ImGui.StyleVar.FramePadding, {x:10,y:cButtonHeight/3});
 	ImGui.PushID(pl);
 	var txt = "" + amt;
 	if(amt >0)
 	{
 		txt = "+" + txt;
 	}
-	ImGui.SetNextItemWidth(150);
-	if(ImGui.Button(txt))
+	if(ImGui.Button(txt, {x:width,y:cButtonHeight}))
 	{
 		AddScore(pl, amt);
 	}
@@ -178,13 +177,11 @@ function AddScoreButton(pl, amt, width)
 
 function UpdateScores()
 {
+	ImGui.Separator();
 	var scoreButtonWidth = (gCanvasWidth / 4) - 10;
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		ImGui.PushID(i);
-		//if(ImGui.BeginChild("pl"+i))
-		//{
-
 		
 		var p = gPlayers[i];
 		AddScoreButton(i, 1, scoreButtonWidth);
@@ -197,7 +194,7 @@ function UpdateScores()
 			
 		AddScoreButton(i, -1, scoreButtonWidth);
 		ImGui.SameLine();
-		AddScoreButton(i, -2), scoreButtonWidth;
+		AddScoreButton(i, -2, scoreButtonWidth);
 		ImGui.SameLine();
 		AddScoreButton(i, -5, scoreButtonWidth);
 		ImGui.SameLine();
@@ -213,8 +210,6 @@ function UpdateScores()
 		ImGui.PopStyleColor();
 		ImGui.SetWindowFontScale(1);
 	
-		//ImGui.EndChild();
-		//}
 		ImGui.PopID();
 	}	
 }
