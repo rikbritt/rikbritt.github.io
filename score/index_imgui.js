@@ -9,7 +9,7 @@ var gChosenTab = "Scores";
 var cButtonHeight = 60;
 var gCanvasWidth = 0;
 
-function GetStorageData(name, default)
+function GetStorageData(name, defaultVal)
 {
 	var storedVal = window.localStorage.getItem(name);
 	var parsed = null;
@@ -24,7 +24,7 @@ function GetStorageData(name, default)
 	
 	if(!Array.isArray(parsed))
 	{
-		return default;
+		return defaultVal;
 	}
 	return parsed;
 }
