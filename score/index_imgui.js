@@ -348,13 +348,18 @@ function UpdateSettings()
 		for(var i=0; i<gPlayers.length; ++i)
 		{
 			var player = gPlayers[i];
-
+			ImGui.PushID(i);
 			ImGui.TableNextRow();
 			ImGui.TableNextColumn();
 			ImGui.Text(player.name);
+			if(TouchButton("Remove"))
+			{
+				//todo
+			}
 			ImGui.TableNextColumn();
 			ImGui.SetNextItemWidth(150);
-			ImGui.ColorPicker4("MyColor##4", player.colour, ImGui.ColorEditFlags.PickerHueWheel);
+			ImGui.ColorPicker4("##col", player.colour, ImGui.ColorEditFlags.PickerHueWheel);
+			ImGui.PopID();
 		}
 		ImGui.EndTable();
 	}
