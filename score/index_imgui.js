@@ -334,10 +334,18 @@ function UpdateImgui(dt, timestamp)
 		{ name:"Graph", func:function() { UpdateGraph(); } },
 	];
 	var tabButtonWidth = (renderWidth / tabs.length) - 10;
+	var firstButton = true;
 	for(var tab of tabs)
 	{
-		ImGui.SetNextItemWidth(tabButtonWidth);
-		if(ImGui.Button(tab.name))
+		if(firstButton)
+		{
+			firstButton = false;
+		}
+		else
+		{
+			ImGui.SameLine();
+		}
+		if(ImGui.Button(tab.name, {x:tabButtonWidth, y:0}))
 		{
 			chosenTab = tab.name;
 		}
