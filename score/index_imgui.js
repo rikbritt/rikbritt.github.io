@@ -313,6 +313,8 @@ function UpdateHistory()
 	}*/
 }
 
+var chosenTab = "Scores";
+
 function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
@@ -323,34 +325,61 @@ function UpdateImgui(dt, timestamp)
 	ImGui.SetWindowPos({x:0,y:0});
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
 	
-	if (ImGui.BeginTabBar("##tabs", ImGui.TabBarFlags.None))
-    {
-		if(ImGui.BeginTabItem("Scores"))
+	const canvas = document.getElementById("output");
+	var renderWidth = canvas.clientWidth;
+	var tabs = [
+		{ name:"Scores", func:function() { UpdateScores(); } },
+		{ name:"Settings", func:function() { UpdateSettings(); } },
+		{ name:"History", func:function() { UpdateHistory(); } },
+		{ name:"Graph", func:function() { UpdateGraph(); } },
+	];
+	var tabButtonWidth = (renderWidth / tabs.length) - 10;
+	for(var tab of tabs)
+	{
+		ImGui.SetNextItemWidth(tabButtonWidth);
+		if(ImGui.Button(tab.name))
 		{
-			UpdateScores();
-			ImGui.EndTabItem();
+			chosenTab = tab.name;
 		}
-		if(ImGui.BeginTabItem("Settings"))
-		{
-			if(ImGui.Button("Restart Game"))
-			{
-				gScores=[];
-				window.localStorage.clear();
-			}
-			ImGui.EndTabItem();
-		}
-		if(ImGui.BeginTabItem("History"))
-		{
-			UpdateHistory();
-			ImGui.EndTabItem();
-		}
-		if(ImGui.BeginTabItem("Graph"))
-		{
-			UpdateGraph();
-			ImGui.EndTabItem();
-		}
-		ImGui.EndTabBar();
 	}
+	for(var tab of tabs)
+	{
+		if(chosenTab == tab.name)
+		{
+			tab.func();
+		}
+	}
+
+
+	
+	// if (ImGui.BeginTabBar("##tabs", ImGui.TabBarFlags.None))
+    // {
+	// 	if(ImGui.BeginTabItem("Scores"))
+	// 	{
+	// 		UpdateScores();
+	// 		ImGui.EndTabItem();
+	// 	}
+	// 	if(ImGui.BeginTabItem("Settings"))
+	// 	{
+	// 		if(ImGui.Button("Restart Game"))
+	// 		{
+	// 			gScores=[];
+	// 			window.localStorage.clear();
+	// 		}
+	// 		ImGui.EndTabItem();
+	// 	}
+	// 	if(ImGui.BeginTabItem("History"))
+	// 	{
+	// 		UpdateHistory();
+	// 		ImGui.EndTabItem();
+	// 	}
+	// 	if(ImGui.BeginTabItem("Graph"))
+	// 	{
+	// 		UpdateGraph();
+	// 		ImGui.EndTabItem();
+	// 	}
+	// 	ImGui.EndTabBar();
+	// }
 	ImGui.End();
 
 	ImGui.EndFrame();
