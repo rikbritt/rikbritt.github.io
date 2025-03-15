@@ -6,7 +6,7 @@ var gScores = [
 var gPlayers = [];
 var cRecent = 2000;
 var gChosenTab = "Scores";
-var cButtonHeight = 20;
+var cButtonHeight = 60;
 var gCanvasWidth = 0;
 
 var prevScores = window.localStorage.getItem("scores");
@@ -262,50 +262,49 @@ function UpdateHistory()
 {
 	if(ImGui.BeginChild("scorhis"))
 	{
-		
-	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
-	if (ImGui.BeginTable("sctb", 3 + gPlayers.length, flags))
-	{
-		ImGui.TableSetupColumn("Name");
-		ImGui.TableSetupColumn("Total");
-		ImGui.TableSetupColumn("Change");
-		for(var i=0; i<gPlayers.length; ++i)
+		var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+		if (ImGui.BeginTable("sctb", 3 + gPlayers.length, flags))
 		{
-			ImGui.TableSetupColumn(gPlayers[i].name);
-		}
-		ImGui.TableHeadersRow();
-
-		var totals=[];
-		for(var i=0; i<gPlayers.length; ++i)
-		{
-			totals.push(0);
-		}
-
-		for(var s of gScores)
-		{
-			if(s.score == 0)
-			{
-				continue;
-			}
-			totals[s.player] += s.score;
-
-			ImGui.TableNextRow();
-			ImGui.TableNextColumn();
-			ImGui.Text(gPlayers[s.player].name);
-			ImGui.TableNextColumn();
-			ImGui.Text("" + totals[s.player]);
-			ImGui.TableNextColumn();
-			ImGui.Text("" + s.score);
-			
+			ImGui.TableSetupColumn("Name");
+			ImGui.TableSetupColumn("Total");
+			ImGui.TableSetupColumn("Change");
 			for(var i=0; i<gPlayers.length; ++i)
 			{
-				ImGui.TableNextColumn();
-			    ImGui.Text("" + totals[i]);
+				ImGui.TableSetupColumn(gPlayers[i].name);
 			}
+			ImGui.TableHeadersRow();
+
+			var totals=[];
+			for(var i=0; i<gPlayers.length; ++i)
+			{
+				totals.push(0);
+			}
+
+			for(var s of gScores)
+			{
+				if(s.score == 0)
+				{
+					continue;
+				}
+				totals[s.player] += s.score;
+
+				ImGui.TableNextRow();
+				ImGui.TableNextColumn();
+				ImGui.Text(gPlayers[s.player].name);
+				ImGui.TableNextColumn();
+				ImGui.Text("" + totals[s.player]);
+				ImGui.TableNextColumn();
+				ImGui.Text("" + s.score);
+				
+				for(var i=0; i<gPlayers.length; ++i)
+				{
+					ImGui.TableNextColumn();
+					ImGui.Text("" + totals[i]);
+				}
+			}
+			ImGui.EndTable();
 		}
-		ImGui.EndTable();
-	 }
-	 ImGui.EndChild();
+		ImGui.EndChild();
 	}
 
 	/*
@@ -339,9 +338,25 @@ function UpdateSettings()
 
 	ImGui.Separator();
 
-	if(TouchButton("Add Player"))
+	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+	if (ImGui.BeginTable("players_table", 2, flags))
 	{
-		
+		ImGui.TableSetupColumn("Name");
+		ImGui.TableSetupColumn("Colour");
+		ImGui.TableHeadersRow();
+
+		for(var i=0; i<gPlayers.length; ++i)
+		{
+			var player = gPlayers[i];
+
+			ImGui.TableNextRow();
+			ImGui.TableNextColumn();
+			ImGui.Text(player.name);
+			ImGui.TableNextColumn();
+			ImGui.SetNextItemWidth(150);
+			ImGui.ColorPicker4("MyColor##4", player.colour, ImGui.ColorEditFlags.PickerHueWheel);
+		}
+		ImGui.EndTable();
 	}
 }
 
