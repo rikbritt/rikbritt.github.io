@@ -9,20 +9,27 @@ var gChosenTab = "Scores";
 var cButtonHeight = 60;
 var gCanvasWidth = 0;
 
-var prevScores = window.localStorage.getItem("scores");
-try
+function GetStorageData(name, default)
 {
-  gScores = JSON.parse(prevScores);
-}
-catch(e)
-{
-  
+	var storedVal = window.localStorage.getItem(name);
+	var parsed = null;
+	try
+	{
+		  parsed = JSON.parse(storedVal);
+	}
+	catch(e)
+	{
+	  
+	}
+	
+	if(!Array.isArray(parsed))
+	{
+		return default;
+	}
+	return parsed;
 }
 
-if(!Array.isArray(gScores))
-{
-	gScores=[];
-}
+gScores = GetStorageData("scores", []);
 
 function GetScore(pl)
 {
@@ -75,13 +82,25 @@ function GetMostEntries()
 	return biggest;
 }
 
-function AddPlayer(name, col)
+function AddPlayer(name, col, db)
 {
 	var p ={
 		name:name,
 		colour:col
 	}
-	gPlayers.push(p);
+	db.push(p);
+}
+
+var playersDefault = [];
+AddPlayer("Rik", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
+AddPlayer("Kieran", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
+AddPlayer("Elin", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
+AddPlayer("Cathryn", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
+gPlayers = GetStorageData("players", playersDefault);
+
+function SavePlayers()
+{
+	window.localStorage.setItem("players", JSON.stringify(gPlayers));
 }
 
 function GetTimeSinceScore(pl)
@@ -129,11 +148,6 @@ function GetRecentScoreChangeT(pl)
 	}
 	return 1 - (timeSince / cRecent);
 }
-
-AddPlayer("Rik", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
-AddPlayer("Kieran", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
-AddPlayer("Elin", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
-AddPlayer("Cathryn", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0));
 
 function AddScore(pl, sc)
 {
@@ -358,7 +372,10 @@ function UpdateSettings()
 			}
 			ImGui.TableNextColumn();
 			ImGui.SetNextItemWidth(150);
-			ImGui.ColorPicker4("##col", player.colour, ImGui.ColorEditFlags.PickerHueWheel);
+			if(ImGui.ColorPicker4("##col", player.colour, ImGui.ColorEditFlags.PickerHueWheel))
+			{
+				SavePlayers();
+			}
 			ImGui.PopID();
 		}
 		ImGui.EndTable();
