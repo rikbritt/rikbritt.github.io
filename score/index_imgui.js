@@ -356,6 +356,7 @@ function UpdateSettings()
 	{
 		ImGui.TableSetupColumn("Name");
 		ImGui.TableSetupColumn("Colour");
+		ImGui.TableSetupScrollFreeze(0, 1);
 		ImGui.TableHeadersRow();
 
 		for(var i=0; i<gPlayers.length; ++i)
@@ -364,7 +365,7 @@ function UpdateSettings()
 			ImGui.PushID(i);
 			ImGui.TableNextRow();
 			ImGui.TableNextColumn();
-			ImGui.Text(player.name);
+			ImGui.InputText("Name", (_ = player.name) => player.name = _, 256);
 			if(TouchButton("Remove"))
 			{
 				//todo
