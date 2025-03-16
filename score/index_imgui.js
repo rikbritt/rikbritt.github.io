@@ -348,6 +348,8 @@ function UpdateSettings()
 	{
 		gScores=[];
 		window.localStorage.clear();
+
+		document.getElementById("in").focus();
 	}
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg | ImGui.TableFlags.ScrollY;
