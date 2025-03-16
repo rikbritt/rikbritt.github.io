@@ -350,9 +350,8 @@ function UpdateSettings()
 		window.localStorage.clear();
 	}
 
-	ImGui.Separator();
-
-	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg;
+	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg | ImGui.TableFlags.ScrollY;
+	var size = {x:0, y:(ImGui.GetWindowSize().y - ImGui.GetCursorPos().y)-10 };
 	if (ImGui.BeginTable("players_table", 2, flags))
 	{
 		ImGui.TableSetupColumn("Name");
@@ -417,6 +416,7 @@ function UpdateImgui(dt, timestamp)
 			gChosenTab = tab.name;
 		}
 	}
+	ImGui.Separator();
 	for(var tab of tabs)
 	{
 		if(gChosenTab == tab.name)
