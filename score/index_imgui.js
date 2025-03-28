@@ -9,6 +9,26 @@ var gChosenTab = "Scores";
 var cButtonHeight = 60;
 var gCanvasWidth = 0;
 
+
+var gActiveSetter = null;
+function EditText(setter)
+{
+	gActiveSetter = setter;
+	document.getElementById("in").value = setter();
+	document.getElementById("in").style.display = "block";
+	document.getElementById("in").focus();
+}
+
+function OnText(c) 
+{
+	if(gActiveSetter)
+	{
+		gActiveSetter(c);
+	}
+	document.getElementById("in").style.display = "none";
+}
+
+
 function GetStorageData(name, defaultVal)
 {
 	var storedVal = window.localStorage.getItem(name);
@@ -367,14 +387,20 @@ function UpdateSettings()
 			ImGui.PushID(i);
 			ImGui.TableNextRow();
 			ImGui.TableNextColumn();
-			ImGui.InputText("Name", (_ = player.name) => player.name = _, 256);
+			if(TouchButton(player.name + "##Name"))
+			{
+				var p = player;
+				EditText( (_ = p.name) => p.name = _  );
+			}
+			//ImGui.InputText("Name", (_ = player.name) => player.name = _, 256);
 			if(TouchButton("Remove"))
 			{
 				//todo
 			}
 			ImGui.TableNextColumn();
 			ImGui.SetNextItemWidth(150);
-			if(ImGui.ColorPicker4("##col", player.colour, ImGui.ColorEditFlags.PickerHueWheel))
+			var colorFlags = ImGui.ColorEditFlags.PickerHueWheel | ImGui.ColorEditFlags.NoInputs;
+			if(ImGui.ColorPicker4("##col", player.colour, colorFlags))
 			{
 				SavePlayers();
 			}

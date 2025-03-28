@@ -15,6 +15,6 @@
   </head>
   <body onload="OnPageLoaded()">
     <canvas id="output" tabindex="1"></canvas>
-    <input type="text" style="display:none;" id="in"></input>
+    <input type="text" style="position: absolute; top: 0px; left: 0px; display: none; width: 100%;" id="in" onchange="OnText(event.target.value);">
   </body>
 </html>
