@@ -374,10 +374,11 @@ function UpdateSettings()
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg | ImGui.TableFlags.ScrollY;
 	var size = {x:0, y:(ImGui.GetWindowSize().y - ImGui.GetCursorPos().y)-10 };
-	if (ImGui.BeginTable("players_table", 2, flags))
+	if (ImGui.BeginTable("players_table", 3, flags))
 	{
 		ImGui.TableSetupColumn("Name");
 		ImGui.TableSetupColumn("Colour");
+		ImGui.TableSetupColumn("Edit");
 		ImGui.TableSetupScrollFreeze(0, 1);
 		ImGui.TableHeadersRow();
 
@@ -407,6 +408,11 @@ function UpdateSettings()
 			ImGui.PopID();
 		}
 		ImGui.EndTable();
+	}
+	
+	if(TouchButton("Add Player"))
+	{
+		//todo
 	}
 }
 
