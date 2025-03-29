@@ -482,6 +482,7 @@ function UpdateSettings()
 	if(TouchButton("Add Player"))
 	{
 		AddPlayer("New Player", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), gPlayers);
+		SavePlayers();
 	}
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg | ImGui.TableFlags.ScrollY;
