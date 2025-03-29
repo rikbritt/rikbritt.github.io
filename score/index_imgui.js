@@ -8,7 +8,7 @@ var cRecent = 2000;
 var gChosenTab = "Scores";
 var cButtonHeight = 60;
 var gCanvasWidth = 0;
-
+var gFontScale = 1.5;
 
 var gActiveSetter = null;
 function EditText(setter)
@@ -212,16 +212,23 @@ function AddScoreButton(pl, amt, width)
 	ImGui.PushID(pl);
 	var player = gPlayers[pl];
 	var txt = "" + amt;
+	var col = player.colour;
 	if(amt >0)
 	{
 		txt = "+" + txt;
+		col = new ImGui.Vec4(1, 1, 1, 0.2);
 	}
-	if(TouchButton(txt, width, player.colour))
+	else
+	{
+		var fade = 0.7;
+		col = new ImGui.Vec4(0, 0, 0, 0.2);
+	}
+	
+	if(TouchButton(txt, width, col))
 	{
 		AddScore(pl, amt);
 	}
 	ImGui.PopID();
-	
 }
 
 function UpdateScores()
@@ -233,7 +240,14 @@ function UpdateScores()
 		ImGui.PushID(i);
 		
 		var p = gPlayers[i];
-		ImGui.PushStyleColor(ImGui.Col.Button, p.colour);
+		
+		var bgColFade = 0.7;
+		var bgCol = new ImGui.Vec4(p.colour.x * bgColFade, p.colour.y * bgColFade, p.colour.z * bgColFade, p.colour.w);
+		ImGui.PushStyleColor(ImGui.Col.ChildBg, ImGui.ColorConvertFloat4ToU32(bgCol));
+		ImGui.PushStyleColor(ImGui.Col.Border, ImGui.ColorConvertFloat4ToU32(p.colour));
+		ImGui.PushStyleVar(ImGui.StyleVar.ChildBorderSize, 4);
+		ImGui.BeginChild("p"+i, new ImGui.Vec2(gCanvasWidth, 180), true);
+		
 		AddScoreButton(i, 1, scoreButtonWidth);
 		ImGui.SameLine();
 		AddScoreButton(i, 2, scoreButtonWidth);
@@ -249,18 +263,22 @@ function UpdateScores()
 		AddScoreButton(i, -5, scoreButtonWidth);
 		ImGui.SameLine();
 		AddScoreButton(i, -10, scoreButtonWidth);
-		ImGui.PopStyleColor();
 		
 		ImGui.SetWindowFontScale(2);
 		ImGui.Text(p.name + " " +GetScore(i));
 			
 		ImGui.SameLine();
 		var recentT = GetRecentScoreChangeT(i);
-		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255 * recentT, 0, 255) )
+		ImGui.PushStyleColor(ImGui.Col.Text,ImGui.COL32(0, 255, 0, 255 * recentT) );
 		ImGui.Text(GetRecentScoreChangeStr(i));
 		ImGui.PopStyleColor();
-		ImGui.SetWindowFontScale(1);
-	
+		ImGui.SetWindowFontScale(gFontScale);
+
+		ImGui.EndChild();
+		ImGui.PopStyleColor();
+		ImGui.PopStyleColor();
+		ImGui.PopStyleVar();
+		
 		ImGui.PopID();
 	}	
 }
