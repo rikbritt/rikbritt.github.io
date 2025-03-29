@@ -317,7 +317,7 @@ function UpdateGraph()
 	var entX = w / numEntries;
 	var dl = ImGui.GetWindowDrawList();
 	var yStart = ImGui.GetCursorPosY() + 20;
-	var yEnd = yStart + 500;
+	var yEnd = yStart + gCanvasHeight - 120;
 	var yHeight = yEnd - yStart;
 	var totals=[];
 	var lastYPlayer = [];
