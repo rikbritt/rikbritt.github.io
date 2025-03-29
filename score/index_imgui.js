@@ -8,6 +8,7 @@ var cRecent = 2000;
 var gChosenTab = "Scores";
 var cButtonHeight = 60;
 var gCanvasWidth = 0;
+var gCanvasHeight = 0;
 var gFontScale = 1.5;
 
 var gActiveSetter = null;
@@ -306,29 +307,55 @@ function UpdateScores()
 
 function UpdateGraph()
 {
-	var w=400;
+	var graphPadding = 20;
+	var w = gCanvasWidth - (graphPadding * 2);
 	var h=400;
-	var biggestScore = 50;
-	var numEntries = gScores.length;// GetMostEntries();
+	var biggestScore = 0;
+	var numEntries = gScores.length;
 	var entX = w / numEntries;
 	var dl = ImGui.GetWindowDrawList();
+	var yStart = ImGui.GetCursorPosY() + 20;
+	var yEnd = yStart + 500;
+	var yHeight = yEnd - yStart;
 	var totals=[];
+	var lastYPlayer = [];
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		totals.push(0);
+		lastYPlayer.push(yEnd);
+		var playerTotalScore = GetScore(i);
+		if(playerTotalScore > biggestScore)
+		{
+			biggestScore = playerTotalScore;
+		}
 	}
 
-	var x = 0;
+
+	var x = graphPadding;
+	var startPos = {x:x, y:yEnd};
+	x += entX;
+
 	for(var score of gScores)
 	{
 		var prevY = 0;
-		var y = totals[score.y] / biggestScore;
- 
-		dl.AddLine({x:x-entX,y:0},{x:x,y:y}, ImGui.COL32_WHITE);
+		totals[score.player] += score.score;
 
+		var pos = {x:x, y:0};
+		for(var i=0; i<gPlayers.length; ++i)
+		{
+			var player = gPlayers[i];
+			var yNorm = totals[i] / biggestScore;
+			var y = yEnd - (yNorm * yHeight);
+			pos.y = y;
+			dl.AddLine({x:x-entX, y:lastYPlayer[i]}, pos, ImGui.ColorConvertFloat4ToU32(player.colour));
+			dl.AddCircleFilled(pos, 4, ImGui.ColorConvertFloat4ToU32(player.colour));
+			lastYPlayer[i] = y;
+		}
 		x += entX;
 	}
-	//dl.AddLine({x:0,y:0},{x:100,y:100}, ImGui.COL32_WHITE);
+
+	// Start pos
+	dl.AddCircleFilled(startPos, 4, ImGui.ColorConvertFloat4ToU32(gPlayers[0].colour));
 }
 
 function UpdateHistory()
@@ -465,6 +492,7 @@ function UpdateImgui(dt, timestamp)
 
 	const canvas = document.getElementById("output");
 	gCanvasWidth = canvas.clientWidth;
+	gCanvasHeight = canvas.clientHeight;
 	
 	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
 	ImGui.SetWindowPos({x:0,y:0});
