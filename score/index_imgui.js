@@ -270,6 +270,7 @@ function UpdateScores()
 		var sz = ImGui.CalcTextSize(playerText);
 		ImGui.Text("");
 		ImGui.SameLine((childWidth/2) - (sz.x / 2));
+		ImGui.Text(playerText);
 			
 		ImGui.SameLine();
 		var recentT = GetRecentScoreChangeT(i);
