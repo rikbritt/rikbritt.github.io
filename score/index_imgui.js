@@ -266,7 +266,10 @@ function UpdateScores()
 		AddScoreButton(i, -10, scoreButtonWidth);
 		
 		ImGui.SetWindowFontScale(2);
-		ImGui.Text(p.name + " " +GetScore(i));
+		var playerText = p.name + " " +GetScore(i);
+		var sz = ImGui.CalcTextSize(playerText);
+		ImGui.Text("");
+		ImGui.SameLine((childWidth/2) - (sz.x / 2));
 			
 		ImGui.SameLine();
 		var recentT = GetRecentScoreChangeT(i);
