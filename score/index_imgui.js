@@ -148,10 +148,10 @@ function AddPlayer(name, col, db)
 }
 
 var playersDefault = [];
-AddPlayer("Rik", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
-AddPlayer("Kieran", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
-AddPlayer("Elin", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
-AddPlayer("Cathryn", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), playersDefault);
+AddPlayer("Rik", new ImGui.Vec4(0.8, 0.0, 0.0, 1.0), playersDefault);
+AddPlayer("Kieran", new ImGui.Vec4(0.0, 0.8, 0.0, 1.0), playersDefault);
+AddPlayer("Elin", new ImGui.Vec4(0.0, 0.0, 0.8, 1.0), playersDefault);
+AddPlayer("Cathryn", new ImGui.Vec4(0.6, 0.6, 0.0, 1.0), playersDefault);
 gPlayers = GetStorageData("players", playersDefault);
 
 function SavePlayers()
