@@ -102,6 +102,23 @@ function GetMostEntries()
 	return biggest;
 }
 
+function RemovePlayer(idx)
+{
+	gPlayers.splice(idx, 1);
+
+	//Fix gScores - first remove player entries
+	gScores = gScores.filter( item => !(item.player == idx));
+
+	// Then fix indices
+	for(var score of gScores)
+	{
+		if(score.player > idx)
+		{
+			--score.player;
+		}
+	}
+}
+
 function AddPlayer(name, col, db)
 {
 	var p ={
@@ -220,7 +237,6 @@ function AddScoreButton(pl, amt, width)
 	}
 	else
 	{
-		var fade = 0.7;
 		col = new ImGui.Vec4(0, 0, 0, 0.2);
 	}
 	
@@ -394,14 +410,18 @@ function UpdateSettings()
 
 		document.getElementById("in").focus();
 	}
+	ImGui.SameLine();
+	if(TouchButton("Add Player"))
+	{
+		AddPlayer("New Player", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), gPlayers);
+	}
 
 	var flags = ImGui.TableFlags.Borders | ImGui.TableFlags.RowBg | ImGui.TableFlags.ScrollY;
 	var size = {x:0, y:(ImGui.GetWindowSize().y - ImGui.GetCursorPos().y)-10 };
-	if (ImGui.BeginTable("players_table", 3, flags))
+	if (ImGui.BeginTable("players_table", 2, flags))
 	{
 		ImGui.TableSetupColumn("Name");
 		ImGui.TableSetupColumn("Colour");
-		ImGui.TableSetupColumn("Edit");
 		ImGui.TableSetupScrollFreeze(0, 1);
 		ImGui.TableHeadersRow();
 
@@ -415,7 +435,15 @@ function UpdateSettings()
 			{
 				var p = player;
 				EditText( (_ = p.name) => p.name = _  );
+				//todo - SavePlayers();
 			}
+			ImGui.PushStyleColor(ImGui.Col.Button, new ImGui.Vec4(0.4, 0, 0, 1));
+			if(TouchButton("Remove"))
+			{
+				RemovePlayer(i);
+				SavePlayers();
+			}
+			ImGui.PopStyleColor();
 			
 			ImGui.TableNextColumn();
 			ImGui.SetNextItemWidth(150);
@@ -424,21 +452,9 @@ function UpdateSettings()
 			{
 				SavePlayers();
 			}
-
-			
-			ImGui.TableNextColumn();
-			if(TouchButton("Remove"))
-			{
-				//todo
-			}
 			ImGui.PopID();
 		}
 		ImGui.EndTable();
-	}
-	
-	if(TouchButton("Add Player"))
-	{
-		//todo
 	}
 }
 
