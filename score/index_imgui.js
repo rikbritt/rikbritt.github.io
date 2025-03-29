@@ -411,17 +411,20 @@ function UpdateSettings()
 				var p = player;
 				EditText( (_ = p.name) => p.name = _  );
 			}
-			//ImGui.InputText("Name", (_ = player.name) => player.name = _, 256);
-			if(TouchButton("Remove"))
-			{
-				//todo
-			}
+			
 			ImGui.TableNextColumn();
 			ImGui.SetNextItemWidth(150);
 			var colorFlags = ImGui.ColorEditFlags.PickerHueWheel | ImGui.ColorEditFlags.NoInputs;
 			if(ImGui.ColorPicker4("##col", player.colour, colorFlags))
 			{
 				SavePlayers();
+			}
+
+			
+			ImGui.TableNextColumn();
+			if(TouchButton("Remove"))
+			{
+				//todo
 			}
 			ImGui.PopID();
 		}
