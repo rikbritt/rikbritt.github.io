@@ -65,6 +65,24 @@ function GetScore(pl)
 	return sc;
 }
 
+function GetPeakScore(pl)
+{
+	var peak = 0;
+	var sc = 0;
+	for(var s of gScores)
+	{
+		if(s.player==pl)
+		{
+			sc += s.score;
+			if(sc > peak)
+			{
+				peak = sc;
+			}
+		}
+	}
+	return peak;
+}
+
 function GetLastScoreIndex(pl)
 {
 	var out=-1;
@@ -325,10 +343,10 @@ function UpdateGraph()
 	{
 		totals.push(0);
 		lastYPlayer.push(yEnd);
-		var playerTotalScore = GetScore(i);
-		if(playerTotalScore > biggestScore)
+		var playerPeakScore = GetPeakScore(i);
+		if(playerPeakScore > biggestScore)
 		{
-			biggestScore = playerTotalScore;
+			biggestScore = playerPeakScore;
 		}
 	}
 
