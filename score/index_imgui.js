@@ -275,7 +275,7 @@ function UpdateScores()
 {
 	ImGui.Separator();
 	var childWidth = gCanvasWidth - (ImGui.GetStyle().WindowPadding.x * 2);
-	var scoringHeight = 180;
+	var scoringHeight = ((cButtonHeight + ImGui.GetStyle().ItemSpacing.y) * 2) + (ImGui.GetTextLineHeight() * 2) + (ImGui.GetStyle().WindowPadding.y * 2);
 	var totalPlayersHeight = scoringHeight * gPlayers.length;
 	var availHeight = gCanvasHeight - 80;
 	
