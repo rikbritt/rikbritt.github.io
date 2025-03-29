@@ -307,6 +307,8 @@ function UpdateScores()
 
 function UpdateGraph()
 {
+	var pointSize = 2;
+	var lineThick = 2;
 	var graphPadding = 20;
 	var w = gCanvasWidth - (graphPadding * 2);
 	var h=400;
@@ -347,15 +349,15 @@ function UpdateGraph()
 			var yNorm = totals[i] / biggestScore;
 			var y = yEnd - (yNorm * yHeight);
 			pos.y = y;
-			dl.AddLine({x:x-entX, y:lastYPlayer[i]}, pos, ImGui.ColorConvertFloat4ToU32(player.colour));
-			dl.AddCircleFilled(pos, 4, ImGui.ColorConvertFloat4ToU32(player.colour));
+			dl.AddLine({x:x-entX, y:lastYPlayer[i]}, pos, ImGui.ColorConvertFloat4ToU32(player.colour), lineThick);
+			dl.AddCircleFilled(pos, pointSize, ImGui.ColorConvertFloat4ToU32(player.colour));
 			lastYPlayer[i] = y;
 		}
 		x += entX;
 	}
 
 	// Start pos
-	dl.AddCircleFilled(startPos, 4, ImGui.ColorConvertFloat4ToU32(gPlayers[0].colour));
+	dl.AddCircleFilled(startPos, pointSize, ImGui.ColorConvertFloat4ToU32(gPlayers[0].colour));
 }
 
 function UpdateHistory()
