@@ -6,7 +6,7 @@ var gScores = [
 var gPlayers = [];
 var cRecent = 2000;
 var gChosenTab = "Scores";
-var cButtonHeight = 60;
+var cButtonHeight = 50;
 var gCanvasWidth = 0;
 var gCanvasHeight = 0;
 var gFontScale = 1.5;
@@ -277,7 +277,7 @@ function UpdateScores()
 	var childWidth = gCanvasWidth - (ImGui.GetStyle().WindowPadding.x * 2);
 	var scoringHeight = 180;
 	var totalPlayersHeight = scoringHeight * gPlayers.length;
-	var availHeight = gCanvasHeight - 90;
+	var availHeight = gCanvasHeight - 80;
 	
 	ImGui.BeginChild("players", new ImGui.Vec2(childWidth, availHeight), false);
 	if(totalPlayersHeight >= availHeight)
