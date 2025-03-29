@@ -234,19 +234,20 @@ function AddScoreButton(pl, amt, width)
 function UpdateScores()
 {
 	ImGui.Separator();
-	var scoreButtonWidth = (gCanvasWidth / 4) - 10;
+	var childWidth = gCanvasWidth - (ImGui.GetStyle().WindowPadding.x * 2);
+	var scoreButtonWidth = (childWidth / 4) - 10;
 	for(var i=0; i<gPlayers.length; ++i)
 	{
 		ImGui.PushID(i);
 		
 		var p = gPlayers[i];
-		
+
 		var bgColFade = 0.7;
 		var bgCol = new ImGui.Vec4(p.colour.x * bgColFade, p.colour.y * bgColFade, p.colour.z * bgColFade, p.colour.w);
 		ImGui.PushStyleColor(ImGui.Col.ChildBg, ImGui.ColorConvertFloat4ToU32(bgCol));
 		ImGui.PushStyleColor(ImGui.Col.Border, ImGui.ColorConvertFloat4ToU32(p.colour));
 		ImGui.PushStyleVar(ImGui.StyleVar.ChildBorderSize, 4);
-		ImGui.BeginChild("p"+i, new ImGui.Vec2(gCanvasWidth, 180), true);
+		ImGui.BeginChild("p"+i, new ImGui.Vec2(childWidth, 180), true);
 		
 		AddScoreButton(i, 1, scoreButtonWidth);
 		ImGui.SameLine();
