@@ -159,6 +159,11 @@ function SavePlayers()
 	window.localStorage.setItem("players", JSON.stringify(gPlayers));
 }
 
+function SaveScores()
+{
+	window.localStorage.setItem("scores", JSON.stringify(gScores));
+}
+
 function GetTimeSinceScore(pl)
 {
   var latest = 0;
@@ -224,7 +229,7 @@ function AddScore(pl, sc)
 		gScores.push(entry);
 	}
 
-	window.localStorage.setItem("scores", JSON.stringify(gScores));
+	SaveScores();
 }
 
 function TouchButton(label, width = 0, col = null)
@@ -450,12 +455,18 @@ function UpdateHistory()
 
 function UpdateSettings()
 {
-	if(TouchButton("Restart Game"))
+	ImGui.PushStyleColor(ImGui.Col.Button, new ImGui.Vec4(0.4, 0, 0, 1));
+	if(TouchButton("Reset All"))
 	{
 		gScores=[];
 		window.localStorage.clear();
-
-		document.getElementById("in").focus();
+	}
+	ImGui.PopStyleColor();
+	ImGui.SameLine();
+	if(TouchButton("Reset Scores"))
+	{
+		gScores=[];
+		SaveScores();
 	}
 	ImGui.SameLine();
 	if(TouchButton("Add Player"))
