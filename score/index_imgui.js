@@ -393,7 +393,7 @@ function UpdateGraph()
 	dl.AddCircleFilled(startPos, pointSize, ImGui.ColorConvertFloat4ToU32(gPlayers[0].colour));
 }
 
-function UpdateHistory()
+function UpdateThisGameHistory()
 {
 	if(ImGui.BeginChild("scorhis"))
 	{
@@ -441,45 +441,64 @@ function UpdateHistory()
 		}
 		ImGui.EndChild();
 	}
-
-	/*
-	for(var i=0; i<gPlayers.length; ++i)
-	{
-		var p = gPlayers[i];
-			
-		ImGui.SetWindowFontScale(2);
-		ImGui.Text(p.name + " " +GetScore(i));
-		ImGui.SetWindowFontScale(1);
-		
-		
-		for(var s of gScores)
-		{
-			if(s.player==i)
-			{
-				ImGui.Text("" + s.score);
-			}	
-		}
-		ImGui.Separator();
-	}*/
 }
+
+function ShowAllGameHistory()
+{
+
+}
+
+var showThisGameHistory = true;
+function UpdateHistory()
+{
+	var numSubButtons = 3;
+	var subButtonWidth = (gCanvasWidth / numSubButtons) - 10;
+	if(TouchButton("All Games", subButtonWidth))
+	{
+		showThisGameHistory = false;
+	}
+	ImGui::SameLine();
+	if(TouchButton("This Game", subButtonWidth))
+	{
+		showThisGameHistory = true;
+	}
+
+	if(showThisGameHistory)
+	{
+		ShowAllGameHistory();
+	}
+	else
+	{
+		ShowAllGameHistory();
+	}
+}
+
 
 function UpdateSettings()
 {
-	ImGui.PushStyleColor(ImGui.Col.Button, new ImGui.Vec4(0.4, 0, 0, 1));
-	if(TouchButton("Reset All"))
+	var numSubButtons = 3;
+	var subButtonWidth = (gCanvasWidth / numSubButtons) - 10;
+	if(TouchButton("Reset All", subButtonWidth, new ImGui.Vec4(0.4, 0, 0, 1)))
 	{
 		gScores=[];
-		window.localStorage.clear();
+		gPlayers= JSON.parse(JSON.stringify(playersDefault));
+		SavePlayers();
+		SaveScores();
 	}
-	ImGui.PopStyleColor();
 	ImGui.SameLine();
-	if(TouchButton("Reset Scores"))
+	if(TouchButton("Finish Game", subButtonWidth, new ImGui.Vec4(0.1, 0.5, 0, 1)))
+	{
+		//gScores=[];
+		SaveScores();
+	}
+	ImGui.SameLine();
+	if(TouchButton("Reset Scores", subButtonWidth))
 	{
 		gScores=[];
 		SaveScores();
 	}
 	ImGui.SameLine();
-	if(TouchButton("Add Player"))
+	if(TouchButton("Add Player", subButtonWidth))
 	{
 		AddPlayer("New Player", new ImGui.Vec4(1.0, 0.0, 1.0, 1.0), gPlayers);
 		SavePlayers();
