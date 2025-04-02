@@ -457,7 +457,7 @@ function UpdateHistory()
 	{
 		showThisGameHistory = false;
 	}
-	ImGui::SameLine();
+	ImGui.SameLine();
 	if(TouchButton("This Game", subButtonWidth))
 	{
 		showThisGameHistory = true;
