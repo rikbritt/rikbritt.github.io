@@ -3,6 +3,10 @@ var gRenderer = null;
 var gScores = [
 
 ];
+
+// map, keyed by sorted list of players
+var gGames = {};
+
 var gPlayers = [];
 var cRecent = 2000;
 var gChosenTab = "Scores";
@@ -43,7 +47,7 @@ function GetStorageData(name, defaultVal)
 	  
 	}
 	
-	if(!Array.isArray(parsed))
+	if(!Array.isArray(parsed) && !(typeof parsed === 'object' && parsed !== null))
 	{
 		return defaultVal;
 	}
@@ -51,6 +55,7 @@ function GetStorageData(name, defaultVal)
 }
 
 gScores = GetStorageData("scores", []);
+gGames = GetStorageData("games", {});
 
 function GetScore(pl)
 {
@@ -162,6 +167,11 @@ function SavePlayers()
 function SaveScores()
 {
 	window.localStorage.setItem("scores", JSON.stringify(gScores));
+}
+
+function SaveGameHistory()
+{
+	window.localStorage.setItem("games", JSON.stringify(gGames));
 }
 
 function GetTimeSinceScore(pl)
@@ -443,7 +453,7 @@ function UpdateThisGameHistory()
 	}
 }
 
-function ShowAllGameHistory()
+function UpdateAllGameHistory()
 {
 
 }
@@ -465,12 +475,24 @@ function UpdateHistory()
 
 	if(showThisGameHistory)
 	{
-		ShowAllGameHistory();
+		UpdateThisGameHistory();
 	}
 	else
 	{
-		ShowAllGameHistory();
+		UpdateAllGameHistory();
 	}
+}
+
+function MakeCurrentGameHash()
+{
+	var playerNames = [];
+	for(var player of gPlayers)
+	{
+		playerNames.push(player.name);
+	}
+
+	playerNames.sort();
+	return playerNames.join();
 }
 
 
@@ -488,8 +510,40 @@ function UpdateSettings()
 	ImGui.SameLine();
 	if(TouchButton("Finish Game", subButtonWidth, new ImGui.Vec4(0.1, 0.5, 0, 1)))
 	{
-		//gScores=[];
+		var gameHash = MakeCurrentGameHash();
+		if(gGames[gameHash] == null)
+		{
+			gGames[gameHash] = {};
+		}
+
+		var gameHistory = gGames[gameHash];
+		var highestScore = 0;
+		for(var i=0; i<gPlayers.length; ++i)
+		{
+			var score = GetScore(i);
+			if(score > highestScore)
+			{
+				highestScore = score;
+			}
+		}
+
+		for(var i=0; i<gPlayers.length; ++i)
+		{
+			var score = GetScore(i);
+			if(score >= highestScore)
+			{
+				if(gameHistory[player.name] == null)
+				{
+					gameHistory[player.name] = 0;
+				}
+				else
+				{
+					gameHistory[player.name] += 1;
+				}
+			}
+		}
 		SaveScores();
+		SaveGameHistory();
 	}
 	ImGui.SameLine();
 	if(TouchButton("Reset Scores", subButtonWidth))
