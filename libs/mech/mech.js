@@ -1,15 +1,15 @@
 
-var mech = {};
+var mechJS = {};
 
-mech.partTypes = [];
-mech.RegisterPartType = function()
+mechJS.partTypes = [];
+mechJS.RegisterPartType = function()
 {
 
 }
 
 // List of parts
 
-mech.CreateSim = function()
+mechJS.CreateSim = function()
 {
     var sim = {
         mechs:[]
@@ -17,7 +17,7 @@ mech.CreateSim = function()
     return sim;
 }
 
-mech.CreateRandomMech = function(sim)
+mechJS.CreateRandomMech = function(sim)
 {
     var mech = {};
     sim.mechs.push(mech);

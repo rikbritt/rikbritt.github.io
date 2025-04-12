@@ -25,7 +25,7 @@ function UpdateImgui(dt, timestamp)
     ImGui.Text("Mech App");
 	if(ImGui.Button("Create Mech"))
 	{
-		mech.CreateRandomMech(gSim);
+		mechJS.CreateRandomMech(gSim);
 	}
 
 	ImGui.End();
@@ -60,7 +60,7 @@ var gIconFont;
 var gSim = null;
 function OnPageLoaded() 
 {
-	gSim = mech.CreateSim();
+	gSim = mechJS.CreateSim();
 	
     (async function() {
         await ImGui.default();
