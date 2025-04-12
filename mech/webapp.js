@@ -1,6 +1,14 @@
 
 var gRenderer = null;
 
+function UpdateMechWindow(mech)
+{
+	ImGui.Begin("Mech")
+
+	ImGui.Text("Mech");
+	ImGui.End();
+}
+
 function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
@@ -15,8 +23,18 @@ function UpdateImgui(dt, timestamp)
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
 	
     ImGui.Text("Mech App");
+	if(ImGui.Button("Create Mech"))
+	{
+		mech.CreateRandomMech(gSim);
+	}
 
 	ImGui.End();
+
+	for(var mech of gSim.mechs)
+	{
+		UpdateMechWindow(mech);
+	}
+
 
 	ImGui.EndFrame();
 }
@@ -39,8 +57,10 @@ async function AddFontFromFileTTF(url, size_pixels, font_cfg = null, glyph_range
 
 
 var gIconFont;
+var gSim = null;
 function OnPageLoaded() 
 {
+	gSim = mech.CreateSim();
 	
     (async function() {
         await ImGui.default();
