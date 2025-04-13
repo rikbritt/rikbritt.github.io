@@ -19,8 +19,10 @@ function UpdateMechWindow(mech)
 		"Test"
 	))
 	{
-		graph_instance._selected_node = node;
+		//graph_instance._selected_node = node;
 	}
+
+	NodeImGui.AddInnerCanvas(function() { }, 150);
 
 	NodeImGui.EndNode();
 
