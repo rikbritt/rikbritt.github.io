@@ -19,7 +19,9 @@ mechJS.CreateSim = function()
 
 mechJS.CreateRandomMech = function(sim)
 {
-    var mech = {};
+    var mech = {
+        id:bg.CreateGUID()
+    };
     sim.mechs.push(mech);
     return mech;
 }

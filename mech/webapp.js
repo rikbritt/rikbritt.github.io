@@ -3,9 +3,28 @@ var gRenderer = null;
 
 function UpdateMechWindow(mech)
 {
-	ImGui.Begin("Mech")
+	ImGui.Begin("Mech##" + mech.id)
+	ImGui.PushID(mech.id);
 
 	ImGui.Text("Mech");
+	ImGui.Text(mech.id);
+
+
+	NodeImGui.BeginCanvas("graph",  new ImGui.Vec2(200, 200));
+
+	if(NodeImGui.BeginNode(
+		"test",
+		"Test"
+	))
+	{
+		graph_instance._selected_node = node;
+	}
+
+	NodeImGui.EndNode();
+
+	NodeImGui.EndCanvas();
+
+	ImGui.PopID();
 	ImGui.End();
 }
 
@@ -18,7 +37,7 @@ function UpdateImgui(dt, timestamp)
 	gCanvasWidth = canvas.clientWidth;
 	gCanvasHeight = canvas.clientHeight;
 	
-	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove);
+	ImGui.Begin("app", null, ImGui.WindowFlags.NoDecoration | ImGui.WindowFlags.NoMove | ImGui.WindowFlags.NoBringToFrontOnFocus);
 	ImGui.SetWindowPos({x:0,y:0});
 	ImGui.SetWindowSize(ImGui.GetMainViewport().Size);
 	
