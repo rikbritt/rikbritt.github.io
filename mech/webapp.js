@@ -1,5 +1,6 @@
 
 var gRenderer = null;
+var gTestLayout = {};
 
 function UpdateMechWindow(mech)
 {
@@ -10,7 +11,7 @@ function UpdateMechWindow(mech)
 	ImGui.Text(mech.id);
 
 
-	NodeImGui.BeginCanvas("graph",  new ImGui.Vec2(200, 200));
+	NodeImGui.BeginCanvas("graph",  new ImGui.Vec2(200, 200), gTestLayout);
 
 	if(NodeImGui.BeginNode(
 		"test",
