@@ -11,7 +11,8 @@ function UpdateMechWindow(mech)
 	ImGui.Text(mech.id);
 
 
-	NodeImGui.BeginCanvas("graph",  new ImGui.Vec2(200, 200), gTestLayout);
+	var contentArea = ImGui.GetContentRegionAvail();
+	NodeImGui.BeginCanvas("graph",  new ImGui.Vec2(contentArea.x, contentArea.y), gTestLayout);
 
 	if(NodeImGui.BeginNode(
 		"test",

@@ -105,7 +105,8 @@ NodeImGui.BeginNode = function(id, name)
 	canvas.Current_Node.y = node_layout.y;
 	canvas.Current_Node.input_pins = [];
 	canvas.Current_Node.output_pins = [];
-	canvas.Current_Node.info = [];
+	canvas.Current_Node.info = []; // Array of info text
+	canvas.Current_Node.inner_canvas = []; // Array of inner canvas areas.
 
 	var draw_info = {
 		screen_pos: this.Internal_GetNodeScreenPos(canvas.Current_Node),
@@ -160,6 +161,13 @@ NodeImGui.AddInfoText = function(text)
 {
 	var node = NodeImGui.Current_Canvas.Current_Node;
 	node.info.push( {type:"text", text:text});
+}
+
+// Go with a draw func for now.. but a callback style doesn't go well with imgui
+NodeImGui.AddInnerCanvas = function(drawFunc, height)
+{
+	var node = NodeImGui.Current_Canvas.Current_Node;
+	node.inner_canvas.push( {drawFunc:drawFunc, height:height });
 }
 
 NodeImGui.HighlightLink = function()
@@ -599,6 +607,12 @@ NodeImGui.Internal_CalcNodeHeight = function(node)
 		node_h += node.info.length * ImGui.GetTextLineHeight();
 		node_h += draw_info.node_border * 1;
 	}
+	
+	for(var inner_canvas of node.inner_canvas)
+	{
+		node_h += inner_canvas.height;
+	}
+		
 	return node_h;
 }
 
@@ -725,6 +739,9 @@ NodeImGui.Internal_DrawNode = function(node)
 
 	// Info Panel
 	NodeImGui.Internal_DrawNodeInfo(node);
+
+	// TODO - blend Info and inner canvas so they can appear interleaved.
+	NodeImGui.Internal_DrawInnerCanvas(node);
 }
 
 NodeImGui.Internal_DrawNodeInfo = function(node)
@@ -743,6 +760,25 @@ NodeImGui.Internal_DrawNodeInfo = function(node)
 			DrawImGui.AddText(info_pos, info_text_col.toImU32(), info.text);
 			info_pos.y += ImGui.GetTextLineHeight();
 		}
+	}
+}
+
+NodeImGui.Internal_DrawInnerCanvas = function(node)
+{
+	var node_draw_pos = NodeImGui.Internal_CalcNodeDrawPos(node);
+	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
+	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
+	var title_height = node_title_size.y;
+	var canvas_pos = {x:node_draw_pos.x + node.draw_info.node_border, y:node_draw_pos.y + pins_height + title_height + node.draw_info.node_border};
+	for(var innerCanvas of node.inner_canvas)
+	{
+		var info_text_col = NodeImGui.Colours.title_txt_col;
+		var canvas_pos_br = {x:canvas_pos.x + 40, y:canvas_pos.y + innerCanvas.height};
+		DrawImGui.AddRectFilled(canvas_pos, canvas_pos_br, info_text_col.toImU32());
+
+		// TODO use draw callback and clipping
+		
+		canvas_pos.y += innerCanvas.height;
 	}
 }
 
