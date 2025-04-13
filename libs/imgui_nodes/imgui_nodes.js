@@ -765,6 +765,8 @@ NodeImGui.Internal_DrawNodeInfo = function(node)
 
 NodeImGui.Internal_DrawInnerCanvas = function(node)
 {
+	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
+	var node_w = node_title_size.x - (node.draw_info.node_border * 2);
 	var node_draw_pos = NodeImGui.Internal_CalcNodeDrawPos(node);
 	var pins_height = NodeImGui.Internal_CalcPinsHeight(node);
 	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
@@ -772,11 +774,11 @@ NodeImGui.Internal_DrawInnerCanvas = function(node)
 	var canvas_pos = {x:node_draw_pos.x + node.draw_info.node_border, y:node_draw_pos.y + pins_height + title_height + node.draw_info.node_border};
 	for(var innerCanvas of node.inner_canvas)
 	{
-		var info_text_col = NodeImGui.Colours.title_txt_col;
-		var canvas_pos_br = {x:canvas_pos.x + 40, y:canvas_pos.y + innerCanvas.height};
-		DrawImGui.AddRectFilled(canvas_pos, canvas_pos_br, info_text_col.toImU32());
+		var canvas_pos_br = {x:canvas_pos.x + node_w, y:canvas_pos.y + innerCanvas.height};
+		DrawImGui.AddRectFilled(canvas_pos, canvas_pos_br, 0x000000FF);
 
 		// TODO use draw callback and clipping
+		innerCanvas.drawFunc(DrawImGui, canvas_pos, {x:node_w, y:innerCanvas.height});
 		
 		canvas_pos.y += innerCanvas.height;
 	}

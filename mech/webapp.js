@@ -22,7 +22,13 @@ function UpdateMechWindow(mech)
 		//graph_instance._selected_node = node;
 	}
 
-	NodeImGui.AddInnerCanvas(function() { }, 150);
+	// Example drawing in node inner canvas
+	NodeImGui.AddInnerCanvas(
+		function(draw, pos, size) 
+		{
+			draw.AddLine(pos, {x:pos.x + size.x, y:pos.y + size.y}, 0xFFFFFFFF );
+		}, 150
+	);
 
 	NodeImGui.EndNode();
 
