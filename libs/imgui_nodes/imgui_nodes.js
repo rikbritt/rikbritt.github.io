@@ -772,17 +772,28 @@ NodeImGui.Internal_DrawInnerCanvas = function(node)
 	var node_title_size = NodeImGui.Internal_GetNodeTitleSize(node);
 	var title_height = node_title_size.y;
 	var canvas_pos = {x:node_draw_pos.x + node.draw_info.node_border, y:node_draw_pos.y + pins_height + title_height + node.draw_info.node_border};
+	
+	var nodeDl = new NodesImDrawList();
+	var origDrawListFunc = ImGui.GetWindowDrawList;
+	//ImGui.GetWindowDrawList = function()
+	//{ 
+	//	return nodeDl; 
+	//}
 	for(var innerCanvas of node.inner_canvas)
 	{
 		var canvas_pos_br = {x:canvas_pos.x + node_w, y:canvas_pos.y + innerCanvas.height};
 		DrawImGui.AddRectFilled(canvas_pos, canvas_pos_br, 0x000000FF);
 
+		ImGui.SetCursorPos(canvas_pos);
+		ImGui.Button("hi");
 		// TODO use draw callback and clipping
 		innerCanvas.drawFunc(DrawImGui, canvas_pos, {x:node_w, y:innerCanvas.height});
 		
 		canvas_pos.y += innerCanvas.height;
 	}
+	ImGui.GetWindowDrawList = origDrawListFunc;
 }
+
 
 NodeImGui.Internal_GetLinkCPs = function(link)
 {

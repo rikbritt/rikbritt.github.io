@@ -103,10 +103,10 @@ class NodesImDrawList
     AddLine(a, b, col, thickness = 1.0) {
         this.AddDrawCommand("AddLine", [a, b, col, thickness]);
     }
-    AddRect(a, b, col, rounding = 0.0, flags = exports.ImDrawFlags.None, thickness = 1.0) {
+    AddRect(a, b, col, rounding = 0.0, flags = ImGui.ImDrawFlags.None, thickness = 1.0) {
         this.AddDrawCommand("AddRect", [a, b, col, rounding, flags, thickness]);
     }
-    AddRectFilled(a, b, col, rounding = 0.0, flags = exports.ImDrawFlags.None) {
+    AddRectFilled(a, b, col, rounding = 0.0, flags = ImGui.ImDrawFlags.None) {
         this.AddDrawCommand("AddRectFilled", [a, b, col, rounding, flags]);
     }
     AddRectFilledMultiColor(a, b, col_upr_left, col_upr_right, col_bot_right, col_bot_left) {
@@ -175,7 +175,7 @@ class NodesImDrawList
     AddImageQuad(user_texture_id, a, b, c, d, uv_a = ImVec2.ZERO, uv_b = ImVec2.UNIT_X, uv_c = ImVec2.UNIT, uv_d = ImVec2.UNIT_Y, col = 0xFFFFFFFF) {
         this.AddDrawCommand("AddImageQuad", [user_texture_id, a, b, c, d, uv_a, uv_b, uv_c, uv_d, col]);
     }
-    AddImageRounded(user_texture_id, a, b, uv_a, uv_b, col, rounding, flags = exports.ImDrawFlags.None) {
+    AddImageRounded(user_texture_id, a, b, uv_a, uv_b, col, rounding, flags = ImGui.ImDrawFlags.None) {
         this.AddDrawCommand("AddImageRounded", [user_texture_id, a, b, uv_a, uv_b, col, rounding, flags]);
     }
     PathClear() { this.AddDrawCommand("PathClear"); }
@@ -187,7 +187,7 @@ class NodesImDrawList
     PathArcToFast(centre, radius, a_min_of_12, a_max_of_12) { this.AddDrawCommand("PathArcToFast", [centre, radius, a_min_of_12, a_max_of_12]); }
     PathBezierCubicCurveTo(p2, p3, p4, num_segments = 0) { this.AddDrawCommand("PathBezierCubicCurveTo", [p2, p3, p4, num_segments]); }
     PathBezierQuadraticCurveTo(p2, p3, num_segments = 0) { this.AddDrawCommand("PathBezierQuadraticCurveTo", [p2, p3, num_segments]); }
-    PathRect(rect_min, rect_max, rounding = 0.0, flags = exports.ImDrawFlags.None) { this.AddDrawCommand("PathRect", [rect_min, rect_max, rounding, flags]); }
+    PathRect(rect_min, rect_max, rounding = 0.0, flags = ImGui.ImDrawFlags.None) { this.AddDrawCommand("PathRect", [rect_min, rect_max, rounding, flags]); }
     ChannelsSplit(channels_count) { this.AddDrawCommand("ChannelsSplit", [channels_count]); }
     ChannelsMerge() { this.AddDrawCommand("ChannelsMerge"); }
     ChannelsSetCurrent(channel_index) { this.AddDrawCommand("ChannelsSetCurrent", [channel_index]); }
