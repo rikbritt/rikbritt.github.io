@@ -59,6 +59,7 @@ NodeImGui.BeginCanvas = function(id, size, layout)
 	NodeImGui.Current_Canvas.Hovered_Node = null;
 	NodeImGui.Current_Canvas.Hovered_Input = -1;
 	NodeImGui.Current_Canvas.Hovered_Output = -1;
+	NodeImGui.Current_Canvas.CusorPos = ImGui.GetCursorScreenPos();
 
 	ImGui.BeginChild(id, size);
 
@@ -784,7 +785,8 @@ NodeImGui.Internal_DrawInnerCanvas = function(node)
 		var canvas_pos_br = {x:canvas_pos.x + node_w, y:canvas_pos.y + innerCanvas.height};
 		DrawImGui.AddRectFilled(canvas_pos, canvas_pos_br, 0x000000FF);
 
-		ImGui.SetCursorPos(canvas_pos);
+		var cursor_pos = {x:canvas_pos.x + NodeImGui.Current_Canvas.CusorPos.x, y:canvas_pos.y + NodeImGui.Current_Canvas.CusorPos.y };
+		ImGui.SetCursorPos(cursor_pos);
 		ImGui.Button("hi");
 		// TODO use draw callback and clipping
 		innerCanvas.drawFunc(DrawImGui, canvas_pos, {x:node_w, y:innerCanvas.height});
