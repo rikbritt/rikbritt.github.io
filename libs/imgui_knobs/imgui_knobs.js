@@ -1,5 +1,10 @@
 var IMGUIKNOBS_PI = 3.14159265358979323846;
 
+function ImAbs(v)
+{
+    return Math.abs(v);
+}
+
 var ImGuiKnobFlags = {
     NoTitle : 1 << 0,
     NoInput : 1 << 1,
@@ -94,7 +99,7 @@ class ImGuiKnobs_knob {
         var io = ImGui.GetIO();
         var drag_vertical =
                 !(flags & ImGuiKnobFlags.DragHorizontal) &&
-                (flags & ImGuiKnobFlags.DragVertical || ImAbs(io.MouseDelta[ImGui.Axis.Y]) > ImAbs(io.MouseDelta[ImGui.Axis.X]));
+                (flags & ImGuiKnobFlags.DragVertical || ImAbs(io.MouseDelta.y) > ImAbs(io.MouseDelta.x));
 
         var gid = ImGui.GetID(_label);
         var drag_behaviour_flags = 0;
