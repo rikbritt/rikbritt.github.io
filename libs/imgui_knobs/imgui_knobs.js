@@ -5,6 +5,119 @@ function ImAbs(v)
     return Math.abs(v);
 }
 
+// Can't use internal code
+// ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, power)
+// {
+//     // Default tweak speed
+//     var has_min_max = (v_min != v_max) && (v_max - v_max < FLT_MAX);
+//     if (v_speed == 0.0 && has_min_max)
+//         v_speed = ((v_max - v_min) * g.DragSpeedDefaultRatio);
+//     // Inputs accumulates into g.DragCurrentAccum, which is flushed into the current value as soon as it makes a difference with our precision settings
+//     var adjust_delta = 0.0;
+//     if (g.ActiveIdSource == ImGuiInputSource_Mouse && IsMousePosValid() && g.IO.MouseDragMaxDistanceSqr[0] > 1.0*1.0)
+//     {
+//         adjust_delta = g.IO.MouseDelta.x;
+//         if (g.IO.KeyAlt)
+//             adjust_delta *= 1.0/100.0;
+//         if (g.IO.KeyShift)
+//             adjust_delta *= 10.0;
+//     }
+//     else if (g.ActiveIdSource == ImGuiInputSource_Nav)
+//     {
+//         var decimal_precision = (data_type == ImGuiDataType_Float || data_type == ImGuiDataType_Double) ? ImParseFormatPrecision(format, 3) : 0;
+//         adjust_delta = GetNavInputAmount2d(ImGuiNavDirSourceFlags_Keyboard|ImGuiNavDirSourceFlags_PadDPad, ImGuiInputReadMode_RepeatFast, 1.0/10.0, 10.0).x;
+//         v_speed = ImMax(v_speed, GetMinimumStepAtDecimalPrecision(decimal_precision));
+//     }
+//     adjust_delta *= v_speed;
+//     // Clear current value on activation
+//     // Avoid altering values and clamping when we are _already_ past the limits and heading in the same direction, so e.g. if range is 0..255, current value is 300 and we are pushing to the right side, keep the 300.
+//     var is_just_activated = g.ActiveIdIsJustActivated;
+//     var is_already_past_limits_and_pushing_outward = has_min_max && ((v >= v_max && adjust_delta > 0.0) || (v <= v_min && adjust_delta < 0.0));
+//     if (is_just_activated || is_already_past_limits_and_pushing_outward)
+//     {
+//         g.DragCurrentAccum = 0.0;
+//         g.DragCurrentAccumDirty = false;
+//     }
+//     else if (adjust_delta != 0.0)
+//     {
+//         g.DragCurrentAccum += adjust_delta;
+//         g.DragCurrentAccumDirty = true;
+//     }
+//     if (!g.DragCurrentAccumDirty)
+//         return false;
+
+//     var v_cur = v;
+//     var v_old_ref_for_accum_remainder = 0.0;
+//     var is_power = (power != 1.0 && (data_type == ImGuiDataType_Float || data_type == ImGuiDataType_Double) && has_min_max);
+//     if (is_power)
+//     {
+//         // Offset + round to user desired precision, with a curve on the v_min..v_max range to get more precision on one side of the range
+//         var v_old_norm_curved = ImPow((v_cur - v_min) / (v_max - v_min), 1.0 / power);
+//         var v_new_norm_curved = v_old_norm_curved + (g.DragCurrentAccum / (v_max - v_min));
+//         v_cur = v_min + ImPow(ImSaturate(v_new_norm_curved), power) * (v_max - v_min);
+//         v_old_ref_for_accum_remainder = v_old_norm_curved;
+//     }
+//     else
+//     {
+//         v_cur += g.DragCurrentAccum;
+//     }
+//     // Round to user desired precision based on format string
+//     v_cur = RoundScalarWithFormatT<TYPE, SIGNEDTYPE>(format, data_type, v_cur);
+//     // Preserve remainder after rounding has been applied. This also allow slow tweaking of values.
+//     g.DragCurrentAccumDirty = false;
+//     if (is_power)
+//     {
+//         var v_cur_norm_curved = ImPow((v_cur - v_min) / (v_max - v_min), 1.0 / power);
+//         g.DragCurrentAccum -= (float)(v_cur_norm_curved - v_old_ref_for_accum_remainder);
+//     }
+//     else
+//     {
+//         g.DragCurrentAccum -= (float)(v_cur - v);
+//     }
+//     // Lose zero sign for float/double
+//     if (v_cur == -0)
+//         v_cur = 0;
+//     // Clamp values (handle overflow/wrap-around)
+//     if (v != v_cur && has_min_max)
+//     {
+//         if (v_cur < v_min || (v_cur > v && adjust_delta < 0.0))
+//             v_cur = v_min;
+//         if (v_cur > v_max || (v_cur < v && adjust_delta > 0.0))
+//             v_cur = v_max;
+//     }
+//     // Apply result
+//     if (v == v_cur)
+//         return false;
+
+//     v = v_cur;
+//     return true;
+// }
+
+// ImGui.DragBehavior(id, data_type, v, v_speed, v_min, v_max, format, power)
+// {
+//     if (g.ActiveId == id)
+//     {
+//         if (g.ActiveIdSource == ImGuiInputSource_Mouse && !g.IO.MouseDown[0])
+//             ClearActiveID();
+//         else if (g.ActiveIdSource == ImGuiInputSource_Nav && g.NavActivatePressedId == id && !g.ActiveIdIsJustActivated)
+//             ClearActiveID();
+//     }
+//     if (g.ActiveId != id)
+//         return false;
+//     switch (data_type)
+//     {
+//     case ImGuiDataType_S32:    return DragBehaviorT /*<ImS32, ImS32, float >*/(data_type, v,  v_speed, v_min ? v_min : IM_S32_MIN, v_max ? v_max : IM_S32_MAX, format, power);
+//     case ImGuiDataType_U32:    return DragBehaviorT /*<ImU32, ImS32, float >*/(data_type, v,  v_speed, v_min ? v_min : IM_U32_MIN, v_max ? v_max : IM_U32_MAX, format, power);
+//     case ImGuiDataType_S64:    return DragBehaviorT /*<ImS64, ImS64, double>*/(data_type, v,  v_speed, v_min ? v_min : IM_S64_MIN, v_max ? v_max : IM_S64_MAX, format, power);
+//     case ImGuiDataType_U64:    return DragBehaviorT /*<ImU64, ImS64, double>*/(data_type, v,  v_speed, v_min ? v_min : IM_U64_MIN, v_max ? v_max : IM_U64_MAX, format, power);
+//     case ImGuiDataType_Float:  return DragBehaviorT /*<float, float, float >*/(data_type, v,  v_speed, v_min ? v_min : -FLT_MAX,   v_max ? v_max : FLT_MAX,    format, power);
+//     case ImGuiDataType_Double: return DragBehaviorT /*<double,double,double>*/(data_type, v,  v_speed, v_min ? v_min : -DBL_MAX,   v_max ? v_max : DBL_MAX,    format, power);
+//     case ImGuiDataType_COUNT:  break;
+//     }
+//     //IM_ASSERT(0);
+//     return false;
+// }
+
 var ImGuiKnobFlags = {
     NoTitle : 1 << 0,
     NoInput : 1 << 1,
@@ -112,15 +225,17 @@ class ImGuiKnobs_knob {
         if (flags & ImGuiKnobFlags.Logarithmic) {
             drag_behaviour_flags |= ImGui.SliderFlags.Logarithmic;
         }
-        this.value_changed = ImGui.DragBehavior(
-                gid,
-                data_type,
-                p_value,
-                speed,
-                v_min,
-                v_max,
-                format,
-                drag_behaviour_flags);
+
+        this.value_changed = false; //FIX ME
+        // this.value_changed = ImGui.DragBehavior(
+        //         gid,
+        //         data_type,
+        //         p_value,
+        //         speed,
+        //         v_min,
+        //         v_max,
+        //         format,
+        //         drag_behaviour_flags);
 
         this.angle_min = _angle_min < 0 ? IMGUIKNOBS_PI * 0.75 : _angle_min;
         this.angle_max = _angle_max < 0 ? IMGUIKNOBS_PI * 2.25 : _angle_max;
