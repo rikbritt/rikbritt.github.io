@@ -254,25 +254,26 @@ class ImGuiKnobs_knob {
         var dot_radius = radius * this.radius;
 
         ImGui.GetWindowDrawList().AddCircleFilled(
-                {x:center.x + Math.cos(angle) * dot_radius,
-                    y:center.y + Math.sin(angle) * dot_radius},
+                {x:this.center.x + Math.cos(angle) * dot_radius,
+                    y:this.center.y + Math.sin(angle) * dot_radius},
                 dot_size,
-                is_active ? color.active : (is_hovered ? color.hovered : color.base),
+                this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base),
                 segments);
     }
 
     draw_tick(start, end, width, angle, color)
     {
-        var tick_start = start * radius;
-        var tick_end = end * radius;
+        var tick_start = start * this.radius;
+        var tick_end = end * this.radius;
         var angle_cos = Math.cos(angle);
         var angle_sin = Math.sin(angle);
 
         ImGui.GetWindowDrawList().AddLine(
-                {x:center.x + angle_cos * tick_end, y:center.y + angle_sin * tick_end},
-                {x:center.x + angle_cos * tick_start,
-                    y:center.y + angle_sin * tick_start},
-                is_active ? color.active : (is_hovered ? color.hovered : color.base),
+                {x:this.center.x + angle_cos * tick_end, 
+                    y:this.center.y + angle_sin * tick_end},
+                {x:this.center.x + angle_cos * tick_start,
+                    y:this.center.y + angle_sin * tick_start},
+                this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base),
                 width * this.radius);
     }
 
@@ -281,9 +282,9 @@ class ImGuiKnobs_knob {
         var circle_radius = size * this.radius;
 
         ImGui.GetWindowDrawList().AddCircleFilled(
-                center,
+                this.center,
                 circle_radius,
-                is_active ? color.active : (is_hovered ? color.hovered : color.base));
+                this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base));
     }
 
     draw_arc(radius, size, start_angle, end_angle, color)
@@ -291,7 +292,14 @@ class ImGuiKnobs_knob {
         var track_radius = radius * this.radius;
         var track_size = size * this.radius * 0.5 + 0.0001;
 
-        ImGuiKnobs_detail.draw_arc(center, track_radius, start_angle, end_angle, track_size, is_active ? color.active : (is_hovered ? color.hovered : color.base));
+        ImGuiKnobs_detail.draw_arc(
+            this.center, 
+            track_radius, 
+            start_angle, 
+            end_angle, 
+            track_size, 
+            this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base)
+        );
     }
 };
 
