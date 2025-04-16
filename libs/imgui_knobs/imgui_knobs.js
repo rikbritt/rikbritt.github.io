@@ -278,7 +278,7 @@ class ImGuiKnobs_knob {
 
     draw_circle(size, color, filled, segments) 
     {
-        var circle_radius = size * radius;
+        var circle_radius = size * this.radius;
 
         ImGui.GetWindowDrawList().AddCircleFilled(
                 center,
