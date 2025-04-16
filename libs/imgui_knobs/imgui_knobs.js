@@ -257,8 +257,9 @@ class ImGuiKnobs_knob {
                 {x:this.center.x + Math.cos(angle) * dot_radius,
                     y:this.center.y + Math.sin(angle) * dot_radius},
                 dot_size,
-                this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base),
-                segments);
+                ImGui.GetColorU32(this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base)),
+                segments
+        );
     }
 
     draw_tick(start, end, width, angle, color)
@@ -273,8 +274,9 @@ class ImGuiKnobs_knob {
                     y:this.center.y + angle_sin * tick_end},
                 {x:this.center.x + angle_cos * tick_start,
                     y:this.center.y + angle_sin * tick_start},
-                this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base),
-                width * this.radius);
+                ImGui.GetColorU32(this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base)),
+                width * this.radius
+            );
     }
 
     draw_circle(size, color, filled, segments) 
@@ -284,7 +286,8 @@ class ImGuiKnobs_knob {
         ImGui.GetWindowDrawList().AddCircleFilled(
                 this.center,
                 circle_radius,
-                this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base));
+                ImGui.GetColorU32(this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base))
+        );
     }
 
     draw_arc(radius, size, start_angle, end_angle, color)
@@ -298,7 +301,7 @@ class ImGuiKnobs_knob {
             start_angle, 
             end_angle, 
             track_size, 
-            this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base)
+            ImGui.GetColorU32(this.is_active ? color.active : (this.is_hovered ? color.hovered : color.base))
         );
     }
 };
