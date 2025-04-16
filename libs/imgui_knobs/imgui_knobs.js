@@ -87,24 +87,24 @@ class ImGuiKnobs_knob {
         var screen_pos = ImGui.GetCursorScreenPos();
 
         // Handle dragging
-        ImGui.InvisibleButton(_label, {x:radius * 2.0, y:radius * 2.0});
+        ImGui.InvisibleButton(_label, {x:this.radius * 2.0, y:this.radius * 2.0});
 
         // Handle drag: if DragVertical or DragHorizontal flags are set, only the given direction is
         // used, otherwise use the drag direction with the highest delta
         var io = ImGui.GetIO();
         var drag_vertical =
                 !(flags & ImGuiKnobFlags.DragHorizontal) &&
-                (flags & ImGuiKnobFlags.DragVertical || ImAbs(io.MouseDelta[ImGuiAxis_Y]) > ImAbs(io.MouseDelta[ImGuiAxis_X]));
+                (flags & ImGuiKnobFlags.DragVertical || ImAbs(io.MouseDelta[ImGui.Axis.Y]) > ImAbs(io.MouseDelta[ImGui.Axis.X]));
 
         var gid = ImGui.GetID(_label);
         var drag_behaviour_flags = 0;
         if (drag_vertical) {
             drag_behaviour_flags |= ImGui.SliderFlags.Vertical;
         }
-        if (flags & ImGuiKnobFlags_AlwaysClamp) {
+        if (flags & ImGuiKnobFlags.AlwaysClamp) {
             drag_behaviour_flags |= ImGui.SliderFlags.AlwaysClamp;
         }
-        if (flags & ImGuiKnobFlags_Logarithmic) {
+        if (flags & ImGuiKnobFlags.Logarithmic) {
             drag_behaviour_flags |= ImGui.SliderFlags.Logarithmic;
         }
         this.value_changed = ImGui.DragBehavior(
@@ -120,12 +120,12 @@ class ImGuiKnobs_knob {
         this.angle_min = _angle_min < 0 ? IMGUIKNOBS_PI * 0.75 : _angle_min;
         this.angle_max = _angle_max < 0 ? IMGUIKNOBS_PI * 2.25 : _angle_max;
 
-        this.center = {x:screen_pos[0] + radius, y:screen_pos[1] + radius};
+        this.center = {x:screen_pos.x + this.radius, y:screen_pos.y + this.radius};
         this.is_active = ImGui.IsItemActive();
         this.is_hovered = ImGui.IsItemHovered();
-        this.angle = angle_min + (angle_max - angle_min) * t;
-        this.angle_cos = cosf(angle);
-        this.angle_sin = sinf(angle);
+        this.angle = angle_min + (this.angle_max - this.angle_min) * t;
+        this.angle_cos = cosf(this.angle);
+        this.angle_sin = sinf(this.angle);
     }
 
     draw_dot( size, radius, angle, color, filled, segments)
@@ -134,8 +134,8 @@ class ImGuiKnobs_knob {
         var dot_radius = radius * this.radius;
 
         ImGui.GetWindowDrawList().AddCircleFilled(
-                {x:center[0] + cosf(angle) * dot_radius,
-                    y:center[1] + sinf(angle) * dot_radius},
+                {x:center.x + cosf(angle) * dot_radius,
+                    y:center.y + sinf(angle) * dot_radius},
                 dot_size,
                 is_active ? color.active : (is_hovered ? color.hovered : color.base),
                 segments);
@@ -149,11 +149,11 @@ class ImGuiKnobs_knob {
         var angle_sin = sinf(angle);
 
         ImGui.GetWindowDrawList().AddLine(
-                {x:center[0] + angle_cos * tick_end, y:center[1] + angle_sin * tick_end},
-                {x:center[0] + angle_cos * tick_start,
-                    y:center[1] + angle_sin * tick_start},
+                {x:center.x + angle_cos * tick_end, y:center.y + angle_sin * tick_end},
+                {x:center.x + angle_cos * tick_start,
+                    y:center.y + angle_sin * tick_start},
                 is_active ? color.active : (is_hovered ? color.hovered : color.base),
-                width * radius);
+                width * this.radius);
     }
 
     draw_circle(size, color, filled, segments) 
@@ -209,7 +209,7 @@ ImGuiKnobs_detail.knob_with_drag = function(
     // There's an issue with `SameLine` and Groups, see
     // https://github.com/ocornut/imgui/issues/4190. This is probably not the best
     // solution, but seems to work for now
-    ImGui.GetCurrentWindow().DC.CurrLineTextBaseOffset = 0;
+    //ImGui.GetCurrentWindow().DC.CurrLineTextBaseOffset = 0;
 
     // Draw title
     if (!(flags & ImGuiKnobFlags.NoTitle)) {
@@ -217,13 +217,13 @@ ImGuiKnobs_detail.knob_with_drag = function(
 
         // Center title
         ImGui.SetCursorPosX(ImGui.GetCursorPosX() +
-                                (width - title_size[0]) * 0.5);
+                                (width - title_size.x) * 0.5);
 
         ImGui.Text("%s", label);
     }
 
     // Draw knob
-    var k = new knob(label, data_type, p_value, v_min, v_max, speed, width * 0.5, format, flags, angle_min, angle_max);
+    var k = new ImGuiKnobs_knob(label, data_type, p_value, v_min, v_max, speed, width * 0.5, format, flags, angle_min, angle_max);
 
     // Draw tooltip
     if (flags & ImGuiKnobFlags.ValueTooltip &&
