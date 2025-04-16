@@ -363,7 +363,7 @@ ImGuiKnobs_detail.knob_with_drag = function(
         if (flags & ImGuiKnobFlags.Logarithmic) {
             drag_scalar_flags |= ImGui.SliderFlags.Logarithmic;
         }
-        var changed = ImGui.DragScalar("###knob_drag", data_type, p_value, speed, v_min, v_max, format, drag_scalar_flags);
+        var changed = ImGui.DragScalar("###knob_drag", /*data_type,*/ new Float32Array([p_value]), speed, v_min, v_max, format, drag_scalar_flags);
         if (changed) {
             k.value_changed = true;
         }
@@ -380,21 +380,21 @@ ImGuiKnobs_detail.GetPrimaryColorSet = function()
 {
     var colors = ImGui.GetStyle().Colors;
 
-    return new color_set(colors[ImGuiCol_ButtonActive], colors[ImGuiCol_ButtonHovered], colors[ImGuiCol_ButtonHovered]);
+    return new color_set(colors[ImGui.Col.ButtonActive], colors[ImGui.Col.ButtonHovered], colors[ImGui.Col.ButtonHovered]);
 }
 
 ImGuiKnobs_detail.GetSecondaryColorSet = function()
 {
     var colors = ImGui.GetStyle().Colors;
-    var active = new ImVec4(colors[ImGuiCol_ButtonActive].x * 0.5,
-                            colors[ImGuiCol_ButtonActive].y * 0.5,
-                            colors[ImGuiCol_ButtonActive].z * 0.5,
-                            colors[ImGuiCol_ButtonActive].w);
+    var active = new ImGui.ImVec4(colors[ImGui.Col.ButtonActive].x * 0.5,
+                            colors[ImGui.Col.ButtonActive].y * 0.5,
+                            colors[ImGui.Col.ButtonActive].z * 0.5,
+                            colors[ImGui.Col.ButtonActive].w);
 
-    var hovered = new ImVec4(colors[ImGuiCol_ButtonHovered].x * 0.5,
-                            colors[ImGuiCol_ButtonHovered].y * 0.5,
-                            colors[ImGuiCol_ButtonHovered].z * 0.5,
-                            colors[ImGuiCol_ButtonHovered].w);
+    var hovered = new ImGui.ImVec4(colors[ImGui.Col.ButtonHovered].x * 0.5,
+                            colors[ImGui.Col.ButtonHovered].y * 0.5,
+                            colors[ImGui.Col.ButtonHovered].z * 0.5,
+                            colors[ImGui.Col.ButtonHovered].w);
 
     return new color_set(active, hovered, hovered);
 }
@@ -403,7 +403,7 @@ ImGuiKnobs_detail.GetTrackColorSet = function()
 {
     var colors = ImGui.GetStyle().Colors;
 
-    return new color_set(colors[ImGuiCol_Button], colors[ImGuiCol_Button], colors[ImGuiCol_Button]);
+    return new color_set(colors[ImGui.Col.Button], colors[ImGui.Col.Button], colors[ImGui.Col.Button]);
 }
 
 BaseKnob = function(
