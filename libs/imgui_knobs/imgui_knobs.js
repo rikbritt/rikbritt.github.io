@@ -243,7 +243,7 @@ class ImGuiKnobs_knob {
         this.center = {x:screen_pos.x + this.radius, y:screen_pos.y + this.radius};
         this.is_active = ImGui.IsItemActive();
         this.is_hovered = ImGui.IsItemHovered();
-        this.angle = angle_min + (this.angle_max - this.angle_min) * t;
+        this.angle = this.angle_min + (this.angle_max - this.angle_min) * t;
         this.angle_cos = cosf(this.angle);
         this.angle_sin = sinf(this.angle);
     }
