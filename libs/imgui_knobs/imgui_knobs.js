@@ -244,8 +244,8 @@ class ImGuiKnobs_knob {
         this.is_active = ImGui.IsItemActive();
         this.is_hovered = ImGui.IsItemHovered();
         this.angle = this.angle_min + (this.angle_max - this.angle_min) * this.t;
-        this.angle_cos = cosf(this.angle);
-        this.angle_sin = sinf(this.angle);
+        this.angle_cos = Math.cos(this.angle);
+        this.angle_sin = Math.sin(this.angle);
     }
 
     draw_dot( size, radius, angle, color, filled, segments)
@@ -254,8 +254,8 @@ class ImGuiKnobs_knob {
         var dot_radius = radius * this.radius;
 
         ImGui.GetWindowDrawList().AddCircleFilled(
-                {x:center.x + cosf(angle) * dot_radius,
-                    y:center.y + sinf(angle) * dot_radius},
+                {x:center.x + Math.cos(angle) * dot_radius,
+                    y:center.y + Math.sin(angle) * dot_radius},
                 dot_size,
                 is_active ? color.active : (is_hovered ? color.hovered : color.base),
                 segments);
@@ -265,8 +265,8 @@ class ImGuiKnobs_knob {
     {
         var tick_start = start * radius;
         var tick_end = end * radius;
-        var angle_cos = cosf(angle);
-        var angle_sin = sinf(angle);
+        var angle_cos = Math.cos(angle);
+        var angle_sin = Math.sin(angle);
 
         ImGui.GetWindowDrawList().AddLine(
                 {x:center.x + angle_cos * tick_end, y:center.y + angle_sin * tick_end},
