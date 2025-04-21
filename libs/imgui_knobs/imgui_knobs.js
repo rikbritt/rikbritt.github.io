@@ -1,5 +1,24 @@
 var IMGUIKNOBS_PI = 3.14159265358979323846;
 
+var IM_S8_MIN = -128;
+var IM_S8_MAX = 127;
+var IM_U8_MIN = 0;
+var IM_U8_MAX = 0xFF;
+var IM_S16_MIN = -32768;
+var IM_S16_MAX = 32767;
+var IM_U16_MIN = 0;
+var IM_U16_MAX = 0xFFFF;
+var IM_S32_MIN = -2147483647;    // (-2147483647 - 1), (0x80000000);
+var IM_S32_MAX = 2147483647;    // (2147483647), (0x7FFFFFFF)
+var IM_U32_MIN = 0;
+var IM_U32_MAX = 0xFFFFFFFF;   // (0xFFFFFFFF)
+var IM_S64_MIN = -9223372036854775807;  // (-9223372036854775807ll - 1ll);
+var IM_S64_MAX = 9223372036854775807;  // (9223372036854775807ll);
+var IM_U64_MIN = 0;
+var IM_U64_MAX = 0xFFFFFFFFFFFFFFF; // (0xFFFFFFFFFFFFFFFFull);
+var DRAGDROP_HOLD_TO_OPEN_TIMER = 0.70;    // Time for drag-hold to activate items accepting the ImGuiButtonFlags_PressedOnDragDropHold button behavior.
+var DRAG_MOUSE_THRESHOLD_FACTOR = 0.50;
+
 function ImAbs(v)
 {
     return Math.abs(v);
@@ -258,13 +277,13 @@ ImGui.DragBehavior = function(id, data_type, v, v_speed, v_min, v_max, format, p
 
     switch (data_type)
     {
-    case ImGuiDataType_S32:    return ImGui.DragBehaviorT /*<ImS32, ImS32, float >*/(data_type, v,  v_speed, v_min ? v_min : IM_S32_MIN, v_max ? v_max : IM_S32_MAX, format, power);
-    case ImGuiDataType_U32:    return ImGui.DragBehaviorT /*<ImU32, ImS32, float >*/(data_type, v,  v_speed, v_min ? v_min : IM_U32_MIN, v_max ? v_max : IM_U32_MAX, format, power);
-    case ImGuiDataType_S64:    return ImGui.DragBehaviorT /*<ImS64, ImS64, double>*/(data_type, v,  v_speed, v_min ? v_min : IM_S64_MIN, v_max ? v_max : IM_S64_MAX, format, power);
-    case ImGuiDataType_U64:    return ImGui.DragBehaviorT /*<ImU64, ImS64, double>*/(data_type, v,  v_speed, v_min ? v_min : IM_U64_MIN, v_max ? v_max : IM_U64_MAX, format, power);
-    case ImGuiDataType_Float:  return ImGui.DragBehaviorT /*<float, float, float >*/(data_type, v,  v_speed, v_min ? v_min : -FLT_MAX,   v_max ? v_max : FLT_MAX,    format, power);
-    case ImGuiDataType_Double: return ImGui.DragBehaviorT /*<double,double,double>*/(data_type, v,  v_speed, v_min ? v_min : -DBL_MAX,   v_max ? v_max : DBL_MAX,    format, power);
-    case ImGuiDataType_COUNT:  break;
+    case ImGui.DataType.S32:    return ImGui.DragBehaviorT /*<ImS32, ImS32, float >*/(data_type, v,  v_speed, v_min ? v_min : IM_S32_MIN, v_max ? v_max : IM_S32_MAX, format, power);
+    case ImGui.DataType.U32:    return ImGui.DragBehaviorT /*<ImU32, ImS32, float >*/(data_type, v,  v_speed, v_min ? v_min : IM_U32_MIN, v_max ? v_max : IM_U32_MAX, format, power);
+    case ImGui.DataType.S64:    return ImGui.DragBehaviorT /*<ImS64, ImS64, double>*/(data_type, v,  v_speed, v_min ? v_min : IM_S64_MIN, v_max ? v_max : IM_S64_MAX, format, power);
+    case ImGui.DataType.U64:    return ImGui.DragBehaviorT /*<ImU64, ImS64, double>*/(data_type, v,  v_speed, v_min ? v_min : IM_U64_MIN, v_max ? v_max : IM_U64_MAX, format, power);
+    case ImGui.DataType.Float:  return ImGui.DragBehaviorT /*<float, float, float >*/(data_type, v,  v_speed, v_min ? v_min : -FLT_MAX,   v_max ? v_max : FLT_MAX,    format, power);
+    case ImGui.DataType.Double: return ImGui.DragBehaviorT /*<double,double,double>*/(data_type, v,  v_speed, v_min ? v_min : -DBL_MAX,   v_max ? v_max : DBL_MAX,    format, power);
+    case ImGui.DataType.COUNT:  break;
     }
     //IM_ASSERT(0);
     return false;
