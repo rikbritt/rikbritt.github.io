@@ -5,6 +5,95 @@ function ImAbs(v)
     return Math.abs(v);
 }
 
+
+function IsMouseDragPastThreshold(button, lock_threshold)
+{
+    var io = ImGui.GetIO();
+    //IM_ASSERT(button >= 0 && button < IM_ARRAYSIZE(g.IO.MouseDown));
+    if (lock_threshold < 0.0)
+        lock_threshold = io.MouseDragThreshold;
+    return io.MouseDragMaxDistanceSqr[button] >= lock_threshold * lock_threshold;
+}
+
+// Convert a parametric position on a slider into a value v in the output space (the logical opposite of ScaleRatioFromValueT)
+function ScaleValueFromRatioT(data_type, t, v_min, v_max, is_logarithmic, logarithmic_zero_epsilon, zero_deadzone_halfsize)
+{
+    if (v_min == v_max)
+        return v_min;
+
+    var is_floating_point = (data_type == ImGui.DataType.Float) || (data_type == ImGui.DataType.Double);
+
+    var result;
+    if (is_logarithmic)
+    {
+        // We special-case the extents because otherwise our fudging can lead to "mathematically correct" but non-intuitive behaviors like a fully-left slider not actually reaching the minimum value
+        if (t <= 0.0)
+            result = v_min;
+        else if (t >= 1.0)
+            result = v_max;
+        else
+        {
+            var flipped = v_max < v_min; // Check if range is "backwards"
+
+            // Fudge min/max to avoid getting silly results close to zero
+            var v_min_fudged = (ImAbs(v_min) < logarithmic_zero_epsilon) ? ((v_min < 0.0) ? -logarithmic_zero_epsilon : logarithmic_zero_epsilon) : v_min;
+            var v_max_fudged = (ImAbs(v_max) < logarithmic_zero_epsilon) ? ((v_max < 0.0) ? -logarithmic_zero_epsilon : logarithmic_zero_epsilon) : v_max;
+
+            if (flipped)
+                ImSwap(v_min_fudged, v_max_fudged);
+
+            // Awkward special case - we need ranges of the form (-100 .. 0) to convert to (-100 .. -epsilon), not (-100 .. epsilon)
+            if ((v_max == 0.0) && (v_min < 0.0))
+                v_max_fudged = -logarithmic_zero_epsilon;
+
+            var t_with_flip = flipped ? (1.0 - t) : t; // t, but flipped if necessary to account for us flipping the range
+
+            if ((v_min * v_max) < 0.0) // Range crosses zero, so we have to do this in two parts
+            {
+                var zero_point_center = (-ImMin(v_min, v_max)) / ImAbs(v_max - v_min); // The zero point in parametric space
+                var zero_point_snap_L = zero_point_center - zero_deadzone_halfsize;
+                var zero_point_snap_R = zero_point_center + zero_deadzone_halfsize;
+                if (t_with_flip >= zero_point_snap_L && t_with_flip <= zero_point_snap_R)
+                    result = 0.0; // Special case to make getting exactly zero possible (the epsilon prevents it otherwise)
+                else if (t_with_flip < zero_point_center)
+                    result = -(logarithmic_zero_epsilon * ImPow(-v_min_fudged / logarithmic_zero_epsilon, (1.0 - (t_with_flip / zero_point_snap_L))));
+                else
+                    result = (logarithmic_zero_epsilon * ImPow(v_max_fudged / logarithmic_zero_epsilon, ((t_with_flip - zero_point_snap_R) / (1.0 - zero_point_snap_R))));
+            }
+            else if ((v_min < 0.0) || (v_max < 0.0)) // Entirely negative slider
+                result = -(-v_max_fudged * ImPow(-v_min_fudged / -v_max_fudged, (1.0 - t_with_flip)));
+            else
+                result = (v_min_fudged * ImPow(v_max_fudged / v_min_fudged, t_with_flip));
+        }
+    }
+    else
+    {
+        // Linear slider
+        if (is_floating_point)
+        {
+            result = ImLerp(v_min, v_max, t);
+        }
+        else
+        {
+            // - For integer values we want the clicking position to match the grab box so we round above
+            //   This code is carefully tuned to work with large values (e.g. high ranges of U64) while preserving this property..
+            // - Not doing a *1.0 multiply at the end of a range as it tends to be lossy. While absolute aiming at a large s64/u64
+            //   range is going to be imprecise anyway, with this check we at least make the edge values matches expected limits.
+            if (t < 1.0)
+            {
+                var v_new_off_f = (v_max - v_min) * t;
+                result = (v_min + (v_new_off_f + (v_min > v_max ? -0.5 : 0.5)));
+            }
+            else
+            {
+                result = v_max;
+            }
+        }
+    }
+
+    return result;
+}
+
 // Can't use internal code
 // ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, power)
 // {
