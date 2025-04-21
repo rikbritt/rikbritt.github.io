@@ -199,7 +199,7 @@ ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, powe
     {
         // Offset + round to user desired precision, with a curve on the v_min..v_max range to get more precision on one side of the range
         var v_old_norm_curved = ImPow((v_cur - v_min) / (v_max - v_min), 1.0 / power);
-        var v_new_norm_curved = v_old_norm_curved + DragCurrentAccum / (v_max - v_min));
+        var v_new_norm_curved = v_old_norm_curved + DragCurrentAccum / (v_max - v_min);
         v_cur = v_min + ImPow(ImSaturate(v_new_norm_curved), power) * (v_max - v_min);
         v_old_ref_for_accum_remainder = v_old_norm_curved;
     }
