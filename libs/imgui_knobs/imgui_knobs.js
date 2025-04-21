@@ -169,10 +169,10 @@ function ScaleRatioFromValueT(data_type, v, v_min, v_max, is_logarithmic, logari
 
 var DragCurrentAccumDirty = false;
 var DragCurrentAccum = 0.0;
-
 ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, power)
 {
     var io = ImGui.GetIO();
+    var v_old = v();
     
     // Default tweak speed
     var has_min_max = (v_min != v_max) && (v_max - v_max < FLT_MAX);
@@ -180,7 +180,7 @@ ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, powe
         v_speed = ((v_max - v_min) *  (1.0 / 100.0));
     // Inputs accumulates into g.DragCurrentAccum, which is flushed into the current value as soon as it makes a difference with our precision settings
     var adjust_delta = 0.0;
-    if (/* g.ActiveIdSource == ImGuiInputSource_Mouse && */ IsMousePosValid() && io.MouseDragMaxDistanceSqr[0] > 1.0*1.0)
+    if (/* g.ActiveIdSource == ImGuiInputSource_Mouse && */ ImGui.IsMousePosValid() && io.MouseDelta.x > 1.0*1.0)
     {
         adjust_delta = io.MouseDelta.x;
         if (io.KeyAlt)
@@ -197,8 +197,8 @@ ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, powe
     adjust_delta *= v_speed;
     // Clear current value on activation
     // Avoid altering values and clamping when we are _already_ past the limits and heading in the same direction, so e.g. if range is 0..255, current value is 300 and we are pushing to the right side, keep the 300.
-    var is_just_activated = io.MouseClicked[0];//g.ActiveIdIsJustActivated;
-    var is_already_past_limits_and_pushing_outward = has_min_max && ((v >= v_max && adjust_delta > 0.0) || (v <= v_min && adjust_delta < 0.0));
+    var is_just_activated = ImGui.IsMouseReleased(0);//io.MouseClicked[0];//g.ActiveIdIsJustActivated;
+    var is_already_past_limits_and_pushing_outward = has_min_max && ((v_old >= v_max && adjust_delta > 0.0) || (v_old <= v_min && adjust_delta < 0.0));
     if (is_just_activated || is_already_past_limits_and_pushing_outward)
     {
         DragCurrentAccum = 0.0;
@@ -212,7 +212,7 @@ ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, powe
     if (!DragCurrentAccumDirty)
         return false;
 
-    var v_cur = v;
+    var v_cur = v_old;
     var v_old_ref_for_accum_remainder = 0.0;
     var is_power = (power != 1.0 && (data_type == ImGui.DataType.Float || data_type == ImGui.DataType.Double) && has_min_max);
     if (is_power)
@@ -238,24 +238,24 @@ ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, powe
     }
     else
     {
-        DragCurrentAccum -= (v_cur - v);
+        DragCurrentAccum -= (v_cur - v_old);
     }
     // Lose zero sign for float/double
     if (v_cur == -0)
         v_cur = 0;
     // Clamp values (handle overflow/wrap-around)
-    if (v != v_cur && has_min_max)
+    if (v_old != v_cur && has_min_max)
     {
-        if (v_cur < v_min || (v_cur > v && adjust_delta < 0.0))
+        if (v_cur < v_min || (v_cur > v_old && adjust_delta < 0.0))
             v_cur = v_min;
-        if (v_cur > v_max || (v_cur < v && adjust_delta > 0.0))
+        if (v_cur > v_max || (v_cur < v_old && adjust_delta > 0.0))
             v_cur = v_max;
     }
     // Apply result
-    if (v == v_cur)
+    if (v_old == v_cur)
         return false;
 
-    v = v_cur;
+    v(v_cur);
     return true;
 }
 
