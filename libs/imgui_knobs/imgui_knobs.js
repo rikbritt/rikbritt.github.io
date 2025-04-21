@@ -356,7 +356,7 @@ ImGuiKnobs_detail.knob_with_drag = function(
         ImGui.SetCursorPosX(ImGui.GetCursorPosX() +
                                 (width - title_size.x) * 0.5);
 
-        ImGui.Text("%s", label);
+        ImGui.Text(label);
     }
 
     // Draw knob
