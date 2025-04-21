@@ -551,7 +551,7 @@ ImGuiKnobs_detail.knob_with_drag = function(
         if (flags & ImGuiKnobFlags.Logarithmic) {
             drag_scalar_flags |= ImGui.SliderFlags.Logarithmic;
         }
-        var data = new Float32Array([p_value()]);
+        var data = data_type == ImGui.DataType.Float ? new Float32Array([p_value()]) : new Uint32Array([p_value()]);
         var changed = ImGui.DragScalar("###knob_drag", /*data_type,*/ data, speed, v_min, v_max, format, drag_scalar_flags);
         if (changed) {
             k.value_changed = true;
