@@ -1,5 +1,6 @@
 var IMGUIKNOBS_PI = 3.14159265358979323846;
 
+var FLT_MAX = 3.4028234664e+38;
 var IM_S8_MIN = -128;
 var IM_S8_MAX = 127;
 var IM_U8_MIN = 0;
@@ -213,7 +214,7 @@ ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, powe
 
     var v_cur = v;
     var v_old_ref_for_accum_remainder = 0.0;
-    var is_power = (power != 1.0 && (data_type == ImGuiDataType_Float || data_type == ImGuiDataType_Double) && has_min_max);
+    var is_power = (power != 1.0 && (data_type == ImGui.DataType.Float || data_type == ImGui.DataType.Double) && has_min_max);
     if (is_power)
     {
         // Offset + round to user desired precision, with a curve on the v_min..v_max range to get more precision on one side of the range
@@ -233,11 +234,11 @@ ImGui.DragBehaviorT = function(data_type, v, v_speed, v_min, v_max, format, powe
     if (is_power)
     {
         var v_cur_norm_curved = ImPow((v_cur - v_min) / (v_max - v_min), 1.0 / power);
-        DragCurrentAccum -= (float)(v_cur_norm_curved - v_old_ref_for_accum_remainder);
+        DragCurrentAccum -= (v_cur_norm_curved - v_old_ref_for_accum_remainder);
     }
     else
     {
-        DragCurrentAccum -= (float)(v_cur - v);
+        DragCurrentAccum -= (v_cur - v);
     }
     // Lose zero sign for float/double
     if (v_cur == -0)
