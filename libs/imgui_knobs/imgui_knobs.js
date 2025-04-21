@@ -194,13 +194,14 @@ class ImGuiKnobs_knob {
             flags,
             _angle_min,
             _angle_max)
-        {
+    {
+        var value = p_value();
         this.radius = _radius;
         if (flags & ImGuiKnobFlags.Logarithmic) {
-            var v = ImMax(ImMin(p_value, v_max), v_min);
+            var v = ImMax(ImMin(value, v_max), v_min);
             this.t = (ImLog(ImAbs(v)) - ImLog(ImAbs(v_min))) / (ImLog(ImAbs(v_max)) - ImLog(ImAbs(v_min)));
         } else {
-            this.t = (p_value - v_min) / (v_max - v_min);
+            this.t = (value - v_min) / (v_max - v_min);
         }
         var screen_pos = ImGui.GetCursorScreenPos();
 
@@ -327,7 +328,12 @@ ImGuiKnobs_detail.knob_with_drag = function(
         var decimal_precision = is_floating_point ? ImParseFormatPrecision(format, 3) : 1;
         v_min = ImPow(0.1, decimal_precision);
         v_max = ImMax(v_min, v_max); // this ensures that in the cornercase v_max is still at least ge v_min
-        p_value = ImMax(ImMin(p_value, v_max), v_min); // this ensures that in the cornercase p_value is within the range
+        var value = p_value();
+        var value_inRange = ImMax(ImMin(value, v_max), v_min); // this ensures that in the cornercase p_value is within the range
+        if(value != value_inRange)
+        {
+            p_value(value_inRange);
+        }
     }
 
     var speed = _speed == 0 ? (v_max - v_min) / 250 : _speed;
@@ -361,7 +367,7 @@ ImGuiKnobs_detail.knob_with_drag = function(
         (ImGui.IsItemHovered(ImGui.HoveredFlags.AllowWhenDisabled) ||
             ImGui.IsItemActive())) {
         ImGui.BeginTooltip();
-        ImGui.Text(format, p_value);
+        ImGui.Text(format, p_value());
         ImGui.EndTooltip();
     }
 
@@ -374,9 +380,11 @@ ImGuiKnobs_detail.knob_with_drag = function(
         if (flags & ImGuiKnobFlags.Logarithmic) {
             drag_scalar_flags |= ImGui.SliderFlags.Logarithmic;
         }
-        var changed = ImGui.DragScalar("###knob_drag", /*data_type,*/ new Float32Array([p_value]), speed, v_min, v_max, format, drag_scalar_flags);
+        var data = new Float32Array([p_value()]);
+        var changed = ImGui.DragScalar("###knob_drag", /*data_type,*/ data, speed, v_min, v_max, format, drag_scalar_flags);
         if (changed) {
             k.value_changed = true;
+            p_value(data[0]);
         }
     }
 
@@ -567,4 +575,14 @@ ImGuiKnobs.KnobInt = function(
         steps,
         angle_min,
         angle_max);
+}
+
+
+ImGuiKnobs_detail.testVal = 0;
+function UpdateKnobTestWindow()
+{
+    ImGui.Begin("Knob Test");
+
+    ImGuiKnobs.KnobInt("Knob Test", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100 );
+    ImGui.End();
 }

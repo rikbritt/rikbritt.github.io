@@ -41,6 +41,7 @@ function UpdateMechWindow(mech)
 	ImGui.End();
 }
 
+
 function UpdateImgui(dt, timestamp)
 {
 	ImGui_Impl.NewFrame(timestamp);
@@ -66,6 +67,8 @@ function UpdateImgui(dt, timestamp)
 	{
 		UpdateMechWindow(mech);
 	}
+
+	UpdateKnobTestWindow();
 
 
 	ImGui.EndFrame();
