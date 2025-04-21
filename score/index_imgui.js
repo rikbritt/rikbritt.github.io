@@ -324,7 +324,7 @@ function UpdateScores()
 		ImGui.SameLine();
 		AddScoreButton(i, -10, scoreButtonWidth);
 		
-		ImGui.SetWindowFontScale(2);
+		ImGui.SetWindowFontScale(3);
 		var playerText = p.name + " " +GetScore(i);
 		var sz = ImGui.CalcTextSize(playerText);
 		ImGui.Text("");
