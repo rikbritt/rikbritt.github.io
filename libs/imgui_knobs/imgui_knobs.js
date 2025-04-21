@@ -755,5 +755,13 @@ function UpdateKnobTestWindow()
     ImGui.Begin("Knob Test");
 
     ImGuiKnobs.KnobInt("Knob Test", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100 );
+    ImGuiKnobs.KnobInt("knobwiper", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.Wiper);
+    ImGuiKnobs.KnobInt("knobwiperonly", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.WiperOnly);
+    ImGuiKnobs.KnobInt("knobdot", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.Dot);
+    ImGuiKnobs.KnobInt("knob tick", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.Tick);
+    ImGuiKnobs.KnobInt("knob wiper dot", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.WiperDot);
+    ImGuiKnobs.KnobInt("knob stepped", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.Stepped);
+    ImGuiKnobs.KnobInt("knob stepped2", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.Stepped | ImGuiKnobVariant.WiperOnly);
+    ImGuiKnobs.KnobInt("knob space", (_ = ImGuiKnobs_detail.testVal) => ImGuiKnobs_detail.testVal = _, 0, 100, 0.0, "%i", ImGuiKnobVariant.Space);
     ImGui.End();
 }
