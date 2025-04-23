@@ -788,11 +788,10 @@ NodeImGui.Internal_DrawInnerCanvas = function(node)
 		var screen_pos = DrawImGui.TransformPoint(canvas_pos);
 		var cursor_pos = {x:screen_pos.x - NodeImGui.Current_Canvas.CusorPos.x, y:screen_pos.y - NodeImGui.Current_Canvas.CusorPos.y };
 		ImGui.SetCursorPos(cursor_pos);
-		ImGui.SetCursorPos(cursor_pos);
-		ImGui.Button("hi");
+        ImGui.BeginGroup();
 		// TODO use draw callback and clipping
 		innerCanvas.drawFunc(DrawImGui, canvas_pos, {x:node_w, y:innerCanvas.height});
-		
+		ImGui.EndGroup();
 		canvas_pos.y += innerCanvas.height;
 	}
 	ImGui.GetWindowDrawList = origDrawListFunc;
